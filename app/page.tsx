@@ -10,17 +10,17 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main className="relative">
         <Hero />
-        <div className="w-[70%] mx-auto">
+        <div className="w-[85%] lg:w-[75%] mx-auto">
+          {/* Projects with Timeline - client side */}
+          <HomeClientContent />
           <Education />
           <About />
-          {/* 包含中文数据的组件完全在客户端渲染 */}
-          <HomeClientContent />
           <Skills />
         </div>
       </main>
-      <div className="w-[70%] mx-auto">
+      <div className="w-[85%] lg:w-[75%] mx-auto">
         <Footer />
       </div>
     </>

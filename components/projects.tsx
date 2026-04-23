@@ -4,44 +4,51 @@ import React, { useMemo, useState, useEffect } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
+import { TimelineSlider } from "@/components/timeline-slider"
+import { GlowCard } from "@/components/glow-card"
+import { StatusIndicator, HoverScan } from "@/components/scan-line"
+import { cn } from "@/lib/utils"
+import { ExternalLink, Zap, GitBranch, Search } from "lucide-react"
 
-// ============================================
-// COMPONENT SECTION - 以下为结构代码
-// 项目数据请在 lib/projects-data.ts 中修改
-// ============================================
-
-// System Status Bar - 自适应追踪状态
+// System Status Bar
 function SystemStatus({ 
   isLoaded, 
   topTag, 
   totalClicks,
-  weightsDisplay,
-  sectionLabel 
+  sectionLabel,
+  filteredCount,
+  totalCount
 }: { 
   isLoaded: boolean
   topTag: string | null
   totalClicks: number
-  weightsDisplay: string
   sectionLabel: string
+  filteredCount: number
+  totalCount: number
 }) {
   const statusText = useMemo(() => {
     if (!isLoaded) {
-      return "> 正在初始化行为追踪系统..."
+      return "> INITIALIZING_BEHAVIOR_TRACKING..."
     }
     if (totalClicks === 0) {
-      return "> 系统追踪已启动，正在分析您的浏览偏好..."
+      return `> TRACKING_ACTIVE. DISPLAYING ${filteredCount}/${totalCount} PROJECTS.`
     }
-    return `> Behavior analyzed. Top interest: [${topTag}]. Adaptive UI reordering enabled. ${weightsDisplay ? `// ${weightsDisplay}` : ""}`
-  }, [isLoaded, topTag, totalClicks, weightsDisplay])
+    return `> INTEREST_DETECTED: [${topTag}]. ADAPTIVE_REORDER_ENABLED. ${filteredCount}/${totalCount} VISIBLE.`
+  }, [isLoaded, topTag, totalClicks, filteredCount, totalCount])
 
   return (
-    <div className="mb-6 font-mono text-[11px] text-slate-400 border border-slate-100 bg-slate-50/80 px-3 py-2 rounded">
-      <div className="flex items-center gap-2">
-        <span className="text-violet-400/80">[SYS]</span>
-        <span className="text-slate-300">|</span>
-        <span className="text-slate-400/60">{sectionLabel}</span>
-        <span className="text-slate-300">|</span>
-        <span className="flex-1 truncate">
+    <div className={cn(
+      "mb-6 font-mono text-[10px]",
+      "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
+      "px-4 py-3 rounded-lg backdrop-blur-sm"
+    )}>
+      <div className="flex items-center gap-3">
+        <StatusIndicator status={isLoaded ? "active" : "processing"} />
+        <span className="text-primary/60">[SYS]</span>
+        <span className="text-[rgba(34,211,238,0.3)]">|</span>
+        <span className="text-muted-foreground/60 uppercase tracking-wider">{sectionLabel}</span>
+        <span className="text-[rgba(34,211,238,0.3)]">|</span>
+        <span className="flex-1 truncate text-muted-foreground">
           {statusText}
         </span>
       </div>
@@ -49,7 +56,7 @@ function SystemStatus({
   )
 }
 
-// Project Card Component with Video Preview
+// Project Card Component
 function ProjectCard({ 
   project, 
   onTrack,
@@ -69,7 +76,6 @@ function ProjectCard({
     navigateWithTransition(`/projects/${project.id}`)
   }
 
-  // Handle video preview on hover
   useEffect(() => {
     if (videoRef.current) {
       if (isHovered) {
@@ -83,61 +89,106 @@ function ProjectCard({
 
   return (
     <div
-      className="block cursor-pointer transition-all duration-500 ease-out"
+      className="block cursor-pointer group"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{
-        animationDelay: `${index * 100}ms`,
-      }}
     >
-      <article>
-        <div className="aspect-video w-full bg-slate-100 mb-4 overflow-hidden transition-transform duration-500 ease-out hover:scale-[1.075] origin-center relative">
-          {/* Cover Image */}
-          {project.coverImage && (
-            <img 
-              src={project.coverImage} 
-              alt={project.title}
-              className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${isHovered && project.previewVideo ? 'opacity-0' : 'opacity-100'}`}
-            />
-          )}
-          {/* Preview Video (shows on hover) */}
-          {project.previewVideo && (
-            <video
-              ref={videoRef}
-              src={project.previewVideo}
-              muted
-              loop
-              playsInline
-              className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-            />
-          )}
-          {/* Fallback */}
-          {!project.coverImage && !project.previewVideo && (
-            <div className="w-full h-full bg-slate-200" />
-          )}
-        </div>
-        
-        <h3 className="text-lg font-semibold text-slate-900 mb-2 transition-all duration-300 origin-left hover:text-black hover:scale-[1.075] inline-block" suppressHydrationWarning>
-          {project.title}
-        </h3>
-        
-        <p className="text-sm text-slate-600 leading-relaxed mb-3" suppressHydrationWarning>
-          {project.description}
-        </p>
-        
-        <div className="flex flex-wrap gap-1.5">
-          {project.keywords.map((keyword, i) => (
-            <span 
-              key={i}
-              className="px-2 py-0.5 text-xs text-slate-500 border border-slate-200 rounded-full transition-colors duration-300 hover:border-slate-400"
-              suppressHydrationWarning
-            >
-              {keyword}
+      <GlowCard hover className="overflow-hidden">
+        <div className="relative">
+          {/* Image/Video container */}
+          <div className="aspect-video w-full bg-[rgba(10,10,15,0.8)] overflow-hidden relative">
+            {project.coverImage && (
+              <img 
+                src={project.coverImage} 
+                alt={project.title}
+                className={cn(
+                  "w-full h-full object-cover transition-all duration-500",
+                  isHovered && project.previewVideo ? "opacity-0" : "opacity-100",
+                  isHovered && "scale-105"
+                )}
+              />
+            )}
+            {project.previewVideo && (
+              <video
+                ref={videoRef}
+                src={project.previewVideo}
+                muted
+                loop
+                playsInline
+                className={cn(
+                  "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
+                  isHovered ? "opacity-100" : "opacity-0"
+                )}
+              />
+            )}
+            
+            {/* Scan line effect on hover */}
+            <HoverScan active={isHovered} />
+            
+            {/* Year badge */}
+            <div className="absolute top-4 left-4 px-2 py-1 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20 backdrop-blur-sm">
+              <span className="text-[10px] font-mono text-primary">{project.year}</span>
+            </div>
+            
+            {/* Reading modes indicator */}
+            <div className="absolute top-4 right-4 flex gap-1">
+              {project.quickContent && (
+                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20" title="Quick View">
+                  <Zap className="h-3 w-3 text-primary/60" />
+                </div>
+              )}
+              {project.processContent && (
+                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-secondary/20" title="Process View">
+                  <GitBranch className="h-3 w-3 text-secondary/60" />
+                </div>
+              )}
+              {project.researchContent && (
+                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-accent/20" title="Research View">
+                  <Search className="h-3 w-3 text-accent/60" />
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Content */}
+          <div className="p-5">
+            {/* Index */}
+            <span className="text-[10px] font-mono text-primary/40 mb-2 block">
+              {String(index + 1).padStart(2, '0')}/
             </span>
-          ))}
+            
+            {/* Title */}
+            <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2 group-hover:text-primary transition-colors">
+              {project.title}
+              <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </h3>
+            
+            {/* Description */}
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              {project.description}
+            </p>
+            
+            {/* Keywords */}
+            <div className="flex flex-wrap gap-2">
+              {project.keywords.map((keyword, i) => (
+                <span 
+                  key={i}
+                  className={cn(
+                    "px-2 py-0.5 text-[10px] font-mono tracking-wider",
+                    "text-primary/70 border border-primary/20 rounded-full",
+                    "bg-primary/5 uppercase",
+                    "transition-all duration-300",
+                    "hover:border-primary/40 hover:bg-primary/10"
+                  )}
+                >
+                  {keyword}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
-      </article>
+      </GlowCard>
     </div>
   )
 }
@@ -149,33 +200,57 @@ export function Projects() {
     totalClicks, 
     trackClick, 
     sortByPreference,
-    getWeightsDisplay 
   } = useUserBehavior()
+  
+  // Timeline filter state
+  const [yearRange, setYearRange] = useState<[number, number]>([2023, 2026])
 
-  // Sort projects by user preference
-  const sortedProjects = useMemo(() => {
-    if (!isLoaded) return projects
-    return sortByPreference(projects)
-  }, [isLoaded, sortByPreference])
+  // Filter and sort projects
+  const filteredProjects = useMemo(() => {
+    const filtered = projects.filter(p => {
+      const year = parseInt(p.year)
+      return year >= yearRange[0] && year <= yearRange[1]
+    })
+    
+    if (!isLoaded) return filtered
+    return sortByPreference(filtered)
+  }, [isLoaded, sortByPreference, yearRange])
 
   return (
     <section id="projects" className="py-16 px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-10">
-          Selected Projects
-        </h2>
+        {/* Section header */}
+        <div className="flex items-center gap-3 mb-8">
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">01/</span>
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
+            SELECTED_PROJECTS
+          </h2>
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+        </div>
         
-        {/* 自适应追踪状态 - 核心作品展示 */}
+        {/* Timeline slider */}
+        <div className="mb-8 p-6 rounded-lg bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]">
+          <TimelineSlider
+            startYear={2023}
+            endYear={2026}
+            value={yearRange}
+            onChange={setYearRange}
+          />
+        </div>
+        
+        {/* System status */}
         <SystemStatus 
           isLoaded={isLoaded}
           topTag={topTag}
           totalClicks={totalClicks}
-          weightsDisplay={getWeightsDisplay()}
-          sectionLabel="核心作品·自适应排序"
+          sectionLabel="ADAPTIVE_SORT"
+          filteredCount={filteredProjects.length}
+          totalCount={projects.length}
         />
         
-        <div className="flex flex-col gap-10">
-          {sortedProjects.map((project, index) => (
+        {/* Projects grid */}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-1">
+          {filteredProjects.map((project, index) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -184,6 +259,14 @@ export function Projects() {
             />
           ))}
         </div>
+        
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground font-mono text-sm">
+              NO_PROJECTS_IN_SELECTED_RANGE
+            </p>
+          </div>
+        )}
       </div>
     </section>
   )

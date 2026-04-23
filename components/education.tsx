@@ -1,20 +1,16 @@
+import { cn } from "@/lib/utils"
+
 // ============================================
-// DATA SECTION - 在此处修改您的教育经历
+// DATA SECTION
 // ============================================
 
 const educationData = [
   {
-    // 学校英文名
     school: "Chang'an University",
-    // 学校中文名
     schoolCn: "长安大学",
-    // 学院/系
     department: "建筑学院",
-    // 学位/项目
     degree: "建筑学",
-    // 时间段
     period: "2022.9 - 至今",
-    // 学校 logo 图片路径（放入 public 文件夹，例如 "/images/edu/changan-logo.png"）
     logo: "/images/chu.jpg",
   },
   {
@@ -28,22 +24,39 @@ const educationData = [
 ]
 
 // ============================================
-// COMPONENT SECTION - 以下为结构代码
-// 修改排版时只改此部分，不要覆盖上方数据
+// COMPONENT
 // ============================================
 
 export function Education() {
   return (
-    <section className="py-12 px-6 lg:px-8 bg-white">
+    <section className="py-12 px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
+        {/* Section header */}
+        <div className="flex items-center gap-3 mb-8">
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">02/</span>
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
+            EDUCATION
+          </h2>
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+        </div>
+        
         <div className="space-y-0">
           {educationData.map((edu, index) => (
             <div
               key={index}
-              className="flex items-start gap-4 py-6 border-b border-slate-200 last:border-b-0"
+              className={cn(
+                "flex items-start gap-4 py-5",
+                "border-b border-[rgba(34,211,238,0.1)] last:border-b-0",
+                "hover:bg-[rgba(34,211,238,0.02)] transition-colors"
+              )}
             >
               {/* Logo */}
-              <div className="w-10 h-10 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center overflow-hidden">
+              <div 
+                className={cn(
+                  "w-12 h-12 rounded-lg flex-shrink-0 overflow-hidden",
+                  "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]"
+                )}
+              >
                 {edu.logo ? (
                   <img
                     src={edu.logo}
@@ -51,23 +64,25 @@ export function Education() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-[10px] text-slate-400 font-medium">LOGO</span>
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-[8px] text-primary/40 font-mono">LOGO</span>
+                  </div>
                 )}
               </div>
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-slate-900">
+                <h3 className="text-sm font-medium text-foreground">
                   {edu.school}
                 </h3>
-                <p className="text-xs text-slate-600 mt-0.5">
+                <p className="text-[11px] text-muted-foreground mt-0.5 font-mono">
                   {edu.department} · {edu.degree}
                 </p>
               </div>
 
               {/* Date */}
               <div className="flex-shrink-0 text-right">
-                <p className="text-xs text-slate-400">
+                <p className="text-[10px] text-primary/60 font-mono tracking-wider">
                   {edu.period}
                 </p>
               </div>

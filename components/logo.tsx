@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 interface LogoProps {
   className?: string
   size?: "sm" | "md" | "lg"
-  inverted?: boolean // 白色版本，用于深色背景
+  inverted?: boolean
   linkToHome?: boolean
 }
 
@@ -16,24 +17,39 @@ export function Logo({
   linkToHome = true 
 }: LogoProps) {
   const sizeClasses = {
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-14 h-14"
+    sm: "text-base",
+    md: "text-lg",
+    lg: "text-2xl"
   }
   
+  // Tech-style text logo
   const logoElement = (
-    <img 
-      src="/images/logo.png"
-      alt="Fosa Logo"
-      className={`${sizeClasses[size]} object-contain ${inverted ? 'invert brightness-0 invert' : ''} ${className}`}
-      style={inverted ? { filter: 'brightness(0) invert(1)' } : undefined}
-    />
+    <div className={cn(
+      "font-mono font-bold tracking-tight",
+      sizeClasses[size],
+      "text-foreground",
+      className
+    )}>
+      <span className="text-primary">F</span>
+      <span>OSA</span>
+      <span className="text-primary/60 text-[0.6em] ml-1">_</span>
+    </div>
   )
   
   if (linkToHome) {
     return (
-      <Link href="/" className="hover:opacity-70 transition-opacity">
+      <Link 
+        href="/" 
+        className="group flex items-center gap-2 hover:opacity-80 transition-opacity"
+      >
+        {/* Decorative bracket */}
+        <span className="text-primary/40 font-mono text-sm group-hover:text-primary/60 transition-colors">
+          {"["}
+        </span>
         {logoElement}
+        <span className="text-primary/40 font-mono text-sm group-hover:text-primary/60 transition-colors">
+          {"]"}
+        </span>
       </Link>
     )
   }
