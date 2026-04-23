@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import { TerminalCursor, StatusIndicator } from "@/components/scan-line"
+import { ParticleTitle } from "@/components/particle-title"
 
 // ============================================
 // DATA SECTION
@@ -135,26 +136,25 @@ export function Hero() {
             </span>
           </div>
           
-          <a
-            href="#about"
-            className="block cursor-pointer group"
+          {/* Particle Title - Interactive Star Dust Effect */}
+          <div 
+            className="block"
             style={{
               transform: mounted 
                 ? `translate(${(mousePos.x - windowSize.width / 2) * 0.01}px, ${(mousePos.y - windowSize.height / 2) * 0.01}px)`
                 : undefined,
             }}
           >
-            <h1 className="text-6xl md:text-8xl lg:text-[12rem] font-black leading-none tracking-tighter">
-              <span className="text-gradient-brand glow-text-brand cursor-pointer transition-all duration-500 inline-block hover:scale-105">
-                {heroData.nameEn}
-              </span>
-            </h1>
-            <p className="text-base md:text-lg text-muted-foreground mt-2 tracking-widest font-mono">
-              <span className="text-primary/60">[</span>
+            <ParticleTitle 
+              text={heroData.nameEn}
+              className="w-full h-32 md:h-48 lg:h-64"
+            />
+            <p className="text-base md:text-lg text-muted-foreground mt-4 tracking-widest font-mono">
+              <span className="text-brand/60">[</span>
               {heroData.nameCn}
-              <span className="text-primary/60">]</span>
+              <span className="text-brand/60">]</span>
             </p>
-          </a>
+          </div>
           
           <p className="mt-6 text-base md:text-lg text-foreground max-w-xl leading-relaxed">
             {heroData.headline}
