@@ -37,10 +37,10 @@
   --accent-foreground: #050508;
   --accent-glow: rgba(14, 165, 233, 0.4);
   
-  /* Brand - Magenta/Rose for FOSA */
-  --brand: #f43f5e;
-  --brand-light: #fb7185;
-  --brand-glow: rgba(244, 63, 94, 0.5);
+  /* Brand - Hot Pink/Magenta for FOSA (参考图片色) */
+  --brand: #E91E63;
+  --brand-light: #FF4081;
+  --brand-glow: rgba(233, 30, 99, 0.6);
   
   /* Destructive */
   --destructive: #ef4444;
@@ -222,14 +222,28 @@
   }
   
   .text-gradient-brand {
-    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 50%, #fff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--brand);
+    text-shadow: 
+      0 0 30px var(--brand-glow), 
+      0 0 60px var(--brand-glow), 
+      0 0 100px rgba(233, 30, 99, 0.4);
+    transition: all 0.5s ease;
+  }
+  
+  .text-gradient-brand:hover {
+    color: #ffffff;
+    text-shadow: 
+      0 0 40px rgba(255, 255, 255, 0.8), 
+      0 0 80px rgba(255, 255, 255, 0.5),
+      0 0 120px rgba(233, 30, 99, 0.3);
   }
   
   .glow-text-brand {
-    text-shadow: 0 0 20px var(--brand-glow), 0 0 40px var(--brand-glow), 0 0 60px rgba(244, 63, 94, 0.3);
+    text-shadow: 
+      0 0 30px var(--brand-glow), 
+      0 0 60px var(--brand-glow), 
+      0 0 100px rgba(233, 30, 99, 0.5),
+      0 0 150px rgba(233, 30, 99, 0.3);
   }
   
   .hover-glow {
