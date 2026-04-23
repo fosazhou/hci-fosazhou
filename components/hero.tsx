@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import { StatusIndicator } from "@/components/scan-line"
 import { ParticleTitle } from "@/components/particle-title"
+import { ParticleAvatar } from "@/components/particle-avatar"
 
 // ============================================
 // DATA SECTION
@@ -224,67 +225,80 @@ export function Hero() {
         />
       </div>
 
-      {/* Main Content */}
+      {/* Main Content - Left/Right Layout */}
       <div className="flex-1 flex flex-col justify-center px-6 lg:px-8 relative z-10">
         <div className="mx-auto max-w-7xl w-full">
-          {/* System status */}
-          <div className="flex items-center gap-3 mb-4">
-            <StatusIndicator status="active" />
-            <span className="text-[10px] font-mono text-muted-foreground/60 tracking-widest">
-              {typedText}
-              {typedText.length < fullText.length && (
-                <span className="inline-block w-1.5 h-3 bg-primary/60 ml-0.5 animate-pulse" />
-              )}
-            </span>
-          </div>
-          
-          {/* Particle Title - Left aligned, above Chinese name */}
-          <div className="relative">
-            <ParticleTitle 
-              text={heroData.nameEn}
-              className="w-full max-w-xl h-24 md:h-32 lg:h-40"
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            {/* Left Side - Text Content */}
+            <div className="order-2 lg:order-1">
+              {/* System status */}
+              <div className="flex items-center gap-3 mb-4">
+                <StatusIndicator status="active" />
+                <span className="text-[10px] font-mono text-muted-foreground/60 tracking-widest">
+                  {typedText}
+                  {typedText.length < fullText.length && (
+                    <span className="inline-block w-1.5 h-3 bg-primary/60 ml-0.5 animate-pulse" />
+                  )}
+                </span>
+              </div>
+              
+              {/* Particle Title - Left aligned, above Chinese name */}
+              <div className="relative">
+                <ParticleTitle 
+                  text={heroData.nameEn}
+                  className="w-full max-w-xl h-24 md:h-32 lg:h-40"
+                />
+                
+                {/* Chinese name - directly below particle title, left aligned */}
+                <p className="text-lg md:text-xl text-muted-foreground tracking-[0.3em] font-light mt-2 pl-1">
+                  <span className="text-brand/40">[</span>
+                  <span className="text-foreground/80">{heroData.nameCn}</span>
+                  <span className="text-brand/40">]</span>
+                </p>
+              </div>
+              
+              <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
+                {heroData.headline}
+              </p>
+              
+              <p className="mt-4 text-sm md:text-base text-muted-foreground/70 max-w-xl leading-relaxed">
+                {heroData.subheadline}
+              </p>
+              
+              {/* Quick links */}
+              <div className="mt-10 flex flex-wrap gap-4">
+                <a 
+                  href="#projects"
+                  className={cn(
+                    "group px-5 py-2.5 rounded text-sm font-mono tracking-wider",
+                    "bg-brand/10 border border-brand/30 text-brand",
+                    "hover:bg-brand/20 hover:border-brand/50 transition-all duration-500",
+                    "relative overflow-hidden"
+                  )}
+                >
+                  <span className="relative z-10">VIEW_PROJECTS</span>
+                  <span className="absolute inset-0 bg-brand/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                </a>
+                <a 
+                  href="#about"
+                  className={cn(
+                    "px-5 py-2.5 rounded text-sm font-mono tracking-wider",
+                    "bg-transparent border border-[rgba(34,211,238,0.15)] text-muted-foreground/70",
+                    "hover:border-primary/30 hover:text-foreground/90 transition-all duration-500"
+                  )}
+                >
+                  ABOUT_ME
+                </a>
+              </div>
+            </div>
             
-            {/* Chinese name - directly below particle title, left aligned */}
-            <p className="text-lg md:text-xl text-muted-foreground tracking-[0.3em] font-light mt-2 pl-1">
-              <span className="text-brand/40">[</span>
-              <span className="text-foreground/80">{heroData.nameCn}</span>
-              <span className="text-brand/40">]</span>
-            </p>
-          </div>
-          
-          <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
-            {heroData.headline}
-          </p>
-          
-          <p className="mt-4 text-sm md:text-base text-muted-foreground/70 max-w-xl leading-relaxed">
-            {heroData.subheadline}
-          </p>
-          
-          {/* Quick links */}
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a 
-              href="#projects"
-              className={cn(
-                "group px-5 py-2.5 rounded text-sm font-mono tracking-wider",
-                "bg-brand/10 border border-brand/30 text-brand",
-                "hover:bg-brand/20 hover:border-brand/50 transition-all duration-500",
-                "relative overflow-hidden"
-              )}
-            >
-              <span className="relative z-10">VIEW_PROJECTS</span>
-              <span className="absolute inset-0 bg-brand/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-            </a>
-            <a 
-              href="#about"
-              className={cn(
-                "px-5 py-2.5 rounded text-sm font-mono tracking-wider",
-                "bg-transparent border border-[rgba(34,211,238,0.15)] text-muted-foreground/70",
-                "hover:border-primary/30 hover:text-foreground/90 transition-all duration-500"
-              )}
-            >
-              ABOUT_ME
-            </a>
+            {/* Right Side - Particle Avatar */}
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+              <ParticleAvatar 
+                imageSrc="/images/avatar.png"
+                className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
+              />
+            </div>
           </div>
         </div>
       </div>
