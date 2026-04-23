@@ -30,9 +30,9 @@ export function Logo({
       "text-foreground",
       className
     )}>
-      <span className="text-primary">F</span>
+      <span className="text-brand">F</span>
       <span>OSA</span>
-      <span className="text-primary/60 text-[0.6em] ml-1">_</span>
+      <span className="text-brand/60 text-[0.6em] ml-1">_</span>
     </div>
   )
   
@@ -43,11 +43,11 @@ export function Logo({
         className="group flex items-center gap-2 hover:opacity-80 transition-opacity"
       >
         {/* Decorative bracket */}
-        <span className="text-primary/40 font-mono text-sm group-hover:text-primary/60 transition-colors">
+        <span className="text-brand/40 font-mono text-sm group-hover:text-brand/60 transition-colors">
           {"["}
         </span>
         {logoElement}
-        <span className="text-primary/40 font-mono text-sm group-hover:text-primary/60 transition-colors">
+        <span className="text-brand/40 font-mono text-sm group-hover:text-brand/60 transition-colors">
           {"]"}
         </span>
       </Link>

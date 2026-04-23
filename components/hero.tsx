@@ -145,7 +145,7 @@ export function Hero() {
             }}
           >
             <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-none tracking-tight text-foreground">
-              <span className="text-gradient">{heroData.nameEn}</span>
+              <span className="text-gradient-brand glow-text-brand">{heroData.nameEn}</span>
             </h1>
             <p className="text-base md:text-lg text-muted-foreground mt-2 tracking-widest font-mono">
               <span className="text-primary/60">[</span>
