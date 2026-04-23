@@ -61,7 +61,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     const pixels = imageData.data
     
     const particles: Particle[] = []
-    const gap = 2 // Higher density for more tech feel
+    const gap = 5 // Fixed spacing for dots
     
     for (let y = 0; y < height; y += gap) {
       for (let x = 0; x < width; x += gap) {
@@ -71,12 +71,12 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         const b = pixels[i + 2]
         const brightness = (r + g + b) / 3 / 255
         
-        if (brightness > 0.08) {
+        if (brightness > 0.1) {
           particles.push({
             x: x,
             y: y,
             brightness,
-            size: 0.6 + brightness * 0.8, // Smaller dots for denser matrix
+            size: 1.2 + brightness * 1.2,
           })
         }
       }
@@ -97,35 +97,12 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     
     const particles = particlesRef.current
     
-    // Draw subtle grid lines for tech effect
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.02)"
-    ctx.lineWidth = 0.5
-    for (let x = 0; x < canvas.width; x += 20) {
-      ctx.beginPath()
-      ctx.moveTo(x, 0)
-      ctx.lineTo(x, canvas.height)
-      ctx.stroke()
-    }
-    for (let y = 0; y < canvas.height; y += 20) {
-      ctx.beginPath()
-      ctx.moveTo(0, y)
-      ctx.lineTo(canvas.width, y)
-      ctx.stroke()
-    }
-    
-    // Draw particles
     for (const p of particles) {
-      const gray = Math.floor(140 + p.brightness * 115)
-      ctx.fillStyle = `rgba(${gray}, ${gray}, ${gray}, ${0.5 + p.brightness * 0.5})`
+      const gray = Math.floor(100 + p.brightness * 155)
+      ctx.fillStyle = `rgba(${gray}, ${gray}, ${gray}, ${0.4 + p.brightness * 0.6})`
       ctx.beginPath()
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
       ctx.fill()
-    }
-    
-    // Add subtle scan line effect
-    ctx.fillStyle = "rgba(255, 255, 255, 0.015)"
-    for (let y = 0; y < canvas.height; y += 3) {
-      ctx.fillRect(0, y, canvas.width, 1)
     }
   }, [])
   
