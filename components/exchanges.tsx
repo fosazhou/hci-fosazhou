@@ -2,13 +2,12 @@
 
 import { exchanges, type Exchange } from "@/lib/exchange-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { usePageTransition } from "@/components/page-transition"
-
-// ============================================
-// COMPONENT SECTION - 以下为结构代码
-// 数据请在 lib/exchange-data.ts 中修改
-// ============================================
+import { GlowCard } from "@/components/glow-card"
+import { StatusIndicator, HoverScan } from "@/components/scan-line"
+import { cn } from "@/lib/utils"
+import { MapPin, Calendar, ExternalLink } from "lucide-react"
 
 export function Exchanges() {
   const { navigateWithTransition } = usePageTransition()
@@ -20,7 +19,7 @@ export function Exchanges() {
     sortByPreference 
   } = useUserBehavior()
 
-  // 根据用户偏好排序
+  // Sort by user preference
   const sortedExchanges = useMemo(() => {
     if (!isLoaded) return exchanges
     return sortByPreference(exchanges)
@@ -32,81 +31,141 @@ export function Exchanges() {
     navigateWithTransition(`/exchanges/${exchange.id}`)
   }
 
-  // 状态文本
+  // Status text
   const statusText = useMemo(() => {
-    if (!isLoaded) return "> 正在初始化行为追踪系统..."
-    if (totalClicks === 0) return "> 系统追踪已启动，正在分析您的浏览偏好..."
-    return `> Behavior analyzed. Top interest: [${topTag}]. Adaptive UI reordering enabled.`
+    if (!isLoaded) return "> INITIALIZING_TRACKING..."
+    if (totalClicks === 0) return `> TRACKING_ACTIVE. ${exchanges.length} RECORDS LOADED.`
+    return `> INTEREST: [${topTag}]. ADAPTIVE_SORT_ENABLED.`
   }, [isLoaded, totalClicks, topTag])
 
   return (
-    <section id="exchanges" className="py-16 px-6 lg:px-8 border-t border-slate-200">
+    <section id="exchanges" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
       <div className="mx-auto max-w-7xl">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-6">
-          International Experience
-        </h2>
+        {/* Section header */}
+        <div className="flex items-center gap-3 mb-8">
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">02/</span>
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
+            INTERNATIONAL_EXPERIENCE
+          </h2>
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+        </div>
         
-        {/* 自适应追踪状态 - 国际经历 */}
-        <div className="mb-6 font-mono text-[11px] text-slate-400 border border-slate-100 bg-slate-50/80 px-3 py-2 rounded">
-          <div className="flex items-center gap-2">
-            <span className="text-violet-400/80">[SYS]</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-400/60">国际经历·行为追踪</span>
-            <span className="text-slate-300">|</span>
-            <span className="flex-1 truncate">
+        {/* System status */}
+        <div className={cn(
+          "mb-6 font-mono text-[10px]",
+          "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
+          "px-4 py-3 rounded-lg backdrop-blur-sm"
+        )}>
+          <div className="flex items-center gap-3">
+            <StatusIndicator status={isLoaded ? "active" : "processing"} />
+            <span className="text-primary/60">[SYS]</span>
+            <span className="text-[rgba(34,211,238,0.3)]">|</span>
+            <span className="text-muted-foreground/60 uppercase tracking-wider">GLOBAL_DATA</span>
+            <span className="text-[rgba(34,211,238,0.3)]">|</span>
+            <span className="flex-1 truncate text-muted-foreground">
               {statusText}
             </span>
           </div>
         </div>
         
-        <div className="flex flex-col gap-10">
-          {sortedExchanges.map((exchange) => (
-            <div 
-              key={exchange.id} 
-              className="block cursor-pointer"
+        {/* Exchanges grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {sortedExchanges.map((exchange, index) => (
+            <ExchangeCard
+              key={exchange.id}
+              exchange={exchange}
+              index={index}
               onClick={(e) => handleClick(e, exchange)}
-            >
-              <article>
-                <div className="aspect-video w-full bg-slate-100 mb-4 overflow-hidden transition-transform duration-500 ease-out hover:scale-[1.075] origin-center">
-                  {exchange.coverImage ? (
-                    <img 
-                      src={exchange.coverImage} 
-                      alt={exchange.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-slate-200" />
-                  )}
-                </div>
-                
-                <h3 className="text-lg font-semibold text-slate-900 mb-1 transition-all duration-300 origin-left hover:text-black hover:scale-[1.075] inline-block" suppressHydrationWarning>
-                  {exchange.title}
-                </h3>
-                
-                <p className="text-xs text-slate-400 mb-2" suppressHydrationWarning>
-                  {exchange.subtitle} · {exchange.period}
-                </p>
-                
-                <p className="text-sm text-slate-600 leading-relaxed mb-3" suppressHydrationWarning>
-                  {exchange.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-1.5">
-                  {exchange.keywords.map((keyword, i) => (
-                    <span 
-                      key={i}
-                      className="px-2 py-0.5 text-xs text-slate-500 border border-slate-200 rounded-full"
-                      suppressHydrationWarning
-                    >
-                      {keyword}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            </div>
+            />
           ))}
         </div>
       </div>
     </section>
+  )
+}
+
+function ExchangeCard({ 
+  exchange, 
+  index,
+  onClick 
+}: { 
+  exchange: Exchange
+  index: number
+  onClick: (e: React.MouseEvent) => void
+}) {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <div 
+      className="block cursor-pointer group"
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <GlowCard hover className="overflow-hidden h-full">
+        {/* Image */}
+        <div className="aspect-[4/3] w-full bg-[rgba(10,10,15,0.8)] overflow-hidden relative">
+          {exchange.coverImage ? (
+            <img 
+              src={exchange.coverImage} 
+              alt={exchange.title}
+              className={cn(
+                "w-full h-full object-cover transition-all duration-500",
+                isHovered && "scale-105"
+              )}
+            />
+          ) : (
+            <div className="w-full h-full bg-muted/20" />
+          )}
+          
+          <HoverScan active={isHovered} />
+          
+          {/* Location badge */}
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20 backdrop-blur-sm">
+            <MapPin className="h-3 w-3 text-primary/60" />
+            <span className="text-[10px] font-mono text-primary" suppressHydrationWarning>
+              {exchange.title.split(" ")[0]}
+            </span>
+          </div>
+        </div>
+        
+        {/* Content */}
+        <div className="p-4">
+          <span className="text-[10px] font-mono text-primary/40 mb-2 block">
+            {String(index + 1).padStart(2, '0')}/
+          </span>
+          
+          <h3 className="text-base font-semibold text-foreground mb-1 flex items-center gap-2 group-hover:text-primary transition-colors" suppressHydrationWarning>
+            {exchange.title}
+            <ExternalLink className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </h3>
+          
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-2">
+            <Calendar className="h-3 w-3" />
+            <span className="font-mono" suppressHydrationWarning>{exchange.period}</span>
+          </div>
+          
+          <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2" suppressHydrationWarning>
+            {exchange.description}
+          </p>
+          
+          <div className="flex flex-wrap gap-1.5">
+            {exchange.keywords.slice(0, 3).map((keyword, i) => (
+              <span 
+                key={i}
+                className={cn(
+                  "px-2 py-0.5 text-[9px] font-mono tracking-wider",
+                  "text-primary/70 border border-primary/20 rounded-full",
+                  "bg-primary/5 uppercase"
+                )}
+                suppressHydrationWarning
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+        </div>
+      </GlowCard>
+    </div>
   )
 }

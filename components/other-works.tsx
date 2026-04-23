@@ -4,25 +4,21 @@ import React, { useRef, useState, useEffect, useMemo } from "react"
 import { otherWorks, type OtherWork } from "@/lib/other-works-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
+import { GlowCard } from "@/components/glow-card"
+import { StatusIndicator, HoverScan } from "@/components/scan-line"
+import { cn } from "@/lib/utils"
+import { ExternalLink, Play } from "lucide-react"
 
-// ============================================
-// COMPONENT SECTION - 以下为结构代码
-// 数据请在 lib/other-works-data.ts 中修改
-// ============================================
-
-// 带视频预览的图片/视频渲染组件
 function WorkMedia({ 
   coverImage, 
   previewVideo, 
   alt, 
-  isHovered,
-  dark = false 
+  isHovered 
 }: { 
   coverImage?: string
   previewVideo?: string
   alt: string
   isHovered: boolean
-  dark?: boolean
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -43,7 +39,11 @@ function WorkMedia({
         <img 
           src={coverImage} 
           alt={alt} 
-          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${isHovered && previewVideo ? 'opacity-0' : 'opacity-100'}`}
+          className={cn(
+            "w-full h-full object-cover absolute inset-0 transition-all duration-500",
+            isHovered && previewVideo ? 'opacity-0' : 'opacity-100',
+            isHovered && "scale-105"
+          )}
         />
       )}
       {previewVideo && (
@@ -53,17 +53,19 @@ function WorkMedia({
           muted
           loop
           playsInline
-          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+          className={cn(
+            "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
+            isHovered ? 'opacity-100' : 'opacity-0'
+          )}
         />
       )}
       {!coverImage && !previewVideo && (
-        <div className={`w-full h-full ${dark ? 'bg-slate-800' : 'bg-slate-200'}`} />
+        <div className="w-full h-full bg-muted/20" />
       )}
     </>
   )
 }
 
-// 单个作品卡片组件 - 一刀斜切设计
 function WorkCard({ 
   work, 
   index,
@@ -74,12 +76,9 @@ function WorkCard({
   onTrack: (tags: string[]) => void
 }) {
   const { navigateWithTransition } = usePageTransition()
-  const [isImageHovered, setIsImageHovered] = useState(false)
-  const [isTitleHovered, setIsTitleHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   
-  // 奇偶行决定图片在左还是右
-  const isImageLeft = index % 2 === 0
-  const isDark = work.id === "td-music-visualization"
+  const isReversed = index % 2 !== 0
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -89,80 +88,78 @@ function WorkCard({
 
   return (
     <div 
-      className="cursor-pointer relative"
+      className="cursor-pointer group"
       onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* 主容器 - 全宽，带一刀斜切 */}
-      <div className={`flex ${isImageLeft ? 'flex-row' : 'flex-row-reverse'} w-full h-48 md:h-56 relative`}>
-        
-        {/* 图片区域 - 占45%宽度，带大斜率斜切 */}
-        <div 
-          className={`
-            relative h-full overflow-hidden
-            ${isDark ? 'bg-slate-900' : 'bg-slate-100'}
-            transition-transform duration-500 ease-out
-            ${isImageLeft ? 'origin-left' : 'origin-right'}
-            ${isImageHovered ? 'scale-[1.075]' : 'scale-100'}
-          `}
-          style={{
-            width: '45%',
-            clipPath: isImageLeft 
-              ? 'polygon(0 0, 100% 0, 70% 100%, 0 100%)'  // 右下角更大斜切
-              : 'polygon(30% 0, 100% 0, 100% 100%, 0 100%)'  // 左下角更大斜切
-          }}
-          onMouseEnter={() => setIsImageHovered(true)}
-          onMouseLeave={() => setIsImageHovered(false)}
-        >
-          <WorkMedia 
-            coverImage={work.coverImage}
-            previewVideo={work.previewVideo}
-            alt={work.title}
-            isHovered={isImageHovered}
-            dark={isDark}
-          />
-        </div>
-        
-        {/* 文字信息区域 - 占55%宽度，内边距确保不被遮挡 */}
-        <div 
-          className={`
-            h-full flex flex-col justify-center
-            ${isImageLeft ? 'pl-6 md:pl-10 pr-4 text-left' : 'pr-6 md:pr-10 pl-4 text-right'}
-          `}
-          style={{ width: '55%' }}
-        >
-          <h3 
-            className={`
-              text-lg md:text-xl font-semibold text-slate-900 mb-1
-              transition-all duration-300
-              ${isImageLeft ? 'origin-left' : 'origin-right'}
-              ${isTitleHovered ? 'text-black scale-[1.075]' : ''}
-              inline-block
-            `}
-            onMouseEnter={() => setIsTitleHovered(true)}
-            onMouseLeave={() => setIsTitleHovered(false)}
-            suppressHydrationWarning
-          >
-            {work.title}
-          </h3>
-          <p className="text-xs text-slate-400 mb-2" suppressHydrationWarning>{work.titleCn}</p>
-          <p className={`text-xs text-slate-500 leading-relaxed line-clamp-2 ${isImageLeft ? '' : 'ml-auto'}`} suppressHydrationWarning>
-            {work.description}
-          </p>
+      <GlowCard hover className="overflow-hidden">
+        <div className={cn(
+          "flex flex-col md:flex-row",
+          isReversed && "md:flex-row-reverse"
+        )}>
+          {/* Image */}
+          <div className="relative w-full md:w-2/5 aspect-video md:aspect-auto md:h-48 bg-[rgba(10,10,15,0.8)] overflow-hidden">
+            <WorkMedia 
+              coverImage={work.coverImage}
+              previewVideo={work.previewVideo}
+              alt={work.title}
+              isHovered={isHovered}
+            />
+            <HoverScan active={isHovered} />
+            
+            {/* Video indicator */}
+            {work.previewVideo && (
+              <div className="absolute bottom-3 right-3 p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20">
+                <Play className="h-3 w-3 text-primary/60" />
+              </div>
+            )}
+          </div>
           
-          {/* 关键词标签 */}
-          <div className={`flex flex-wrap gap-1 mt-3 ${isImageLeft ? '' : 'justify-end'}`}>
-            {work.keywords.slice(0, 2).map((tag, i) => (
-              <span 
-                key={i}
-                className="px-2 py-0.5 text-[10px] text-slate-400 border border-slate-200 rounded-full"
-                suppressHydrationWarning
-              >
-                {tag}
-              </span>
-            ))}
+          {/* Content */}
+          <div className={cn(
+            "flex-1 p-5 flex flex-col justify-center",
+            isReversed ? "md:text-right" : "md:text-left"
+          )}>
+            <span className="text-[10px] font-mono text-primary/40 mb-2">
+              {String(index + 1).padStart(2, '0')}/
+            </span>
+            
+            <h3 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2 group-hover:text-primary transition-colors" suppressHydrationWarning>
+              {isReversed && <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity md:order-first" />}
+              {work.title}
+              {!isReversed && <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />}
+            </h3>
+            
+            <p className="text-[10px] text-muted-foreground/60 mb-2 font-mono" suppressHydrationWarning>
+              {work.titleCn}
+            </p>
+            
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3 line-clamp-2" suppressHydrationWarning>
+              {work.description}
+            </p>
+            
+            <div className={cn(
+              "flex flex-wrap gap-1.5",
+              isReversed && "md:justify-end"
+            )}>
+              {work.keywords.slice(0, 3).map((tag, i) => (
+                <span 
+                  key={i}
+                  className={cn(
+                    "px-2 py-0.5 text-[9px] font-mono tracking-wider",
+                    "text-primary/70 border border-primary/20 rounded-full",
+                    "bg-primary/5 uppercase"
+                  )}
+                  suppressHydrationWarning
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </GlowCard>
     </div>
   )
 }
@@ -182,31 +179,43 @@ export function OtherWorks() {
   }, [isLoaded, sortByPreference])
 
   const statusText = useMemo(() => {
-    if (!isLoaded) return "> 正在初始化行为追踪系统..."
-    if (totalClicks === 0) return "> 系统追踪已启动，正在分析您的浏览偏好..."
-    return `> Behavior analyzed. Top: [${topTag}]. Adaptive reordering enabled.`
+    if (!isLoaded) return "> INITIALIZING_TRACKING..."
+    if (totalClicks === 0) return `> TRACKING_ACTIVE. ${otherWorks.length} ENTRIES INDEXED.`
+    return `> INTEREST: [${topTag}]. ADAPTIVE_SORT_ENABLED.`
   }, [isLoaded, totalClicks, topTag])
 
   return (
-    <section id="other-works" className="py-16 px-6 lg:px-8 border-t border-slate-200">
+    <section id="other-works" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
       <div className="mx-auto max-w-7xl">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-6">
-          Other Works
-        </h2>
+        {/* Section header */}
+        <div className="flex items-center gap-3 mb-8">
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">03/</span>
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
+            OTHER_WORKS
+          </h2>
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+        </div>
         
-        {/* 自适应追踪状态 */}
-        <div className="mb-8 font-mono text-[11px] text-slate-400 border border-slate-100 bg-slate-50/80 px-3 py-2 rounded">
-          <div className="flex items-center gap-2">
-            <span className="text-violet-400/80">[SYS]</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-400/60">其他作品·智能排序</span>
-            <span className="text-slate-300">|</span>
-            <span className="flex-1 truncate">{statusText}</span>
+        {/* System status */}
+        <div className={cn(
+          "mb-6 font-mono text-[10px]",
+          "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
+          "px-4 py-3 rounded-lg backdrop-blur-sm"
+        )}>
+          <div className="flex items-center gap-3">
+            <StatusIndicator status={isLoaded ? "active" : "processing"} />
+            <span className="text-primary/60">[SYS]</span>
+            <span className="text-[rgba(34,211,238,0.3)]">|</span>
+            <span className="text-muted-foreground/60 uppercase tracking-wider">ARCHIVE</span>
+            <span className="text-[rgba(34,211,238,0.3)]">|</span>
+            <span className="flex-1 truncate text-muted-foreground">
+              {statusText}
+            </span>
           </div>
         </div>
         
-        {/* 左右交错布局 - 一刀斜切设计 */}
-        <div className="space-y-8 md:space-y-10">
+        {/* Works list */}
+        <div className="space-y-6">
           {sortedWorks.slice(0, 6).map((work, index) => (
             <WorkCard
               key={work.id}

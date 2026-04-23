@@ -4,11 +4,14 @@ import React, { useMemo, useState, useEffect } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
-import { TimelineSlider } from "@/components/timeline-slider"
 import { GlowCard } from "@/components/glow-card"
 import { StatusIndicator, HoverScan } from "@/components/scan-line"
 import { cn } from "@/lib/utils"
 import { ExternalLink, Zap, GitBranch, Search } from "lucide-react"
+
+interface ProjectsProps {
+  filterIds?: string[]
+}
 
 // System Status Bar
 function SystemStatus({ 
@@ -193,7 +196,7 @@ function ProjectCard({
   )
 }
 
-export function Projects() {
+export function Projects({ filterIds }: ProjectsProps) {
   const { 
     isLoaded, 
     topTag, 
@@ -201,20 +204,17 @@ export function Projects() {
     trackClick, 
     sortByPreference,
   } = useUserBehavior()
-  
-  // Timeline filter state
-  const [yearRange, setYearRange] = useState<[number, number]>([2023, 2026])
 
   // Filter and sort projects
   const filteredProjects = useMemo(() => {
-    const filtered = projects.filter(p => {
-      const year = parseInt(p.year)
-      return year >= yearRange[0] && year <= yearRange[1]
-    })
+    // If filterIds provided, use it; otherwise show all
+    const filtered = filterIds 
+      ? projects.filter(p => filterIds.includes(p.id))
+      : projects
     
     if (!isLoaded) return filtered
     return sortByPreference(filtered)
-  }, [isLoaded, sortByPreference, yearRange])
+  }, [isLoaded, sortByPreference, filterIds])
 
   return (
     <section id="projects" className="py-16 px-6 lg:px-8">
@@ -226,16 +226,6 @@ export function Projects() {
             SELECTED_PROJECTS
           </h2>
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
-        </div>
-        
-        {/* Timeline slider */}
-        <div className="mb-8 p-6 rounded-lg bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]">
-          <TimelineSlider
-            startYear={2023}
-            endYear={2026}
-            value={yearRange}
-            onChange={setYearRange}
-          />
         </div>
         
         {/* System status */}
