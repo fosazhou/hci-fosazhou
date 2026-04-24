@@ -13,9 +13,9 @@ export default function Home() {
       <main className="relative">
         <Hero />
         <div className="w-[85%] lg:w-[75%] mx-auto">
+          <Education />
           {/* Projects with Timeline - client side */}
           <HomeClientContent />
-          <Education />
           <About />
           <Skills />
         </div>
