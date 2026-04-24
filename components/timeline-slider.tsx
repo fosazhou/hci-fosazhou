@@ -110,14 +110,12 @@ export function TimelineSlider({
     }
   }, [isDragging, handleTouchMove, handleMouseUp])
 
-  // Click on year to select/toggle
+  // Click on year to select/toggle - does NOT change the slider range
   const handleYearClick = (year: number) => {
     if (selectedYear === year) {
       setSelectedYear(null)
     } else {
       setSelectedYear(year)
-      // Also set the range to include this year
-      onChange([year, year])
     }
   }
 
@@ -135,13 +133,13 @@ export function TimelineSlider({
           </span>
         </div>
         <div className="flex items-center gap-3">
-          {selectedYear && (
+          {(selectedYear || value[0] !== startYear || value[1] !== endYear) && (
             <button
               onClick={() => {
                 setSelectedYear(null)
                 onChange([startYear, endYear])
               }}
-              className="flex items-center gap-1 px-2 py-1 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-1 px-2 py-1 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors border border-primary/20 rounded hover:border-primary/40"
             >
               RESET
               <X className="w-3 h-3" />
@@ -333,10 +331,10 @@ export function TimelineSlider({
           })}
         </div>
         
-        {/* Draggable handles */}
+        {/* Draggable handles - higher z-index to be above year markers */}
         <div
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-20",
+            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
             isDragging === "start" && "cursor-grabbing"
           )}
           style={{ left: `${startPos}%` }}
@@ -345,19 +343,22 @@ export function TimelineSlider({
         >
           <div 
             className={cn(
-              "w-5 h-5 rounded-full border-2 border-primary bg-background",
-              "transition-transform duration-200",
-              isDragging === "start" && "scale-125"
+              "w-6 h-6 rounded-full border-2 border-primary bg-background",
+              "transition-all duration-200 hover:scale-110",
+              isDragging === "start" && "scale-125",
+              "flex items-center justify-center"
             )}
             style={{
-              boxShadow: "0 0 12px var(--primary-glow)"
+              boxShadow: "0 0 12px var(--primary-glow), 0 2px 8px rgba(0,0,0,0.3)"
             }}
-          />
+          >
+            <div className="w-2 h-2 rounded-full bg-primary" />
+          </div>
         </div>
         
         <div
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-20",
+            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
             isDragging === "end" && "cursor-grabbing"
           )}
           style={{ left: `${endPos}%` }}
@@ -366,14 +367,17 @@ export function TimelineSlider({
         >
           <div 
             className={cn(
-              "w-5 h-5 rounded-full border-2 border-primary bg-background",
-              "transition-transform duration-200",
-              isDragging === "end" && "scale-125"
+              "w-6 h-6 rounded-full border-2 border-primary bg-background",
+              "transition-all duration-200 hover:scale-110",
+              isDragging === "end" && "scale-125",
+              "flex items-center justify-center"
             )}
             style={{
-              boxShadow: "0 0 12px var(--primary-glow)"
+              boxShadow: "0 0 12px var(--primary-glow), 0 2px 8px rgba(0,0,0,0.3)"
             }}
-          />
+          >
+            <div className="w-2 h-2 rounded-full bg-primary" />
+          </div>
         </div>
       </div>
       
