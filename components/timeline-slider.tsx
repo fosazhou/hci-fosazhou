@@ -241,15 +241,15 @@ export function TimelineSlider({
                   transform: 'translateX(-50%)'
                 }}
               >
-                {/* Clickable year marker */}
+                {/* Clickable year marker - same size as drag handles */}
                 <button
                   onClick={() => handleYearClick(year)}
                   className={cn(
                     "absolute top-1/2 -translate-y-1/2 z-10",
-                    "w-8 h-8 rounded-full flex items-center justify-center",
+                    "w-6 h-6 rounded-full flex items-center justify-center",
                     "transition-all duration-300",
                     isSelected 
-                      ? "bg-primary/20 scale-125" 
+                      ? "bg-primary/20 scale-110" 
                       : "bg-transparent hover:bg-primary/10"
                   )}
                 >
@@ -257,10 +257,10 @@ export function TimelineSlider({
                     className={cn(
                       "rounded-full transition-all duration-300",
                       isSelected
-                        ? "w-4 h-4 bg-primary"
+                        ? "w-2 h-2 bg-primary"
                         : isInRange 
-                          ? "w-2.5 h-2.5 bg-primary/60" 
-                          : "w-2 h-2 bg-[rgba(34,211,238,0.2)]",
+                          ? "w-2 h-2 bg-primary/60" 
+                          : "w-1.5 h-1.5 bg-[rgba(34,211,238,0.2)]",
                       isHovered && !isSelected && "scale-125 bg-primary/80",
                       hasWorks && !isSelected && "ring-2 ring-primary/20 ring-offset-1 ring-offset-background"
                     )}
