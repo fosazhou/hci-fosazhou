@@ -222,20 +222,24 @@ export function TimelineSlider({
           }}
         />
         
-        {/* Year markers with click support */}
-        <div className="absolute inset-x-0 top-0 bottom-0 flex justify-between">
-          {years.map((year) => {
+        {/* Year markers with click support - positioned to match slider positions */}
+        <div className="absolute inset-x-0 top-0 bottom-0">
+          {years.map((year, index) => {
             const isInRange = year >= value[0] && year <= value[1]
             const isSelected = year === selectedYear
             const isHovered = year === hoveredYear
             const yearWorks = getWorksForYear(year)
             const hasWorks = yearWorks.length > 0
+            const position = getPositionFromYear(year)
             
             return (
               <div 
                 key={year} 
-                className="relative flex flex-col items-center"
-                style={{ width: `${100 / years.length}%` }}
+                className="absolute flex flex-col items-center"
+                style={{ 
+                  left: `${position}%`,
+                  transform: 'translateX(-50%)'
+                }}
               >
                 {/* Clickable year marker */}
                 <button
