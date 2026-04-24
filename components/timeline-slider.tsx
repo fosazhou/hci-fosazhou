@@ -69,12 +69,19 @@ export function TimelineSlider({
     }
   }
   
+  // Calculate position for each year - snap to year markers
+  // Each year occupies equal space, with first year at 0% and last year at 100%
   const getPositionFromYear = (year: number) => {
-    return ((year - startYear) / (endYear - startYear)) * 100
+    const yearIndex = year - startYear
+    const totalYears = endYear - startYear
+    return (yearIndex / totalYears) * 100
   }
   
+  // Get the nearest year from a position - always snap to discrete years
   const getYearFromPosition = (position: number) => {
-    const year = Math.round(startYear + (position / 100) * (endYear - startYear))
+    const totalYears = endYear - startYear
+    const yearIndex = Math.round((position / 100) * totalYears)
+    const year = startYear + yearIndex
     return Math.max(startYear, Math.min(endYear, year))
   }
 
@@ -374,11 +381,12 @@ export function TimelineSlider({
           })}
         </div>
         
-        {/* Draggable handles - higher z-index to be above year markers */}
+        {/* Draggable handles - snap to year positions */}
         <div
           className={cn(
             "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
-            isDragging === "start" && "cursor-grabbing"
+            isDragging === "start" && "cursor-grabbing",
+            !isDragging && "transition-[left] duration-150 ease-out"
           )}
           style={{ left: `${startPos}%` }}
           onMouseDown={handleMouseDown("start")}
@@ -387,8 +395,8 @@ export function TimelineSlider({
           <div 
             className={cn(
               "w-6 h-6 rounded-full border-2 border-primary bg-background",
-              "transition-all duration-200 hover:scale-110",
-              isDragging === "start" && "scale-125",
+              "hover:scale-110",
+              isDragging === "start" ? "scale-125" : "transition-transform duration-150",
               "flex items-center justify-center"
             )}
             style={{
@@ -397,12 +405,19 @@ export function TimelineSlider({
           >
             <div className="w-2 h-2 rounded-full bg-primary" />
           </div>
+          {/* Year indicator tooltip when dragging */}
+          {isDragging === "start" && (
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-mono whitespace-nowrap">
+              {value[0]}
+            </div>
+          )}
         </div>
         
         <div
           className={cn(
             "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
-            isDragging === "end" && "cursor-grabbing"
+            isDragging === "end" && "cursor-grabbing",
+            !isDragging && "transition-[left] duration-150 ease-out"
           )}
           style={{ left: `${endPos}%` }}
           onMouseDown={handleMouseDown("end")}
@@ -411,8 +426,8 @@ export function TimelineSlider({
           <div 
             className={cn(
               "w-6 h-6 rounded-full border-2 border-primary bg-background",
-              "transition-all duration-200 hover:scale-110",
-              isDragging === "end" && "scale-125",
+              "hover:scale-110",
+              isDragging === "end" ? "scale-125" : "transition-transform duration-150",
               "flex items-center justify-center"
             )}
             style={{
@@ -421,6 +436,12 @@ export function TimelineSlider({
           >
             <div className="w-2 h-2 rounded-full bg-primary" />
           </div>
+          {/* Year indicator tooltip when dragging */}
+          {isDragging === "end" && (
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-mono whitespace-nowrap">
+              {value[1]}
+            </div>
+          )}
         </div>
       </div>
       
