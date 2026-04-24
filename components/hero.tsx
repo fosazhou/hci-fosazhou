@@ -6,6 +6,13 @@ import { StatusIndicator } from "@/components/scan-line"
 import { ParticleTitle } from "@/components/particle-title"
 import { ParticleAvatar } from "@/components/particle-avatar"
 
+export type ViewType = "projects" | "about"
+
+interface HeroProps {
+  currentView?: ViewType
+  onViewChange?: (view: ViewType) => void
+}
+
 // ============================================
 // DATA SECTION
 // ============================================
@@ -170,11 +177,17 @@ function FloatingLabels() {
 // MAIN COMPONENT
 // ============================================
 
-export function Hero() {
+export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [mounted, setMounted] = useState(false)
   const [typedText, setTypedText] = useState("")
   const fullText = "ADAPTIVE_PORTFOLIO_V2.0"
+  
+  const handleViewChange = (view: ViewType) => {
+    if (onViewChange) {
+      onViewChange(view)
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -265,30 +278,43 @@ export function Hero() {
                 {heroData.subheadline}
               </p>
               
-              {/* Quick links */}
+              {/* Quick links - View switchers */}
               <div className="mt-10 flex flex-wrap gap-4">
-                <a 
-                  href="#projects"
+                <button 
+                  onClick={() => handleViewChange("projects")}
                   className={cn(
                     "group px-5 py-2.5 rounded text-sm font-mono tracking-wider",
-                    "bg-brand/10 border border-brand/30 text-brand",
-                    "hover:bg-brand/20 hover:border-brand/50 transition-all duration-500",
-                    "relative overflow-hidden"
+                    "transition-all duration-500 relative overflow-hidden",
+                    currentView === "projects"
+                      ? "bg-brand/20 border-2 border-brand text-brand shadow-[0_0_20px_rgba(233,30,99,0.3)]"
+                      : "bg-brand/5 border border-brand/30 text-brand/70 hover:bg-brand/10 hover:border-brand/50"
                   )}
                 >
-                  <span className="relative z-10">VIEW_PROJECTS</span>
+                  <span className="relative z-10 flex items-center gap-2">
+                    {currentView === "projects" && (
+                      <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+                    )}
+                    VIEW_PROJECTS
+                  </span>
                   <span className="absolute inset-0 bg-brand/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                </a>
-                <a 
-                  href="#about"
+                </button>
+                <button 
+                  onClick={() => handleViewChange("about")}
                   className={cn(
-                    "px-5 py-2.5 rounded text-sm font-mono tracking-wider",
-                    "bg-transparent border border-[rgba(34,211,238,0.15)] text-muted-foreground/70",
-                    "hover:border-primary/30 hover:text-foreground/90 transition-all duration-500"
+                    "group px-5 py-2.5 rounded text-sm font-mono tracking-wider",
+                    "transition-all duration-500 relative overflow-hidden",
+                    currentView === "about"
+                      ? "bg-primary/20 border-2 border-primary text-primary shadow-[0_0_20px_rgba(34,211,238,0.3)]"
+                      : "bg-transparent border border-[rgba(34,211,238,0.15)] text-muted-foreground/70 hover:border-primary/30 hover:text-foreground/90"
                   )}
                 >
-                  ABOUT_ME
-                </a>
+                  <span className="relative z-10 flex items-center gap-2">
+                    {currentView === "about" && (
+                      <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                    )}
+                    ABOUT_ME
+                  </span>
+                </button>
               </div>
             </div>
             

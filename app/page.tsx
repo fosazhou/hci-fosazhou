@@ -1,28 +1,29 @@
+import { Suspense } from "react"
 import { Header } from "@/components/header"
-import { Hero } from "@/components/hero"
-import { Education } from "@/components/education"
-import { About } from "@/components/about"
-import { Skills } from "@/components/skills"
-import { Footer } from "@/components/footer"
-import { HomeClientContent } from "@/components/home-client-content"
+import { HomePageClient } from "@/components/home-page-client"
+
+function HomePageFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-sm font-mono text-muted-foreground/60 tracking-widest">LOADING...</p>
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   return (
     <>
-      <Header />
+      <Suspense fallback={null}>
+        <Header />
+      </Suspense>
       <main className="relative">
-        <Hero />
-        <div className="w-[85%] lg:w-[75%] mx-auto">
-          <Education />
-          {/* Projects with Timeline - client side */}
-          <HomeClientContent />
-          <About />
-          <Skills />
-        </div>
+        <Suspense fallback={<HomePageFallback />}>
+          <HomePageClient />
+        </Suspense>
       </main>
-      <div className="w-[85%] lg:w-[75%] mx-auto">
-        <Footer />
-      </div>
     </>
   )
 }

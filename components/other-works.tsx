@@ -189,7 +189,7 @@ export function OtherWorks() {
       <div className="mx-auto max-w-7xl">
         {/* Section header */}
         <div className="flex items-center gap-3 mb-8">
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest">03/</span>
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.04/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
             OTHER_WORKS
           </h2>

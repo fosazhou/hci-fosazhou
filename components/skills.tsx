@@ -25,7 +25,7 @@ export function Skills() {
       <div className="mx-auto max-w-7xl">
         {/* Section header */}
         <div className="flex items-center gap-3 mb-10">
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest">04/</span>
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">A.03/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
             SKILLS_AND_TOOLS
           </h2>
