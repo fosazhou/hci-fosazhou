@@ -9,7 +9,11 @@ import { StatusIndicator, HoverScan } from "@/components/scan-line"
 import { cn } from "@/lib/utils"
 import { MapPin, Calendar, ExternalLink } from "lucide-react"
 
-export function Exchanges() {
+interface ExchangesProps {
+  filterIds?: string[]
+}
+
+export function Exchanges({ filterIds }: ExchangesProps) {
   const { navigateWithTransition } = usePageTransition()
   const { 
     isLoaded, 
@@ -19,11 +23,14 @@ export function Exchanges() {
     sortByPreference 
   } = useUserBehavior()
 
-  // Sort by user preference
+  // Filter and sort by user preference
   const sortedExchanges = useMemo(() => {
-    if (!isLoaded) return exchanges
-    return sortByPreference(exchanges)
-  }, [isLoaded, sortByPreference])
+    const filtered = filterIds 
+      ? exchanges.filter(e => filterIds.includes(e.id))
+      : exchanges
+    if (!isLoaded) return filtered
+    return sortByPreference(filtered)
+  }, [isLoaded, sortByPreference, filterIds])
 
   const handleClick = (e: React.MouseEvent, exchange: Exchange) => {
     e.preventDefault()

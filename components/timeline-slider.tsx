@@ -2,14 +2,23 @@
 
 import { cn } from "@/lib/utils"
 import { useState, useRef, useEffect, useCallback } from "react"
-import { projects } from "@/lib/projects-data"
-import { X } from "lucide-react"
+import { X, Briefcase, Globe, Palette } from "lucide-react"
+
+export interface TimelineWork {
+  id: string
+  title: string
+  year: number
+  type: 'project' | 'exchange' | 'work'
+  coverImage?: string
+  keywords: string[]
+}
 
 interface TimelineSliderProps {
   startYear: number
   endYear: number
   value: [number, number]
   onChange: (value: [number, number]) => void
+  allWorks?: TimelineWork[]
   className?: string
 }
 
@@ -18,6 +27,7 @@ export function TimelineSlider({
   endYear,
   value,
   onChange,
+  allWorks = [],
   className,
 }: TimelineSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null)
@@ -27,9 +37,36 @@ export function TimelineSlider({
   
   const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
   
-  // Get projects for a specific year
-  const getProjectsForYear = (year: number) => {
-    return projects.filter(p => parseInt(p.year) === year)
+  // Get works for a specific year (all types)
+  const getWorksForYear = (year: number) => {
+    return allWorks.filter(w => w.year === year)
+  }
+  
+  // Get type icon
+  const getTypeIcon = (type: 'project' | 'exchange' | 'work') => {
+    switch (type) {
+      case 'project': return <Briefcase className="w-3 h-3" />
+      case 'exchange': return <Globe className="w-3 h-3" />
+      case 'work': return <Palette className="w-3 h-3" />
+    }
+  }
+  
+  // Get type label
+  const getTypeLabel = (type: 'project' | 'exchange' | 'work') => {
+    switch (type) {
+      case 'project': return '项目'
+      case 'exchange': return '交流'
+      case 'work': return '作品'
+    }
+  }
+  
+  // Get link path based on type
+  const getLinkPath = (work: TimelineWork) => {
+    switch (work.type) {
+      case 'project': return `/projects/${work.id}`
+      case 'exchange': return `/exchanges/${work.id}`
+      case 'work': return `/works/${work.id}`
+    }
   }
   
   const getPositionFromYear = (year: number) => {
@@ -184,8 +221,8 @@ export function TimelineSlider({
             const isInRange = year >= value[0] && year <= value[1]
             const isSelected = year === selectedYear
             const isHovered = year === hoveredYear
-            const yearProjects = getProjectsForYear(year)
-            const hasProjects = yearProjects.length > 0
+            const yearWorks = getWorksForYear(year)
+            const hasWorks = yearWorks.length > 0
             
             return (
               <div 
@@ -214,7 +251,7 @@ export function TimelineSlider({
                           ? "w-2.5 h-2.5 bg-primary/60" 
                           : "w-2 h-2 bg-[rgba(34,211,238,0.2)]",
                       isHovered && !isSelected && "scale-125 bg-primary/80",
-                      hasProjects && !isSelected && "ring-2 ring-primary/20 ring-offset-1 ring-offset-background"
+                      hasWorks && !isSelected && "ring-2 ring-primary/20 ring-offset-1 ring-offset-background"
                     )}
                     style={{
                       boxShadow: isSelected 
@@ -226,15 +263,15 @@ export function TimelineSlider({
                   />
                 </button>
                 
-                {/* Project count badge */}
-                {hasProjects && (
+                {/* Works count badge */}
+                {hasWorks && (
                   <div 
                     className={cn(
                       "absolute top-0 text-[8px] font-mono transition-all duration-300",
                       isSelected || isHovered ? "text-primary" : "text-muted-foreground/40"
                     )}
                   >
-                    {yearProjects.length}
+                    {yearWorks.length}
                   </div>
                 )}
                 
@@ -254,12 +291,12 @@ export function TimelineSlider({
                   {year}
                 </button>
                 
-                {/* Floating projects popup when year is selected */}
-                {isSelected && hasProjects && (
+                {/* Floating works popup when year is selected */}
+                {isSelected && hasWorks && (
                   <div 
                     className={cn(
                       "absolute top-full mt-4 z-50",
-                      "min-w-[200px] max-w-[280px]",
+                      "min-w-[220px] max-w-[300px]",
                       "p-3 rounded-lg",
                       "bg-[rgba(10,10,15,0.95)] backdrop-blur-md",
                       "border border-primary/30",
@@ -279,19 +316,19 @@ export function TimelineSlider({
                     {/* Header */}
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
                       <span className="text-[10px] font-mono text-primary tracking-wider">
-                        {year}_PROJECTS
+                        {year}_WORKS
                       </span>
                       <span className="text-[9px] font-mono text-muted-foreground">
-                        {yearProjects.length} items
+                        {yearWorks.length} items
                       </span>
                     </div>
                     
-                    {/* Project list */}
-                    <div className="space-y-2">
-                      {yearProjects.map((project) => (
+                    {/* Works list grouped by type */}
+                    <div className="space-y-2 max-h-[280px] overflow-y-auto">
+                      {yearWorks.map((work) => (
                         <a
-                          key={project.id}
-                          href={`/projects/${project.id}`}
+                          key={`${work.type}-${work.id}`}
+                          href={getLinkPath(work)}
                           className={cn(
                             "block p-2 rounded",
                             "bg-[rgba(34,211,238,0.05)]",
@@ -303,21 +340,27 @@ export function TimelineSlider({
                         >
                           <div className="flex items-start gap-3">
                             {/* Thumbnail */}
-                            {project.coverImage && (
+                            {work.coverImage && (
                               <div className="w-12 h-9 rounded overflow-hidden flex-shrink-0 bg-muted/20">
                                 <img 
-                                  src={project.coverImage} 
-                                  alt={project.title}
+                                  src={work.coverImage} 
+                                  alt={work.title}
                                   className="w-full h-full object-cover"
                                 />
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 mb-0.5">
+                                <span className="text-primary/60">{getTypeIcon(work.type)}</span>
+                                <span className="text-[8px] font-mono text-muted-foreground/60 uppercase">
+                                  {getTypeLabel(work.type)}
+                                </span>
+                              </div>
                               <h4 className="text-xs font-medium text-foreground group-hover:text-primary transition-colors truncate">
-                                {project.title}
+                                {work.title}
                               </h4>
                               <p className="text-[10px] text-muted-foreground truncate">
-                                {project.keywords.slice(0, 2).join(" · ")}
+                                {work.keywords.slice(0, 2).join(" · ")}
                               </p>
                             </div>
                           </div>
@@ -385,7 +428,7 @@ export function TimelineSlider({
       <div className="mt-4 flex items-center justify-center gap-4 text-[9px] font-mono text-muted-foreground/40">
         <span>DRAG_HANDLES_TO_FILTER</span>
         <span className="text-primary/20">|</span>
-        <span>CLICK_YEAR_TO_VIEW_PROJECTS</span>
+        <span>CLICK_YEAR_TO_VIEW_ALL_WORKS</span>
       </div>
     </div>
   )

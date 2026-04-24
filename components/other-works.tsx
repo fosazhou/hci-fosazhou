@@ -9,6 +9,10 @@ import { StatusIndicator, HoverScan } from "@/components/scan-line"
 import { cn } from "@/lib/utils"
 import { ExternalLink, Play } from "lucide-react"
 
+interface OtherWorksProps {
+  filterIds?: string[]
+}
+
 function WorkMedia({ 
   coverImage, 
   previewVideo, 
@@ -164,7 +168,7 @@ function WorkCard({
   )
 }
 
-export function OtherWorks() {
+export function OtherWorks({ filterIds }: OtherWorksProps) {
   const { 
     isLoaded, 
     totalClicks, 
@@ -174,9 +178,12 @@ export function OtherWorks() {
   } = useUserBehavior()
 
   const sortedWorks = useMemo(() => {
-    if (!isLoaded) return otherWorks
-    return sortByPreference(otherWorks)
-  }, [isLoaded, sortByPreference])
+    const filtered = filterIds 
+      ? otherWorks.filter(w => filterIds.includes(w.id))
+      : otherWorks
+    if (!isLoaded) return filtered
+    return sortByPreference(filtered)
+  }, [isLoaded, sortByPreference, filterIds])
 
   const statusText = useMemo(() => {
     if (!isLoaded) return "> INITIALIZING_TRACKING..."

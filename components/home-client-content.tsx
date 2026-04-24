@@ -7,6 +7,14 @@ import { OtherWorks } from "@/components/other-works"
 import { TimelineSlider } from "@/components/timeline-slider"
 import { PageTransitionProvider, restoreScrollPosition } from "@/components/page-transition"
 import { projects } from "@/lib/projects-data"
+import { exchanges } from "@/lib/exchange-data"
+import { otherWorks } from "@/lib/other-works-data"
+
+// Helper to extract year from period string like "2025.7 - 2025.12" or "2024.1"
+function extractYearFromPeriod(period: string): number {
+  const match = period.match(/(\d{4})/)
+  return match ? parseInt(match[1]) : 2024
+}
 
 // 科技风骨架屏组件
 function ProjectsSkeleton() {
@@ -103,13 +111,57 @@ export function HomeClientContent() {
   const [mounted, setMounted] = useState(false)
   const [yearRange, setYearRange] = useState<[number, number]>([2023, 2026])
 
-  // 提取所有项目的年份
-  const availableYears = useMemo(() => {
-    const years = projects.map(p => parseInt(p.year))
-    return [...new Set(years)].sort()
+  // 整合所有作品数据用于时间轴显示
+  const allWorksForTimeline = useMemo(() => {
+    const items: Array<{
+      id: string
+      title: string
+      year: number
+      type: 'project' | 'exchange' | 'work'
+      coverImage?: string
+      keywords: string[]
+    }> = []
+    
+    // Projects
+    projects.forEach(p => {
+      items.push({
+        id: p.id,
+        title: p.title,
+        year: parseInt(p.year),
+        type: 'project',
+        coverImage: p.coverImage,
+        keywords: p.keywords
+      })
+    })
+    
+    // Exchanges
+    exchanges.forEach(e => {
+      items.push({
+        id: e.id,
+        title: e.title,
+        year: extractYearFromPeriod(e.period),
+        type: 'exchange',
+        coverImage: e.coverImage,
+        keywords: e.keywords
+      })
+    })
+    
+    // Other Works
+    otherWorks.forEach(w => {
+      items.push({
+        id: w.id,
+        title: w.title,
+        year: parseInt(w.year),
+        type: 'work',
+        coverImage: w.coverImage,
+        keywords: w.keywords
+      })
+    })
+    
+    return items
   }, [])
 
-  // 根据年份范围过滤项目
+  // 根据年份范围过滤各类 IDs
   const filteredProjectIds = useMemo(() => {
     return projects
       .filter(p => {
@@ -117,6 +169,24 @@ export function HomeClientContent() {
         return year >= yearRange[0] && year <= yearRange[1]
       })
       .map(p => p.id)
+  }, [yearRange])
+
+  const filteredExchangeIds = useMemo(() => {
+    return exchanges
+      .filter(e => {
+        const year = extractYearFromPeriod(e.period)
+        return year >= yearRange[0] && year <= yearRange[1]
+      })
+      .map(e => e.id)
+  }, [yearRange])
+
+  const filteredWorkIds = useMemo(() => {
+    return otherWorks
+      .filter(w => {
+        const year = parseInt(w.year)
+        return year >= yearRange[0] && year <= yearRange[1]
+      })
+      .map(w => w.id)
   }, [yearRange])
 
   // 标记组件已挂载并恢复滚动位置
@@ -154,17 +224,18 @@ export function HomeClientContent() {
           endYear={2026}
           value={yearRange}
           onChange={setYearRange}
+          allWorks={allWorksForTimeline}
         />
       </section>
 
       {/* Projects - filtered by timeline */}
       <Projects filterIds={filteredProjectIds} />
       
-      {/* Exchanges */}
-      <Exchanges />
+      {/* Exchanges - filtered by timeline */}
+      <Exchanges filterIds={filteredExchangeIds} />
       
-      {/* Other Works */}
-      <OtherWorks />
+      {/* Other Works - filtered by timeline */}
+      <OtherWorks filterIds={filteredWorkIds} />
     </PageTransitionProvider>
   )
 }
