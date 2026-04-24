@@ -61,7 +61,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     const pixels = imageData.data
     
     const particles: Particle[] = []
-    const gap = 5 // Fixed spacing for dots
+    const gap = 4 // Increased density from gap=5
     
     for (let y = 0; y < height; y += gap) {
       for (let x = 0; x < width; x += gap) {
@@ -76,7 +76,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
             x: x,
             y: y,
             brightness,
-            size: 1.2 + brightness * 1.2,
+            size: 0.9 + brightness * 0.9, // Smaller dots for higher density
           })
         }
       }

@@ -296,7 +296,7 @@ export function Hero() {
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
               <ParticleAvatar 
                 imageSrc="/images/avatar.png"
-                className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
+                className="w-72 h-72 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem]"
               />
             </div>
           </div>
