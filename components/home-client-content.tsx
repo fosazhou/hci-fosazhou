@@ -142,7 +142,7 @@ export function HomeClientContent() {
       {/* Timeline Section */}
       <section id="projects" className="pt-8 pb-4">
         <div className="flex items-center gap-3 mb-8">
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest">01/</span>
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">02/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
             PROJECT_TIMELINE
           </h2>

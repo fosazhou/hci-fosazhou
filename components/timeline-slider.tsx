@@ -2,6 +2,8 @@
 
 import { cn } from "@/lib/utils"
 import { useState, useRef, useEffect, useCallback } from "react"
+import { projects } from "@/lib/projects-data"
+import { X } from "lucide-react"
 
 interface TimelineSliderProps {
   startYear: number
@@ -21,8 +23,14 @@ export function TimelineSlider({
   const trackRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
   const [hoveredYear, setHoveredYear] = useState<number | null>(null)
+  const [selectedYear, setSelectedYear] = useState<number | null>(null)
   
   const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
+  
+  // Get projects for a specific year
+  const getProjectsForYear = (year: number) => {
+    return projects.filter(p => parseInt(p.year) === year)
+  }
   
   const getPositionFromYear = (year: number) => {
     return ((year - startYear) / (endYear - startYear)) * 100
@@ -35,7 +43,9 @@ export function TimelineSlider({
 
   const handleMouseDown = (handle: "start" | "end") => (e: React.MouseEvent) => {
     e.preventDefault()
+    e.stopPropagation()
     setIsDragging(handle)
+    setSelectedYear(null)
   }
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -71,6 +81,7 @@ export function TimelineSlider({
   const handleTouchStart = (handle: "start" | "end") => (e: React.TouchEvent) => {
     e.preventDefault()
     setIsDragging(handle)
+    setSelectedYear(null)
   }
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
@@ -99,32 +110,57 @@ export function TimelineSlider({
     }
   }, [isDragging, handleTouchMove, handleMouseUp])
 
+  // Click on year to select/toggle
+  const handleYearClick = (year: number) => {
+    if (selectedYear === year) {
+      setSelectedYear(null)
+    } else {
+      setSelectedYear(year)
+      // Also set the range to include this year
+      onChange([year, year])
+    }
+  }
+
   const startPos = getPositionFromYear(value[0])
   const endPos = getPositionFromYear(value[1])
 
   return (
     <div className={cn("relative", className)}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">TIME/</span>
           <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
             FILTER_RANGE
           </span>
         </div>
-        <div className="flex items-center gap-2 px-2 py-1 rounded border border-primary/20 bg-primary/5">
-          <span className="text-xs font-mono text-primary">{value[0]}</span>
-          <span className="text-[10px] text-muted-foreground">—</span>
-          <span className="text-xs font-mono text-primary">{value[1]}</span>
+        <div className="flex items-center gap-3">
+          {selectedYear && (
+            <button
+              onClick={() => {
+                setSelectedYear(null)
+                onChange([startYear, endYear])
+              }}
+              className="flex items-center gap-1 px-2 py-1 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors"
+            >
+              RESET
+              <X className="w-3 h-3" />
+            </button>
+          )}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-primary/20 bg-primary/5">
+            <span className="text-xs font-mono text-primary">{value[0]}</span>
+            <span className="text-[10px] text-muted-foreground">—</span>
+            <span className="text-xs font-mono text-primary">{value[1]}</span>
+          </div>
         </div>
       </div>
       
       {/* Timeline track */}
       <div 
         ref={trackRef}
-        className="relative h-12 cursor-pointer"
+        className="relative h-16 cursor-pointer"
         onMouseMove={(e) => {
-          if (!trackRef.current) return
+          if (!trackRef.current || isDragging) return
           const rect = trackRef.current.getBoundingClientRect()
           const position = ((e.clientX - rect.left) / rect.width) * 100
           setHoveredYear(getYearFromPosition(position))
@@ -132,24 +168,26 @@ export function TimelineSlider({
         onMouseLeave={() => setHoveredYear(null)}
       >
         {/* Background track */}
-        <div className="absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 bg-[rgba(34,211,238,0.1)]" />
+        <div className="absolute top-1/2 left-0 right-0 h-[1px] -translate-y-1/2 bg-[rgba(34,211,238,0.1)]" />
         
         {/* Active range */}
         <div 
-          className="absolute top-1/2 h-[2px] -translate-y-1/2 bg-primary"
+          className="absolute top-1/2 h-[2px] -translate-y-1/2 bg-primary/60"
           style={{
             left: `${startPos}%`,
             width: `${endPos - startPos}%`,
-            boxShadow: "0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow)",
+            boxShadow: "0 0 8px var(--primary-glow)",
           }}
         />
         
-        {/* Year markers */}
+        {/* Year markers with click support */}
         <div className="absolute inset-x-0 top-0 bottom-0 flex justify-between">
           {years.map((year) => {
             const isInRange = year >= value[0] && year <= value[1]
-            const isEndpoint = year === value[0] || year === value[1]
+            const isSelected = year === selectedYear
             const isHovered = year === hoveredYear
+            const yearProjects = getProjectsForYear(year)
+            const hasProjects = yearProjects.length > 0
             
             return (
               <div 
@@ -157,45 +195,139 @@ export function TimelineSlider({
                 className="relative flex flex-col items-center"
                 style={{ width: `${100 / years.length}%` }}
               >
-                {/* Marker dot */}
-                <div className="absolute top-1/2 -translate-y-1/2">
+                {/* Clickable year marker */}
+                <button
+                  onClick={() => handleYearClick(year)}
+                  className={cn(
+                    "absolute top-1/2 -translate-y-1/2 z-10",
+                    "w-8 h-8 rounded-full flex items-center justify-center",
+                    "transition-all duration-300",
+                    isSelected 
+                      ? "bg-primary/20 scale-125" 
+                      : "bg-transparent hover:bg-primary/10"
+                  )}
+                >
                   <div 
                     className={cn(
-                      "w-2 h-2 rounded-full transition-all duration-200",
-                      isEndpoint 
-                        ? "bg-primary scale-150"
+                      "rounded-full transition-all duration-300",
+                      isSelected
+                        ? "w-4 h-4 bg-primary"
                         : isInRange 
-                          ? "bg-primary/60" 
-                          : "bg-[rgba(34,211,238,0.2)]",
-                      isHovered && !isEndpoint && "scale-125 bg-primary/80"
+                          ? "w-2.5 h-2.5 bg-primary/60" 
+                          : "w-2 h-2 bg-[rgba(34,211,238,0.2)]",
+                      isHovered && !isSelected && "scale-125 bg-primary/80",
+                      hasProjects && !isSelected && "ring-2 ring-primary/20 ring-offset-1 ring-offset-background"
                     )}
                     style={{
-                      boxShadow: isEndpoint 
-                        ? "0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow)"
+                      boxShadow: isSelected 
+                        ? "0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow)"
                         : isInRange 
                           ? "0 0 5px var(--primary-glow)"
                           : "none"
                     }}
                   />
-                  {/* Pulse animation for endpoints */}
-                  {isEndpoint && (
-                    <div 
-                      className="absolute inset-0 rounded-full bg-primary animate-ping"
-                      style={{ animationDuration: "2s" }}
-                    />
-                  )}
-                </div>
+                </button>
+                
+                {/* Project count badge */}
+                {hasProjects && (
+                  <div 
+                    className={cn(
+                      "absolute top-0 text-[8px] font-mono transition-all duration-300",
+                      isSelected || isHovered ? "text-primary" : "text-muted-foreground/40"
+                    )}
+                  >
+                    {yearProjects.length}
+                  </div>
+                )}
                 
                 {/* Year label */}
-                <span 
+                <button
+                  onClick={() => handleYearClick(year)}
                   className={cn(
-                    "absolute bottom-0 text-[10px] font-mono transition-all duration-200",
-                    isInRange ? "text-primary" : "text-muted-foreground/60",
-                    isHovered && "text-primary scale-110"
+                    "absolute bottom-0 text-[11px] font-mono transition-all duration-300",
+                    isSelected 
+                      ? "text-primary font-semibold scale-110"
+                      : isInRange 
+                        ? "text-primary/80" 
+                        : "text-muted-foreground/50",
+                    isHovered && "text-primary"
                   )}
                 >
                   {year}
-                </span>
+                </button>
+                
+                {/* Floating projects popup when year is selected */}
+                {isSelected && hasProjects && (
+                  <div 
+                    className={cn(
+                      "absolute top-full mt-4 z-50",
+                      "min-w-[200px] max-w-[280px]",
+                      "p-3 rounded-lg",
+                      "bg-[rgba(10,10,15,0.95)] backdrop-blur-md",
+                      "border border-primary/30",
+                      "shadow-lg animate-in fade-in-0 zoom-in-95 duration-200"
+                    )}
+                    style={{
+                      boxShadow: "0 0 20px var(--primary-glow), 0 4px 20px rgba(0,0,0,0.5)",
+                      left: "50%",
+                      transform: "translateX(-50%)"
+                    }}
+                  >
+                    {/* Arrow */}
+                    <div 
+                      className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-[rgba(10,10,15,0.95)] border-l border-t border-primary/30"
+                    />
+                    
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
+                      <span className="text-[10px] font-mono text-primary tracking-wider">
+                        {year}_PROJECTS
+                      </span>
+                      <span className="text-[9px] font-mono text-muted-foreground">
+                        {yearProjects.length} items
+                      </span>
+                    </div>
+                    
+                    {/* Project list */}
+                    <div className="space-y-2">
+                      {yearProjects.map((project) => (
+                        <a
+                          key={project.id}
+                          href={`/projects/${project.id}`}
+                          className={cn(
+                            "block p-2 rounded",
+                            "bg-[rgba(34,211,238,0.05)]",
+                            "border border-transparent",
+                            "hover:border-primary/30 hover:bg-[rgba(34,211,238,0.1)]",
+                            "transition-all duration-200",
+                            "group"
+                          )}
+                        >
+                          <div className="flex items-start gap-3">
+                            {/* Thumbnail */}
+                            {project.coverImage && (
+                              <div className="w-12 h-9 rounded overflow-hidden flex-shrink-0 bg-muted/20">
+                                <img 
+                                  src={project.coverImage} 
+                                  alt={project.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-xs font-medium text-foreground group-hover:text-primary transition-colors truncate">
+                                {project.title}
+                              </h4>
+                              <p className="text-[10px] text-muted-foreground truncate">
+                                {project.keywords.slice(0, 2).join(" · ")}
+                              </p>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )
           })}
@@ -204,7 +336,7 @@ export function TimelineSlider({
         {/* Draggable handles */}
         <div
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab",
+            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-20",
             isDragging === "start" && "cursor-grabbing"
           )}
           style={{ left: `${startPos}%` }}
@@ -218,14 +350,14 @@ export function TimelineSlider({
               isDragging === "start" && "scale-125"
             )}
             style={{
-              boxShadow: "0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow)"
+              boxShadow: "0 0 12px var(--primary-glow)"
             }}
           />
         </div>
         
         <div
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab",
+            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-20",
             isDragging === "end" && "cursor-grabbing"
           )}
           style={{ left: `${endPos}%` }}
@@ -239,23 +371,18 @@ export function TimelineSlider({
               isDragging === "end" && "scale-125"
             )}
             style={{
-              boxShadow: "0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow)"
+              boxShadow: "0 0 12px var(--primary-glow)"
             }}
           />
         </div>
       </div>
       
-      {/* Hover tooltip */}
-      {hoveredYear && !isDragging && (
-        <div 
-          className="absolute top-0 -translate-y-full -translate-x-1/2 pointer-events-none"
-          style={{ left: `${getPositionFromYear(hoveredYear)}%` }}
-        >
-          <div className="px-2 py-1 rounded bg-primary/20 border border-primary/40 text-[10px] font-mono text-primary">
-            {hoveredYear}
-          </div>
-        </div>
-      )}
+      {/* Instructions */}
+      <div className="mt-4 flex items-center justify-center gap-4 text-[9px] font-mono text-muted-foreground/40">
+        <span>DRAG_HANDLES_TO_FILTER</span>
+        <span className="text-primary/20">|</span>
+        <span>CLICK_YEAR_TO_VIEW_PROJECTS</span>
+      </div>
     </div>
   )
 }
