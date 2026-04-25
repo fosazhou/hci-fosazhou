@@ -371,9 +371,11 @@ export function TimelineSlider({
         />
         
         {/* Half-year markers: 2024.6, 2024.12, 2025.6, 2025.12, 2026.6 - dimmed, non-interactive */}
-        <div className="absolute inset-x-0 top-0 bottom-0 pointer-events-none">
-          {halfYearMarkers.map((marker) => {
+        <div className="absolute inset-x-0 top-0 bottom-0 pointer-events-none z-10">
+          {halfYearMarkers.map((marker, index) => {
             const position = getPositionFromDate(marker)
+            // Alternate labels above and below to avoid overlap with slider handles
+            const isAbove = index % 2 === 0
             
             return (
               <div 
@@ -384,11 +386,16 @@ export function TimelineSlider({
                   transform: 'translateX(-50%)'
                 }}
               >
-                {/* Marker tick */}
-                <div className="absolute top-1/2 -translate-y-1/2 w-[1px] h-3 bg-muted-foreground/20" />
+                {/* Marker tick - extends above and below center line */}
+                <div className="absolute top-1/2 -translate-y-1/2 w-[1px] h-4 bg-muted-foreground/15" />
                 
-                {/* Label below timeline */}
-                <span className="absolute top-full mt-2 text-[9px] font-mono text-muted-foreground/30 whitespace-nowrap">
+                {/* Label - alternate above/below */}
+                <span 
+                  className={cn(
+                    "absolute text-[9px] font-mono text-muted-foreground/25 whitespace-nowrap",
+                    isAbove ? "bottom-full mb-1" : "top-full mt-1"
+                  )}
+                >
                   {marker}
                 </span>
               </div>
