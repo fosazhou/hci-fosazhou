@@ -4,9 +4,11 @@ import { exchanges, type Exchange } from "@/lib/exchange-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { useMemo, useState } from "react"
 import { usePageTransition } from "@/components/page-transition"
+import { GlowCard } from "@/components/glow-card"
+import { HoverScan } from "@/components/scan-line"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { cn } from "@/lib/utils"
-import { ArrowUpRight } from "lucide-react"
+import { MapPin, Calendar, ExternalLink } from "lucide-react"
 
 interface ExchangesProps {
   filterIds?: string[]
@@ -20,6 +22,7 @@ export function Exchanges({ filterIds }: ExchangesProps) {
     sortByPreference 
   } = useUserBehavior()
 
+  // Filter and sort by user preference
   const sortedExchanges = useMemo(() => {
     const filtered = filterIds 
       ? exchanges.filter(e => filterIds.includes(e.id))
@@ -35,24 +38,22 @@ export function Exchanges({ filterIds }: ExchangesProps) {
   }
 
   return (
-    <section id="exchanges" className="py-16">
-      <div className="mx-auto max-w-4xl">
+    <section id="exchanges" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
+      <div className="mx-auto max-w-7xl">
         {/* Section header */}
-        <header className="mb-12">
-          <div className="flex items-center gap-4 mb-2">
-            <span className="text-[10px] font-mono text-muted-foreground/30">03</span>
-            <div className="w-8 h-px bg-muted-foreground/10" />
-          </div>
-          <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground/50">
-            International Experience
+        <div className="flex items-center gap-3 mb-8">
+          <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.03/</span>
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
+            INTERNATIONAL_EXPERIENCE
           </h2>
-        </header>
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+        </div>
         
-        {/* Behavior tracker */}
+        {/* Behavior tracker display */}
         <BehaviorTrackerDisplay section="exchanges" itemCount={sortedExchanges.length} />
         
         {/* Exchanges grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {sortedExchanges.map((exchange, index) => (
             <ExchangeCard
               key={exchange.id}
@@ -79,104 +80,76 @@ function ExchangeCard({
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <article 
-      className="group cursor-pointer"
+    <div 
+      className="block cursor-pointer group"
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
-        className={cn(
-          "relative overflow-hidden rounded-lg transition-all duration-300",
-          "border border-[rgba(255,255,255,0.04)]",
-          "bg-[rgba(255,255,255,0.01)]",
-          isHovered && "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)]"
-        )}
-      >
+      <GlowCard hover className="overflow-hidden h-full">
         {/* Image */}
-        <div className="aspect-[16/10] w-full overflow-hidden relative">
+        <div className="aspect-[4/3] w-full bg-[rgba(10,10,15,0.8)] overflow-hidden relative">
           {exchange.coverImage ? (
             <img 
               src={exchange.coverImage} 
               alt={exchange.title}
               className={cn(
-                "w-full h-full object-cover transition-all duration-700",
+                "w-full h-full object-cover transition-all duration-500",
                 isHovered && "scale-105"
               )}
             />
           ) : (
-            <div className="w-full h-full bg-muted/5" />
+            <div className="w-full h-full bg-muted/20" />
           )}
           
-          {/* Gradient overlay */}
-          <div 
-            className={cn(
-              "absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent",
-              "transition-opacity duration-300",
-              isHovered ? "opacity-70" : "opacity-90"
-            )}
-          />
+          <HoverScan active={isHovered} />
           
           {/* Location badge */}
-          <div className="absolute bottom-4 left-4">
-            <span className="text-[10px] font-mono text-muted-foreground/50 uppercase tracking-wider">
-              {exchange.location}
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20 backdrop-blur-sm">
+            <MapPin className="h-3 w-3 text-primary/60" />
+            <span className="text-[10px] font-mono text-primary" suppressHydrationWarning>
+              {exchange.title.split(" ")[0]}
             </span>
           </div>
         </div>
         
         {/* Content */}
-        <div className="p-5">
-          <div className="flex items-start justify-between gap-4 mb-3">
-            <div className="flex-1 min-w-0">
-              <h3 
-                className={cn(
-                  "text-base font-medium transition-colors duration-300 mb-1",
-                  isHovered ? "text-foreground" : "text-foreground/70"
-                )}
-              >
-                {exchange.title}
-              </h3>
-              <p className="text-xs text-muted-foreground/40 font-mono">
-                {exchange.period}
-              </p>
-            </div>
-            
-            <ArrowUpRight 
-              className={cn(
-                "w-4 h-4 flex-shrink-0 transition-all duration-300 mt-1",
-                isHovered 
-                  ? "text-primary opacity-100" 
-                  : "text-muted-foreground/20 opacity-0"
-              )}
-            />
+        <div className="p-4">
+          <span className="text-[10px] font-mono text-primary/40 mb-2 block">
+            {String(index + 1).padStart(2, '0')}/
+          </span>
+          
+          <h3 className="text-base font-semibold text-foreground mb-1 flex items-center gap-2 group-hover:text-primary transition-colors" suppressHydrationWarning>
+            {exchange.title}
+            <ExternalLink className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </h3>
+          
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-2">
+            <Calendar className="h-3 w-3" />
+            <span className="font-mono" suppressHydrationWarning>{exchange.period}</span>
           </div>
           
-          <p className="text-sm text-muted-foreground/40 leading-relaxed line-clamp-2 mb-4">
+          <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2" suppressHydrationWarning>
             {exchange.description}
           </p>
           
-          <div className="flex items-center gap-2">
-            {exchange.keywords.slice(0, 2).map((keyword, i) => (
+          <div className="flex flex-wrap gap-1.5">
+            {exchange.keywords.slice(0, 3).map((keyword, i) => (
               <span 
                 key={i}
-                className="text-[10px] font-mono text-muted-foreground/25 uppercase tracking-wider"
+                className={cn(
+                  "px-2 py-0.5 text-[9px] font-mono tracking-wider",
+                  "text-primary/70 border border-primary/20 rounded-full",
+                  "bg-primary/5 uppercase"
+                )}
+                suppressHydrationWarning
               >
                 {keyword}
-                {i < 1 && <span className="ml-2 text-muted-foreground/10">/</span>}
               </span>
             ))}
           </div>
         </div>
-        
-        {/* Hover accent */}
-        <div 
-          className={cn(
-            "absolute bottom-0 left-0 h-px bg-primary/30 transition-all duration-500",
-            isHovered ? "w-full" : "w-0"
-          )}
-        />
-      </div>
-    </article>
+      </GlowCard>
+    </div>
   )
 }
