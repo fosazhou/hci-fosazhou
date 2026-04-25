@@ -1,65 +1,16 @@
 "use client"
 
-import React, { useMemo, useState, useEffect } from "react"
+import React, { useMemo, useState, useEffect, useRef } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
-import { GlowCard } from "@/components/glow-card"
-import { StatusIndicator, HoverScan } from "@/components/scan-line"
 import { cn } from "@/lib/utils"
-import { ExternalLink, Zap, GitBranch, Search } from "lucide-react"
 
 interface ProjectsProps {
   filterIds?: string[]
 }
 
-// System Status Bar
-function SystemStatus({ 
-  isLoaded, 
-  topTag, 
-  totalClicks,
-  sectionLabel,
-  filteredCount,
-  totalCount
-}: { 
-  isLoaded: boolean
-  topTag: string | null
-  totalClicks: number
-  sectionLabel: string
-  filteredCount: number
-  totalCount: number
-}) {
-  const statusText = useMemo(() => {
-    if (!isLoaded) {
-      return "> INITIALIZING_BEHAVIOR_TRACKING..."
-    }
-    if (totalClicks === 0) {
-      return `> TRACKING_ACTIVE. DISPLAYING ${filteredCount}/${totalCount} PROJECTS.`
-    }
-    return `> INTEREST_DETECTED: [${topTag}]. ADAPTIVE_REORDER_ENABLED. ${filteredCount}/${totalCount} VISIBLE.`
-  }, [isLoaded, topTag, totalClicks, filteredCount, totalCount])
-
-  return (
-    <div className={cn(
-      "mb-6 font-mono text-[10px]",
-      "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
-      "px-4 py-3 rounded-lg backdrop-blur-sm"
-    )}>
-      <div className="flex items-center gap-3">
-        <StatusIndicator status={isLoaded ? "active" : "processing"} />
-        <span className="text-primary/60">[SYS]</span>
-        <span className="text-[rgba(34,211,238,0.3)]">|</span>
-        <span className="text-muted-foreground/60 uppercase tracking-wider">{sectionLabel}</span>
-        <span className="text-[rgba(34,211,238,0.3)]">|</span>
-        <span className="flex-1 truncate text-muted-foreground">
-          {statusText}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-// Project Card Component
+// Project Card with hover reveal effect
 function ProjectCard({ 
   project, 
   onTrack,
@@ -71,7 +22,9 @@ function ProjectCard({
 }) {
   const { navigateWithTransition } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
-  const videoRef = React.useRef<HTMLVideoElement>(null)
+  const [isPressed, setIsPressed] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const pressTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -79,119 +32,162 @@ function ProjectCard({
     navigateWithTransition(`/projects/${project.id}`)
   }
 
+  // Long press to preview video
+  const handleMouseDown = () => {
+    pressTimerRef.current = setTimeout(() => {
+      setIsPressed(true)
+    }, 300)
+  }
+
+  const handleMouseUp = () => {
+    if (pressTimerRef.current) {
+      clearTimeout(pressTimerRef.current)
+    }
+    setIsPressed(false)
+  }
+
   useEffect(() => {
     if (videoRef.current) {
-      if (isHovered) {
+      if (isPressed && project.previewVideo) {
         videoRef.current.currentTime = 0
         videoRef.current.play().catch(() => {})
       } else {
         videoRef.current.pause()
       }
     }
-  }, [isHovered])
+  }, [isPressed, project.previewVideo])
+
+  useEffect(() => {
+    return () => {
+      if (pressTimerRef.current) {
+        clearTimeout(pressTimerRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div
-      className="block cursor-pointer group"
+      className="block cursor-pointer group relative"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => { setIsHovered(false); setIsPressed(false) }}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
-      <GlowCard hover className="overflow-hidden">
-        <div className="relative">
-          {/* Image/Video container */}
-          <div className="aspect-video w-full bg-[rgba(10,10,15,0.8)] overflow-hidden relative">
-            {project.coverImage && (
-              <img 
-                src={project.coverImage} 
-                alt={project.title}
-                className={cn(
-                  "w-full h-full object-cover transition-all duration-500",
-                  isHovered && project.previewVideo ? "opacity-0" : "opacity-100",
-                  isHovered && "scale-105"
-                )}
-              />
+      <div 
+        className={cn(
+          "relative overflow-hidden rounded-lg",
+          "bg-[rgba(10,10,15,0.6)] border border-[rgba(255,255,255,0.05)]",
+          "transition-all duration-500 ease-out",
+          isHovered && "border-primary/30 shadow-[0_0_30px_rgba(34,211,238,0.1)]"
+        )}
+      >
+        {/* Image/Video container */}
+        <div className="aspect-[16/10] w-full overflow-hidden relative">
+          {project.coverImage && (
+            <img 
+              src={project.coverImage} 
+              alt={project.title}
+              className={cn(
+                "w-full h-full object-cover transition-all duration-700 ease-out",
+                isHovered && "scale-105",
+                isPressed && project.previewVideo && "opacity-0"
+              )}
+            />
+          )}
+          {project.previewVideo && (
+            <video
+              ref={videoRef}
+              src={project.previewVideo}
+              muted
+              loop
+              playsInline
+              className={cn(
+                "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
+                isPressed ? "opacity-100" : "opacity-0"
+              )}
+            />
+          )}
+          
+          {/* Gradient overlay */}
+          <div 
+            className={cn(
+              "absolute inset-0 transition-opacity duration-500",
+              "bg-gradient-to-t from-[rgba(5,5,8,0.95)] via-[rgba(5,5,8,0.4)] to-transparent",
+              isHovered ? "opacity-100" : "opacity-60"
             )}
-            {project.previewVideo && (
-              <video
-                ref={videoRef}
-                src={project.previewVideo}
-                muted
-                loop
-                playsInline
-                className={cn(
-                  "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
-                  isHovered ? "opacity-100" : "opacity-0"
-                )}
-              />
-            )}
-            
-            {/* Scan line effect on hover */}
-            <HoverScan active={isHovered} />
-            
-            {/* Year badge */}
-            <div className="absolute top-4 left-4 px-2 py-1 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20 backdrop-blur-sm">
-              <span className="text-[10px] font-mono text-primary">{project.year}</span>
-            </div>
-            
-            {/* Reading modes indicator */}
-            <div className="absolute top-4 right-4 flex gap-1">
-              {project.quickContent && (
-                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20" title="Quick View">
-                  <Zap className="h-3 w-3 text-primary/60" />
-                </div>
-              )}
-              {project.processContent && (
-                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-secondary/20" title="Process View">
-                  <GitBranch className="h-3 w-3 text-secondary/60" />
-                </div>
-              )}
-              {project.researchContent && (
-                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-accent/20" title="Research View">
-                  <Search className="h-3 w-3 text-accent/60" />
-                </div>
-              )}
-            </div>
+          />
+          
+          {/* Index badge */}
+          <div className="absolute top-4 left-4">
+            <span className="text-[10px] font-mono text-white/40">
+              {String(index + 1).padStart(2, '0')}
+            </span>
           </div>
           
-          {/* Content */}
-          <div className="p-5">
-            {/* Index */}
-            <span className="text-[10px] font-mono text-primary/40 mb-2 block">
-              {String(index + 1).padStart(2, '0')}/
+          {/* Year badge */}
+          <div className="absolute top-4 right-4">
+            <span className="text-[10px] font-mono text-primary/80 px-2 py-0.5 rounded bg-[rgba(0,0,0,0.4)] backdrop-blur-sm">
+              {project.year}
             </span>
-            
-            {/* Title */}
-            <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2 group-hover:text-primary transition-colors">
+          </div>
+          
+          {/* Title - always visible at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <h3 
+              className={cn(
+                "text-xl font-semibold text-white transition-all duration-500",
+                isHovered && "text-primary"
+              )}
+            >
               {project.title}
-              <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
             </h3>
             
+            {/* Subtitle/English title if available */}
+            {project.titleEn && (
+              <p className="text-xs font-mono text-white/40 mt-1 uppercase tracking-wider">
+                {project.titleEn}
+              </p>
+            )}
+          </div>
+        </div>
+        
+        {/* Reveal layer on hover - description and tags */}
+        <div 
+          className={cn(
+            "overflow-hidden transition-all duration-500 ease-out",
+            isHovered ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="p-5 pt-0 space-y-4">
             {/* Description */}
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            <p className="text-sm text-muted-foreground/80 leading-relaxed line-clamp-3">
               {project.description}
             </p>
             
-            {/* Keywords */}
+            {/* Keywords/Tags */}
             <div className="flex flex-wrap gap-2">
               {project.keywords.map((keyword, i) => (
                 <span 
                   key={i}
                   className={cn(
-                    "px-2 py-0.5 text-[10px] font-mono tracking-wider",
+                    "px-2 py-0.5 text-[9px] font-mono tracking-wider uppercase",
                     "text-primary/70 border border-primary/20 rounded-full",
-                    "bg-primary/5 uppercase",
-                    "transition-all duration-300",
-                    "hover:border-primary/40 hover:bg-primary/10"
+                    "bg-primary/5"
                   )}
                 >
                   {keyword}
                 </span>
               ))}
             </div>
+            
+            {/* Hint text */}
+            <p className="text-[9px] font-mono text-muted-foreground/40 tracking-wider">
+              {project.previewVideo ? "HOLD_TO_PREVIEW · CLICK_TO_ENTER" : "CLICK_TO_ENTER"}
+            </p>
           </div>
         </div>
-      </GlowCard>
+      </div>
     </div>
   )
 }
@@ -199,15 +195,12 @@ function ProjectCard({
 export function Projects({ filterIds }: ProjectsProps) {
   const { 
     isLoaded, 
-    topTag, 
-    totalClicks, 
     trackClick, 
     sortByPreference,
   } = useUserBehavior()
 
   // Filter and sort projects
   const filteredProjects = useMemo(() => {
-    // If filterIds provided, use it; otherwise show all
     const filtered = filterIds 
       ? projects.filter(p => filterIds.includes(p.id))
       : projects
@@ -217,10 +210,10 @@ export function Projects({ filterIds }: ProjectsProps) {
   }, [isLoaded, sortByPreference, filterIds])
 
   return (
-    <section id="projects" className="py-16 px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <section id="projects" className="py-12">
+      <div className="mx-auto">
         {/* Section header */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-6">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.02/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
             SELECTED_PROJECTS
@@ -228,18 +221,13 @@ export function Projects({ filterIds }: ProjectsProps) {
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
         
-        {/* System status */}
-        <SystemStatus 
-          isLoaded={isLoaded}
-          topTag={topTag}
-          totalClicks={totalClicks}
-          sectionLabel="ADAPTIVE_SORT"
-          filteredCount={filteredProjects.length}
-          totalCount={projects.length}
-        />
+        {/* Instruction hint */}
+        <p className="text-[10px] font-mono text-muted-foreground/50 mb-8 tracking-wider">
+          悬停查看概要，按住预览过程，点击进入项目详情。
+        </p>
         
-        {/* Projects grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-1">
+        {/* Projects grid - 2 columns on desktop */}
+        <div className="grid gap-6 md:grid-cols-2">
           {filteredProjects.map((project, index) => (
             <ProjectCard
               key={project.id}

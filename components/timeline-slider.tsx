@@ -1,8 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { useState, useRef, useEffect, useCallback } from "react"
-import { X, Briefcase, Globe, Palette } from "lucide-react"
+import { useState, useRef, useCallback, useEffect } from "react"
 
 export interface TimelineWork {
   id: string
@@ -31,83 +30,49 @@ export function TimelineSlider({
   className,
 }: TimelineSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
-  const [hoveredYear, setHoveredYear] = useState<number | null>(null)
-  const [selectedYear, setSelectedYear] = useState<number | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [currentYear, setCurrentYear] = useState(endYear)
   
   const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
   
-  // Get works for a specific year (all types)
-  const getWorksForYear = (year: number) => {
-    return allWorks.filter(w => w.year === year)
-  }
+  // Get works count for a year
+  const getWorksCount = (year: number) => allWorks.filter(w => w.year === year).length
   
-  // Get type icon
-  const getTypeIcon = (type: 'project' | 'exchange' | 'work') => {
-    switch (type) {
-      case 'project': return <Briefcase className="w-3 h-3" />
-      case 'exchange': return <Globe className="w-3 h-3" />
-      case 'work': return <Palette className="w-3 h-3" />
-    }
-  }
-  
-  // Get type label
-  const getTypeLabel = (type: 'project' | 'exchange' | 'work') => {
-    switch (type) {
-      case 'project': return '项目'
-      case 'exchange': return '交流'
-      case 'work': return '作品'
-    }
-  }
-  
-  // Get link path based on type
-  const getLinkPath = (work: TimelineWork) => {
-    switch (work.type) {
-      case 'project': return `/projects/${work.id}`
-      case 'exchange': return `/exchanges/${work.id}`
-      case 'work': return `/works/${work.id}`
-    }
-  }
-  
-  // Calculate position for each year - snap to year markers
-  // Each year occupies equal space, with first year at 0% and last year at 100%
+  // Calculate position from year (0% = startYear, 100% = endYear)
   const getPositionFromYear = (year: number) => {
-    const yearIndex = year - startYear
-    const totalYears = endYear - startYear
-    return (yearIndex / totalYears) * 100
+    return ((year - startYear) / (endYear - startYear)) * 100
   }
   
-  // Get the nearest year from a position - always snap to discrete years
+  // Get year from position with snapping
   const getYearFromPosition = (position: number) => {
-    const totalYears = endYear - startYear
-    const yearIndex = Math.round((position / 100) * totalYears)
-    const year = startYear + yearIndex
+    const rawYear = startYear + (position / 100) * (endYear - startYear)
+    const year = Math.round(rawYear)
     return Math.max(startYear, Math.min(endYear, year))
   }
 
-  const handleMouseDown = (handle: "start" | "end") => (e: React.MouseEvent) => {
+  const updateFromPosition = useCallback((clientX: number) => {
+    if (!trackRef.current) return
+    const rect = trackRef.current.getBoundingClientRect()
+    const position = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100))
+    const year = getYearFromPosition(position)
+    setCurrentYear(year)
+    // Filter from startYear to current dragged year
+    onChange([startYear, year])
+  }, [startYear, endYear, onChange])
+
+  const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
-    e.stopPropagation()
-    setIsDragging(handle)
-    setSelectedYear(null)
+    setIsDragging(true)
+    updateFromPosition(e.clientX)
   }
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !trackRef.current) return
-    
-    const rect = trackRef.current.getBoundingClientRect()
-    const position = ((e.clientX - rect.left) / rect.width) * 100
-    const year = getYearFromPosition(position)
-    
-    if (isDragging === "start") {
-      onChange([Math.min(year, value[1]), value[1]])
-    } else {
-      onChange([value[0], Math.max(year, value[0])])
-    }
-  }, [isDragging, value, onChange])
+    if (!isDragging) return
+    updateFromPosition(e.clientX)
+  }, [isDragging, updateFromPosition])
 
   const handleMouseUp = useCallback(() => {
-    setIsDragging(null)
+    setIsDragging(false)
   }, [])
 
   useEffect(() => {
@@ -122,26 +87,15 @@ export function TimelineSlider({
   }, [isDragging, handleMouseMove, handleMouseUp])
 
   // Touch support
-  const handleTouchStart = (handle: "start" | "end") => (e: React.TouchEvent) => {
-    e.preventDefault()
-    setIsDragging(handle)
-    setSelectedYear(null)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true)
+    updateFromPosition(e.touches[0].clientX)
   }
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!isDragging || !trackRef.current) return
-    
-    const touch = e.touches[0]
-    const rect = trackRef.current.getBoundingClientRect()
-    const position = ((touch.clientX - rect.left) / rect.width) * 100
-    const year = getYearFromPosition(position)
-    
-    if (isDragging === "start") {
-      onChange([Math.min(year, value[1]), value[1]])
-    } else {
-      onChange([value[0], Math.max(year, value[0])])
-    }
-  }, [isDragging, value, onChange])
+    if (!isDragging) return
+    updateFromPosition(e.touches[0].clientX)
+  }, [isDragging, updateFromPosition])
 
   useEffect(() => {
     if (isDragging) {
@@ -154,306 +108,101 @@ export function TimelineSlider({
     }
   }, [isDragging, handleTouchMove, handleMouseUp])
 
-  // Click on year to select/toggle - does NOT change the slider range
+  // Click on year marker
   const handleYearClick = (year: number) => {
-    if (selectedYear === year) {
-      setSelectedYear(null)
-    } else {
-      setSelectedYear(year)
-    }
+    setCurrentYear(year)
+    onChange([startYear, year])
   }
 
-  const startPos = getPositionFromYear(value[0])
-  const endPos = getPositionFromYear(value[1])
+  const sliderPosition = getPositionFromYear(currentYear)
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative select-none", className)}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest">TIME/</span>
-          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-            FILTER_RANGE
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          {(selectedYear || value[0] !== startYear || value[1] !== endYear) && (
-            <button
-              onClick={() => {
-                setSelectedYear(null)
-                onChange([startYear, endYear])
-              }}
-              className="flex items-center gap-1 px-2 py-1 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors border border-primary/20 rounded hover:border-primary/40"
-            >
-              RESET
-              <X className="w-3 h-3" />
-            </button>
-          )}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-primary/20 bg-primary/5">
-            <span className="text-xs font-mono text-primary">{value[0]}</span>
-            <span className="text-[10px] text-muted-foreground">—</span>
-            <span className="text-xs font-mono text-primary">{value[1]}</span>
-          </div>
-        </div>
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-[10px] font-mono text-muted-foreground/60 tracking-widest">
+          Timeline
+        </span>
+        <span className="text-sm font-mono text-primary">
+          {startYear}{currentYear !== endYear && `—${currentYear}`}
+        </span>
       </div>
       
       {/* Timeline track */}
       <div 
         ref={trackRef}
-        className="relative h-16 cursor-pointer"
-        onMouseMove={(e) => {
-          if (!trackRef.current || isDragging) return
-          const rect = trackRef.current.getBoundingClientRect()
-          const position = ((e.clientX - rect.left) / rect.width) * 100
-          setHoveredYear(getYearFromPosition(position))
-        }}
-        onMouseLeave={() => setHoveredYear(null)}
+        className="relative h-10 cursor-pointer"
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         {/* Background track */}
-        <div className="absolute top-1/2 left-0 right-0 h-[1px] -translate-y-1/2 bg-[rgba(34,211,238,0.1)]" />
+        <div className="absolute top-1/2 left-0 right-0 h-[1px] -translate-y-1/2 bg-[rgba(255,255,255,0.1)]" />
         
-        {/* Active range */}
+        {/* Active track */}
         <div 
-          className="absolute top-1/2 h-[2px] -translate-y-1/2 bg-primary/60"
-          style={{
-            left: `${startPos}%`,
-            width: `${endPos - startPos}%`,
-            boxShadow: "0 0 8px var(--primary-glow)",
-          }}
+          className="absolute top-1/2 left-0 h-[2px] -translate-y-1/2 bg-primary transition-[width] duration-100 ease-out"
+          style={{ width: `${sliderPosition}%` }}
         />
         
-        {/* Year markers with click support - positioned to match slider positions */}
-        <div className="absolute inset-x-0 top-0 bottom-0">
-          {years.map((year, index) => {
-            const isInRange = year >= value[0] && year <= value[1]
-            const isSelected = year === selectedYear
-            const isHovered = year === hoveredYear
-            const yearWorks = getWorksForYear(year)
-            const hasWorks = yearWorks.length > 0
-            const position = getPositionFromYear(year)
-            
-            return (
+        {/* Year markers */}
+        {years.map((year) => {
+          const pos = getPositionFromYear(year)
+          const isActive = year <= currentYear
+          const count = getWorksCount(year)
+          
+          return (
+            <button
+              key={year}
+              onClick={() => handleYearClick(year)}
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 flex flex-col items-center"
+              style={{ left: `${pos}%` }}
+            >
+              {/* Dot */}
               <div 
-                key={year} 
-                className="absolute flex flex-col items-center"
-                style={{ 
-                  left: `${position}%`,
-                  transform: 'translateX(-50%)'
-                }}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-200",
+                  isActive 
+                    ? "bg-primary scale-100" 
+                    : "bg-[rgba(255,255,255,0.2)] scale-75 hover:scale-100 hover:bg-[rgba(255,255,255,0.4)]"
+                )}
+              />
+              {/* Year label */}
+              <span 
+                className={cn(
+                  "absolute top-5 text-[10px] font-mono transition-colors whitespace-nowrap",
+                  isActive ? "text-primary" : "text-muted-foreground/40"
+                )}
               >
-                {/* Clickable year marker - same size as drag handles */}
-                <button
-                  onClick={() => handleYearClick(year)}
-                  className={cn(
-                    "absolute top-1/2 -translate-y-1/2 z-10",
-                    "w-6 h-6 rounded-full flex items-center justify-center",
-                    "transition-all duration-300",
-                    isSelected 
-                      ? "bg-primary/20 scale-110" 
-                      : "bg-transparent hover:bg-primary/10"
-                  )}
-                >
-                  <div 
-                    className={cn(
-                      "rounded-full transition-all duration-300",
-                      isSelected
-                        ? "w-2 h-2 bg-primary"
-                        : isInRange 
-                          ? "w-2 h-2 bg-primary/60" 
-                          : "w-1.5 h-1.5 bg-[rgba(34,211,238,0.2)]",
-                      isHovered && !isSelected && "scale-125 bg-primary/80",
-                      hasWorks && !isSelected && "ring-2 ring-primary/20 ring-offset-1 ring-offset-background"
-                    )}
-                    style={{
-                      boxShadow: isSelected 
-                        ? "0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow)"
-                        : isInRange 
-                          ? "0 0 5px var(--primary-glow)"
-                          : "none"
-                    }}
-                  />
-                </button>
-                
-                {/* Works count badge */}
-                {hasWorks && (
-                  <div 
-                    className={cn(
-                      "absolute top-0 text-[8px] font-mono transition-all duration-300",
-                      isSelected || isHovered ? "text-primary" : "text-muted-foreground/40"
-                    )}
-                  >
-                    {yearWorks.length}
-                  </div>
+                {year}
+                {count > 0 && (
+                  <span className="text-[8px] ml-0.5 opacity-60">({count})</span>
                 )}
-                
-                {/* Year label */}
-                <button
-                  onClick={() => handleYearClick(year)}
-                  className={cn(
-                    "absolute bottom-0 text-[11px] font-mono transition-all duration-300",
-                    isSelected 
-                      ? "text-primary font-semibold scale-110"
-                      : isInRange 
-                        ? "text-primary/80" 
-                        : "text-muted-foreground/50",
-                    isHovered && "text-primary"
-                  )}
-                >
-                  {year}
-                </button>
-                
-                {/* Floating works popup when year is selected */}
-                {isSelected && hasWorks && (
-                  <div 
-                    className={cn(
-                      "absolute top-full mt-4 z-50",
-                      "min-w-[220px] max-w-[300px]",
-                      "p-3 rounded-lg",
-                      "bg-[rgba(10,10,15,0.95)] backdrop-blur-md",
-                      "border border-primary/30",
-                      "shadow-lg animate-in fade-in-0 zoom-in-95 duration-200"
-                    )}
-                    style={{
-                      boxShadow: "0 0 20px var(--primary-glow), 0 4px 20px rgba(0,0,0,0.5)",
-                      left: "50%",
-                      transform: "translateX(-50%)"
-                    }}
-                  >
-                    {/* Arrow */}
-                    <div 
-                      className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-[rgba(10,10,15,0.95)] border-l border-t border-primary/30"
-                    />
-                    
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
-                      <span className="text-[10px] font-mono text-primary tracking-wider">
-                        {year}_WORKS
-                      </span>
-                      <span className="text-[9px] font-mono text-muted-foreground">
-                        {yearWorks.length} items
-                      </span>
-                    </div>
-                    
-                    {/* Works list grouped by type */}
-                    <div className="space-y-2 max-h-[280px] overflow-y-auto">
-                      {yearWorks.map((work) => (
-                        <a
-                          key={`${work.type}-${work.id}`}
-                          href={getLinkPath(work)}
-                          className={cn(
-                            "block p-2 rounded",
-                            "bg-[rgba(34,211,238,0.05)]",
-                            "border border-transparent",
-                            "hover:border-primary/30 hover:bg-[rgba(34,211,238,0.1)]",
-                            "transition-all duration-200",
-                            "group"
-                          )}
-                        >
-                          <div className="flex items-start gap-3">
-                            {/* Thumbnail */}
-                            {work.coverImage && (
-                              <div className="w-12 h-9 rounded overflow-hidden flex-shrink-0 bg-muted/20">
-                                <img 
-                                  src={work.coverImage} 
-                                  alt={work.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5 mb-0.5">
-                                <span className="text-primary/60">{getTypeIcon(work.type)}</span>
-                                <span className="text-[8px] font-mono text-muted-foreground/60 uppercase">
-                                  {getTypeLabel(work.type)}
-                                </span>
-                              </div>
-                              <h4 className="text-xs font-medium text-foreground group-hover:text-primary transition-colors truncate">
-                                {work.title}
-                              </h4>
-                              <p className="text-[10px] text-muted-foreground truncate">
-                                {work.keywords.slice(0, 2).join(" · ")}
-                              </p>
-                            </div>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
+              </span>
+            </button>
+          )
+        })}
         
-        {/* Draggable handles - snap to year positions */}
+        {/* Draggable handle */}
         <div
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
-            isDragging === "start" && "cursor-grabbing",
-            !isDragging && "transition-[left] duration-150 ease-out"
+            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-20",
+            "transition-[left] duration-100 ease-out",
+            isDragging && "transition-none"
           )}
-          style={{ left: `${startPos}%` }}
-          onMouseDown={handleMouseDown("start")}
-          onTouchStart={handleTouchStart("start")}
+          style={{ left: `${sliderPosition}%` }}
         >
           <div 
             className={cn(
-              "w-6 h-6 rounded-full border-2 border-primary bg-background",
-              "hover:scale-110",
-              isDragging === "start" ? "scale-125" : "transition-transform duration-150",
-              "flex items-center justify-center"
+              "w-4 h-4 rounded-full border-2 border-primary bg-background",
+              "transition-transform duration-150",
+              "hover:scale-125",
+              isDragging && "scale-125"
             )}
             style={{
-              boxShadow: "0 0 12px var(--primary-glow), 0 2px 8px rgba(0,0,0,0.3)"
+              boxShadow: "0 0 10px var(--primary-glow)"
             }}
-          >
-            <div className="w-2 h-2 rounded-full bg-primary" />
-          </div>
-          {/* Year indicator tooltip when dragging */}
-          {isDragging === "start" && (
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-mono whitespace-nowrap">
-              {value[0]}
-            </div>
-          )}
+          />
         </div>
-        
-        <div
-          className={cn(
-            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
-            isDragging === "end" && "cursor-grabbing",
-            !isDragging && "transition-[left] duration-150 ease-out"
-          )}
-          style={{ left: `${endPos}%` }}
-          onMouseDown={handleMouseDown("end")}
-          onTouchStart={handleTouchStart("end")}
-        >
-          <div 
-            className={cn(
-              "w-6 h-6 rounded-full border-2 border-primary bg-background",
-              "hover:scale-110",
-              isDragging === "end" ? "scale-125" : "transition-transform duration-150",
-              "flex items-center justify-center"
-            )}
-            style={{
-              boxShadow: "0 0 12px var(--primary-glow), 0 2px 8px rgba(0,0,0,0.3)"
-            }}
-          >
-            <div className="w-2 h-2 rounded-full bg-primary" />
-          </div>
-          {/* Year indicator tooltip when dragging */}
-          {isDragging === "end" && (
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-mono whitespace-nowrap">
-              {value[1]}
-            </div>
-          )}
-        </div>
-      </div>
-      
-      {/* Instructions */}
-      <div className="mt-4 flex items-center justify-center gap-4 text-[9px] font-mono text-muted-foreground/40">
-        <span>DRAG_HANDLES_TO_FILTER</span>
-        <span className="text-primary/20">|</span>
-        <span>CLICK_YEAR_TO_VIEW_ALL_WORKS</span>
       </div>
     </div>
   )
