@@ -378,27 +378,34 @@ export function TimelineSlider({
                 }}
                 onMouseEnter={() => setHoveredWork(work)}
                 onMouseLeave={() => setHoveredWork(null)}
-              >
-                {/* Work name tooltip on hover - positioned closer and highest z-index */}
-                {isBarHovered && (
-                  <div 
-                    className="absolute -top-4 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none"
-                    style={{
-                      backgroundColor: work.type === 'project' ? 'rgba(233, 30, 99, 0.95)' : 
-                                       work.type === 'exchange' ? 'rgba(34, 211, 238, 0.95)' : 
-                                       'rgba(156, 39, 176, 0.95)',
-                      zIndex: 9999,
-                    }}
-                  >
-                    <span className="text-[8px] font-medium text-white leading-none">
-                      {work.title}
-                    </span>
-                  </div>
-                )}
-              </div>
+              />
             )
           })}
         </div>
+        
+        {/* Hovered work tooltip - rendered at top level for proper z-index */}
+        {hoveredWork && (
+          <div 
+            className="absolute pointer-events-none"
+            style={{
+              zIndex: 99999,
+              top: '-18px',
+              left: `${(getPositionFromDate(hoveredWork.startDate) + getPositionFromDate(hoveredWork.endDate)) / 2}%`,
+              transform: 'translateX(-50%)',
+            }}
+          >
+            <span 
+              className="inline-block px-1 py-px rounded text-[8px] font-medium text-white whitespace-nowrap"
+              style={{
+                backgroundColor: hoveredWork.type === 'project' ? 'rgba(233, 30, 99, 0.95)' : 
+                                 hoveredWork.type === 'exchange' ? 'rgba(34, 211, 238, 0.95)' : 
+                                 'rgba(156, 39, 176, 0.95)',
+              }}
+            >
+              {hoveredWork.title}
+            </span>
+          </div>
+        )}
         
         {/* Mouse follower vertical line - follows exact mouse position */}
         {hoverPosition !== null && !isDragging && (
