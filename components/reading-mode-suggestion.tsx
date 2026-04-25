@@ -5,12 +5,12 @@ import { useReadingMode, READING_MODES } from "@/contexts/reading-mode-context"
 import { X, ArrowRight, Zap, GitBranch, Search, Sparkles } from "lucide-react"
 import { useEffect, useState } from "react"
 
-// Suggestion badge - appears first, click to expand
-function SuggestionBadge() {
-  const { suggestion, showSuggestionBadge, expandSuggestion, dismissSuggestion } = useReadingMode()
-  const [isHovered, setIsHovered] = useState(false)
+// Minimized suggestion hint - subtle reminder that can be clicked
+function SuggestionHint() {
+  const { suggestion, showSuggestionBadge, expandSuggestion } = useReadingMode()
   
-  if (!showSuggestionBadge || !suggestion.mode) return null
+  // Only show hint if badge should be visible but popup not shown yet
+  if (!showSuggestionBadge || !suggestion.mode || suggestion.shown) return null
   
   const icons = {
     quick: <Zap className="h-3 w-3" />,
@@ -22,60 +22,30 @@ function SuggestionBadge() {
     <div
       className={cn(
         "fixed bottom-6 right-6 z-50",
-        "transition-all duration-300 ease-out"
+        "animate-in fade-in-0 slide-in-from-bottom-2 duration-500"
       )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      <div
+      <button
+        onClick={expandSuggestion}
         className={cn(
-          "flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer",
-          "bg-[rgba(10,10,15,0.9)] backdrop-blur-md",
-          "border border-primary/40",
-          "transition-all duration-300",
-          isHovered && "border-primary/60 scale-105"
+          "flex items-center gap-2 px-3 py-2 rounded-full",
+          "bg-[rgba(10,10,15,0.85)] backdrop-blur-md",
+          "border border-primary/30",
+          "hover:border-primary/50 hover:scale-105",
+          "transition-all duration-300"
         )}
         style={{
-          boxShadow: isHovered 
-            ? "0 0 20px rgba(34, 211, 238, 0.3)"
-            : "0 0 10px rgba(34, 211, 238, 0.15)"
+          boxShadow: "0 0 15px rgba(34, 211, 238, 0.15)"
         }}
-        onClick={expandSuggestion}
       >
-        <Sparkles className="h-3 w-3 text-primary animate-pulse" />
-        <span className="text-[10px] font-mono text-primary tracking-wider">
-          TRY_{READING_MODES[suggestion.mode].shortLabel}
+        <Sparkles className="h-3 w-3 text-primary/70" />
+        <span className="text-[10px] font-mono text-primary/70 tracking-wider">
+          优化阅读体验?
         </span>
-        <span className={cn(
-          "flex items-center justify-center",
-          "w-4 h-4 rounded bg-primary/20 text-primary"
-        )}>
+        <span className="flex items-center justify-center w-4 h-4 rounded bg-primary/15 text-primary/70">
           {icons[suggestion.mode]}
         </span>
-        
-        {/* Dismiss button on hover */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            dismissSuggestion()
-          }}
-          className={cn(
-            "ml-1 p-0.5 rounded text-muted-foreground hover:text-foreground",
-            "transition-opacity duration-200",
-            isHovered ? "opacity-100" : "opacity-0"
-          )}
-        >
-          <X className="h-3 w-3" />
-        </button>
-      </div>
-      
-      {/* Confidence indicator */}
-      <div className="mt-1 flex justify-center">
-        <div 
-          className="h-0.5 rounded-full bg-primary/40"
-          style={{ width: `${suggestion.confidence * 100}%`, maxWidth: 60 }}
-        />
-      </div>
+      </button>
     </div>
   )
 }
@@ -266,7 +236,7 @@ function SuggestionPopup() {
 export function ReadingModeSuggestion() {
   return (
     <>
-      <SuggestionBadge />
+      <SuggestionHint />
       <SuggestionPopup />
     </>
   )

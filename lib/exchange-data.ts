@@ -16,6 +16,9 @@ export interface Exchange {
   keywords: string[]
   fullDescription: string
   period: string
+  // 新增：精确到月份的时间范围，格式 "YYYY.M"
+  startDate: string  // 如 "2025.7"
+  endDate: string    // 如 "2025.11"
   location: string
   program: string
   details: string[]
@@ -47,7 +50,9 @@ export const exchanges: Exchange[] = [
       { src: "/images/exchange/auckland/11.jpg", caption: "在此输入图片描述" },
     ],
     fullDescription: "在奥克兰大学建筑与规划学院的交换学习期间，深入参与了城市设计工作室课程，探索太平洋地区独特的建筑语境与可持续设计方法。",
-    period: "2025.7 - 2025.12",
+    period: "2025.7 - 2025.11",
+    startDate: "2025.7",
+    endDate: "2025.11",
     location: "Auckland, New Zealand",
     program: "Exchange Program",
     details: [
@@ -78,7 +83,9 @@ export const exchanges: Exchange[] = [
       { src: "/images/exchange/russia/09.jpg", caption: "在此输入图片描述" },
     ],
     fullDescription: "参与中俄高校联合举办的国际冬季工作坊，在西伯利亚独特的极寒环境中探索建筑与城市的关系。",
-    period: "2024.1",
+    period: "2025.3 - 2025.4",
+    startDate: "2025.3",
+    endDate: "2025.4",
     location: "Irkutsk, Russia",
     program: "International Workshop",
     details: [
@@ -119,7 +126,9 @@ export const exchanges: Exchange[] = [
       { src: "/images/exchange/japan/19.JPG", caption: "在此输入图片描述" },
     ],
     fullDescription: "前往日本关西地区进行安藤忠雄建筑作品专项考察，深入研究其清水混凝土建筑语言、光影运用与空间序列设计。",
-    period: "2024.8",
+    period: "2024.6",
+    startDate: "2024.6",
+    endDate: "2024.6",
     location: "Osaka / Kobe / Awaji Island, Japan",
     program: "Architectural Study Tour",
     details: [

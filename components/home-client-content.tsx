@@ -4,16 +4,26 @@ import { useState, useEffect, useMemo } from "react"
 import { Projects } from "@/components/projects"
 import { Exchanges } from "@/components/exchanges"
 import { OtherWorks } from "@/components/other-works"
-import { TimelineSlider } from "@/components/timeline-slider"
+import { TimelineSlider, type TimelineWork } from "@/components/timeline-slider"
 import { PageTransitionProvider, restoreScrollPosition } from "@/components/page-transition"
 import { projects } from "@/lib/projects-data"
 import { exchanges } from "@/lib/exchange-data"
 import { otherWorks } from "@/lib/other-works-data"
 
-// Helper to extract year from period string like "2025.7 - 2025.12" or "2024.1"
-function extractYearFromPeriod(period: string): number {
-  const match = period.match(/(\d{4})/)
-  return match ? parseInt(match[1]) : 2024
+// Helper to parse "YYYY.M" to comparable number (year * 12 + month)
+function dateToNumber(date: string): number {
+  const [year, month] = date.split('.').map(Number)
+  return year * 12 + month
+}
+
+// Check if a work's date range overlaps with the filter range
+function isInDateRange(workStart: string, workEnd: string, filterStart: string, filterEnd: string): boolean {
+  const ws = dateToNumber(workStart)
+  const we = dateToNumber(workEnd)
+  const fs = dateToNumber(filterStart)
+  const fe = dateToNumber(filterEnd)
+  // Work overlaps with filter if work starts before filter ends AND work ends after filter starts
+  return ws <= fe && we >= fs
 }
 
 // 科技风骨架屏组件
@@ -107,87 +117,84 @@ function OtherWorksSkeleton() {
   )
 }
 
+// Timeline range: 2024.6 to 2025.11
+const TIMELINE_START = "2024.6"
+const TIMELINE_END = "2025.11"
+
 export function HomeClientContent() {
   const [mounted, setMounted] = useState(false)
-  const [yearRange, setYearRange] = useState<[number, number]>([2023, 2026])
+  const [dateRange, setDateRange] = useState<[string, string]>([TIMELINE_START, TIMELINE_END])
 
   // 整合所有作品数据用于时间轴显示
-  const allWorksForTimeline = useMemo(() => {
-    const items: Array<{
-      id: string
-      title: string
-      year: number
-      type: 'project' | 'exchange' | 'work'
-      coverImage?: string
-      keywords: string[]
-    }> = []
+  const allWorksForTimeline = useMemo((): TimelineWork[] => {
+    const items: TimelineWork[] = []
     
     // Projects
     projects.forEach(p => {
-      items.push({
-        id: p.id,
-        title: p.title,
-        year: parseInt(p.year),
-        type: 'project',
-        coverImage: p.coverImage,
-        keywords: p.keywords
-      })
+      if (p.startDate && p.endDate) {
+        items.push({
+          id: p.id,
+          title: p.title,
+          startDate: p.startDate,
+          endDate: p.endDate,
+          type: 'project',
+          coverImage: p.coverImage,
+          keywords: p.keywords
+        })
+      }
     })
     
     // Exchanges
     exchanges.forEach(e => {
-      items.push({
-        id: e.id,
-        title: e.title,
-        year: extractYearFromPeriod(e.period),
-        type: 'exchange',
-        coverImage: e.coverImage,
-        keywords: e.keywords
-      })
+      if (e.startDate && e.endDate) {
+        items.push({
+          id: e.id,
+          title: e.title,
+          startDate: e.startDate,
+          endDate: e.endDate,
+          type: 'exchange',
+          coverImage: e.coverImage,
+          keywords: e.keywords
+        })
+      }
     })
     
     // Other Works
     otherWorks.forEach(w => {
-      items.push({
-        id: w.id,
-        title: w.title,
-        year: parseInt(w.year),
-        type: 'work',
-        coverImage: w.coverImage,
-        keywords: w.keywords
-      })
+      if (w.startDate && w.endDate) {
+        items.push({
+          id: w.id,
+          title: w.title,
+          startDate: w.startDate,
+          endDate: w.endDate,
+          type: 'work',
+          coverImage: w.coverImage,
+          keywords: w.keywords
+        })
+      }
     })
     
     return items
   }, [])
 
-  // 根据年份范围过滤各类 IDs
+  // 根据日期范围过滤各类 IDs
   const filteredProjectIds = useMemo(() => {
     return projects
-      .filter(p => {
-        const year = parseInt(p.year)
-        return year >= yearRange[0] && year <= yearRange[1]
-      })
+      .filter(p => p.startDate && p.endDate && isInDateRange(p.startDate, p.endDate, dateRange[0], dateRange[1]))
       .map(p => p.id)
-  }, [yearRange])
+  }, [dateRange])
 
   const filteredExchangeIds = useMemo(() => {
     return exchanges
-      .filter(e => {
-        const year = extractYearFromPeriod(e.period)
-        return year >= yearRange[0] && year <= yearRange[1]
-      })
+      .filter(e => e.startDate && e.endDate && isInDateRange(e.startDate, e.endDate, dateRange[0], dateRange[1]))
       .map(e => e.id)
-  }, [yearRange])
+  }, [dateRange])
 
   const filteredWorkIds = useMemo(() => {
     return otherWorks
-      .filter(w => {
-        const year = parseInt(w.year)
-        return year >= yearRange[0] && year <= yearRange[1]
-      })
+      .filter(w => w.startDate && w.endDate && isInDateRange(w.startDate, w.endDate, dateRange[0], dateRange[1]))
       .map(w => w.id)
-  }, [yearRange])
+  }, [dateRange])
 
   // 标记组件已挂载并恢复滚动位置
   useEffect(() => {
@@ -220,10 +227,10 @@ export function HomeClientContent() {
         </div>
         
         <TimelineSlider
-          startYear={2023}
-          endYear={2026}
-          value={yearRange}
-          onChange={setYearRange}
+          startMonth={TIMELINE_START}
+          endMonth={TIMELINE_END}
+          value={dateRange}
+          onChange={setDateRange}
           allWorks={allWorksForTimeline}
         />
       </section>

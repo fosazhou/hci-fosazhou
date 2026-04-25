@@ -59,6 +59,9 @@ export interface Project {
   previewVideo?: string
   fullDescription: string
   year: string
+  // 新增：精确到月份的时间范围，格式 "YYYY.M"
+  startDate: string  // 如 "2025.6"
+  endDate: string    // 如 "2025.8"
   location: string
   role: string
   details: string[]
@@ -79,6 +82,8 @@ export const projects: Project[] = [
     coverImage: "/images/projects/nestide/cover.jpg",
     fullDescription: "Nestide 是一个综合性基础设施原型，旨在满足城市低空医疗物流的新兴需求。",
     year: "2025",
+    startDate: "2025.6",
+    endDate: "2025.8",
     location: "幸福林带，西安，中国",
     role: "主设计师",
     details: [
@@ -164,6 +169,8 @@ export const projects: Project[] = [
     previewVideo: "/videos/projects/veilspace_preview.mp4",
     fullDescription: "Veilspace 探索静态建筑与动态响应环境之间的边界。",
     year: "2025",
+    startDate: "2025.7",
+    endDate: "2025.9",
     location: "奥克兰，新西兰",
     role: "设计师与制作者",
     video: "/videos/projects/veilspace_demo.mp4",
@@ -242,7 +249,7 @@ export const projects: Project[] = [
       strategies: [
         "采用织物作为响应媒介，利用其柔软特性实现流畅变形",
         "使用多传感器融合提高位置感知精度",
-        "设计渐进式响应算法，让空间行为更加「有机」"
+        "设计渐进���响应算法，让空间行为更加「有机」"
       ],
       findings: "用户普遍报告感受到空间的「生命感」，70% 的体验者会主动与空间进行多次互动",
       reflection: "项目展示了技术如何赋予空间情感品质，但也引发了关于隐私和监控的伦理思考"
@@ -256,6 +263,8 @@ export const projects: Project[] = [
     coverImage: "/images/projects/fu/cover.png",
     fullDescription: "FU 研究数学波形原理与建筑形态生成的交叉领域。",
     year: "2025",
+    startDate: "2025.8",
+    endDate: "2025.11",
     location: "奥克兰 Harbour，新西兰",
     role: "设计师",
     details: [

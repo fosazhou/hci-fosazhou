@@ -1,30 +1,64 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import { X, Briefcase, Globe, Palette } from "lucide-react"
 
 export interface TimelineWork {
   id: string
   title: string
-  year: number
+  startDate: string  // "YYYY.M" format
+  endDate: string    // "YYYY.M" format
   type: 'project' | 'exchange' | 'work'
   coverImage?: string
   keywords: string[]
 }
 
 interface TimelineSliderProps {
-  startYear: number
-  endYear: number
-  value: [number, number]
-  onChange: (value: [number, number]) => void
+  startMonth: string  // "YYYY.M" format, e.g. "2024.1"
+  endMonth: string    // "YYYY.M" format, e.g. "2025.12"
+  value: [string, string]  // [startDate, endDate] in "YYYY.M" format
+  onChange: (value: [string, string]) => void
   allWorks?: TimelineWork[]
   className?: string
 }
 
+// Parse "YYYY.M" to { year, month }
+function parseDate(date: string): { year: number; month: number } {
+  const [year, month] = date.split('.').map(Number)
+  return { year, month }
+}
+
+// Convert { year, month } to "YYYY.M"
+function formatDate(year: number, month: number): string {
+  return `${year}.${month}`
+}
+
+// Convert date to month index (0-based from startMonth)
+function dateToIndex(date: string, startMonth: string): number {
+  const d = parseDate(date)
+  const s = parseDate(startMonth)
+  return (d.year - s.year) * 12 + (d.month - s.month)
+}
+
+// Convert month index to date
+function indexToDate(index: number, startMonth: string): string {
+  const s = parseDate(startMonth)
+  const totalMonths = s.month - 1 + index
+  const year = s.year + Math.floor(totalMonths / 12)
+  const month = (totalMonths % 12) + 1
+  return formatDate(year, month)
+}
+
+// Format date for display
+function formatDisplayDate(date: string): string {
+  const { year, month } = parseDate(date)
+  return `${year}.${month}`
+}
+
 export function TimelineSlider({
-  startYear,
-  endYear,
+  startMonth,
+  endMonth,
   value,
   onChange,
   allWorks = [],
@@ -32,14 +66,41 @@ export function TimelineSlider({
 }: TimelineSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
-  const [hoveredYear, setHoveredYear] = useState<number | null>(null)
-  const [selectedYear, setSelectedYear] = useState<number | null>(null)
+  const [hoveredMonth, setHoveredMonth] = useState<string | null>(null)
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   
-  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
+  // Calculate total months
+  const totalMonths = useMemo(() => {
+    return dateToIndex(endMonth, startMonth) + 1
+  }, [startMonth, endMonth])
   
-  // Get works for a specific year (all types)
-  const getWorksForYear = (year: number) => {
-    return allWorks.filter(w => w.year === year)
+  // Generate all months
+  const months = useMemo(() => {
+    const result: string[] = []
+    for (let i = 0; i < totalMonths; i++) {
+      result.push(indexToDate(i, startMonth))
+    }
+    return result
+  }, [totalMonths, startMonth])
+  
+  // Generate year markers (for display)
+  const years = useMemo(() => {
+    const startYear = parseDate(startMonth).year
+    const endYear = parseDate(endMonth).year
+    return Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
+  }, [startMonth, endMonth])
+  
+  // Check if a work is active in a given month
+  const isWorkActiveInMonth = (work: TimelineWork, month: string): boolean => {
+    const mIdx = dateToIndex(month, startMonth)
+    const workStart = dateToIndex(work.startDate, startMonth)
+    const workEnd = dateToIndex(work.endDate, startMonth)
+    return mIdx >= workStart && mIdx <= workEnd
+  }
+  
+  // Get works active in a specific month
+  const getWorksForMonth = (month: string) => {
+    return allWorks.filter(w => isWorkActiveInMonth(w, month))
   }
   
   // Get type icon
@@ -69,27 +130,23 @@ export function TimelineSlider({
     }
   }
   
-  // Calculate position for each year - snap to year markers
-  // Each year occupies equal space, with first year at 0% and last year at 100%
-  const getPositionFromYear = (year: number) => {
-    const yearIndex = year - startYear
-    const totalYears = endYear - startYear
-    return (yearIndex / totalYears) * 100
+  // Position calculations
+  const getPositionFromDate = (date: string) => {
+    const idx = dateToIndex(date, startMonth)
+    return (idx / (totalMonths - 1)) * 100
   }
   
-  // Get the nearest year from a position - always snap to discrete years
-  const getYearFromPosition = (position: number) => {
-    const totalYears = endYear - startYear
-    const yearIndex = Math.round((position / 100) * totalYears)
-    const year = startYear + yearIndex
-    return Math.max(startYear, Math.min(endYear, year))
+  const getDateFromPosition = (position: number) => {
+    const idx = Math.round((position / 100) * (totalMonths - 1))
+    const clampedIdx = Math.max(0, Math.min(totalMonths - 1, idx))
+    return indexToDate(clampedIdx, startMonth)
   }
 
   const handleMouseDown = (handle: "start" | "end") => (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsDragging(handle)
-    setSelectedYear(null)
+    setSelectedMonth(null)
   }
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -97,14 +154,22 @@ export function TimelineSlider({
     
     const rect = trackRef.current.getBoundingClientRect()
     const position = ((e.clientX - rect.left) / rect.width) * 100
-    const year = getYearFromPosition(position)
+    const date = getDateFromPosition(position)
     
     if (isDragging === "start") {
-      onChange([Math.min(year, value[1]), value[1]])
+      const startIdx = dateToIndex(date, startMonth)
+      const endIdx = dateToIndex(value[1], startMonth)
+      if (startIdx <= endIdx) {
+        onChange([date, value[1]])
+      }
     } else {
-      onChange([value[0], Math.max(year, value[0])])
+      const startIdx = dateToIndex(value[0], startMonth)
+      const endIdx = dateToIndex(date, startMonth)
+      if (endIdx >= startIdx) {
+        onChange([value[0], date])
+      }
     }
-  }, [isDragging, value, onChange])
+  }, [isDragging, value, onChange, startMonth])
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(null)
@@ -125,7 +190,7 @@ export function TimelineSlider({
   const handleTouchStart = (handle: "start" | "end") => (e: React.TouchEvent) => {
     e.preventDefault()
     setIsDragging(handle)
-    setSelectedYear(null)
+    setSelectedMonth(null)
   }
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
@@ -134,37 +199,47 @@ export function TimelineSlider({
     const touch = e.touches[0]
     const rect = trackRef.current.getBoundingClientRect()
     const position = ((touch.clientX - rect.left) / rect.width) * 100
-    const year = getYearFromPosition(position)
+    const date = getDateFromPosition(position)
     
     if (isDragging === "start") {
-      onChange([Math.min(year, value[1]), value[1]])
+      const startIdx = dateToIndex(date, startMonth)
+      const endIdx = dateToIndex(value[1], startMonth)
+      if (startIdx <= endIdx) {
+        onChange([date, value[1]])
+      }
     } else {
-      onChange([value[0], Math.max(year, value[0])])
+      const startIdx = dateToIndex(value[0], startMonth)
+      const endIdx = dateToIndex(date, startMonth)
+      if (endIdx >= startIdx) {
+        onChange([value[0], date])
+      }
     }
-  }, [isDragging, value, onChange])
+  }, [isDragging, value, onChange, startMonth])
 
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener("touchmove", handleTouchMove as any)
+      window.addEventListener("touchmove", handleTouchMove as EventListener)
       window.addEventListener("touchend", handleMouseUp)
       return () => {
-        window.removeEventListener("touchmove", handleTouchMove as any)
+        window.removeEventListener("touchmove", handleTouchMove as EventListener)
         window.removeEventListener("touchend", handleMouseUp)
       }
     }
   }, [isDragging, handleTouchMove, handleMouseUp])
 
-  // Click on year to select/toggle - does NOT change the slider range
-  const handleYearClick = (year: number) => {
-    if (selectedYear === year) {
-      setSelectedYear(null)
+  const handleMonthClick = (month: string) => {
+    if (selectedMonth === month) {
+      setSelectedMonth(null)
     } else {
-      setSelectedYear(year)
+      setSelectedMonth(month)
     }
   }
 
-  const startPos = getPositionFromYear(value[0])
-  const endPos = getPositionFromYear(value[1])
+  const startPos = getPositionFromDate(value[0])
+  const endPos = getPositionFromDate(value[1])
+
+  // Check if current range is the full range
+  const isFullRange = value[0] === startMonth && value[1] === endMonth
 
   return (
     <div className={cn("relative", className)}>
@@ -177,11 +252,11 @@ export function TimelineSlider({
           </span>
         </div>
         <div className="flex items-center gap-3">
-          {(selectedYear || value[0] !== startYear || value[1] !== endYear) && (
+          {(!isFullRange || selectedMonth) && (
             <button
               onClick={() => {
-                setSelectedYear(null)
-                onChange([startYear, endYear])
+                setSelectedMonth(null)
+                onChange([startMonth, endMonth])
               }}
               className="flex items-center gap-1 px-2 py-1 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors border border-primary/20 rounded hover:border-primary/40"
             >
@@ -190,9 +265,9 @@ export function TimelineSlider({
             </button>
           )}
           <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-primary/20 bg-primary/5">
-            <span className="text-xs font-mono text-primary">{value[0]}</span>
+            <span className="text-xs font-mono text-primary">{formatDisplayDate(value[0])}</span>
             <span className="text-[10px] text-muted-foreground">—</span>
-            <span className="text-xs font-mono text-primary">{value[1]}</span>
+            <span className="text-xs font-mono text-primary">{formatDisplayDate(value[1])}</span>
           </div>
         </div>
       </div>
@@ -200,19 +275,45 @@ export function TimelineSlider({
       {/* Timeline track */}
       <div 
         ref={trackRef}
-        className="relative h-16 cursor-pointer"
+        className="relative h-20 cursor-pointer"
         onMouseMove={(e) => {
           if (!trackRef.current || isDragging) return
           const rect = trackRef.current.getBoundingClientRect()
           const position = ((e.clientX - rect.left) / rect.width) * 100
-          setHoveredYear(getYearFromPosition(position))
+          setHoveredMonth(getDateFromPosition(position))
         }}
-        onMouseLeave={() => setHoveredYear(null)}
+        onMouseLeave={() => setHoveredMonth(null)}
       >
         {/* Background track */}
         <div className="absolute top-1/2 left-0 right-0 h-[1px] -translate-y-1/2 bg-[rgba(34,211,238,0.1)]" />
         
-        {/* Active range */}
+        {/* Work activity bars (visual representation of when works are active) */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-6">
+          {allWorks.map((work, i) => {
+            const workStartPos = getPositionFromDate(work.startDate)
+            const workEndPos = getPositionFromDate(work.endDate)
+            const colors = {
+              project: 'rgba(233, 30, 99, 0.3)',
+              exchange: 'rgba(34, 211, 238, 0.3)',
+              work: 'rgba(156, 39, 176, 0.3)',
+            }
+            return (
+              <div
+                key={`${work.type}-${work.id}`}
+                className="absolute h-1 rounded-full transition-opacity duration-200"
+                style={{
+                  left: `${workStartPos}%`,
+                  width: `${Math.max(workEndPos - workStartPos, 1)}%`,
+                  backgroundColor: colors[work.type],
+                  top: `${(i % 5) * 5}px`,
+                  opacity: hoveredMonth && isWorkActiveInMonth(work, hoveredMonth) ? 1 : 0.5,
+                }}
+              />
+            )
+          })}
+        </div>
+        
+        {/* Active range highlight */}
         <div 
           className="absolute top-1/2 h-[2px] -translate-y-1/2 bg-primary/60"
           style={{
@@ -222,15 +323,13 @@ export function TimelineSlider({
           }}
         />
         
-        {/* Year markers with click support - positioned to match slider positions */}
+        {/* Year markers */}
         <div className="absolute inset-x-0 top-0 bottom-0">
-          {years.map((year, index) => {
-            const isInRange = year >= value[0] && year <= value[1]
-            const isSelected = year === selectedYear
-            const isHovered = year === hoveredYear
-            const yearWorks = getWorksForYear(year)
-            const hasWorks = yearWorks.length > 0
-            const position = getPositionFromYear(year)
+          {years.map((year) => {
+            const yearStartDate = `${year}.1`
+            const position = getPositionFromDate(yearStartDate)
+            const isInRange = dateToIndex(yearStartDate, startMonth) >= dateToIndex(value[0], startMonth) &&
+                              dateToIndex(yearStartDate, startMonth) <= dateToIndex(value[1], startMonth)
             
             return (
               <div 
@@ -241,151 +340,33 @@ export function TimelineSlider({
                   transform: 'translateX(-50%)'
                 }}
               >
-                {/* Clickable year marker - same size as drag handles */}
-                <button
-                  onClick={() => handleYearClick(year)}
+                {/* Year marker dot */}
+                <div 
                   className={cn(
-                    "absolute top-1/2 -translate-y-1/2 z-10",
-                    "w-6 h-6 rounded-full flex items-center justify-center",
+                    "absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full",
                     "transition-all duration-300",
-                    isSelected 
-                      ? "bg-primary/20 scale-110" 
-                      : "bg-transparent hover:bg-primary/10"
+                    isInRange ? "bg-primary/60" : "bg-[rgba(34,211,238,0.2)]"
                   )}
-                >
-                  <div 
-                    className={cn(
-                      "rounded-full transition-all duration-300",
-                      isSelected
-                        ? "w-2 h-2 bg-primary"
-                        : isInRange 
-                          ? "w-2 h-2 bg-primary/60" 
-                          : "w-1.5 h-1.5 bg-[rgba(34,211,238,0.2)]",
-                      isHovered && !isSelected && "scale-125 bg-primary/80",
-                      hasWorks && !isSelected && "ring-2 ring-primary/20 ring-offset-1 ring-offset-background"
-                    )}
-                    style={{
-                      boxShadow: isSelected 
-                        ? "0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow)"
-                        : isInRange 
-                          ? "0 0 5px var(--primary-glow)"
-                          : "none"
-                    }}
-                  />
-                </button>
-                
-                {/* Works count badge */}
-                {hasWorks && (
-                  <div 
-                    className={cn(
-                      "absolute top-0 text-[8px] font-mono transition-all duration-300",
-                      isSelected || isHovered ? "text-primary" : "text-muted-foreground/40"
-                    )}
-                  >
-                    {yearWorks.length}
-                  </div>
-                )}
+                  style={{
+                    boxShadow: isInRange ? "0 0 8px var(--primary-glow)" : "none"
+                  }}
+                />
                 
                 {/* Year label */}
-                <button
-                  onClick={() => handleYearClick(year)}
+                <span
                   className={cn(
-                    "absolute bottom-0 text-[11px] font-mono transition-all duration-300",
-                    isSelected 
-                      ? "text-primary font-semibold scale-110"
-                      : isInRange 
-                        ? "text-primary/80" 
-                        : "text-muted-foreground/50",
-                    isHovered && "text-primary"
+                    "absolute bottom-0 text-xs font-mono transition-all duration-300",
+                    isInRange ? "text-primary" : "text-muted-foreground/50"
                   )}
                 >
                   {year}
-                </button>
-                
-                {/* Floating works popup when year is selected */}
-                {isSelected && hasWorks && (
-                  <div 
-                    className={cn(
-                      "absolute top-full mt-4 z-50",
-                      "min-w-[220px] max-w-[300px]",
-                      "p-3 rounded-lg",
-                      "bg-[rgba(10,10,15,0.95)] backdrop-blur-md",
-                      "border border-primary/30",
-                      "shadow-lg animate-in fade-in-0 zoom-in-95 duration-200"
-                    )}
-                    style={{
-                      boxShadow: "0 0 20px var(--primary-glow), 0 4px 20px rgba(0,0,0,0.5)",
-                      left: "50%",
-                      transform: "translateX(-50%)"
-                    }}
-                  >
-                    {/* Arrow */}
-                    <div 
-                      className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-[rgba(10,10,15,0.95)] border-l border-t border-primary/30"
-                    />
-                    
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
-                      <span className="text-[10px] font-mono text-primary tracking-wider">
-                        {year}_WORKS
-                      </span>
-                      <span className="text-[9px] font-mono text-muted-foreground">
-                        {yearWorks.length} items
-                      </span>
-                    </div>
-                    
-                    {/* Works list grouped by type */}
-                    <div className="space-y-2 max-h-[280px] overflow-y-auto">
-                      {yearWorks.map((work) => (
-                        <a
-                          key={`${work.type}-${work.id}`}
-                          href={getLinkPath(work)}
-                          className={cn(
-                            "block p-2 rounded",
-                            "bg-[rgba(34,211,238,0.05)]",
-                            "border border-transparent",
-                            "hover:border-primary/30 hover:bg-[rgba(34,211,238,0.1)]",
-                            "transition-all duration-200",
-                            "group"
-                          )}
-                        >
-                          <div className="flex items-start gap-3">
-                            {/* Thumbnail */}
-                            {work.coverImage && (
-                              <div className="w-12 h-9 rounded overflow-hidden flex-shrink-0 bg-muted/20">
-                                <img 
-                                  src={work.coverImage} 
-                                  alt={work.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5 mb-0.5">
-                                <span className="text-primary/60">{getTypeIcon(work.type)}</span>
-                                <span className="text-[8px] font-mono text-muted-foreground/60 uppercase">
-                                  {getTypeLabel(work.type)}
-                                </span>
-                              </div>
-                              <h4 className="text-xs font-medium text-foreground group-hover:text-primary transition-colors truncate">
-                                {work.title}
-                              </h4>
-                              <p className="text-[10px] text-muted-foreground truncate">
-                                {work.keywords.slice(0, 2).join(" · ")}
-                              </p>
-                            </div>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                </span>
               </div>
             )
           })}
         </div>
         
-        {/* Draggable handles - snap to year positions */}
+        {/* Draggable handles */}
         <div
           className={cn(
             "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-grab z-30",
@@ -398,7 +379,7 @@ export function TimelineSlider({
         >
           <div 
             className={cn(
-              "w-6 h-6 rounded-full border-2 border-primary bg-background",
+              "w-5 h-5 rounded-full border-2 border-primary bg-background",
               "hover:scale-110",
               isDragging === "start" ? "scale-125" : "transition-transform duration-150",
               "flex items-center justify-center"
@@ -407,12 +388,11 @@ export function TimelineSlider({
               boxShadow: "0 0 12px var(--primary-glow), 0 2px 8px rgba(0,0,0,0.3)"
             }}
           >
-            <div className="w-2 h-2 rounded-full bg-primary" />
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
           </div>
-          {/* Year indicator tooltip when dragging */}
           {isDragging === "start" && (
             <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-mono whitespace-nowrap">
-              {value[0]}
+              {formatDisplayDate(value[0])}
             </div>
           )}
         </div>
@@ -429,7 +409,7 @@ export function TimelineSlider({
         >
           <div 
             className={cn(
-              "w-6 h-6 rounded-full border-2 border-primary bg-background",
+              "w-5 h-5 rounded-full border-2 border-primary bg-background",
               "hover:scale-110",
               isDragging === "end" ? "scale-125" : "transition-transform duration-150",
               "flex items-center justify-center"
@@ -438,22 +418,43 @@ export function TimelineSlider({
               boxShadow: "0 0 12px var(--primary-glow), 0 2px 8px rgba(0,0,0,0.3)"
             }}
           >
-            <div className="w-2 h-2 rounded-full bg-primary" />
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
           </div>
-          {/* Year indicator tooltip when dragging */}
           {isDragging === "end" && (
             <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-primary text-primary-foreground text-[10px] font-mono whitespace-nowrap">
-              {value[1]}
+              {formatDisplayDate(value[1])}
             </div>
           )}
         </div>
+        
+        {/* Hover tooltip */}
+        {hoveredMonth && !isDragging && (
+          <div 
+            className="absolute -top-10 px-2 py-1 rounded bg-[rgba(10,10,15,0.9)] border border-primary/30 text-[10px] font-mono text-primary whitespace-nowrap z-40 pointer-events-none"
+            style={{
+              left: `${getPositionFromDate(hoveredMonth)}%`,
+              transform: 'translateX(-50%)'
+            }}
+          >
+            {formatDisplayDate(hoveredMonth)} · {getWorksForMonth(hoveredMonth).length} works
+          </div>
+        )}
       </div>
       
-      {/* Instructions */}
-      <div className="mt-4 flex items-center justify-center gap-4 text-[9px] font-mono text-muted-foreground/40">
-        <span>DRAG_HANDLES_TO_FILTER</span>
-        <span className="text-primary/20">|</span>
-        <span>CLICK_YEAR_TO_VIEW_ALL_WORKS</span>
+      {/* Legend */}
+      <div className="mt-4 flex items-center justify-center gap-6 text-[9px] font-mono text-muted-foreground/60">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-1 rounded-full bg-[rgba(233,30,99,0.5)]" />
+          <span>项目</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-1 rounded-full bg-[rgba(34,211,238,0.5)]" />
+          <span>交流</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-1 rounded-full bg-[rgba(156,39,176,0.5)]" />
+          <span>作品</span>
+        </div>
       </div>
     </div>
   )

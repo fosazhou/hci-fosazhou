@@ -21,6 +21,9 @@ export interface OtherWork {
   keywords: string[]
   fullDescription: string
   year: string
+  // 新增：精确到月份的时间范围，格式 "YYYY.M"
+  startDate: string  // 如 "2024.9"
+  endDate: string    // 如 "2024.11"
   category: string
   awards?: string
   details: string[]
@@ -66,6 +69,8 @@ export const otherWorks: OtherWork[] = [
     ],
     fullDescription: "参与第十三届全国大学生数字媒体科技作品及创意竞赛，作品探索建筑与自然环境的和谐共生关系，获得陕西省三等奖。",
     year: "2024",
+    startDate: "2024.9",
+    endDate: "2024.11",
     category: "建筑设计竞赛",
     awards: "陕西省三等奖",
     details: [
@@ -99,6 +104,8 @@ export const otherWorks: OtherWork[] = [
     ],
     fullDescription: "作品聚焦于汉回民族文化融合的空间表达，通过建筑设计促进社区和谐与文化交流。",
     year: "2025",
+    startDate: "2025.4",
+    endDate: "2025.4",
     category: "建筑设计竞赛",
     awards: "三等奖（核心成员）",
     details: [
@@ -122,6 +129,8 @@ export const otherWorks: OtherWork[] = [
     ],
     fullDescription: "运用 AIGC 技术探索江南水乡建筑的数字化设计方法，获得全国三等奖。",
     year: "2024",
+    startDate: "2024.9",
+    endDate: "2024.11",
     category: "数智设计竞赛",
     awards: "国奖三等奖（组长）",
     details: [
@@ -150,6 +159,8 @@ export const otherWorks: OtherWork[] = [
     ],
     fullDescription: "奥克兰大学 ARCH-TECH 315 课程作业，制作 Lumley Tower 的 1:10 局部构造实体模型，深入研究建筑结构细部与水体系的设计逻辑。",
     year: "2025",
+    startDate: "2025.9",
+    endDate: "2025.9",
     category: "课程作业",
     details: [
       "1:10 比例局部构造实体模型",
@@ -177,6 +188,8 @@ export const otherWorks: OtherWork[] = [
     ],
     fullDescription: "以 Grasshopper 为载体进行参数化环境设计，探索自然光与社区空间的关系，获台湾国家三等奖。",
     year: "2025",
+    startDate: "2025.11",
+    endDate: "2025.11",
     category: "环境设计竞赛",
     awards: "国家三等奖（组长）",
     details: [
@@ -203,6 +216,8 @@ export const otherWorks: OtherWork[] = [
     ],
     fullDescription: "通过 TouchDesigner 平台进行音乐可视化实验，探索音频数据与生成图形之间的动态映射关系。",
     year: "2024",
+    startDate: "2024.8",
+    endDate: "2024.8",
     category: "创意编程实验",
     details: [
       "基于 TouchDesigner 的实时渲染",
