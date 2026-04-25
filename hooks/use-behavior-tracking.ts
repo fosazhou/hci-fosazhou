@@ -4,74 +4,127 @@ import { useEffect, useRef, useCallback } from "react"
 import { useReadingMode } from "@/contexts/reading-mode-context"
 
 export function useBehaviorTracking() {
-  const { updateBehavior } = useReadingMode()
+  const { trackReading, trackOperation } = useReadingMode()
+  
+  // Scroll tracking state
   const lastScrollY = useRef(0)
   const lastScrollTime = useRef(Date.now())
   const scrollSpeeds = useRef<number[]>([])
+  const maxScrollDepth = useRef(0)
+  const wasScrollingUp = useRef(false)
 
-  // Track scroll speed
+  // Track scroll behavior - separated into reading metrics
   useEffect(() => {
     const handleScroll = () => {
       const now = Date.now()
+      const currentY = window.scrollY
       const timeDiff = now - lastScrollTime.current
-      const scrollDiff = Math.abs(window.scrollY - lastScrollY.current)
+      const scrollDiff = currentY - lastScrollY.current
+      const scrollDiffAbs = Math.abs(scrollDiff)
       
-      if (timeDiff > 0) {
-        const speed = (scrollDiff / timeDiff) * 1000 // pixels per second
+      if (timeDiff > 50) { // Debounce
+        // Calculate instantaneous speed
+        const speed = (scrollDiffAbs / timeDiff) * 1000
         scrollSpeeds.current.push(speed)
         
-        // Keep only last 10 measurements
-        if (scrollSpeeds.current.length > 10) {
+        // Keep only last 20 measurements for average
+        if (scrollSpeeds.current.length > 20) {
           scrollSpeeds.current.shift()
         }
         
-        // Calculate average speed
-        const avgSpeed = scrollSpeeds.current.reduce((a, b) => a + b, 0) / scrollSpeeds.current.length
+        // Calculate rolling average velocity
+        const avgSpeed = scrollSpeeds.current.length > 0
+          ? scrollSpeeds.current.reduce((a, b) => a + b, 0) / scrollSpeeds.current.length
+          : 0
         
-        // Calculate scroll depth
+        // Calculate scroll depth (0-1)
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-        const scrollDepth = maxScroll > 0 ? window.scrollY / maxScroll : 0
+        const currentDepth = maxScroll > 0 ? currentY / maxScroll : 0
+        const clampedDepth = Math.min(1, Math.max(0, currentDepth))
         
-        updateBehavior({
-          scrollSpeed: avgSpeed,
-          scrollDepth: Math.min(1, Math.max(0, scrollDepth)),
+        // Track max depth reached
+        if (clampedDepth > maxScrollDepth.current) {
+          maxScrollDepth.current = clampedDepth
+        }
+        
+        // Detect revisit (scrolling back up after reaching depth)
+        const isScrollingUp = scrollDiff < -50
+        if (isScrollingUp && !wasScrollingUp.current && maxScrollDepth.current > 0.3) {
+          // User scrolled back up - this is a revisit
+          trackReading({ revisitCount: undefined }) // Will be incremented in context
+        }
+        wasScrollingUp.current = isScrollingUp
+        
+        // Update reading metrics
+        trackReading({
+          scrollVelocity: avgSpeed,
+          scrollDepth: maxScrollDepth.current,
         })
       }
       
-      lastScrollY.current = window.scrollY
+      lastScrollY.current = currentY
       lastScrollTime.current = now
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [updateBehavior])
+  }, [trackReading])
 
-  // Track interactions (clicks, hovers on important elements)
-  const trackInteraction = useCallback(() => {
-    updateBehavior({
-      interactionCount: undefined, // Will be incremented
-      lastInteraction: Date.now(),
-    })
-  }, [updateBehavior])
+  // Operation tracking functions
+  const trackClick = useCallback(() => {
+    trackOperation("clickCount")
+  }, [trackOperation])
 
+  const trackHover = useCallback(() => {
+    trackOperation("hoverCount")
+  }, [trackOperation])
+
+  const trackTimelineDrag = useCallback(() => {
+    trackOperation("timelineDragCount")
+  }, [trackOperation])
+
+  const trackSliderDrag = useCallback(() => {
+    trackOperation("sliderDragCount")
+  }, [trackOperation])
+
+  const trackLayerToggle = useCallback(() => {
+    trackOperation("layerToggleCount")
+  }, [trackOperation])
+
+  const trackNodeClick = useCallback(() => {
+    trackOperation("nodeClickCount")
+  }, [trackOperation])
+
+  // Global click tracking
   useEffect(() => {
-    const handleClick = () => {
-      updateBehavior({
-        lastInteraction: Date.now(),
-      })
+    const handleClick = (e: MouseEvent) => {
+      // Only track meaningful clicks (not on buttons that have their own tracking)
+      const target = e.target as HTMLElement
+      if (!target.closest("button") && !target.closest("a")) {
+        trackClick()
+      }
     }
 
     document.addEventListener("click", handleClick)
     return () => document.removeEventListener("click", handleClick)
-  }, [updateBehavior])
+  }, [trackClick])
 
-  return { trackInteraction }
+  return {
+    // Export individual trackers for components to use
+    trackClick,
+    trackHover,
+    trackTimelineDrag,
+    trackSliderDrag,
+    trackLayerToggle,
+    trackNodeClick,
+  }
 }
 
-// Hook to track content section visibility
-export function useContentVisibility(sectionId: string) {
-  const { updateBehavior } = useReadingMode()
+// Hook to track content section visibility for reading behavior
+export function useContentVisibility(sectionId: string, sectionType: "hero" | "summary" | "process" | "research" | "other" = "other") {
+  const { trackReading } = useReadingMode()
   const elementRef = useRef<HTMLElement | null>(null)
+  const entryTimeRef = useRef<number | null>(null)
 
   useEffect(() => {
     const element = document.getElementById(sectionId)
@@ -83,19 +136,21 @@ export function useContentVisibility(sectionId: string) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            updateBehavior({
-              interactionCount: undefined,
-              lastInteraction: Date.now(),
-            })
+            entryTimeRef.current = Date.now()
+          } else if (entryTimeRef.current) {
+            // Track time spent in this section
+            const timeSpent = Date.now() - entryTimeRef.current
+            // Could be used for per-section analytics
+            entryTimeRef.current = null
           }
         })
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     )
 
     observer.observe(element)
     return () => observer.disconnect()
-  }, [sectionId, updateBehavior])
+  }, [sectionId, trackReading])
 
   return elementRef
 }

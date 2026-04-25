@@ -2,30 +2,105 @@
 
 import { cn } from "@/lib/utils"
 import { useReadingMode, READING_MODES } from "@/contexts/reading-mode-context"
-import { X, ArrowRight, Zap, GitBranch, Search } from "lucide-react"
+import { X, ArrowRight, Zap, GitBranch, Search, Sparkles } from "lucide-react"
 import { useEffect, useState } from "react"
 
-export function ReadingModeSuggestion() {
+// Suggestion badge - appears first, click to expand
+function SuggestionBadge() {
+  const { suggestion, showSuggestionBadge, expandSuggestion, dismissSuggestion } = useReadingMode()
+  const [isHovered, setIsHovered] = useState(false)
+  
+  if (!showSuggestionBadge || !suggestion.mode) return null
+  
+  const icons = {
+    quick: <Zap className="h-3 w-3" />,
+    process: <GitBranch className="h-3 w-3" />,
+    research: <Search className="h-3 w-3" />,
+  }
+  
+  return (
+    <div
+      className={cn(
+        "fixed bottom-6 right-6 z-50",
+        "transition-all duration-300 ease-out"
+      )}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className={cn(
+          "flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer",
+          "bg-[rgba(10,10,15,0.9)] backdrop-blur-md",
+          "border border-primary/40",
+          "transition-all duration-300",
+          isHovered && "border-primary/60 scale-105"
+        )}
+        style={{
+          boxShadow: isHovered 
+            ? "0 0 20px rgba(34, 211, 238, 0.3)"
+            : "0 0 10px rgba(34, 211, 238, 0.15)"
+        }}
+        onClick={expandSuggestion}
+      >
+        <Sparkles className="h-3 w-3 text-primary animate-pulse" />
+        <span className="text-[10px] font-mono text-primary tracking-wider">
+          TRY_{READING_MODES[suggestion.mode].shortLabel}
+        </span>
+        <span className={cn(
+          "flex items-center justify-center",
+          "w-4 h-4 rounded bg-primary/20 text-primary"
+        )}>
+          {icons[suggestion.mode]}
+        </span>
+        
+        {/* Dismiss button on hover */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            dismissSuggestion()
+          }}
+          className={cn(
+            "ml-1 p-0.5 rounded text-muted-foreground hover:text-foreground",
+            "transition-opacity duration-200",
+            isHovered ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <X className="h-3 w-3" />
+        </button>
+      </div>
+      
+      {/* Confidence indicator */}
+      <div className="mt-1 flex justify-center">
+        <div 
+          className="h-0.5 rounded-full bg-primary/40"
+          style={{ width: `${suggestion.confidence * 100}%`, maxWidth: 60 }}
+        />
+      </div>
+    </div>
+  )
+}
+
+// Full suggestion popup - shown when badge is clicked
+function SuggestionPopup() {
   const { 
     mode, 
-    suggestedMode, 
-    showSuggestion, 
+    suggestion,
     dismissSuggestion, 
-    acceptSuggestion 
+    acceptSuggestion,
+    inference,
   } = useReadingMode()
   
   const [isVisible, setIsVisible] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
 
   useEffect(() => {
-    if (showSuggestion && suggestedMode) {
-      // Delay show for smooth entrance
-      const timer = setTimeout(() => setIsVisible(true), 100)
+    if (suggestion.shown && suggestion.mode) {
+      const timer = setTimeout(() => setIsVisible(true), 50)
       return () => clearTimeout(timer)
     } else {
       setIsVisible(false)
     }
-  }, [showSuggestion, suggestedMode])
+  }, [suggestion.shown, suggestion.mode])
 
   const handleDismiss = () => {
     setIsExiting(true)
@@ -43,9 +118,9 @@ export function ReadingModeSuggestion() {
     }, 200)
   }
 
-  if (!showSuggestion || !suggestedMode) return null
+  if (!suggestion.shown || !suggestion.mode) return null
 
-  const suggestedConfig = READING_MODES[suggestedMode]
+  const suggestedConfig = READING_MODES[suggestion.mode]
   const currentConfig = READING_MODES[mode]
 
   const icons = {
@@ -54,11 +129,17 @@ export function ReadingModeSuggestion() {
     research: <Search className="h-4 w-4" />,
   }
 
+  const readerTypeLabels = {
+    skim: "快速浏览型",
+    process: "过程导向型",
+    research: "研究深度型",
+  }
+
   return (
     <div
       className={cn(
         "fixed bottom-6 right-6 z-50",
-        "max-w-sm",
+        "max-w-xs",
         "transition-all duration-300 ease-out",
         isVisible && !isExiting
           ? "opacity-100 translate-y-0"
@@ -80,10 +161,7 @@ export function ReadingModeSuggestion() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: `linear-gradient(
-              transparent 50%,
-              rgba(34, 211, 238, 0.02) 50%
-            )`,
+            background: `linear-gradient(transparent 50%, rgba(34, 211, 238, 0.02) 50%)`,
             backgroundSize: "100% 4px",
           }}
         />
@@ -91,14 +169,14 @@ export function ReadingModeSuggestion() {
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="flex items-center justify-center w-6 h-6 rounded bg-primary/20 text-primary animate-pulse">
-              {icons[suggestedMode]}
+            <span className="flex items-center justify-center w-6 h-6 rounded bg-primary/20 text-primary">
+              {icons[suggestion.mode]}
             </span>
             <div>
-              <p className="text-[10px] font-mono text-primary/60 tracking-widest uppercase">
-                SYSTEM_SUGGESTION
+              <p className="text-[9px] font-mono text-primary/60 tracking-widest uppercase">
+                READING_PATTERN_DETECTED
               </p>
-              <p className="text-xs font-mono text-foreground mt-0.5">
+              <p className="text-xs font-medium text-foreground mt-0.5">
                 Switch to {suggestedConfig.label}?
               </p>
             </div>
@@ -112,10 +190,21 @@ export function ReadingModeSuggestion() {
           </button>
         </div>
         
+        {/* Reader type and confidence */}
+        {inference && (
+          <div className="flex items-center justify-between mb-3 text-[10px] font-mono">
+            <span className="text-muted-foreground">
+              Pattern: <span className="text-primary">{readerTypeLabels[inference.readerType]}</span>
+            </span>
+            <span className="text-muted-foreground/60">
+              Conf: {Math.round(inference.confidence * 100)}%
+            </span>
+          </div>
+        )}
+        
         {/* Reason */}
         <p className="text-[11px] text-muted-foreground mb-4 leading-relaxed">
-          Based on your reading behavior, you might prefer a{" "}
-          {suggestedMode === "quick" ? "faster" : "deeper"} view of this content.
+          {suggestion.reason}
         </p>
         
         {/* Mode transition visualization */}
@@ -126,9 +215,9 @@ export function ReadingModeSuggestion() {
               {currentConfig.shortLabel}
             </span>
           </div>
-          <ArrowRight className="h-3 w-3 text-primary animate-pulse" />
+          <ArrowRight className="h-3 w-3 text-primary" />
           <div className="flex items-center gap-1.5">
-            <span className="text-primary">{icons[suggestedMode]}</span>
+            <span className="text-primary">{icons[suggestion.mode]}</span>
             <span className="text-[10px] font-mono text-primary">
               {suggestedConfig.shortLabel}
             </span>
@@ -140,18 +229,18 @@ export function ReadingModeSuggestion() {
           <button
             onClick={handleDismiss}
             className={cn(
-              "flex-1 px-3 py-2 rounded text-[11px] font-mono tracking-wider",
+              "flex-1 px-3 py-2 rounded text-[10px] font-mono tracking-wider",
               "border border-[rgba(34,211,238,0.2)] text-muted-foreground",
               "hover:border-[rgba(34,211,238,0.3)] hover:text-foreground",
               "transition-all duration-200"
             )}
           >
-            DISMISS
+            STAY
           </button>
           <button
             onClick={handleAccept}
             className={cn(
-              "flex-1 px-3 py-2 rounded text-[11px] font-mono tracking-wider",
+              "flex-1 px-3 py-2 rounded text-[10px] font-mono tracking-wider",
               "bg-primary/20 border border-primary/40 text-primary",
               "hover:bg-primary/30",
               "transition-all duration-200"
@@ -165,10 +254,20 @@ export function ReadingModeSuggestion() {
         </div>
         
         {/* Note */}
-        <p className="mt-3 text-[9px] font-mono text-muted-foreground/60 text-center">
-          Manual override always available
+        <p className="mt-3 text-[8px] font-mono text-muted-foreground/50 text-center">
+          Won&apos;t ask again on this page
         </p>
       </div>
     </div>
+  )
+}
+
+// Combined export
+export function ReadingModeSuggestion() {
+  return (
+    <>
+      <SuggestionBadge />
+      <SuggestionPopup />
+    </>
   )
 }
