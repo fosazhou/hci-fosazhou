@@ -379,17 +379,18 @@ export function TimelineSlider({
                 onMouseEnter={() => setHoveredWork(work)}
                 onMouseLeave={() => setHoveredWork(null)}
               >
-                {/* Work name tooltip on hover */}
+                {/* Work name tooltip on hover - positioned closer and highest z-index */}
                 {isBarHovered && (
                   <div 
-                    className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none z-50"
+                    className="absolute -top-4 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none"
                     style={{
-                      backgroundColor: work.type === 'project' ? 'rgba(233, 30, 99, 0.9)' : 
-                                       work.type === 'exchange' ? 'rgba(34, 211, 238, 0.9)' : 
-                                       'rgba(156, 39, 176, 0.9)',
+                      backgroundColor: work.type === 'project' ? 'rgba(233, 30, 99, 0.95)' : 
+                                       work.type === 'exchange' ? 'rgba(34, 211, 238, 0.95)' : 
+                                       'rgba(156, 39, 176, 0.95)',
+                      zIndex: 9999,
                     }}
                   >
-                    <span className="text-[9px] font-medium text-white">
+                    <span className="text-[8px] font-medium text-white leading-none">
                       {work.title}
                     </span>
                   </div>
