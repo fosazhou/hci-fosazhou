@@ -296,10 +296,26 @@ export function TimelineSlider({
         </div>
       </div>
       
+      {/* Half-year labels - ABOVE the timeline track, separate from interactive elements */}
+      <div className="relative h-4 mb-1">
+        {halfYearMarkers.map((marker) => {
+          const position = getPositionFromDate(marker)
+          return (
+            <span 
+              key={marker}
+              className="absolute text-[9px] font-mono text-muted-foreground/30 whitespace-nowrap -translate-x-1/2"
+              style={{ left: `${position}%` }}
+            >
+              {marker}
+            </span>
+          )
+        })}
+      </div>
+      
       {/* Timeline track */}
       <div 
         ref={trackRef}
-        className="relative h-20 cursor-pointer"
+        className="relative h-16 cursor-pointer"
         onClick={handleTrackClick}
         onMouseMove={(e) => {
           if (!trackRef.current || isDragging) return
@@ -315,6 +331,18 @@ export function TimelineSlider({
       >
         {/* Background track */}
         <div className="absolute top-1/2 left-0 right-0 h-[1px] -translate-y-1/2 bg-[rgba(34,211,238,0.1)]" />
+        
+        {/* Tick marks for half-year markers */}
+        {halfYearMarkers.map((marker) => {
+          const position = getPositionFromDate(marker)
+          return (
+            <div 
+              key={`tick-${marker}`}
+              className="absolute top-1/2 -translate-y-1/2 w-[1px] h-2 bg-muted-foreground/15"
+              style={{ left: `${position}%` }}
+            />
+          )
+        })}
         
         {/* Work activity bars (visual representation of when works are active) */}
         <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-8">
@@ -370,38 +398,7 @@ export function TimelineSlider({
           }}
         />
         
-        {/* Half-year markers: 2024.6, 2024.12, 2025.6, 2025.12, 2026.6 - dimmed, non-interactive */}
-        <div className="absolute inset-x-0 top-0 bottom-0 pointer-events-none z-10">
-          {halfYearMarkers.map((marker, index) => {
-            const position = getPositionFromDate(marker)
-            // Alternate labels above and below to avoid overlap with slider handles
-            const isAbove = index % 2 === 0
-            
-            return (
-              <div 
-                key={marker} 
-                className="absolute flex flex-col items-center"
-                style={{ 
-                  left: `${position}%`,
-                  transform: 'translateX(-50%)'
-                }}
-              >
-                {/* Marker tick - extends above and below center line */}
-                <div className="absolute top-1/2 -translate-y-1/2 w-[1px] h-4 bg-muted-foreground/15" />
-                
-                {/* Label - alternate above/below */}
-                <span 
-                  className={cn(
-                    "absolute text-[9px] font-mono text-muted-foreground/25 whitespace-nowrap",
-                    isAbove ? "bottom-full mb-1" : "top-full mt-1"
-                  )}
-                >
-                  {marker}
-                </span>
-              </div>
-            )
-          })}
-        </div>
+
         
         {/* Draggable handles */}
         <div
