@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
 
 // 滚动位置存储 key
 const SCROLL_KEY = "homepage-scroll-position"
@@ -66,146 +65,58 @@ export function isTransitioning(): boolean {
   return false
 }
 
-// 过渡动画阶段
-type TransitionPhase = "idle" | "scanning" | "loading" | "entering"
-
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
-  const [phase, setPhase] = useState<TransitionPhase>("idle")
-  const [targetUrl, setTargetUrl] = useState<string>("")
-  const [scanProgress, setScanProgress] = useState(0)
+  const [isActive, setIsActive] = useState(false)
 
   const navigateWithTransition = useCallback((url: string) => {
     // 保存滚动位置
     saveScrollPosition()
     // 标记正在过渡
     setTransitioning(true)
-    // 开始过渡动画
-    setTargetUrl(url)
-    setPhase("scanning")
-    setScanProgress(0)
-  }, [])
+    // 立即显示纯黑遮罩
+    setIsActive(true)
+    
+    // 极短延迟后跳转，确保遮罩已渲染
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        router.push(url)
+      })
+    })
+  }, [router])
 
-  // 处理过渡动画序列
+  // 页面加载完成后淡出遮罩
   useEffect(() => {
-    if (phase === "scanning") {
-      // 模拟扫描进度
-      const interval = setInterval(() => {
-        setScanProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval)
-            setPhase("loading")
-            return 100
-          }
-          return prev + Math.random() * 15 + 5
-        })
-      }, 50)
-      return () => clearInterval(interval)
-    }
-    
-    if (phase === "loading") {
-      // 短暂停顿后进入
+    if (isActive) {
       const timer = setTimeout(() => {
-        setPhase("entering")
-        router.push(targetUrl)
-      }, 200)
+        setIsActive(false)
+        setTransitioning(false)
+      }, 400)
       return () => clearTimeout(timer)
     }
-    
-    if (phase === "entering") {
-      // 进入动画完成后重置
-      const timer = setTimeout(() => {
-        setPhase("idle")
-        setTargetUrl("")
-        setScanProgress(0)
-      }, 600)
-      return () => clearTimeout(timer)
-    }
-  }, [phase, targetUrl, router])
-
-  const isActive = phase !== "idle"
+  }, [isActive])
 
   return (
     <TransitionContext.Provider value={{ navigateWithTransition }}>
       {children}
       
-      {/* 过渡遮罩 */}
+      {/* 纯黑遮罩 - 覆盖整个页面 */}
       <div 
-        className={cn(
-          "fixed inset-0 z-[9999] pointer-events-none",
-          "transition-opacity duration-300",
-          isActive ? "opacity-100" : "opacity-0"
-        )}
-      >
-        {/* 深色背景 */}
-        <div 
-          className={cn(
-            "absolute inset-0 bg-[#0a0a0f]",
-            "transition-opacity duration-200",
-            phase === "entering" ? "opacity-100" : "opacity-95"
-          )}
-        />
-        
-        {/* 扫描线效果 */}
-        {(phase === "scanning" || phase === "loading") && (
-          <div 
-            className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent"
-            style={{
-              top: `${Math.min(scanProgress, 100)}%`,
-              boxShadow: "0 0 20px var(--primary-glow), 0 0 40px var(--primary-glow)",
-              opacity: phase === "loading" ? 0.5 : 1,
-              transition: "opacity 0.2s"
-            }}
-          />
-        )}
-        
-        {/* 中央状态指示器 */}
-        {isActive && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-4">
-              {/* 状态文字 */}
-              <div className="flex items-center gap-2">
-                <div 
-                  className={cn(
-                    "w-2 h-2 rounded-full",
-                    phase === "scanning" && "bg-primary animate-pulse",
-                    phase === "loading" && "bg-brand animate-pulse",
-                    phase === "entering" && "bg-green-400"
-                  )}
-                />
-                <span className="text-[10px] font-mono tracking-widest text-primary/80 uppercase">
-                  {phase === "scanning" && "ANALYZING_TARGET..."}
-                  {phase === "loading" && "LOADING_CONTENT..."}
-                  {phase === "entering" && "RENDERING..."}
-                </span>
-              </div>
-              
-              {/* 进度条 */}
-              {phase === "scanning" && (
-                <div className="w-48 h-[2px] bg-[rgba(34,211,238,0.1)] rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-primary rounded-full transition-all duration-100"
-                    style={{ width: `${Math.min(scanProgress, 100)}%` }}
-                  />
-                </div>
-              )}
-              
-              {/* 目标URL显示 */}
-              <span className="text-[9px] font-mono text-muted-foreground/40 tracking-wider">
-                {targetUrl.split('/').pop()?.toUpperCase() || "TARGET"}
-              </span>
-            </div>
-          </div>
-        )}
-        
-        {/* 边框装饰 */}
-        {isActive && (
-          <>
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-          </>
-        )}
-      </div>
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#000000',
+          zIndex: 999999,
+          pointerEvents: isActive ? 'auto' : 'none',
+          opacity: isActive ? 1 : 0,
+          transition: isActive ? 'none' : 'opacity 0.3s ease-out',
+        }}
+      />
     </TransitionContext.Provider>
   )
 }
