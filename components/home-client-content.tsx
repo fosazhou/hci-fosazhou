@@ -139,7 +139,8 @@ export function HomeClientContent() {
           endDate: p.endDate,
           type: 'project',
           coverImage: p.coverImage,
-          keywords: p.keywords
+          keywords: p.keywords,
+          description: p.description
         })
       }
     })
@@ -154,7 +155,8 @@ export function HomeClientContent() {
           endDate: e.endDate,
           type: 'exchange',
           coverImage: e.coverImage,
-          keywords: e.keywords
+          keywords: e.keywords,
+          description: e.description
         })
       }
     })
@@ -169,7 +171,8 @@ export function HomeClientContent() {
           endDate: w.endDate,
           type: 'work',
           coverImage: w.coverImage,
-          keywords: w.keywords
+          keywords: w.keywords,
+          description: w.description
         })
       }
     })

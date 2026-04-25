@@ -12,6 +12,7 @@ export interface TimelineWork {
   type: 'project' | 'exchange' | 'work'
   coverImage?: string
   keywords: string[]
+  description?: string  // Brief description for popup
 }
 
 interface TimelineSliderProps {
@@ -68,6 +69,7 @@ export function TimelineSlider({
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
   const [hoveredMonth, setHoveredMonth] = useState<string | null>(null)
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
+  const [clickPosition, setClickPosition] = useState<number | null>(null) // For positioning the popup
   
   // Calculate total months
   const totalMonths = useMemo(() => {
@@ -227,12 +229,30 @@ export function TimelineSlider({
     }
   }, [isDragging, handleTouchMove, handleMouseUp])
 
-  const handleMonthClick = (month: string) => {
-    if (selectedMonth === month) {
-      setSelectedMonth(null)
-    } else {
-      setSelectedMonth(month)
+  const handleTrackClick = (e: React.MouseEvent) => {
+    if (!trackRef.current || isDragging) return
+    
+    const rect = trackRef.current.getBoundingClientRect()
+    const position = ((e.clientX - rect.left) / rect.width) * 100
+    const clickedMonth = getDateFromPosition(position)
+    const worksInMonth = getWorksForMonth(clickedMonth)
+    
+    // Only show popup if there are works in that month
+    if (worksInMonth.length > 0) {
+      if (selectedMonth === clickedMonth) {
+        setSelectedMonth(null)
+        setClickPosition(null)
+      } else {
+        setSelectedMonth(clickedMonth)
+        setClickPosition(position)
+      }
     }
+  }
+  
+  // Close popup when clicking outside
+  const handleClosePopup = () => {
+    setSelectedMonth(null)
+    setClickPosition(null)
   }
 
   const startPos = getPositionFromDate(value[0])
@@ -276,6 +296,7 @@ export function TimelineSlider({
       <div 
         ref={trackRef}
         className="relative h-20 cursor-pointer"
+        onClick={handleTrackClick}
         onMouseMove={(e) => {
           if (!trackRef.current || isDragging) return
           const rect = trackRef.current.getBoundingClientRect()
@@ -428,7 +449,7 @@ export function TimelineSlider({
         </div>
         
         {/* Hover tooltip */}
-        {hoveredMonth && !isDragging && (
+        {hoveredMonth && !isDragging && !selectedMonth && (
           <div 
             className="absolute -top-10 px-2 py-1 rounded bg-[rgba(10,10,15,0.9)] border border-primary/30 text-[10px] font-mono text-primary whitespace-nowrap z-40 pointer-events-none"
             style={{
@@ -438,6 +459,126 @@ export function TimelineSlider({
           >
             {formatDisplayDate(hoveredMonth)} · {getWorksForMonth(hoveredMonth).length} works
           </div>
+        )}
+        
+        {/* Selected month popup - shows project details */}
+        {selectedMonth && clickPosition !== null && (
+          <>
+            {/* Backdrop to close popup */}
+            <div 
+              className="fixed inset-0 z-40"
+              onClick={handleClosePopup}
+            />
+            
+            {/* Popup */}
+            <div 
+              className={cn(
+                "absolute z-50",
+                "min-w-[280px] max-w-[360px]",
+                "p-4 rounded-lg",
+                "bg-[rgba(8,8,12,0.95)] backdrop-blur-md",
+                "border border-primary/30",
+                "shadow-xl animate-in fade-in-0 zoom-in-95 duration-200"
+              )}
+              style={{
+                top: '-160px',
+                left: `${Math.min(Math.max(clickPosition, 15), 85)}%`,
+                transform: 'translateX(-50%)',
+                boxShadow: "0 0 30px rgba(34,211,238,0.15), 0 8px 32px rgba(0,0,0,0.5)",
+              }}
+            >
+              {/* Arrow pointing down */}
+              <div 
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-[rgba(8,8,12,0.95)] border-r border-b border-primary/30"
+              />
+              
+              {/* Header */}
+              <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono text-primary tracking-wider">
+                    {formatDisplayDate(selectedMonth)}
+                  </span>
+                  <span className="text-[10px] font-mono text-muted-foreground/60">
+                    {getWorksForMonth(selectedMonth).length} 项活动
+                  </span>
+                </div>
+                <button
+                  onClick={handleClosePopup}
+                  className="p-1 rounded hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              
+              {/* Works list */}
+              <div className="space-y-3 max-h-[200px] overflow-y-auto">
+                {getWorksForMonth(selectedMonth).map((work) => (
+                  <a
+                    key={`${work.type}-${work.id}`}
+                    href={getLinkPath(work)}
+                    className={cn(
+                      "block p-3 rounded-lg",
+                      "bg-[rgba(34,211,238,0.03)]",
+                      "border border-transparent",
+                      "hover:border-primary/30 hover:bg-[rgba(34,211,238,0.08)]",
+                      "transition-all duration-200",
+                      "group"
+                    )}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex items-start gap-3">
+                      {/* Thumbnail */}
+                      {work.coverImage && (
+                        <div className="w-14 h-10 rounded overflow-hidden flex-shrink-0 bg-muted/20">
+                          <img 
+                            src={work.coverImage} 
+                            alt={work.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        {/* Type & Time */}
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-primary/60">{getTypeIcon(work.type)}</span>
+                          <span className="text-[9px] font-mono text-muted-foreground/50 uppercase">
+                            {getTypeLabel(work.type)}
+                          </span>
+                          <span className="text-[9px] font-mono text-muted-foreground/40">
+                            {formatDisplayDate(work.startDate)} - {formatDisplayDate(work.endDate)}
+                          </span>
+                        </div>
+                        
+                        {/* Title */}
+                        <h4 className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                          {work.title}
+                        </h4>
+                        
+                        {/* Description */}
+                        {work.description && (
+                          <p className="text-[11px] text-muted-foreground/70 mt-1 line-clamp-2 leading-relaxed">
+                            {work.description}
+                          </p>
+                        )}
+                        
+                        {/* Keywords */}
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {work.keywords.slice(0, 3).map((kw, i) => (
+                            <span 
+                              key={i}
+                              className="px-1.5 py-0.5 text-[8px] font-mono rounded bg-primary/10 text-primary/70"
+                            >
+                              {kw}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </>
         )}
       </div>
       
