@@ -75,91 +75,83 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "nestide",
-    title: "Nestide/巢流",
-    description: "城市低空医疗物流的基础设施节点原型，在节点-廊道-平台系统中整合起降、中转与控制塔功能。",
-    keywords: ["低空经济", "城市基础设施", "无人机物流"],
-    coverImage: "/images/projects/nestide/cover.jpg",
-    fullDescription: "Nestide 是一个综合性基础设施原型，旨在满足城市低空医疗物流的新兴需求。",
-    year: "2025",
-    startDate: "2025.6",
-    endDate: "2025.8",
-    location: "幸福林带，西安，中国",
-    role: "主设计师",
+    id: "portfolio-website",
+    title: "Portfolio Website Design",
+    description: "基于 Next.js 和 React 构建的交互式建筑作品集网站，采用自适应阅读模式和时间轴导航系统。",
+    keywords: ["Web Design", "Next.js", "Interactive", "HCI"],
+    coverImage: "/images/works/portfolio/cover.png",
+    fullDescription: "设计并开发个人建筑作品集网站，集成自适应阅读模式系统，根据用户行为智能切换快速浏览、过程探索和研究深入三种阅读体验。采用时间轴导航、粒子效果头像、科技风格UI等创新交互设计。",
+    year: "2026",
+    startDate: "2026.3",
+    endDate: "2026.5",
+    location: "奥克兰，新西兰",
+    role: "设计师与开发者",
     details: [
-      "集成垂直起降平台",
-      "自动化中转系统",
-      "实时空中交通控制塔",
-      "模块化设计",
-      "环境传感器监测"
+      "自适应阅读模式系统设计",
+      "时间轴导航与项目筛选",
+      "响应式布局与动效设计",
+      "Next.js + React + Tailwind CSS 技术栈",
     ],
-    // ====== NESTIDE 项目图集 ======
     galleryImages: [
-      { src: "/images/projects/nestide/01.jpg", caption: "" },
-      { src: "/images/projects/nestide/02.png", caption: "" },
-      { src: "/images/projects/nestide/03.jpg", caption: "" },
-      { src: "/images/projects/nestide/04.jpg", caption: "" },
-      { src: "/images/projects/nestide/05.jpg", caption: "" },
-      { src: "/images/projects/nestide/06.jpg", caption: "" },
+      { src: "/images/works/portfolio/01.png", caption: "" },
     ],
-    // ====== 三种阅读模式内容 ======
     quickContent: {
-      headline: "为城市低空医疗物流设计的模块化基础设施节点",
+      headline: "融合人机交互理念的自适应建筑作品集网站",
       keyPoints: [
-        "整合起降、中转、控制塔三大功能",
-        "模块化设计适应不同城市环境",
-        "实时空中交通管理系统",
-        "环境感知与自动化物流处理"
+        "自适应阅读模式根据用户行为智能切换",
+        "时间轴导航系统实现项目筛选",
+        "粒子效果头像与科技风格UI",
+        "响应式设计适配多终端"
       ],
-      outcome: "提出了一套可复制的低空物流基础设施设计范式"
+      outcome: "创建了一个能感知用户阅读偏好的交互式作品集"
     },
     processContent: {
       phases: [
         {
-          title: "场地调研与需求分析",
-          description: "分析幸福林带的城市肌理、交通流线和医疗资源分布，确定节点选址逻辑"
+          title: "交互设计研究",
+          description: "研究用户阅读行为模式，设计自适应阅读模式系统"
         },
         {
-          title: "功能原型设计",
-          description: "通过迭代测试确定起降平台尺度、中转空间流线和控制塔视野需求"
+          title: "视觉系统设计",
+          description: "建立科技感视觉语言，设计深色主题配色和动效系统"
         },
         {
-          title: "结构与形态生成",
-          description: "使用参数化工具探索结构形式，平衡功能效率与城市形象"
+          title: "前端开发",
+          description: "使用 Next.js + React + Tailwind CSS 实现响应式布局"
         },
         {
-          title: "系统整合与优化",
-          description: "整合传感器网络、自动化设备和交通管理系统"
+          title: "行为追踪系统",
+          description: "开发用户行为追踪和分析系统，实现智能模式切换"
         }
       ],
-      methodology: "基于场景推演的设计方法，从物流流程倒推空间需求",
-      iterations: "经历了 3 轮主要迭代，从单一功能模块发展为综合性节点",
+      methodology: "以用户为中心的设计方法，通过行为数据驱动界面优化",
+      iterations: "经历多轮用户测试，持续优化阅读体验和交互细节",
       decisions: [
-        "选择垂直叠加而非水平铺展，减少占地面积",
-        "采用模块化结构便于不同场地条件下的适配",
-        "控制塔位于顶部确保 360 度视野覆盖"
+        "选择 Next.js 作为框架以获得最佳性能",
+        "采用深色主题突出作品内容",
+        "使用时间轴作为主要导航方式"
       ]
     },
     researchContent: {
-      problemStatement: "城市低空物流缺乏专门的基础设施支撑，现有建筑无法满足无人机起降、充电、货物中转的复合需求",
-      context: "随着无人机技术成熟和低空空域逐步开放，城市医疗急救物流面临时效性挑战。传统地面交通拥堵严重，而低空物流可将配送时间从 30 分钟缩短至 5 分钟",
-      hypothesis: "通过整合起降、中转、控制功能的复合型基础设施节点，可以有效支撑城市低空医疗物流网络的运作",
-      approach: "采用场景推演法，从医疗急救物流的典型流程出发，逐步推导出空间功能需求和设计参数",
+      problemStatement: "传统作品集网站缺乏交互性，无法适应不同用户的阅读习惯和深度需求",
+      context: "随着 HCI 研究的发展，网站可以根据用户行为智能调整内容呈现方式。本项目将这一理念应用于建筑作品集设计",
+      hypothesis: "通过追踪用户行为并提供三种阅读模式，可以提升用户体验和信息获取效率",
+      approach: "采用行为驱动的设计方法，从用户数据出发优化界面和交互",
       logic: [
-        "医疗物流对时效性要求极高 → 需要快速起降和中转能力",
-        "无人机续航有限 → 需要分布式节点网络和充电设施",
-        "城市空间有限 → 需要垂直整合多种功能",
-        "安全监管需求 → 需要可视化的空中交通控制"
+        "不同用户有不同的阅读深度需求 → 需要多种阅读模式",
+        "用户行为反映其意图 → 可以通过行为数据推断偏好",
+        "作品集需要展示过程而非仅结果 → 需要分层内容结构"
       ],
       strategies: [
-        "功能分层：起降层 → 中转层 → 控制层的垂直组织",
-        "模块化：标准化单元便于不同场地快速部署",
-        "智能化：传感器网络实现自动化运营"
+        "设计三种阅读模式：快速浏览、过程探索、研究深入",
+        "开发行为追踪系统实时分析用户意图",
+        "使用时间轴实现直观的项目筛选"
       ],
-      findings: "复合型节点设计可提高 40% 的空间使用效率，同时简化运营管理流程",
-      reflection: "项目揭示了新型城市基础设施与既有城市肌理之间的张力，未来需要更多关注社会接受度和政策协调"
+      findings: "自适应阅读模式显著提升了用户在网站的停留时间和探索深度",
+      reflection: "项目展示了 HCI 原理在作品集设计中的应用价值，未来可进一步优化推断算法"
     }
   },
+
   {
     id: "veilspace",
     title: "Veilspace",
@@ -255,92 +247,7 @@ export const projects: Project[] = [
       reflection: "项目展示了技术如何赋予空间情感品质，但也引发了关于隐私和监控的伦理思考"
     }
   },
-  {
-    id: "fu",
-    title: "FU",
-    description: "基于波形逻辑和参数化设计的生成式建筑系统，探索算法规则如何塑造空间结构和建筑形态。",
-    keywords: ["生成式设计", "参数化建筑", "算法形态"],
-    coverImage: "/images/projects/fu/cover.png",
-    fullDescription: "FU 研究数学波形原理与建筑形态生成的交叉领域。",
-    year: "2025",
-    startDate: "2025.8",
-    endDate: "2025.11",
-    location: "奥克兰 Harbour，新西兰",
-    role: "设计师",
-    details: [
-      "基于多重波函数叠加的算法",
-      "参数化控制频率、振幅和相位关系",
-      "使用 Grasshopper 和自定义 C# 组件",
-      "输出格式兼容 CNC 制造和 3D 打印",
-      "探索波形衍生几何体产生的声学特性"
-    ],
-    // ====== FU 项目图集 ======
-    galleryImages: [
-      { src: "/images/projects/fu/01.jpg", caption: "" },
-      { src: "/images/projects/fu/02.jpg", caption: "" },
-      { src: "/images/projects/fu/03.jpg", caption: "" },
-      { src: "/images/projects/fu/04.jpg", caption: "" },
-      { src: "/images/projects/fu/05.jpg", caption: "" },
-      { src: "/images/projects/fu/06.jpg", caption: "" },
-      { src: "/images/projects/fu/07.JPG", caption: "" },
-      { src: "/images/projects/fu/08.png", caption: "" },
-    ],
-    quickContent: {
-      headline: "基于波形数学的生成式建筑形态系统",
-      keyPoints: [
-        "多重波函数叠加生成复杂几何",
-        "参数化控制实现无限形态变化",
-        "输出兼容数字制造工艺",
-        "探索形态与声学的内在关联"
-      ],
-      outcome: "建立了从算法到建造的完整生成式设计流程"
-    },
-    processContent: {
-      phases: [
-        {
-          title: "数学原理研究",
-          description: "研究波形叠加、相位干涉等数学原理，建立形态生成的理论基础"
-        },
-        {
-          title: "算法开发",
-          description: "使用 Grasshopper 和 C# 开发波形生成算法，实现参数化控制"
-        },
-        {
-          title: "形态探索",
-          description: "通过调整参数生成大量形态变体，筛选具有建筑潜力的几何"
-        },
-        {
-          title: "制造验证",
-          description: "将选定形态转化为 CNC 和 3D 打印可执行的文件格式"
-        }
-      ],
-      methodology: "生成式设计方法，从数学规则出发探索形态可能性空间",
-      iterations: "生成并评估了超过 200 个形态变体，最终选择 5 个进行深化",
-      decisions: [
-        "选择三角函数叠加作为基础生成逻辑",
-        "将频率、振幅、相位作为核心控制参数",
-        "采用曲面细分确保制造可行性"
-      ]
-    },
-    researchContent: {
-      problemStatement: "传统建筑设计依赖设计师的直觉和经验，难以系统性地探索形态可能性空间",
-      context: "计算设计的发展使得基于规则的形态生成成为可能。本项目探索波形数学在建筑形态生成中的应用潜力",
-      hypothesis: "通过波形函数的参数化叠加，可以生成具有复杂几何特征同时保持内在逻辑一致性的建筑形态",
-      approach: "采用从数学原理到建筑应用的研究路径，建立从算法到制造的完整工作流",
-      logic: [
-        "波形是自然界普遍存在的形式 → 具有内在的美学和结构合理性",
-        "参数化控制提供精确可重复性 → 便于迭代优化和制造",
-        "多波形叠加产生复杂性 → 简单规则可生成丰富结果"
-      ],
-      strategies: [
-        "建立波形参数与空间品质的映射关系",
-        "开发可视化工具实时预览形态变化",
-        "设计评估标准筛选具有建筑潜力的几何"
-      ],
-      findings: "波形生成的形态展现出独特的声学特性，高频几何产生更强的声波散射",
-      reflection: "项目展示了数学规则与建筑美学之间的深层联系，但也提出了关于设计师角色转变的思考"
-    }
-  },
+
   {
     id: "td-music-visualization",
     title: "TD·音乐实时可视化实验",
