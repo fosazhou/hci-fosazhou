@@ -225,4 +225,23 @@ export const otherWorks: OtherWork[] = [
       "探索音乐与视觉的映射关系",
     ],
   },
+  {
+    id: "portfolio-website",
+    title: "Portfolio Website Design",
+    titleCn: "个人作品集网站设计",
+    description: "基于 Next.js 和 React 构建的交互式建筑作品集网站，采用自适应阅读模式和时间轴导航系统",
+    keywords: ["Web Design", "Next.js", "Interactive"],
+    coverImage: "/images/works/portfolio/cover.png",
+    fullDescription: "设计并开发个人建筑作品集网站，集成自适应阅读模式系统，根据用户行为智能切换快速浏览、过程探索和研究深入三种阅读体验。采用时间轴导航、粒子效果头像、科技风格UI等创新交互设计。",
+    year: "2026",
+    startDate: "2026.3",
+    endDate: "2026.5",
+    category: "网页设计",
+    details: [
+      "自适应阅读模式系统设计",
+      "时间轴导航与项目筛选",
+      "响应式布局与动效设计",
+      "Next.js + React + Tailwind CSS 技术栈",
+    ],
+  },
 ]

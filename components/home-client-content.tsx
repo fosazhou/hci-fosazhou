@@ -117,9 +117,9 @@ function OtherWorksSkeleton() {
   )
 }
 
-// Timeline range: 2024.6 to 2025.11
+// Timeline range: 2024.6 to 2026.6
 const TIMELINE_START = "2024.6"
-const TIMELINE_END = "2025.11"
+const TIMELINE_END = "2026.6"
 
 export function HomeClientContent() {
   const [mounted, setMounted] = useState(false)
