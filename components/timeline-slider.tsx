@@ -69,6 +69,7 @@ export function TimelineSlider({
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
   const [hoveredMonth, setHoveredMonth] = useState<string | null>(null)
   const [hoverPosition, setHoverPosition] = useState<number | null>(null) // Exact mouse position %
+  const [hoveredWork, setHoveredWork] = useState<TimelineWork | null>(null) // Currently hovered work bar
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [clickPosition, setClickPosition] = useState<number | null>(null) // For positioning the popup
   
@@ -349,31 +350,51 @@ export function TimelineSlider({
           {allWorks.map((work, i) => {
             const workStartPos = getPositionFromDate(work.startDate)
             const workEndPos = getPositionFromDate(work.endDate)
-            const isHovered = hoveredMonth && isWorkActiveInMonth(work, hoveredMonth)
+            const isBarHovered = hoveredWork?.id === work.id && hoveredWork?.type === work.type
+            const isMonthHovered = hoveredMonth && isWorkActiveInMonth(work, hoveredMonth)
+            const isHighlighted = isBarHovered || isMonthHovered
             // Brighter colors: pink for projects, cyan for exchanges, purple for works
             const colors = {
-              project: isHovered ? 'rgba(233, 30, 99, 0.9)' : 'rgba(233, 30, 99, 0.5)',
-              exchange: isHovered ? 'rgba(34, 211, 238, 0.9)' : 'rgba(34, 211, 238, 0.5)',
-              work: isHovered ? 'rgba(156, 39, 176, 0.9)' : 'rgba(156, 39, 176, 0.5)',
+              project: isHighlighted ? 'rgba(233, 30, 99, 0.95)' : 'rgba(233, 30, 99, 0.45)',
+              exchange: isHighlighted ? 'rgba(34, 211, 238, 0.95)' : 'rgba(34, 211, 238, 0.45)',
+              work: isHighlighted ? 'rgba(156, 39, 176, 0.95)' : 'rgba(156, 39, 176, 0.45)',
             }
             const shadows = {
-              project: isHovered ? '0 0 8px rgba(233, 30, 99, 0.6)' : 'none',
-              exchange: isHovered ? '0 0 8px rgba(34, 211, 238, 0.6)' : 'none',
-              work: isHovered ? '0 0 8px rgba(156, 39, 176, 0.6)' : 'none',
+              project: isHighlighted ? '0 0 10px rgba(233, 30, 99, 0.7)' : 'none',
+              exchange: isHighlighted ? '0 0 10px rgba(34, 211, 238, 0.7)' : 'none',
+              work: isHighlighted ? '0 0 10px rgba(156, 39, 176, 0.7)' : 'none',
             }
             return (
               <div
                 key={`${work.type}-${work.id}`}
-                className="absolute h-1.5 rounded-full transition-all duration-150 cursor-pointer"
+                className="absolute h-1.5 rounded-full transition-all duration-150 cursor-pointer z-10"
                 style={{
                   left: `${workStartPos}%`,
                   width: `${Math.max(workEndPos - workStartPos, 1)}%`,
                   backgroundColor: colors[work.type],
                   top: `${(i % 4) * 6}px`,
                   boxShadow: shadows[work.type],
-                  transform: isHovered ? 'scaleY(1.5)' : 'scaleY(1)',
+                  transform: isHighlighted ? 'scaleY(1.8)' : 'scaleY(1)',
                 }}
-              />
+                onMouseEnter={() => setHoveredWork(work)}
+                onMouseLeave={() => setHoveredWork(null)}
+              >
+                {/* Work name tooltip on hover */}
+                {isBarHovered && (
+                  <div 
+                    className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none z-50"
+                    style={{
+                      backgroundColor: work.type === 'project' ? 'rgba(233, 30, 99, 0.9)' : 
+                                       work.type === 'exchange' ? 'rgba(34, 211, 238, 0.9)' : 
+                                       'rgba(156, 39, 176, 0.9)',
+                    }}
+                  >
+                    <span className="text-[9px] font-medium text-white">
+                      {work.title}
+                    </span>
+                  </div>
+                )}
+              </div>
             )
           })}
         </div>
