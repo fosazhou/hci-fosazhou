@@ -68,6 +68,7 @@ export function TimelineSlider({
   const trackRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
   const [hoveredMonth, setHoveredMonth] = useState<string | null>(null)
+  const [hoverPosition, setHoverPosition] = useState<number | null>(null) // Exact mouse position %
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [clickPosition, setClickPosition] = useState<number | null>(null) // For positioning the popup
   
@@ -304,38 +305,60 @@ export function TimelineSlider({
           if (!trackRef.current || isDragging) return
           const rect = trackRef.current.getBoundingClientRect()
           const position = ((e.clientX - rect.left) / rect.width) * 100
+          setHoverPosition(position)
           setHoveredMonth(getDateFromPosition(position))
         }}
-        onMouseLeave={() => setHoveredMonth(null)}
+        onMouseLeave={() => {
+          setHoveredMonth(null)
+          setHoverPosition(null)
+        }}
       >
         {/* Background track */}
         <div className="absolute top-1/2 left-0 right-0 h-[1px] -translate-y-1/2 bg-[rgba(34,211,238,0.1)]" />
         
         {/* Work activity bars (visual representation of when works are active) */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-6">
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-8">
           {allWorks.map((work, i) => {
             const workStartPos = getPositionFromDate(work.startDate)
             const workEndPos = getPositionFromDate(work.endDate)
+            const isHovered = hoveredMonth && isWorkActiveInMonth(work, hoveredMonth)
+            // Brighter colors: pink for projects, cyan for exchanges, purple for works
             const colors = {
-              project: 'rgba(233, 30, 99, 0.3)',
-              exchange: 'rgba(34, 211, 238, 0.3)',
-              work: 'rgba(156, 39, 176, 0.3)',
+              project: isHovered ? 'rgba(233, 30, 99, 0.9)' : 'rgba(233, 30, 99, 0.5)',
+              exchange: isHovered ? 'rgba(34, 211, 238, 0.9)' : 'rgba(34, 211, 238, 0.5)',
+              work: isHovered ? 'rgba(156, 39, 176, 0.9)' : 'rgba(156, 39, 176, 0.5)',
+            }
+            const shadows = {
+              project: isHovered ? '0 0 8px rgba(233, 30, 99, 0.6)' : 'none',
+              exchange: isHovered ? '0 0 8px rgba(34, 211, 238, 0.6)' : 'none',
+              work: isHovered ? '0 0 8px rgba(156, 39, 176, 0.6)' : 'none',
             }
             return (
               <div
                 key={`${work.type}-${work.id}`}
-                className="absolute h-1 rounded-full transition-opacity duration-200"
+                className="absolute h-1.5 rounded-full transition-all duration-150 cursor-pointer"
                 style={{
                   left: `${workStartPos}%`,
                   width: `${Math.max(workEndPos - workStartPos, 1)}%`,
                   backgroundColor: colors[work.type],
-                  top: `${(i % 5) * 5}px`,
-                  opacity: hoveredMonth && isWorkActiveInMonth(work, hoveredMonth) ? 1 : 0.5,
+                  top: `${(i % 4) * 6}px`,
+                  boxShadow: shadows[work.type],
+                  transform: isHovered ? 'scaleY(1.5)' : 'scaleY(1)',
                 }}
               />
             )
           })}
         </div>
+        
+        {/* Mouse follower vertical line - follows exact mouse position */}
+        {hoverPosition !== null && !isDragging && (
+          <div 
+            className="absolute top-0 bottom-0 w-[1px] bg-primary/40 pointer-events-none z-20 transition-none"
+            style={{
+              left: `${hoverPosition}%`,
+            }}
+          />
+        )}
         
         {/* Active range highlight */}
         <div 
@@ -347,56 +370,25 @@ export function TimelineSlider({
           }}
         />
         
-        {/* Half-year markers: 2024.6, 2024.12, 2025.6, 2025.12, 2026.6 */}
-        <div className="absolute inset-x-0 top-0 bottom-0">
+        {/* Half-year markers: 2024.6, 2024.12, 2025.6, 2025.12, 2026.6 - dimmed, non-interactive */}
+        <div className="absolute inset-x-0 top-0 bottom-0 pointer-events-none">
           {halfYearMarkers.map((marker) => {
             const position = getPositionFromDate(marker)
-            const markerIdx = dateToIndex(marker, startMonth)
-            const isInRange = markerIdx >= dateToIndex(value[0], startMonth) &&
-                              markerIdx <= dateToIndex(value[1], startMonth)
-            const isSelected = selectedMonth === marker
             
             return (
               <div 
                 key={marker} 
-                className="absolute flex flex-col items-center cursor-pointer"
+                className="absolute flex flex-col items-center"
                 style={{ 
                   left: `${position}%`,
                   transform: 'translateX(-50%)'
                 }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  const worksInMonth = getWorksForMonth(marker)
-                  if (worksInMonth.length > 0) {
-                    if (selectedMonth === marker) {
-                      setSelectedMonth(null)
-                      setClickPosition(null)
-                    } else {
-                      setSelectedMonth(marker)
-                      setClickPosition(position)
-                    }
-                  }
-                }}
               >
-                {/* Marker dot */}
-                <div 
-                  className={cn(
-                    "absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full",
-                    "transition-all duration-300",
-                    isSelected ? "bg-primary scale-125" : isInRange ? "bg-primary/60" : "bg-[rgba(34,211,238,0.2)]"
-                  )}
-                  style={{
-                    boxShadow: isSelected ? "0 0 12px var(--primary-glow)" : isInRange ? "0 0 6px var(--primary-glow)" : "none"
-                  }}
-                />
+                {/* Marker tick */}
+                <div className="absolute top-1/2 -translate-y-1/2 w-[1px] h-3 bg-muted-foreground/20" />
                 
-                {/* Label above */}
-                <span
-                  className={cn(
-                    "absolute -top-5 text-[10px] font-mono transition-all duration-300 whitespace-nowrap",
-                    isSelected ? "text-primary font-medium" : isInRange ? "text-primary/80" : "text-muted-foreground/40"
-                  )}
-                >
+                {/* Label below timeline */}
+                <span className="absolute top-full mt-2 text-[9px] font-mono text-muted-foreground/30 whitespace-nowrap">
                   {marker}
                 </span>
               </div>
