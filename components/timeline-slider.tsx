@@ -85,12 +85,15 @@ export function TimelineSlider({
     return result
   }, [totalMonths, startMonth])
   
-  // Generate year markers (for display)
-  const years = useMemo(() => {
-    const startYear = parseDate(startMonth).year
-    const endYear = parseDate(endMonth).year
-    return Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
-  }, [startMonth, endMonth])
+  // Generate half-year markers (for display): 2024.6, 2024.12, 2025.6, 2025.12, 2026.6
+  const halfYearMarkers = useMemo(() => {
+    const markers: string[] = ['2024.6', '2024.12', '2025.6', '2025.12', '2026.6']
+    // Filter to only include markers within our range
+    return markers.filter(marker => {
+      const idx = dateToIndex(marker, startMonth)
+      return idx >= 0 && idx < totalMonths
+    })
+  }, [startMonth, totalMonths])
   
   // Check if a work is active in a given month
   const isWorkActiveInMonth = (work: TimelineWork, month: string): boolean => {
@@ -344,43 +347,57 @@ export function TimelineSlider({
           }}
         />
         
-        {/* Year markers */}
+        {/* Half-year markers: 2024.6, 2024.12, 2025.6, 2025.12, 2026.6 */}
         <div className="absolute inset-x-0 top-0 bottom-0">
-          {years.map((year) => {
-            const yearStartDate = `${year}.1`
-            const position = getPositionFromDate(yearStartDate)
-            const isInRange = dateToIndex(yearStartDate, startMonth) >= dateToIndex(value[0], startMonth) &&
-                              dateToIndex(yearStartDate, startMonth) <= dateToIndex(value[1], startMonth)
+          {halfYearMarkers.map((marker) => {
+            const position = getPositionFromDate(marker)
+            const markerIdx = dateToIndex(marker, startMonth)
+            const isInRange = markerIdx >= dateToIndex(value[0], startMonth) &&
+                              markerIdx <= dateToIndex(value[1], startMonth)
+            const isSelected = selectedMonth === marker
             
             return (
               <div 
-                key={year} 
-                className="absolute flex flex-col items-center"
+                key={marker} 
+                className="absolute flex flex-col items-center cursor-pointer"
                 style={{ 
                   left: `${position}%`,
                   transform: 'translateX(-50%)'
                 }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const worksInMonth = getWorksForMonth(marker)
+                  if (worksInMonth.length > 0) {
+                    if (selectedMonth === marker) {
+                      setSelectedMonth(null)
+                      setClickPosition(null)
+                    } else {
+                      setSelectedMonth(marker)
+                      setClickPosition(position)
+                    }
+                  }
+                }}
               >
-                {/* Year marker dot */}
+                {/* Marker dot */}
                 <div 
                   className={cn(
-                    "absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full",
+                    "absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full",
                     "transition-all duration-300",
-                    isInRange ? "bg-primary/60" : "bg-[rgba(34,211,238,0.2)]"
+                    isSelected ? "bg-primary scale-125" : isInRange ? "bg-primary/60" : "bg-[rgba(34,211,238,0.2)]"
                   )}
                   style={{
-                    boxShadow: isInRange ? "0 0 8px var(--primary-glow)" : "none"
+                    boxShadow: isSelected ? "0 0 12px var(--primary-glow)" : isInRange ? "0 0 6px var(--primary-glow)" : "none"
                   }}
                 />
                 
-                {/* Year label */}
+                {/* Label above */}
                 <span
                   className={cn(
-                    "absolute bottom-0 text-xs font-mono transition-all duration-300",
-                    isInRange ? "text-primary" : "text-muted-foreground/50"
+                    "absolute -top-5 text-[10px] font-mono transition-all duration-300 whitespace-nowrap",
+                    isSelected ? "text-primary font-medium" : isInRange ? "text-primary/80" : "text-muted-foreground/40"
                   )}
                 >
-                  {year}
+                  {marker}
                 </span>
               </div>
             )
@@ -461,7 +478,7 @@ export function TimelineSlider({
           </div>
         )}
         
-        {/* Selected month popup - shows project details */}
+        {/* Selected month popup - shows project details (below timeline) */}
         {selectedMonth && clickPosition !== null && (
           <>
             {/* Backdrop to close popup */}
@@ -470,109 +487,88 @@ export function TimelineSlider({
               onClick={handleClosePopup}
             />
             
-            {/* Popup */}
+            {/* Connecting line from point to popup */}
+            <div 
+              className="absolute z-45 w-[1px] bg-primary/50"
+              style={{
+                left: `${clickPosition}%`,
+                top: '50%',
+                height: '30px',
+              }}
+            />
+            
+            {/* Popup - positioned below timeline */}
             <div 
               className={cn(
                 "absolute z-50",
-                "min-w-[280px] max-w-[360px]",
-                "p-4 rounded-lg",
+                "w-[240px]",
+                "p-3 rounded-lg",
                 "bg-[rgba(8,8,12,0.95)] backdrop-blur-md",
-                "border border-primary/30",
-                "shadow-xl animate-in fade-in-0 zoom-in-95 duration-200"
+                "border border-primary/40",
+                "animate-in fade-in-0 slide-in-from-top-2 duration-200"
               )}
               style={{
-                top: '-160px',
-                left: `${Math.min(Math.max(clickPosition, 15), 85)}%`,
+                top: 'calc(50% + 35px)',
+                left: `${Math.min(Math.max(clickPosition, 20), 80)}%`,
                 transform: 'translateX(-50%)',
-                boxShadow: "0 0 30px rgba(34,211,238,0.15), 0 8px 32px rgba(0,0,0,0.5)",
+                boxShadow: "0 0 20px rgba(34,211,238,0.2), 0 4px 16px rgba(0,0,0,0.4)",
               }}
             >
-              {/* Arrow pointing down */}
+              {/* Arrow pointing up */}
               <div 
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-[rgba(8,8,12,0.95)] border-r border-b border-primary/30"
+                className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-[rgba(8,8,12,0.95)] border-l border-t border-primary/40"
               />
               
               {/* Header */}
-              <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-primary tracking-wider">
-                    {formatDisplayDate(selectedMonth)}
-                  </span>
-                  <span className="text-[10px] font-mono text-muted-foreground/60">
-                    {getWorksForMonth(selectedMonth).length} 项活动
-                  </span>
-                </div>
-                <button
-                  onClick={handleClosePopup}
-                  className="p-1 rounded hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
+              <div className="flex items-center justify-between mb-2 pb-2 border-b border-primary/15">
+                <span className="text-[10px] font-mono text-primary tracking-wider">
+                  {formatDisplayDate(selectedMonth)}_WORKS
+                </span>
+                <span className="text-[9px] font-mono text-muted-foreground/50">
+                  {getWorksForMonth(selectedMonth).length} items
+                </span>
               </div>
               
-              {/* Works list */}
-              <div className="space-y-3 max-h-[200px] overflow-y-auto">
+              {/* Works list - compact */}
+              <div className="space-y-1.5 max-h-[180px] overflow-y-auto">
                 {getWorksForMonth(selectedMonth).map((work) => (
                   <a
                     key={`${work.type}-${work.id}`}
                     href={getLinkPath(work)}
                     className={cn(
-                      "block p-3 rounded-lg",
-                      "bg-[rgba(34,211,238,0.03)]",
-                      "border border-transparent",
-                      "hover:border-primary/30 hover:bg-[rgba(34,211,238,0.08)]",
-                      "transition-all duration-200",
+                      "flex items-center gap-2 p-1.5 rounded",
+                      "hover:bg-primary/10",
+                      "transition-all duration-150",
                       "group"
                     )}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <div className="flex items-start gap-3">
-                      {/* Thumbnail */}
-                      {work.coverImage && (
-                        <div className="w-14 h-10 rounded overflow-hidden flex-shrink-0 bg-muted/20">
-                          <img 
-                            src={work.coverImage} 
-                            alt={work.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        {/* Type & Time */}
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-primary/60">{getTypeIcon(work.type)}</span>
-                          <span className="text-[9px] font-mono text-muted-foreground/50 uppercase">
-                            {getTypeLabel(work.type)}
-                          </span>
-                          <span className="text-[9px] font-mono text-muted-foreground/40">
-                            {formatDisplayDate(work.startDate)} - {formatDisplayDate(work.endDate)}
-                          </span>
-                        </div>
-                        
-                        {/* Title */}
-                        <h4 className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
-                          {work.title}
-                        </h4>
-                        
-                        {/* Description */}
-                        {work.description && (
-                          <p className="text-[11px] text-muted-foreground/70 mt-1 line-clamp-2 leading-relaxed">
-                            {work.description}
-                          </p>
-                        )}
-                        
-                        {/* Keywords */}
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {work.keywords.slice(0, 3).map((kw, i) => (
-                            <span 
-                              key={i}
-                              className="px-1.5 py-0.5 text-[8px] font-mono rounded bg-primary/10 text-primary/70"
-                            >
-                              {kw}
-                            </span>
-                          ))}
-                        </div>
+                    {/* Thumbnail */}
+                    {work.coverImage && (
+                      <div className="w-10 h-8 rounded overflow-hidden flex-shrink-0 bg-muted/20">
+                        <img 
+                          src={work.coverImage} 
+                          alt={work.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      {/* Type indicator */}
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <span className="text-primary/50">{getTypeIcon(work.type)}</span>
+                        <span className="text-[8px] font-mono text-muted-foreground/40 uppercase">
+                          {getTypeLabel(work.type)}
+                        </span>
+                      </div>
+                      {/* Title */}
+                      <h4 className="text-[11px] font-medium text-foreground/90 group-hover:text-primary transition-colors truncate">
+                        {work.title}
+                      </h4>
+                      {/* Keywords */}
+                      <p className="text-[9px] text-muted-foreground/50 truncate">
+                        {work.keywords.slice(0, 2).join(' · ')}
+                      </p>
                     </div>
                   </a>
                 ))}
