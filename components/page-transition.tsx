@@ -83,9 +83,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     <TransitionContext.Provider value={{ navigateWithTransition }}>
       {children}
       
-      {/* 闪白遮罩 - 即时显示，无过渡延迟 */}
+      {/* 闪黑遮罩 - 即时显示，无过渡延迟，匹配深色主题 */}
       <div 
-        className={`fixed inset-0 z-[9999] bg-white pointer-events-none ${
+        className={`fixed inset-0 z-[9999] bg-[#0a0a0f] pointer-events-none ${
           showOverlay ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ transition: 'none' }}

@@ -559,14 +559,22 @@ export function TimelineSlider({
                 {getWorksForMonth(selectedMonth).map((work) => (
                   <a
                     key={`${work.type}-${work.id}`}
-                    href={getLinkPath(work)}
+                    href={work.id === 'portfolio-website' ? '#' : getLinkPath(work)}
                     className={cn(
                       "flex items-center gap-2 p-1.5 rounded",
                       "hover:bg-primary/10",
                       "transition-all duration-150",
                       "group"
                     )}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      // Portfolio website - scroll to top of current page
+                      if (work.id === 'portfolio-website') {
+                        e.preventDefault()
+                        handleClosePopup()
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }
+                    }}
                   >
                     {/* Thumbnail */}
                     {work.coverImage && (
