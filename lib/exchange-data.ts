@@ -126,9 +126,9 @@ export const exchanges: Exchange[] = [
       { src: "/images/exchange/japan/19.JPG", caption: "在此输入图片描述" },
     ],
     fullDescription: "前往日本关西地区进行安藤忠雄建筑作品专项考察，深入研究其清水混凝土建筑语言、光影运用与空间序列设计。",
-    period: "2024.6",
-    startDate: "2024.6",
-    endDate: "2024.6",
+    period: "2024.7",
+    startDate: "2024.7",
+    endDate: "2024.7",
     location: "Osaka / Kobe / Awaji Island, Japan",
     program: "Architectural Study Tour",
     details: [
