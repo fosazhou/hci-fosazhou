@@ -5,7 +5,8 @@ import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { useMemo, useState } from "react"
 import { usePageTransition } from "@/components/page-transition"
 import { GlowCard } from "@/components/glow-card"
-import { StatusIndicator, HoverScan } from "@/components/scan-line"
+import { HoverScan } from "@/components/scan-line"
+import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { cn } from "@/lib/utils"
 import { MapPin, Calendar, ExternalLink } from "lucide-react"
 
@@ -17,8 +18,6 @@ export function Exchanges({ filterIds }: ExchangesProps) {
   const { navigateWithTransition } = usePageTransition()
   const { 
     isLoaded, 
-    topTag, 
-    totalClicks, 
     trackClick, 
     sortByPreference 
   } = useUserBehavior()
@@ -38,13 +37,6 @@ export function Exchanges({ filterIds }: ExchangesProps) {
     navigateWithTransition(`/exchanges/${exchange.id}`)
   }
 
-  // Status text
-  const statusText = useMemo(() => {
-    if (!isLoaded) return "> INITIALIZING_TRACKING..."
-    if (totalClicks === 0) return `> TRACKING_ACTIVE. ${exchanges.length} RECORDS LOADED.`
-    return `> INTEREST: [${topTag}]. ADAPTIVE_SORT_ENABLED.`
-  }, [isLoaded, totalClicks, topTag])
-
   return (
     <section id="exchanges" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
       <div className="mx-auto max-w-7xl">
@@ -57,23 +49,8 @@ export function Exchanges({ filterIds }: ExchangesProps) {
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
         
-        {/* System status */}
-        <div className={cn(
-          "mb-6 font-mono text-[10px]",
-          "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
-          "px-4 py-3 rounded-lg backdrop-blur-sm"
-        )}>
-          <div className="flex items-center gap-3">
-            <StatusIndicator status={isLoaded ? "active" : "processing"} />
-            <span className="text-primary/60">[SYS]</span>
-            <span className="text-[rgba(34,211,238,0.3)]">|</span>
-            <span className="text-muted-foreground/60 uppercase tracking-wider">GLOBAL_DATA</span>
-            <span className="text-[rgba(34,211,238,0.3)]">|</span>
-            <span className="flex-1 truncate text-muted-foreground">
-              {statusText}
-            </span>
-          </div>
-        </div>
+        {/* Behavior tracker display */}
+        <BehaviorTrackerDisplay section="exchanges" itemCount={sortedExchanges.length} />
         
         {/* Exchanges grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

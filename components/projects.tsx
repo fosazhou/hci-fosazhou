@@ -4,6 +4,7 @@ import React, { useMemo, useState, useEffect, useRef } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
+import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { cn } from "@/lib/utils"
 
 interface ProjectsProps {
@@ -249,9 +250,12 @@ export function Projects({ filterIds }: ProjectsProps) {
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
         
+        {/* Behavior tracker display */}
+        <BehaviorTrackerDisplay section="projects" itemCount={filteredProjects.length} />
+        
         {/* Instruction hint */}
-        <p className="text-[11px] font-mono text-muted-foreground/40 mb-8 tracking-wider">
-          HOVER_TO_VIEW_SUMMARY, HOLD_TO_PREVIEW, CLICK_TO_ENTER
+        <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
+          HOVER_TO_VIEW_SUMMARY | HOLD_TO_PREVIEW | CLICK_TO_ENTER
         </p>
         
         {/* Projects list */}

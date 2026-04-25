@@ -5,7 +5,8 @@ import { otherWorks, type OtherWork } from "@/lib/other-works-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
 import { GlowCard } from "@/components/glow-card"
-import { StatusIndicator, HoverScan } from "@/components/scan-line"
+import { HoverScan } from "@/components/scan-line"
+import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { cn } from "@/lib/utils"
 import { ExternalLink, Play } from "lucide-react"
 
@@ -171,10 +172,8 @@ function WorkCard({
 export function OtherWorks({ filterIds }: OtherWorksProps) {
   const { 
     isLoaded, 
-    totalClicks, 
     trackClick, 
-    sortByPreference,
-    topTag
+    sortByPreference
   } = useUserBehavior()
 
   const sortedWorks = useMemo(() => {
@@ -184,12 +183,6 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
     if (!isLoaded) return filtered
     return sortByPreference(filtered)
   }, [isLoaded, sortByPreference, filterIds])
-
-  const statusText = useMemo(() => {
-    if (!isLoaded) return "> INITIALIZING_TRACKING..."
-    if (totalClicks === 0) return `> TRACKING_ACTIVE. ${otherWorks.length} ENTRIES INDEXED.`
-    return `> INTEREST: [${topTag}]. ADAPTIVE_SORT_ENABLED.`
-  }, [isLoaded, totalClicks, topTag])
 
   return (
     <section id="other-works" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
@@ -203,23 +196,8 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
         
-        {/* System status */}
-        <div className={cn(
-          "mb-6 font-mono text-[10px]",
-          "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
-          "px-4 py-3 rounded-lg backdrop-blur-sm"
-        )}>
-          <div className="flex items-center gap-3">
-            <StatusIndicator status={isLoaded ? "active" : "processing"} />
-            <span className="text-primary/60">[SYS]</span>
-            <span className="text-[rgba(34,211,238,0.3)]">|</span>
-            <span className="text-muted-foreground/60 uppercase tracking-wider">ARCHIVE</span>
-            <span className="text-[rgba(34,211,238,0.3)]">|</span>
-            <span className="flex-1 truncate text-muted-foreground">
-              {statusText}
-            </span>
-          </div>
-        </div>
+        {/* Behavior tracker display */}
+        <BehaviorTrackerDisplay section="works" itemCount={sortedWorks.length} />
         
         {/* Works list */}
         <div className="space-y-6">
