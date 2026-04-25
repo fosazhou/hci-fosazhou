@@ -28,7 +28,7 @@ function GalleryImageBox({
   return (
     <figure className={`group ${className}`}>
       <div 
-        className={`overflow-hidden rounded-sm bg-slate-100 cursor-zoom-in ${needsFullHeight ? 'h-full' : ''}`}
+        className={`overflow-hidden rounded-sm bg-[rgba(20,20,25,0.6)] cursor-zoom-in ${needsFullHeight ? 'h-full' : ''}`}
         onClick={onClick}
       >
         <img 
@@ -40,7 +40,7 @@ function GalleryImageBox({
         />
       </div>
       {image.caption && (
-        <figcaption className="mt-3 text-xs text-slate-400">
+        <figcaption className="mt-3 text-xs text-muted-foreground/60">
           {image.caption}
         </figcaption>
       )}
@@ -69,11 +69,11 @@ function TdGallery({ images, demoVideo, onImageClick }: { images: GalleryImage[]
       {/* 顶部：16:9 演示视频 - 点击播放/暂停，有声音 */}
       {demoVideo && (
         <div>
-          <p className="text-sm text-slate-500 mb-4 text-center">
+          <p className="text-sm text-muted-foreground/60 mb-4 text-center">
             请将播放器调至合适音量观看
           </p>
           <div 
-            className="w-full aspect-[16/9] bg-slate-100 overflow-hidden rounded-sm relative cursor-pointer"
+            className="w-full aspect-[16/9] bg-[rgba(20,20,25,0.6)] overflow-hidden rounded-sm relative cursor-pointer"
             onClick={togglePlay}
           >
             <video
@@ -85,15 +85,15 @@ function TdGallery({ images, demoVideo, onImageClick }: { images: GalleryImage[]
             />
             {/* 播放/暂停按钮覆盖层 */}
             <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-              isPlaying ? 'opacity-0 hover:opacity-100 bg-black/20' : 'opacity-100 bg-black/30'
+              isPlaying ? 'opacity-0 hover:opacity-100 bg-black/20' : 'opacity-100 bg-black/40'
             }`}>
-              <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+              <div className="w-16 h-16 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/40 flex items-center justify-center">
                 {isPlaying ? (
-                  <svg className="w-6 h-6 text-slate-700" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
                   </svg>
                 ) : (
-                  <svg className="w-6 h-6 text-slate-700 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z"/>
                   </svg>
                 )}
@@ -116,8 +116,8 @@ function TdGallery({ images, demoVideo, onImageClick }: { images: GalleryImage[]
       
       {/* 最后居中1:1占位符 */}
       <div className="flex justify-center">
-        <div className="w-1/3 aspect-square bg-slate-100 rounded-sm flex items-center justify-center">
-          <span className="text-slate-300 text-xs">1:1</span>
+        <div className="w-1/3 aspect-square bg-[rgba(20,20,25,0.6)] rounded-sm flex items-center justify-center border border-primary/10">
+          <span className="text-muted-foreground/30 text-xs">1:1</span>
         </div>
       </div>
     </div>
@@ -376,10 +376,10 @@ export default function WorkPage() {
   
   if (!work) {
     return (
-      <main className="min-h-screen bg-white flex items-center justify-center">
+      <main className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">未找到该作品</h1>
-          <Link href="/#other-works" className="text-slate-600 hover:text-slate-900 underline">
+          <h1 className="text-2xl font-bold text-foreground mb-4">未找到该作品</h1>
+          <Link href="/#other-works" className="text-muted-foreground hover:text-primary underline">
             返回首页
           </Link>
         </div>
@@ -413,7 +413,7 @@ export default function WorkPage() {
   }
   
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* 图片放大查看器 */}
       <ImageLightbox 
         images={work.galleryImages || []}
@@ -422,23 +422,23 @@ export default function WorkPage() {
         onClose={() => setLightboxOpen(false)}
       />
       
-      {/* 入场白色遮罩 */}
+      {/* 入场黑色遮罩 - 匹配暗色主题 */}
       <div 
-        className={`fixed inset-0 z-[9999] bg-white pointer-events-none transition-opacity duration-300 ease-out ${
+        className={`fixed inset-0 z-[9999] bg-black pointer-events-none transition-opacity duration-300 ease-out ${
           showEntryOverlay ? 'opacity-100' : 'opacity-0'
         }`}
       />
       
       {/* 固定顶部导航 */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100 transition-all duration-500 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-primary/10 transition-all duration-500 ease-out ${
           headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
         }`}
       >
         <div className="mx-auto max-w-7xl px-6 lg:px-8 h-16 flex items-center justify-between">
       <Link
         href="/#other-works"
-        className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors"
+        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span className="text-sm">返回</span>
@@ -543,23 +543,23 @@ export default function WorkPage() {
       </div>
       
       {/* 内容区域 */}
-      <article className="relative bg-white py-16 md:py-24 px-6 lg:px-8">
+      <article className="relative bg-background py-16 md:py-24 px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <div className="prose prose-slate max-w-none">
-            <h2 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-6 font-normal">
+          <div className="max-w-none">
+            <h2 className="text-xs uppercase tracking-[0.2em] text-primary/60 mb-6 font-normal font-mono">
               概述
             </h2>
-            <p className="text-lg md:text-xl text-slate-600 leading-relaxed mb-16">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-16">
               {work.fullDescription}
             </p>
             
-            <h2 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-6 font-normal">
+            <h2 className="text-xs uppercase tracking-[0.2em] text-primary/60 mb-6 font-normal font-mono">
               核心特点
             </h2>
             <ul className="space-y-4 mb-16">
               {work.details.map((detail, i) => (
-                <li key={i} className="flex gap-4 text-slate-600">
-                  <span className="text-slate-300 font-mono text-sm">0{i + 1}</span>
+                <li key={i} className="flex gap-4 text-muted-foreground">
+                  <span className="text-primary/40 font-mono text-sm">0{i + 1}</span>
                   <span className="leading-relaxed">{detail}</span>
                 </li>
               ))}
@@ -568,7 +568,7 @@ export default function WorkPage() {
           
           {/* 作品图集 */}
           <div className="mb-16">
-            <h2 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-8 font-normal">
+            <h2 className="text-xs uppercase tracking-[0.2em] text-primary/60 mb-8 font-normal font-mono">
               作品图集
             </h2>
             
@@ -576,23 +576,23 @@ export default function WorkPage() {
               renderGallery()
             ) : (
               <div className="py-16 text-center">
-                <p className="text-slate-400 text-sm">暂无图片</p>
+                <p className="text-muted-foreground/40 text-sm">暂无图片</p>
               </div>
             )}
           </div>
         </div>
       </article>
       
-      <footer className="border-t border-slate-200 py-12 px-6 lg:px-8">
+      <footer className="border-t border-primary/10 py-12 px-6 lg:px-8 bg-background">
         <div className="mx-auto max-w-4xl flex justify-between items-center">
           <Link 
             href="/#other-works" 
-            className="text-slate-600 hover:text-slate-900 transition-colors text-sm"
+            className="text-muted-foreground hover:text-primary transition-colors text-sm"
           >
             查看所有作品
           </Link>
           
-          <p className="text-slate-400 text-sm">
+          <p className="text-muted-foreground/40 text-sm font-mono">
             FOSA 建筑作品集
           </p>
         </div>
