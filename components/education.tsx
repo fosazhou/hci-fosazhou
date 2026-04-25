@@ -11,7 +11,7 @@ const educationData = [
     department: "建筑学院",
     degree: "建筑学",
     period: "2022.9 - 至今",
-    logo: "/images/chu.jpg",
+    logo: "/images/chu.png",
   },
   {
     school: "University of Auckland",
@@ -39,7 +39,7 @@ export function Education() {
           </h2>
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
-        
+
         <div className="space-y-0">
           {educationData.map((edu, index) => (
             <div
@@ -51,7 +51,7 @@ export function Education() {
               )}
             >
               {/* Logo */}
-              <div 
+              <div
                 className={cn(
                   "w-12 h-12 rounded-lg flex-shrink-0 overflow-hidden",
                   "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]"
