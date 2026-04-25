@@ -198,33 +198,7 @@ export const otherWorks: OtherWork[] = [
       "可量化的环境设计策略",
     ],
   },
-  {
-    id: "td-music-visualization",
-    title: "TD·音乐实时可视化实验",
-    titleCn: "TD·音乐实时可视化实验",
-    description: "基于 TouchDesigner 的 Creative Coding 实验，探索音频数据与生成图形、视频素材的关系与动态呈现关系",
-    keywords: ["TouchDesigner", "Creative Coding", "实验"],
-    coverImage: "/images/works/td/cover.png",
-    previewVideo: "/videos/works/td_preview.mp4",
-    // 项目演示视频
-    demoVideo: "/videos/works/td_demo.mp4",
-    // 项目图集 - 3张图片
-    galleryImages: [
-      { src: "/images/works/td/01.jpg", caption: "" },
-      { src: "/images/works/td/02.png", caption: "" },
-      { src: "/images/works/td/03.jpg", caption: "" },
-    ],
-    fullDescription: "通过 TouchDesigner 平台进行音乐可视化实验，探索音频数据与生成图形之间的动态映射关系。",
-    year: "2024",
-    startDate: "2024.8",
-    endDate: "2024.8",
-    category: "创意编程实验",
-    details: [
-      "基于 TouchDesigner 的实时渲染",
-      "音频数据驱动的视觉生成",
-      "探索音乐与视觉的映射关系",
-    ],
-  },
+
   {
     id: "portfolio-website",
     title: "Portfolio Website Design",

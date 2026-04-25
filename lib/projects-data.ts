@@ -244,7 +244,7 @@ export const projects: Project[] = [
       logic: [
         "人对空间的感知是多感官的 → 需要视觉+动态+声音的综合体验",
         "响应必须是实时的 → 需要低延迟的传感和驱动系统",
-        "交互应该是自然的 → 不需要用户主动学习操作方式"
+        "交互应该是自然的 → 不需要用��主动学习操作方式"
       ],
       strategies: [
         "采用织物作为响应媒介，利用其柔软特性实现流畅变形",
@@ -339,6 +339,87 @@ export const projects: Project[] = [
       ],
       findings: "波形生成的形态展现出独特的声学特性，高频几何产生更强的声波散射",
       reflection: "项目展示了数学规则与建筑美学之间的深层联系，但也提出了关于设计师角色转变的思考"
+    }
+  },
+  {
+    id: "td-music-visualization",
+    title: "TD·音乐实时可视化实验",
+    description: "基于 TouchDesigner 的 Creative Coding 实验，探索音频数据与生成图形、视频素材的关系与动态呈现关系。",
+    keywords: ["TouchDesigner", "Creative Coding", "实时可视化"],
+    coverImage: "/images/works/td/cover.png",
+    previewVideo: "/videos/works/td_preview.mp4",
+    fullDescription: "通过 TouchDesigner 平台进行音乐可视化实验，探索音频数据与生成图形之间的动态映射关系。",
+    year: "2024",
+    startDate: "2024.8",
+    endDate: "2024.8",
+    location: "西安，中国",
+    role: "设计师与开发者",
+    video: "/videos/works/td_demo.mp4",
+    details: [
+      "基于 TouchDesigner 的实时渲染",
+      "音频数据驱动的视觉生成",
+      "探索音乐与视觉的映射关系",
+      "实时交互与参数化控制"
+    ],
+    galleryImages: [
+      { src: "/images/works/td/01.jpg", caption: "" },
+      { src: "/images/works/td/02.png", caption: "" },
+      { src: "/images/works/td/03.jpg", caption: "" },
+    ],
+    quickContent: {
+      headline: "用视觉语言重新诠释音乐的实时可视化系统",
+      keyPoints: [
+        "音频频谱分析驱动图形生成",
+        "实时渲染无延迟响应",
+        "参数化控制视觉风格",
+        "支持多种音乐风格适配"
+      ],
+      outcome: "建立了音频到视觉的动态映射系统"
+    },
+    processContent: {
+      phases: [
+        {
+          title: "音频分析系统",
+          description: "开发频谱分析和节拍检测模块，提取音乐的结构特征"
+        },
+        {
+          title: "视觉生成引擎",
+          description: "使用 TouchDesigner 构建粒子系统和几何变形的生成逻辑"
+        },
+        {
+          title: "映射关系设计",
+          description: "建立音频参数与视觉参数之间的映射规则"
+        },
+        {
+          title: "实时优化",
+          description: "优化渲染性能，确保视觉响应的实时性"
+        }
+      ],
+      methodology: "实验驱动的设计方法，通过持续测试建立音视觉对应关系",
+      iterations: "经历了多轮参数调整，优化视觉效果与音乐的同步性",
+      decisions: [
+        "选择 TouchDesigner 作为开发平台",
+        "采用频谱分析而非波形分析",
+        "使用粒子系统实现流畅的视觉过渡"
+      ]
+    },
+    researchContent: {
+      problemStatement: "音乐是抽象的时间艺术，如何用视觉语言将其具象化并保持艺术性？",
+      context: "音乐可视化已有悠久历史，但大多数实现要么过于机械，要么缺乏实时性。本项目探索如何在技术与艺术之间找到平衡",
+      hypothesis: "通过精心设计的音频-视觉映射规则，可以创造出既忠于音乐结构又具有独立审美价值的视觉体验",
+      approach: "采用实验性方法，从音乐理论和视觉心理学出发设计映射关系",
+      logic: [
+        "音乐有结构层次（节拍、旋律、和声）→ 视觉也应有对应层次",
+        "人对音乐和视觉的感知有共通性 → 可以建立跨感官映射",
+        "实时性是体验核心 → 必须优化性能确保同步"
+      ],
+      strategies: [
+        "将低频映射为大尺度运动，高频映射为细节变化",
+        "节拍驱动结构性变化，旋律驱动色彩流动",
+        "使用缓动函数平滑视觉过渡"
+      ],
+      findings: "观众普遍认为视觉效果增强了对音乐的理解和情感体验",
+      reflection: "项目展示了技术工具如何成为艺术表达的媒介，同时也引发了关于艺术创作中算法角色的思考"
     }
   },
 ]
