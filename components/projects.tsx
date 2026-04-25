@@ -1,65 +1,16 @@
 "use client"
 
-import React, { useMemo, useState, useEffect } from "react"
+import React, { useMemo, useState, useEffect, useRef } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
-import { GlowCard } from "@/components/glow-card"
-import { StatusIndicator, HoverScan } from "@/components/scan-line"
 import { cn } from "@/lib/utils"
-import { ExternalLink, Zap, GitBranch, Search } from "lucide-react"
 
 interface ProjectsProps {
   filterIds?: string[]
 }
 
-// System Status Bar
-function SystemStatus({ 
-  isLoaded, 
-  topTag, 
-  totalClicks,
-  sectionLabel,
-  filteredCount,
-  totalCount
-}: { 
-  isLoaded: boolean
-  topTag: string | null
-  totalClicks: number
-  sectionLabel: string
-  filteredCount: number
-  totalCount: number
-}) {
-  const statusText = useMemo(() => {
-    if (!isLoaded) {
-      return "> INITIALIZING_BEHAVIOR_TRACKING..."
-    }
-    if (totalClicks === 0) {
-      return `> TRACKING_ACTIVE. DISPLAYING ${filteredCount}/${totalCount} PROJECTS.`
-    }
-    return `> INTEREST_DETECTED: [${topTag}]. ADAPTIVE_REORDER_ENABLED. ${filteredCount}/${totalCount} VISIBLE.`
-  }, [isLoaded, topTag, totalClicks, filteredCount, totalCount])
-
-  return (
-    <div className={cn(
-      "mb-6 font-mono text-[10px]",
-      "border border-[rgba(34,211,238,0.15)] bg-[rgba(10,10,15,0.6)]",
-      "px-4 py-3 rounded-lg backdrop-blur-sm"
-    )}>
-      <div className="flex items-center gap-3">
-        <StatusIndicator status={isLoaded ? "active" : "processing"} />
-        <span className="text-primary/60">[SYS]</span>
-        <span className="text-[rgba(34,211,238,0.3)]">|</span>
-        <span className="text-muted-foreground/60 uppercase tracking-wider">{sectionLabel}</span>
-        <span className="text-[rgba(34,211,238,0.3)]">|</span>
-        <span className="flex-1 truncate text-muted-foreground">
-          {statusText}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-// Project Card Component
+// Project Card with hover reveal deeper layer
 function ProjectCard({ 
   project, 
   onTrack,
@@ -71,7 +22,8 @@ function ProjectCard({
 }) {
   const { navigateWithTransition } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
-  const videoRef = React.useRef<HTMLVideoElement>(null)
+  const [isPressed, setIsPressed] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -79,39 +31,156 @@ function ProjectCard({
     navigateWithTransition(`/projects/${project.id}`)
   }
 
+  // Play video when pressed (holding)
   useEffect(() => {
-    if (videoRef.current) {
-      if (isHovered) {
+    if (videoRef.current && project.previewVideo) {
+      if (isPressed) {
         videoRef.current.currentTime = 0
         videoRef.current.play().catch(() => {})
       } else {
         videoRef.current.pause()
       }
     }
-  }, [isHovered])
+  }, [isPressed, project.previewVideo])
 
   return (
     <div
-      className="block cursor-pointer group"
+      className="group cursor-pointer"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setIsPressed(false)
+      }}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
     >
-      <GlowCard hover className="overflow-hidden">
-        <div className="relative">
-          {/* Image/Video container */}
-          <div className="aspect-video w-full bg-[rgba(10,10,15,0.8)] overflow-hidden relative">
+      <div 
+        className={cn(
+          "relative overflow-hidden rounded-lg transition-all duration-500",
+          "border border-[rgba(255,255,255,0.06)]",
+          "bg-[rgba(10,10,15,0.4)]",
+          isHovered && "border-[rgba(255,255,255,0.12)] bg-[rgba(10,10,15,0.6)]"
+        )}
+      >
+        {/* Main content row */}
+        <div className="flex items-stretch">
+          {/* Left: Index number */}
+          <div 
+            className={cn(
+              "w-16 md:w-20 flex-shrink-0 flex items-center justify-center",
+              "border-r border-[rgba(255,255,255,0.06)]",
+              "bg-[rgba(255,255,255,0.02)]",
+              "transition-colors duration-300",
+              isHovered && "bg-[rgba(233,30,99,0.05)]"
+            )}
+          >
+            <span 
+              className={cn(
+                "text-2xl md:text-3xl font-light transition-colors duration-300",
+                isHovered ? "text-brand" : "text-muted-foreground/30"
+              )}
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+          </div>
+          
+          {/* Center: Title and info */}
+          <div className="flex-1 p-5 md:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                {/* Title */}
+                <h3 
+                  className={cn(
+                    "text-lg md:text-xl font-medium transition-colors duration-300",
+                    isHovered ? "text-foreground" : "text-foreground/80"
+                  )}
+                >
+                  {project.title}
+                </h3>
+                
+                {/* Subtitle - English name if exists */}
+                {project.keywords[0] && (
+                  <p className="text-sm text-muted-foreground/50 mt-0.5">
+                    {project.keywords[0]}
+                  </p>
+                )}
+              </div>
+              
+              {/* Year badge */}
+              <div 
+                className={cn(
+                  "px-3 py-1 rounded-full text-xs font-mono",
+                  "border transition-all duration-300",
+                  isHovered 
+                    ? "border-brand/30 text-brand bg-brand/5" 
+                    : "border-[rgba(255,255,255,0.1)] text-muted-foreground/50"
+                )}
+              >
+                {project.year}
+              </div>
+            </div>
+            
+            {/* Hover reveal: Description and tags */}
+            <div 
+              className={cn(
+                "overflow-hidden transition-all duration-500 ease-out",
+                isHovered ? "max-h-48 opacity-100 mt-4" : "max-h-0 opacity-0 mt-0"
+              )}
+            >
+              {/* Description */}
+              <p className="text-sm text-muted-foreground/70 leading-relaxed mb-4">
+                {project.description}
+              </p>
+              
+              {/* Keywords tags */}
+              <div className="flex flex-wrap gap-2">
+                {project.keywords.map((keyword, i) => (
+                  <span 
+                    key={i}
+                    className={cn(
+                      "px-2.5 py-1 text-[10px] font-mono tracking-wider uppercase",
+                      "border border-[rgba(255,255,255,0.1)] rounded-full",
+                      "text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]",
+                      "transition-colors duration-300",
+                      "hover:border-primary/30 hover:text-primary/70"
+                    )}
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+              
+              {/* Press hint */}
+              {project.previewVideo && (
+                <p className="mt-4 text-[10px] font-mono text-muted-foreground/40 tracking-wider">
+                  HOLD_TO_PREVIEW
+                </p>
+              )}
+            </div>
+          </div>
+          
+          {/* Right: Thumbnail image */}
+          <div 
+            className={cn(
+              "w-32 md:w-48 flex-shrink-0 relative overflow-hidden",
+              "transition-all duration-500",
+              isHovered && "w-40 md:w-56"
+            )}
+          >
             {project.coverImage && (
               <img 
                 src={project.coverImage} 
                 alt={project.title}
                 className={cn(
-                  "w-full h-full object-cover transition-all duration-500",
-                  isHovered && project.previewVideo ? "opacity-0" : "opacity-100",
-                  isHovered && "scale-105"
+                  "w-full h-full object-cover transition-all duration-700",
+                  isHovered && "scale-110",
+                  isPressed && project.previewVideo && "opacity-0"
                 )}
               />
             )}
+            
+            {/* Video preview on press */}
             {project.previewVideo && (
               <video
                 ref={videoRef}
@@ -120,78 +189,31 @@ function ProjectCard({
                 loop
                 playsInline
                 className={cn(
-                  "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
-                  isHovered ? "opacity-100" : "opacity-0"
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+                  isPressed ? "opacity-100" : "opacity-0"
                 )}
               />
             )}
             
-            {/* Scan line effect on hover */}
-            <HoverScan active={isHovered} />
-            
-            {/* Year badge */}
-            <div className="absolute top-4 left-4 px-2 py-1 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20 backdrop-blur-sm">
-              <span className="text-[10px] font-mono text-primary">{project.year}</span>
-            </div>
-            
-            {/* Reading modes indicator */}
-            <div className="absolute top-4 right-4 flex gap-1">
-              {project.quickContent && (
-                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20" title="Quick View">
-                  <Zap className="h-3 w-3 text-primary/60" />
-                </div>
+            {/* Gradient overlay */}
+            <div 
+              className={cn(
+                "absolute inset-0 bg-gradient-to-r from-[rgba(10,10,15,0.8)] via-transparent to-transparent",
+                "transition-opacity duration-300",
+                isHovered ? "opacity-30" : "opacity-60"
               )}
-              {project.processContent && (
-                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-secondary/20" title="Process View">
-                  <GitBranch className="h-3 w-3 text-secondary/60" />
-                </div>
-              )}
-              {project.researchContent && (
-                <div className="p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-accent/20" title="Research View">
-                  <Search className="h-3 w-3 text-accent/60" />
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="p-5">
-            {/* Index */}
-            <span className="text-[10px] font-mono text-primary/40 mb-2 block">
-              {String(index + 1).padStart(2, '0')}/
-            </span>
-            
-            {/* Title */}
-            <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2 group-hover:text-primary transition-colors">
-              {project.title}
-              <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </h3>
-            
-            {/* Description */}
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              {project.description}
-            </p>
-            
-            {/* Keywords */}
-            <div className="flex flex-wrap gap-2">
-              {project.keywords.map((keyword, i) => (
-                <span 
-                  key={i}
-                  className={cn(
-                    "px-2 py-0.5 text-[10px] font-mono tracking-wider",
-                    "text-primary/70 border border-primary/20 rounded-full",
-                    "bg-primary/5 uppercase",
-                    "transition-all duration-300",
-                    "hover:border-primary/40 hover:bg-primary/10"
-                  )}
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
+            />
           </div>
         </div>
-      </GlowCard>
+        
+        {/* Bottom accent line */}
+        <div 
+          className={cn(
+            "absolute bottom-0 left-0 h-[2px] bg-brand transition-all duration-500 ease-out",
+            isHovered ? "w-full" : "w-0"
+          )}
+        />
+      </div>
     </div>
   )
 }
@@ -207,7 +229,6 @@ export function Projects({ filterIds }: ProjectsProps) {
 
   // Filter and sort projects
   const filteredProjects = useMemo(() => {
-    // If filterIds provided, use it; otherwise show all
     const filtered = filterIds 
       ? projects.filter(p => filterIds.includes(p.id))
       : projects
@@ -217,10 +238,10 @@ export function Projects({ filterIds }: ProjectsProps) {
   }, [isLoaded, sortByPreference, filterIds])
 
   return (
-    <section id="projects" className="py-16 px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <section className="py-12">
+      <div className="mx-auto max-w-5xl">
         {/* Section header */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-6">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.02/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
             SELECTED_PROJECTS
@@ -228,18 +249,13 @@ export function Projects({ filterIds }: ProjectsProps) {
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
         
-        {/* System status */}
-        <SystemStatus 
-          isLoaded={isLoaded}
-          topTag={topTag}
-          totalClicks={totalClicks}
-          sectionLabel="ADAPTIVE_SORT"
-          filteredCount={filteredProjects.length}
-          totalCount={projects.length}
-        />
+        {/* Instruction hint */}
+        <p className="text-[11px] font-mono text-muted-foreground/40 mb-8 tracking-wider">
+          HOVER_TO_VIEW_SUMMARY, HOLD_TO_PREVIEW, CLICK_TO_ENTER
+        </p>
         
-        {/* Projects grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-1">
+        {/* Projects list */}
+        <div className="space-y-3">
           {filteredProjects.map((project, index) => (
             <ProjectCard
               key={project.id}
@@ -252,7 +268,7 @@ export function Projects({ filterIds }: ProjectsProps) {
         
         {filteredProjects.length === 0 && (
           <div className="text-center py-16">
-            <p className="text-muted-foreground font-mono text-sm">
+            <p className="text-muted-foreground/50 font-mono text-sm">
               NO_PROJECTS_IN_SELECTED_RANGE
             </p>
           </div>
