@@ -94,16 +94,12 @@ function WorkCard({
 
   return (
     <div 
-      className="cursor-pointer group relative"
+      className="cursor-pointer group"
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <GlowCard hover className="overflow-hidden">
-        {/* Clickable overlay */}
-        <div 
-          className="absolute inset-0 z-20 cursor-pointer" 
-          onClick={handleClick}
-        />
         <div className={cn(
           "flex flex-col md:flex-row",
           isReversed && "md:flex-row-reverse"
