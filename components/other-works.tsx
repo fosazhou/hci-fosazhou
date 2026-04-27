@@ -4,27 +4,86 @@ import React, { useRef, useState, useEffect, useMemo } from "react"
 import { otherWorks, type OtherWork } from "@/lib/other-works-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
+import { GlowCard } from "@/components/glow-card"
+import { HoverScan } from "@/components/scan-line"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { cn } from "@/lib/utils"
+import { ExternalLink, Play } from "lucide-react"
 
 interface OtherWorksProps {
   filterIds?: string[]
 }
 
-// Work Card - same style as Projects
+function WorkMedia({ 
+  coverImage, 
+  previewVideo, 
+  alt, 
+  isHovered 
+}: { 
+  coverImage?: string
+  previewVideo?: string
+  alt: string
+  isHovered: boolean
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (videoRef.current && previewVideo) {
+      if (isHovered) {
+        videoRef.current.currentTime = 0
+        videoRef.current.play().catch(() => {})
+      } else {
+        videoRef.current.pause()
+      }
+    }
+  }, [isHovered, previewVideo])
+
+  return (
+    <>
+      {coverImage && (
+        <img 
+          src={coverImage} 
+          alt={alt} 
+          className={cn(
+            "w-full h-full object-cover absolute inset-0 transition-all duration-500",
+            isHovered && previewVideo ? 'opacity-0' : 'opacity-100',
+            isHovered && "scale-105"
+          )}
+        />
+      )}
+      {previewVideo && (
+        <video
+          ref={videoRef}
+          src={previewVideo}
+          muted
+          loop
+          playsInline
+          className={cn(
+            "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
+            isHovered ? 'opacity-100' : 'opacity-0'
+          )}
+        />
+      )}
+      {!coverImage && !previewVideo && (
+        <div className="w-full h-full bg-muted/20" />
+      )}
+    </>
+  )
+}
+
 function WorkCard({ 
   work, 
-  onTrack,
-  index 
+  index,
+  onTrack 
 }: { 
   work: OtherWork
-  onTrack: (tags: string[]) => void
   index: number
+  onTrack: (tags: string[]) => void
 }) {
   const { navigateWithTransition } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
-  const [isPressed, setIsPressed] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  
+  const isReversed = index % 2 !== 0
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -32,189 +91,80 @@ function WorkCard({
     navigateWithTransition(`/works/${work.id}`)
   }
 
-  // Play video when pressed (holding)
-  useEffect(() => {
-    if (videoRef.current && work.previewVideo) {
-      if (isPressed) {
-        videoRef.current.currentTime = 0
-        videoRef.current.play().catch(() => {})
-      } else {
-        videoRef.current.pause()
-      }
-    }
-  }, [isPressed, work.previewVideo])
-
   return (
-    <div
-      className="group cursor-pointer"
+    <div 
+      className="cursor-pointer group"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false)
-        setIsPressed(false)
-      }}
-      onMouseDown={() => setIsPressed(true)}
-      onMouseUp={() => setIsPressed(false)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
-        className={cn(
-          "relative overflow-hidden rounded-lg transition-all duration-500",
-          "border border-[rgba(255,255,255,0.06)]",
-          "bg-[rgba(10,10,15,0.4)]",
-          isHovered && "border-[rgba(255,255,255,0.12)] bg-[rgba(10,10,15,0.6)]"
-        )}
-      >
-        {/* Main content row */}
-        <div className="flex items-stretch">
-          {/* Left: Index number */}
-          <div 
-            className={cn(
-              "w-16 md:w-20 flex-shrink-0 flex items-center justify-center",
-              "border-r border-[rgba(255,255,255,0.06)]",
-              "bg-[rgba(255,255,255,0.02)]",
-              "transition-colors duration-300",
-              isHovered && "bg-[rgba(156,39,176,0.05)]"
-            )}
-          >
-            <span 
-              className={cn(
-                "text-2xl md:text-3xl font-light transition-colors duration-300",
-                isHovered ? "text-[#9c27b0]" : "text-muted-foreground/30"
-              )}
-            >
-              {String(index + 1).padStart(2, '0')}
-            </span>
-          </div>
-          
-          {/* Center: Title and info */}
-          <div className="flex-1 p-5 md:p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                {/* Title */}
-                <h3 
-                  className={cn(
-                    "text-lg md:text-xl font-medium transition-colors duration-300",
-                    isHovered ? "text-foreground" : "text-foreground/80"
-                  )}
-                >
-                  {work.title}
-                </h3>
-                
-                {/* Chinese name */}
-                {work.titleCn && (
-                  <p className="text-sm text-muted-foreground/50 mt-0.5">
-                    {work.titleCn}
-                  </p>
-                )}
-              </div>
-              
-              {/* Year badge */}
-              <div 
-                className={cn(
-                  "px-3 py-1 rounded-full text-xs font-mono",
-                  "border transition-all duration-300",
-                  isHovered 
-                    ? "border-[#9c27b0]/30 text-[#9c27b0] bg-[#9c27b0]/5" 
-                    : "border-[rgba(255,255,255,0.1)] text-muted-foreground/50"
-                )}
-              >
-                {work.year}
-              </div>
-            </div>
-            
-            {/* Hover reveal: Description and tags */}
-            <div 
-              className={cn(
-                "overflow-hidden transition-all duration-500 ease-out",
-                isHovered ? "max-h-48 opacity-100 mt-4" : "max-h-0 opacity-0 mt-0"
-              )}
-            >
-              {/* Description */}
-              <p className="text-sm text-muted-foreground/70 leading-relaxed mb-4">
-                {work.description}
-              </p>
-              
-              {/* Keywords tags */}
-              <div className="flex flex-wrap gap-2">
-                {work.keywords.map((keyword, i) => (
-                  <span 
-                    key={i}
-                    className={cn(
-                      "px-2.5 py-1 text-[10px] font-mono tracking-wider uppercase",
-                      "border border-[rgba(255,255,255,0.1)] rounded-full",
-                      "text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]",
-                      "transition-colors duration-300",
-                      "hover:border-[#9c27b0]/30 hover:text-[#9c27b0]/70"
-                    )}
-                  >
-                    {keyword}
-                  </span>
-                ))}
-              </div>
-              
-              {/* Press hint */}
-              {work.previewVideo && (
-                <p className="mt-4 text-[10px] font-mono text-muted-foreground/40 tracking-wider">
-                  HOLD_TO_PREVIEW
-                </p>
-              )}
-            </div>
-          </div>
-          
-          {/* Right: Thumbnail image */}
-          <div 
-            className={cn(
-              "w-32 md:w-48 flex-shrink-0 relative overflow-hidden",
-              "transition-all duration-500",
-              isHovered && "w-40 md:w-56"
-            )}
-          >
-            {work.coverImage && (
-              <img 
-                src={work.coverImage} 
-                alt={work.title}
-                className={cn(
-                  "w-full h-full object-cover transition-all duration-700",
-                  isHovered && "scale-110",
-                  isPressed && work.previewVideo && "opacity-0"
-                )}
-              />
-            )}
-            
-            {/* Video preview on press */}
-            {work.previewVideo && (
-              <video
-                ref={videoRef}
-                src={work.previewVideo}
-                muted
-                loop
-                playsInline
-                className={cn(
-                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
-                  isPressed ? "opacity-100" : "opacity-0"
-                )}
-              />
-            )}
-            
-            {/* Gradient overlay */}
-            <div 
-              className={cn(
-                "absolute inset-0 bg-gradient-to-r from-[rgba(10,10,15,0.8)] via-transparent to-transparent",
-                "transition-opacity duration-300",
-                isHovered ? "opacity-30" : "opacity-60"
-              )}
+      <GlowCard hover className="overflow-hidden">
+        <div className={cn(
+          "flex flex-col md:flex-row",
+          isReversed && "md:flex-row-reverse"
+        )}>
+          {/* Image */}
+          <div className="relative w-full md:w-2/5 aspect-video md:aspect-auto md:h-48 bg-[rgba(10,10,15,0.8)] overflow-hidden">
+            <WorkMedia 
+              coverImage={work.coverImage}
+              previewVideo={work.previewVideo}
+              alt={work.title}
+              isHovered={isHovered}
             />
+            <HoverScan active={isHovered} />
+            
+            {/* Video indicator */}
+            {work.previewVideo && (
+              <div className="absolute bottom-3 right-3 p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20">
+                <Play className="h-3 w-3 text-primary/60" />
+              </div>
+            )}
+          </div>
+          
+          {/* Content */}
+          <div className={cn(
+            "flex-1 p-5 flex flex-col justify-center",
+            isReversed ? "md:text-right" : "md:text-left"
+          )}>
+            <span className="text-[10px] font-mono text-primary/40 mb-2">
+              {String(index + 1).padStart(2, '0')}/
+            </span>
+            
+            <h3 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2 group-hover:text-primary transition-colors" suppressHydrationWarning>
+              {isReversed && <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity md:order-first" />}
+              {work.title}
+              {!isReversed && <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />}
+            </h3>
+            
+            <p className="text-[10px] text-muted-foreground/60 mb-2 font-mono" suppressHydrationWarning>
+              {work.titleCn}
+            </p>
+            
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3 line-clamp-2" suppressHydrationWarning>
+              {work.description}
+            </p>
+            
+            <div className={cn(
+              "flex flex-wrap gap-1.5",
+              isReversed && "md:justify-end"
+            )}>
+              {work.keywords.slice(0, 3).map((tag, i) => (
+                <span 
+                  key={i}
+                  className={cn(
+                    "px-2 py-0.5 text-[9px] font-mono tracking-wider",
+                    "text-primary/70 border border-primary/20 rounded-full",
+                    "bg-primary/5 uppercase"
+                  )}
+                  suppressHydrationWarning
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-        
-        {/* Bottom accent line - purple for works */}
-        <div 
-          className={cn(
-            "absolute bottom-0 left-0 h-[2px] bg-[#9c27b0] transition-all duration-500 ease-out",
-            isHovered ? "w-full" : "w-0"
-          )}
-        />
-      </div>
+      </GlowCard>
     </div>
   )
 }
@@ -235,13 +185,13 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
   }, [isLoaded, sortByPreference, filterIds])
 
   return (
-    <section id="other-works" className="py-12">
-      <div className="mx-auto max-w-5xl">
+    <section id="other-works" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
+      <div className="mx-auto max-w-7xl">
         {/* Section header */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-8">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.04/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
-            ARCHITECTURAL_WORKS
+            OTHER_WORKS
           </h2>
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
@@ -249,30 +199,17 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
         {/* Behavior tracker display */}
         <BehaviorTrackerDisplay section="works" itemCount={sortedWorks.length} />
         
-        {/* Instruction hint */}
-        <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
-          HOVER_TO_VIEW_SUMMARY | HOLD_TO_PREVIEW | CLICK_TO_ENTER
-        </p>
-        
-        {/* Works list - same style as Projects */}
-        <div className="space-y-3">
-          {sortedWorks.map((work, index) => (
+        {/* Works list */}
+        <div className="space-y-6">
+          {sortedWorks.slice(0, 6).map((work, index) => (
             <WorkCard
               key={work.id}
               work={work}
-              onTrack={trackClick}
               index={index}
+              onTrack={trackClick}
             />
           ))}
         </div>
-        
-        {sortedWorks.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground/50 font-mono text-sm">
-              NO_WORKS_IN_SELECTED_RANGE
-            </p>
-          </div>
-        )}
       </div>
     </section>
   )
