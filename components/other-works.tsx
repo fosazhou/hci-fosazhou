@@ -87,18 +87,24 @@ function WorkCard({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
+    e.stopPropagation()
+    console.log("[v0] Work card clicked:", work.id)
     onTrack(work.keywords)
     navigateWithTransition(`/works/${work.id}`)
   }
 
   return (
     <div 
-      className="cursor-pointer group"
-      onClick={handleClick}
+      className="cursor-pointer group relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <GlowCard hover className="overflow-hidden">
+        {/* Clickable overlay */}
+        <div 
+          className="absolute inset-0 z-20 cursor-pointer" 
+          onClick={handleClick}
+        />
         <div className={cn(
           "flex flex-col md:flex-row",
           isReversed && "md:flex-row-reverse"

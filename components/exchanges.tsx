@@ -33,6 +33,8 @@ export function Exchanges({ filterIds }: ExchangesProps) {
 
   const handleClick = (e: React.MouseEvent, exchange: Exchange) => {
     e.preventDefault()
+    e.stopPropagation()
+    console.log("[v0] Exchange card clicked:", exchange.id)
     trackClick(exchange.keywords)
     navigateWithTransition(`/exchanges/${exchange.id}`)
   }
@@ -81,12 +83,16 @@ function ExchangeCard({
 
   return (
     <div 
-      className="block cursor-pointer group"
-      onClick={onClick}
+      className="block cursor-pointer group relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <GlowCard hover className="overflow-hidden h-full">
+        {/* Clickable overlay */}
+        <div 
+          className="absolute inset-0 z-20 cursor-pointer" 
+          onClick={onClick}
+        />
         {/* Image */}
         <div className="aspect-[4/3] w-full bg-[rgba(10,10,15,0.8)] overflow-hidden relative">
           {exchange.coverImage ? (

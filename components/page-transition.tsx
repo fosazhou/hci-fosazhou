@@ -70,6 +70,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const [isActive, setIsActive] = useState(false)
 
   const navigateWithTransition = useCallback((url: string) => {
+    console.log("[v0] navigateWithTransition called with url:", url)
     // 保存滚动位置
     saveScrollPosition()
     // 标记正在过渡
@@ -80,6 +81,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     // 极短延迟后跳转，确保遮罩已渲染
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
+        console.log("[v0] Pushing to router:", url)
         router.push(url)
       })
     })
