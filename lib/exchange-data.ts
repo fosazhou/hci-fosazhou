@@ -34,7 +34,7 @@ export const exchanges: Exchange[] = [
     subtitle: "QS World Ranking #65",
     description: "为期半年的学术交流项目，参与城市设计工作室与可持续建筑研究。",
     keywords: ["Exchange Program", "Urban Design", "Sustainable Architecture"],
-    coverImage: "/images/exchange/auckland/cover.jpg",
+    coverImage: "/images/exchange/auckland/cover.JPG",
     // 项目图集 - 修改 src 和 caption
     galleryImages: [
       { src: "/images/exchange/auckland/01.jpg", caption: "奥克兰大学建筑学院" },
