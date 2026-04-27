@@ -82,10 +82,10 @@ export const otherWorks: OtherWork[] = [
     id: "nestide",
     title: "Nestide/巢流",
     titleCn: "巢流",
-    description: "城市低空医疗物流的基础设施节点原型，在节点-廊道-平台系统中整合起降、中转与控制塔功能",
-    keywords: ["低空经济", "城市基础设施", "无人机物流"],
+    description: "城市医疗物流的智能基础设施节点原型，在节点-廊道-平台系统中整合起降、中转与控制塔功能",
+    keywords: ["智能建筑", "城市基础设施", "交互系统"],
     coverImage: "/images/projects/nestide/cover.jpg",
-    fullDescription: "Nestide 是一个综合性基础设施原型，旨在满足城市低空医疗物流的新兴需求。",
+    fullDescription: "Nestide 是一个综合性基础设施原型，旨在满足城市智能医疗物流的新兴需求。",
     year: "2025",
     startDate: "2025.6",
     endDate: "2025.8",
@@ -107,14 +107,14 @@ export const otherWorks: OtherWork[] = [
       "模块化设计",
     ],
     quickContent: {
-      headline: "为城市低空医疗物流设计的模块化基础设施节点",
+      headline: "为城市智能医疗物流设计的模块化基础设施节点",
       keyPoints: [
         "整合起降、中转、控制塔三大功能",
         "模块化设计适应不同城市环境",
-        "实时空中交通管理系统",
+        "实时交通管理与监控系统",
         "环境感知与自动化物流处理"
       ],
-      outcome: "提出了一套可复制的低空物流基础设施设计范式"
+      outcome: "提出了一套可复制的智能物流基础设施设计范式"
     },
     processContent: {
       phases: [
@@ -132,13 +132,13 @@ export const otherWorks: OtherWork[] = [
       ]
     },
     researchContent: {
-      problemStatement: "城市低空物流缺乏专门的基础设施支撑",
-      context: "随着无人机技术成熟和低空空域逐步开放，城市医疗急救物流面临时效性挑战",
-      hypothesis: "通过整合起降、中转、控制功能的复合型基础设施节点，可以有效支撑城市低空医疗物流网络",
+      problemStatement: "城市智能物流缺乏专门的基础设施支撑",
+      context: "随着自动化技术成熟，城市医疗急救物流面临时效性挑战",
+      hypothesis: "通过整合起降、中转、控制功能的复合型基础设施节点，可以有效支撑城市智能医疗物流网络",
       approach: "采用场景推演法，从医疗急救物流的典型流程出发",
       logic: [
         "医疗物流对时效性要求极高 → 需要快速起降和中转能力",
-        "无人机续航有限 → 需要分布式节点网络和充电设施",
+        "自动化系统需要支撑 → 需要分布式节点网络和充电设施",
         "城市空间有限 → 需要垂直整合多种功能"
       ],
       strategies: [
@@ -350,7 +350,7 @@ export const otherWorks: OtherWork[] = [
         { title: "文化调研", description: "深入了解汉回两族的生活方式和空间需求" },
         { title: "场地分析", description: "研究西仓地区的历史脉络和现状问题" },
         { title: "空间策略", description: "制定促进文化交流的空间组织方案" },
-        { title: "实体搭建", description: "按比例制作实体模型并参与搭建" }
+        { title: "实体搭建", description: "按比���制作实体模型并参与搭建" }
       ],
       methodology: "文化导向的设计方法，从两族共同需求出发寻找空间交集",
       iterations: "从概念模型到详细设计再到实体搭建的完整过程",

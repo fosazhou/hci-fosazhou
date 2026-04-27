@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils"
 
 const researchInterests = [
-  "低空城市基础设施",
-  "数字孪生系统",
+  "空间中的人机交互",
+  "交互式建筑环境",
   "建筑生成式设计",
-  "空间环境中的人机交互",
+  "计算设计与数字制造",
 ]
 
 export function About() {
@@ -52,7 +52,7 @@ export function About() {
               </div>
 
               <p className="text-sm text-foreground/80 leading-relaxed">
-                FOSA 是一名建筑学学生，探索空间设计、城市基础设施与数字技术的交叉领域。通过设计实验与装置作品，研究建筑如何回应新兴的技术与社会条件。
+                FOSA 是一名建筑学学生，探索建筑设计与人机交互的交叉领域。通过设计实验与数字工具，研究空间如何感知、响应和增强人类体验。
               </p>
             </div>
 

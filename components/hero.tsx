@@ -20,8 +20,8 @@ interface HeroProps {
 const heroData = {
   nameEn: "FOSA",
   nameCn: "周亦楠",
-  headline: "建筑学生，探索低空城市基础设施、生成式空间系统与交互环境。",
-  subheadline: "我的研究跨越建筑、数字系统与城市基础设施。项目涉及低空物流网络、生成式空间设计以及响应人类行为的交互环境。",
+  headline: "建筑学生，探索建筑与人机交互的交叉领域、生成式空间系统与交互环境。",
+  subheadline: "我的研究跨越建筑设计与人机交互。项目涉及交互式建筑环境、生成式空间设计以及响应人类行为的自适应系统。",
 }
 
 const marqueeData = {
@@ -30,7 +30,7 @@ const marqueeData = {
     "Less is More.",
     "Form Follows Function.",
   ],
-  middleMarquee: ["建筑 • 低空城市系统 • 生成式设计 • 交互环境"],
+  middleMarquee: ["建筑 • 人机交互 • 生成式设计 • 交互环境"],
   bottomMarquee: ["长安大学建筑学院", "University of Auckland"],
 }
 
