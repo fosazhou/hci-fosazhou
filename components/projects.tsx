@@ -32,17 +32,17 @@ function ProjectCard({
     navigateWithTransition(`/projects/${project.id}`)
   }
 
-  // Play video when pressed (holding)
+  // Play video when hovered (for projects with preview video)
   useEffect(() => {
     if (videoRef.current && project.previewVideo) {
-      if (isPressed) {
+      if (isHovered) {
         videoRef.current.currentTime = 0
         videoRef.current.play().catch(() => {})
       } else {
         videoRef.current.pause()
       }
     }
-  }, [isPressed, project.previewVideo])
+  }, [isHovered, project.previewVideo])
 
   return (
     <div
@@ -152,12 +152,7 @@ function ProjectCard({
                 ))}
               </div>
               
-              {/* Press hint */}
-              {project.previewVideo && (
-                <p className="mt-4 text-[10px] font-mono text-muted-foreground/40 tracking-wider">
-                  HOLD_TO_PREVIEW
-                </p>
-              )}
+
             </div>
           </div>
           
@@ -175,13 +170,13 @@ function ProjectCard({
                 alt={project.title}
                 className={cn(
                   "w-full h-full object-cover transition-all duration-700",
-                  isHovered && "scale-110",
-                  isPressed && project.previewVideo && "opacity-0"
+                  isHovered && !project.previewVideo && "scale-110",
+                  isHovered && project.previewVideo && "opacity-0"
                 )}
               />
             )}
             
-            {/* Video preview on press */}
+            {/* Video preview on hover */}
             {project.previewVideo && (
               <video
                 ref={videoRef}
@@ -190,8 +185,8 @@ function ProjectCard({
                 loop
                 playsInline
                 className={cn(
-                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
-                  isPressed ? "opacity-100" : "opacity-0"
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
+                  isHovered ? "opacity-100" : "opacity-0"
                 )}
               />
             )}
@@ -255,7 +250,7 @@ export function Projects({ filterIds }: ProjectsProps) {
         
         {/* Instruction hint */}
         <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
-          HOVER_TO_VIEW_SUMMARY | HOLD_TO_PREVIEW | CLICK_TO_ENTER
+          HOVER_TO_VIEW | CLICK_TO_ENTER
         </p>
         
         {/* Projects list */}
