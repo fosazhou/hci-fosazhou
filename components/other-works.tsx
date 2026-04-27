@@ -191,7 +191,7 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
         <div className="flex items-center gap-3 mb-8">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.04/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
-            OTHER_WORKS
+            ARCHITECTURAL_WORKS
           </h2>
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
