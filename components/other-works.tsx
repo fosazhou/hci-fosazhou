@@ -88,7 +88,6 @@ function WorkCard({
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log("[v0] Work card clicked:", work.id)
     onTrack(work.keywords)
     navigateWithTransition(`/works/${work.id}`)
   }

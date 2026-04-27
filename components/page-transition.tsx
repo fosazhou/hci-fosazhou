@@ -70,21 +70,14 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const [isActive, setIsActive] = useState(false)
 
   const navigateWithTransition = useCallback((url: string) => {
-    console.log("[v0] navigateWithTransition called with url:", url)
     // 保存滚动位置
     saveScrollPosition()
     // 标记正在过渡
     setTransitioning(true)
-    // 立即显示纯黑遮罩
+    // 立即显示纯黑遮罩并跳转
     setIsActive(true)
-    
-    // 极短延迟后跳转，确保遮罩已渲染
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        console.log("[v0] Pushing to router:", url)
-        router.push(url)
-      })
-    })
+    // 立即跳转，不等待
+    router.push(url)
   }, [router])
 
   // 页面加载完成后淡出遮罩
@@ -93,7 +86,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       const timer = setTimeout(() => {
         setIsActive(false)
         setTransitioning(false)
-      }, 400)
+      }, 150)
       return () => clearTimeout(timer)
     }
   }, [isActive])
@@ -116,7 +109,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           zIndex: 999999,
           pointerEvents: isActive ? 'auto' : 'none',
           opacity: isActive ? 1 : 0,
-          transition: isActive ? 'none' : 'opacity 0.3s ease-out',
+          transition: isActive ? 'none' : 'opacity 0.15s ease-out',
         }}
       />
     </TransitionContext.Provider>

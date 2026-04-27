@@ -34,7 +34,6 @@ export function Exchanges({ filterIds }: ExchangesProps) {
   const handleClick = (e: React.MouseEvent, exchange: Exchange) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log("[v0] Exchange card clicked:", exchange.id)
     trackClick(exchange.keywords)
     navigateWithTransition(`/exchanges/${exchange.id}`)
   }
