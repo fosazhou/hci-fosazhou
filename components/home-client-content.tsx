@@ -124,6 +124,12 @@ const TIMELINE_END = "2026.6"
 export function HomeClientContent() {
   const [mounted, setMounted] = useState(false)
   const [dateRange, setDateRange] = useState<[string, string]>([TIMELINE_START, TIMELINE_END])
+  const [closeTimelinePopup, setCloseTimelinePopup] = useState(0)
+  
+  // Handler to close timeline popup when entering other sections
+  const handleCloseTimelinePopup = () => {
+    setCloseTimelinePopup(prev => prev + 1)
+  }
 
   // 整合所有作品数据用于时间轴显示
   const allWorksForTimeline = useMemo((): TimelineWork[] => {
@@ -235,17 +241,24 @@ export function HomeClientContent() {
           value={dateRange}
           onChange={setDateRange}
           allWorks={allWorksForTimeline}
+          closePopupTrigger={closeTimelinePopup}
         />
       </section>
 
       {/* Projects - filtered by timeline */}
-      <Projects filterIds={filteredProjectIds} />
+      <div onMouseEnter={handleCloseTimelinePopup}>
+        <Projects filterIds={filteredProjectIds} />
+      </div>
       
       {/* Exchanges - filtered by timeline */}
-      <Exchanges filterIds={filteredExchangeIds} />
+      <div onMouseEnter={handleCloseTimelinePopup}>
+        <Exchanges filterIds={filteredExchangeIds} />
+      </div>
       
       {/* Other Works - filtered by timeline */}
-      <OtherWorks filterIds={filteredWorkIds} />
+      <div onMouseEnter={handleCloseTimelinePopup}>
+        <OtherWorks filterIds={filteredWorkIds} />
+      </div>
     </PageTransitionProvider>
   )
 }
