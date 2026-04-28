@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation"
 const SCROLL_KEY = "homepage-scroll-position"
 // 过渡状态 key
 const TRANSITION_KEY = "page-transitioning"
+// 时间轴状态 key
+const TIMELINE_STATE_KEY = "timeline-state"
 
 interface TransitionContextType {
   navigateWithTransition: (url: string) => void
@@ -63,6 +65,23 @@ export function isTransitioning(): boolean {
     return sessionStorage.getItem(TRANSITION_KEY) === "true"
   }
   return false
+}
+
+// 保存时间轴状态（从时间轴进入详情页时调用）
+export function saveTimelineState(month: string) {
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem(TIMELINE_STATE_KEY, month)
+  }
+}
+
+// 获取并清除时间轴状态（返回时调用）
+export function getAndClearTimelineState(): string | null {
+  if (typeof window !== "undefined") {
+    const state = sessionStorage.getItem(TIMELINE_STATE_KEY)
+    sessionStorage.removeItem(TIMELINE_STATE_KEY)
+    return state
+  }
+  return null
 }
 
 export function PageTransitionProvider({ children }: { children: ReactNode }) {

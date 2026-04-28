@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils"
 import { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import { X, Briefcase, Globe, Palette } from "lucide-react"
+import { saveTimelineState, getAndClearTimelineState } from "@/components/page-transition"
 
 export interface TimelineWork {
   id: string
@@ -72,6 +73,26 @@ export function TimelineSlider({
   const [hoveredWork, setHoveredWork] = useState<TimelineWork | null>(null) // Currently hovered work bar
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [clickPosition, setClickPosition] = useState<number | null>(null) // For positioning the popup
+  
+  // Restore timeline state on mount (when returning from detail page)
+  useEffect(() => {
+    const savedMonth = getAndClearTimelineState()
+    if (savedMonth) {
+      // Delay to ensure component is mounted and visible
+      setTimeout(() => {
+        setSelectedMonth(savedMonth)
+        // Calculate position for the popup using dateToIndex
+        const idx = dateToIndex(savedMonth, startMonth)
+        const position = (idx / (totalMonths - 1)) * 100
+        setClickPosition(position)
+        // Scroll to timeline
+        const timelineElement = document.getElementById('timeline')
+        if (timelineElement) {
+          timelineElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 100)
+    }
+  }, [startMonth, totalMonths])
   
   // Calculate total months
   const totalMonths = useMemo(() => {
@@ -268,6 +289,7 @@ export function TimelineSlider({
 
   return (
     <div 
+      id="timeline"
       className={cn("relative", className)}
       onMouseLeave={() => {
         // Close popup when leaving entire timeline component
@@ -584,6 +606,11 @@ export function TimelineSlider({
                         e.preventDefault()
                         handleClosePopup()
                         window.scrollTo({ top: 0, behavior: 'smooth' })
+                      } else {
+                        // Save timeline state before navigating
+                        if (selectedMonth) {
+                          saveTimelineState(selectedMonth)
+                        }
                       }
                     }}
                   >
