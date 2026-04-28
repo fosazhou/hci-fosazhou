@@ -267,7 +267,17 @@ export function TimelineSlider({
   const isFullRange = value[0] === startMonth && value[1] === endMonth
 
   return (
-    <div className={cn("relative", className)}>
+    <div 
+      className={cn("relative", className)}
+      onMouseLeave={() => {
+        // Close popup when leaving entire timeline component
+        setSelectedMonth(null)
+        setClickPosition(null)
+        setHoveredMonth(null)
+        setHoverPosition(null)
+        setHoveredWork(null)
+      }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
@@ -329,9 +339,6 @@ export function TimelineSlider({
           setHoveredMonth(null)
           setHoverPosition(null)
           setHoveredWork(null)
-          // Close popup when leaving timeline area
-          setSelectedMonth(null)
-          setClickPosition(null)
         }}
       >
         {/* Background track */}
