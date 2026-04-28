@@ -110,7 +110,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           pendingUrl.current = null
         }
         setPhase('hold')
-      }, 200) // 淡入时间
+      }, 300) // 淡入时间 (0.3秒)
       return () => clearTimeout(timer)
     }
     
@@ -118,7 +118,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       // 短暂保持后开始淡出
       const timer = setTimeout(() => {
         setPhase('fadeOut')
-      }, 100) // 保持时间
+      }, 200) // 保持时间 (0.2秒)
       return () => clearTimeout(timer)
     }
     
@@ -127,7 +127,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       const timer = setTimeout(() => {
         setPhase('idle')
         setTransitioning(false)
-      }, 3000) // 淡出时间 (3秒)
+      }, 2000) // 淡出时间 (2秒)
       return () => clearTimeout(timer)
     }
   }, [phase, router])
@@ -145,8 +145,8 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   // 计算过渡时间
   const getTransition = () => {
     switch (phase) {
-      case 'fadeIn': return 'opacity 0.2s ease-in'
-      case 'fadeOut': return 'opacity 3s ease-out'
+      case 'fadeIn': return 'opacity 0.3s ease-in'
+      case 'fadeOut': return 'opacity 2s ease-out'
       default: return 'none'
     }
   }
