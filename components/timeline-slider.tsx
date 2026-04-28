@@ -23,6 +23,7 @@ interface TimelineSliderProps {
   onChange: (value: [string, string]) => void
   allWorks?: TimelineWork[]
   className?: string
+  closePopupTrigger?: number  // Increment to trigger popup close from outside
 }
 
 // Parse "YYYY.M" to { year, month }
@@ -65,6 +66,7 @@ export function TimelineSlider({
   onChange,
   allWorks = [],
   className,
+  closePopupTrigger = 0,
 }: TimelineSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
@@ -73,6 +75,17 @@ export function TimelineSlider({
   const [hoveredWork, setHoveredWork] = useState<TimelineWork | null>(null) // Currently hovered work bar
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [clickPosition, setClickPosition] = useState<number | null>(null) // For positioning the popup
+  
+  // Close popup when trigger changes from outside
+  useEffect(() => {
+    if (closePopupTrigger > 0) {
+      setSelectedMonth(null)
+      setClickPosition(null)
+      setHoveredMonth(null)
+      setHoverPosition(null)
+      setHoveredWork(null)
+    }
+  }, [closePopupTrigger])
   
   // Calculate total months
   const totalMonths = useMemo(() => {

@@ -127,7 +127,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       const timer = setTimeout(() => {
         setPhase('idle')
         setTransitioning(false)
-      }, 300) // 淡出时间
+      }, 3000) // 淡出时间 (3秒)
       return () => clearTimeout(timer)
     }
   }, [phase, router])
@@ -146,7 +146,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const getTransition = () => {
     switch (phase) {
       case 'fadeIn': return 'opacity 0.2s ease-in'
-      case 'fadeOut': return 'opacity 0.3s ease-out'
+      case 'fadeOut': return 'opacity 3s ease-out'
       default: return 'none'
     }
   }
