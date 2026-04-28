@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 
 // ============================================
 // USER BEHAVIOR TRACKING SYSTEM
 // Tracks click weights for adaptive UI reordering
+// Includes delay mechanism to prevent visible reordering during navigation
 // ============================================
 
 interface TagWeights {
@@ -18,6 +19,7 @@ interface UserBehaviorState {
 }
 
 const STORAGE_KEY = "fosa_user_behavior"
+const REORDER_DELAY = 2000 // 2 seconds delay before reordering
 
 export function useUserBehavior() {
   const [state, setState] = useState<UserBehaviorState>({
@@ -26,6 +28,10 @@ export function useUserBehavior() {
     totalClicks: 0,
   })
   const [isLoaded, setIsLoaded] = useState(false)
+  
+  // Pending updates queue - will be applied after delay
+  const pendingUpdatesRef = useRef<string[][]>([])
+  const updateTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -54,14 +60,21 @@ export function useUserBehavior() {
     }
   }, [state, isLoaded])
 
-  // Track a click on project with given tags
-  const trackClick = useCallback((tags: string[]) => {
+  // Apply pending updates to state
+  const applyPendingUpdates = useCallback(() => {
+    const updates = pendingUpdatesRef.current
+    if (updates.length === 0) return
+    
     setState((prev) => {
       const newWeights = { ...prev.tagWeights }
+      let clickCount = 0
       
-      // Increment weight for each tag
-      tags.forEach((tag) => {
-        newWeights[tag] = (newWeights[tag] || 0) + 1
+      // Apply all pending tag updates
+      updates.forEach((tags) => {
+        tags.forEach((tag) => {
+          newWeights[tag] = (newWeights[tag] || 0) + 1
+        })
+        clickCount++
       })
 
       // Find top tag
@@ -77,9 +90,38 @@ export function useUserBehavior() {
       return {
         tagWeights: newWeights,
         topTag,
-        totalClicks: prev.totalClicks + 1,
+        totalClicks: prev.totalClicks + clickCount,
       }
     })
+    
+    // Clear pending updates
+    pendingUpdatesRef.current = []
+  }, [])
+
+  // Track a click on project with given tags (delayed update)
+  const trackClick = useCallback((tags: string[]) => {
+    // Queue the update
+    pendingUpdatesRef.current.push(tags)
+    
+    // Clear existing timer
+    if (updateTimerRef.current) {
+      clearTimeout(updateTimerRef.current)
+    }
+    
+    // Set new timer to apply updates after delay
+    updateTimerRef.current = setTimeout(() => {
+      applyPendingUpdates()
+      updateTimerRef.current = null
+    }, REORDER_DELAY)
+  }, [applyPendingUpdates])
+  
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (updateTimerRef.current) {
+        clearTimeout(updateTimerRef.current)
+      }
+    }
   }, [])
 
   // Sort items by user preference (higher scored tags first)
