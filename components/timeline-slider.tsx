@@ -74,26 +74,6 @@ export function TimelineSlider({
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [clickPosition, setClickPosition] = useState<number | null>(null) // For positioning the popup
   
-  // Restore timeline state on mount (when returning from detail page)
-  useEffect(() => {
-    const savedMonth = getAndClearTimelineState()
-    if (savedMonth) {
-      // Delay to ensure component is mounted and visible
-      setTimeout(() => {
-        setSelectedMonth(savedMonth)
-        // Calculate position for the popup using dateToIndex
-        const idx = dateToIndex(savedMonth, startMonth)
-        const position = (idx / (totalMonths - 1)) * 100
-        setClickPosition(position)
-        // Scroll to timeline
-        const timelineElement = document.getElementById('timeline')
-        if (timelineElement) {
-          timelineElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }
-      }, 100)
-    }
-  }, [startMonth, totalMonths])
-  
   // Calculate total months
   const totalMonths = useMemo(() => {
     return dateToIndex(endMonth, startMonth) + 1
@@ -116,6 +96,26 @@ export function TimelineSlider({
       const idx = dateToIndex(marker, startMonth)
       return idx >= 0 && idx < totalMonths
     })
+  }, [startMonth, totalMonths])
+  
+  // Restore timeline state on mount (when returning from detail page)
+  useEffect(() => {
+    const savedMonth = getAndClearTimelineState()
+    if (savedMonth) {
+      // Delay to ensure component is mounted and visible
+      setTimeout(() => {
+        setSelectedMonth(savedMonth)
+        // Calculate position for the popup
+        const idx = dateToIndex(savedMonth, startMonth)
+        const position = (idx / (totalMonths - 1)) * 100
+        setClickPosition(position)
+        // Scroll to timeline
+        const timelineElement = document.getElementById('timeline')
+        if (timelineElement) {
+          timelineElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 100)
+    }
   }, [startMonth, totalMonths])
   
   // Check if a work is active in a given month
