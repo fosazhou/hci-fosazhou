@@ -328,6 +328,10 @@ export function TimelineSlider({
         onMouseLeave={() => {
           setHoveredMonth(null)
           setHoverPosition(null)
+          setHoveredWork(null)
+          // Close popup when leaving timeline area
+          setSelectedMonth(null)
+          setClickPosition(null)
         }}
       >
         {/* Background track */}
