@@ -86,7 +86,7 @@ export function getAndClearTimelineState(): string | null {
 
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
-  const [phase, setPhase] = useState<'idle' | 'fadeIn' | 'hold' | 'fadeOut'>('idle')
+  const [phase, setPhase] = useState<'idle' | 'coverScreen' | 'navigate' | 'waitLoad' | 'fadeOut'>('idle')
   const pendingUrl = useRef<string | null>(null)
 
   const navigateWithTransition = useCallback((url: string) => {
@@ -96,29 +96,36 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     setTransitioning(true)
     // 保存目标 URL
     pendingUrl.current = url
-    // 开始淡入
-    setPhase('fadeIn')
+    // 立即显示纯黑遮罩
+    setPhase('coverScreen')
   }, [])
 
   // 处理转场阶段
   useEffect(() => {
-    if (phase === 'fadeIn') {
-      // 淡入完成后，跳转页面
-      const timer = setTimeout(() => {
-        if (pendingUrl.current) {
-          router.push(pendingUrl.current)
-          pendingUrl.current = null
-        }
-        setPhase('hold')
-      }, 120) // 淡入时间 (更快)
-      return () => clearTimeout(timer)
+    if (phase === 'coverScreen') {
+      // 立即设置遮罩为可见，等待一帧后跳转
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setPhase('navigate')
+        })
+      })
     }
     
-    if (phase === 'hold') {
-      // 短暂保持后开始淡出
+    if (phase === 'navigate') {
+      // 执行页面跳转
+      if (pendingUrl.current) {
+        router.push(pendingUrl.current)
+        pendingUrl.current = null
+      }
+      // 等待页面加载
+      setPhase('waitLoad')
+    }
+    
+    if (phase === 'waitLoad') {
+      // 给新页面足够时间加载，然后开始淡出
       const timer = setTimeout(() => {
         setPhase('fadeOut')
-      }, 50) // 保持时间 (更短)
+      }, 300)
       return () => clearTimeout(timer)
     }
     
@@ -127,28 +134,22 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       const timer = setTimeout(() => {
         setPhase('idle')
         setTransitioning(false)
-      }, 400) // 淡出时间 (稍长，更平滑)
+      }, 600)
       return () => clearTimeout(timer)
     }
   }, [phase, router])
 
-  // 计算透明度
+  // 计算透明度 - 除了 fadeOut 阶段，其他阶段都是完全不透明
   const getOpacity = () => {
-    switch (phase) {
-      case 'fadeIn': return 1
-      case 'hold': return 1
-      case 'fadeOut': return 0
-      default: return 0
-    }
+    if (phase === 'idle') return 0
+    if (phase === 'fadeOut') return 0
+    return 1 // coverScreen, navigate, waitLoad 都是纯黑
   }
 
   // 计算过渡时间
   const getTransition = () => {
-    switch (phase) {
-      case 'fadeIn': return 'opacity 0.12s ease-in'
-      case 'fadeOut': return 'opacity 0.4s ease-out'
-      default: return 'none'
-    }
+    if (phase === 'fadeOut') return 'opacity 0.6s ease-out'
+    return 'none' // 其他阶段立即显示/隐藏
   }
 
   const isVisible = phase !== 'idle'
@@ -157,14 +158,12 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     <TransitionContext.Provider value={{ navigateWithTransition }}>
       {children}
       
-      {/* 平滑淡入淡出遮罩 */}
+      {/* 纯黑遮罩 - 完全覆盖页面 */}
       <div 
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          right: 0,
-          bottom: 0,
           width: '100vw',
           height: '100vh',
           backgroundColor: '#000000',
@@ -173,6 +172,8 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           opacity: getOpacity(),
           transition: getTransition(),
           willChange: 'opacity',
+          // 确保完全覆盖，包括滚动条
+          overflow: 'hidden',
         }}
       />
     </TransitionContext.Provider>
