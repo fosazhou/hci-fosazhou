@@ -23,48 +23,48 @@ export function QuickView({ project, className }: QuickViewProps) {
   }
 
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn("space-y-6", className)}>
       {/* Headline */}
       <div className="relative">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded bg-primary/10 border border-primary/20">
-            <Zap className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-1.5 rounded bg-primary/10 border border-primary/20">
+            <Zap className="h-3 w-3 text-primary" />
           </div>
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest uppercase">
+          <span className="text-[9px] font-mono text-primary/60 tracking-widest uppercase">
             CORE_CONCEPT
           </span>
         </div>
-        <h2 className="text-2xl md:text-3xl font-light text-foreground leading-relaxed">
+        <h2 className="text-lg md:text-xl font-normal text-foreground leading-relaxed">
           {content.headline}
         </h2>
       </div>
 
       {/* Key Points */}
       <div className="relative">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded bg-primary/10 border border-primary/20">
-            <Check className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-2 mb-4">
+          <div className="p-1.5 rounded bg-primary/10 border border-primary/20">
+            <Check className="h-3 w-3 text-primary" />
           </div>
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest uppercase">
+          <span className="text-[9px] font-mono text-primary/60 tracking-widest uppercase">
             KEY_POINTS
           </span>
         </div>
         
-        <div className="grid gap-4">
+        <div className="grid gap-2">
           {content.keyPoints.map((point, index) => (
             <div
               key={index}
               className={cn(
-                "flex items-start gap-4 p-4 rounded-lg",
-                "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]",
+                "flex items-start gap-3 p-3 rounded-md",
+                "bg-[rgba(10,10,15,0.5)] border border-[rgba(34,211,238,0.08)]",
                 "transition-all duration-300",
-                "hover:border-[rgba(34,211,238,0.25)] hover:bg-[rgba(10,10,15,0.8)]"
+                "hover:border-[rgba(34,211,238,0.2)] hover:bg-[rgba(10,10,15,0.7)]"
               )}
             >
-              <span className="text-[10px] font-mono text-primary/60 mt-1">
+              <span className="text-[9px] font-mono text-primary/50 mt-0.5">
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <p className="text-foreground/90 leading-relaxed">{point}</p>
+              <p className="text-foreground/85 text-sm leading-relaxed">{point}</p>
             </div>
           ))}
         </div>
@@ -72,35 +72,35 @@ export function QuickView({ project, className }: QuickViewProps) {
 
       {/* Outcome */}
       <div className="relative">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded bg-primary/10 border border-primary/20">
-            <Target className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-1.5 rounded bg-primary/10 border border-primary/20">
+            <Target className="h-3 w-3 text-primary" />
           </div>
-          <span className="text-[10px] font-mono text-primary/60 tracking-widest uppercase">
+          <span className="text-[9px] font-mono text-primary/60 tracking-widest uppercase">
             OUTCOME
           </span>
         </div>
         
         <div 
           className={cn(
-            "p-6 rounded-lg",
-            "bg-primary/5 border border-primary/20"
+            "p-4 rounded-md",
+            "bg-primary/5 border border-primary/15"
           )}
           style={{
-            boxShadow: "0 0 20px rgba(34, 211, 238, 0.1)"
+            boxShadow: "0 0 15px rgba(34, 211, 238, 0.08)"
           }}
         >
-          <p className="text-foreground text-lg font-light leading-relaxed">
+          <p className="text-foreground/90 text-sm leading-relaxed">
             {content.outcome}
           </p>
         </div>
       </div>
 
       {/* Read time indicator */}
-      <div className="flex items-center justify-center gap-2 pt-4 border-t border-[rgba(34,211,238,0.1)]">
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-        <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
-          ~1 MIN READ COMPLETE
+      <div className="flex items-center justify-center gap-2 pt-3 border-t border-[rgba(34,211,238,0.08)]">
+        <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="text-[9px] font-mono text-muted-foreground/70 tracking-wider">
+          ~1 MIN READ
         </span>
       </div>
     </div>
