@@ -20,17 +20,17 @@ interface HeroProps {
 const heroData = {
   nameEn: "FOSA",
   nameCn: "周亦楠",
-  headline: "建筑学生，探索建筑与人机交互的交叉领域、生成式空间系统与交互环境。",
-  subheadline: "我的研究跨越建筑设计与人机交互。项目涉及交互式建筑环境、生成式空间设计以及响应人类行为的自适应系统。",
+  headline: "以建筑为基础，研究身体行为、空间感知与交互界面的关系。",
+  subheadline: "我的设计研究关注 Spatial HCI、具身交互与自适应界面。通过传感器、实时反馈与空间装置，将人的行为转译为空间响应，探索屏幕之外的人机交互方式。希望在跨学科设计研究中进一步探索“人—数据—空间”的互动机制。",
 }
 
 const marqueeData = {
   topMarquee: [
-    "Stay Hungry. Stay Foolish.",
-    "Less is More.",
-    "Form Follows Function.",
+    "From Space to Interface.",
+    "From Behavior to Feedback.",
+    "From Architecture to Interaction.",
   ],
-  middleMarquee: ["建筑 • 人机交互 • 生成式设计 • 交互环境"],
+  middleMarquee: ["空间人机交互 • 身体行为感知 • 自适应界面 • 响应式空间"],
   bottomMarquee: ["长安大学建筑学院", "University of Auckland"],
 }
 
@@ -42,7 +42,7 @@ function FloatingElements() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Floating orbs */}
-      <div 
+      <div
         className="absolute w-64 h-64 rounded-full opacity-[0.03]"
         style={{
           background: 'radial-gradient(circle, rgba(233,30,99,0.8) 0%, transparent 70%)',
@@ -51,7 +51,7 @@ function FloatingElements() {
           animation: 'float-slow 20s ease-in-out infinite',
         }}
       />
-      <div 
+      <div
         className="absolute w-48 h-48 rounded-full opacity-[0.02]"
         style={{
           background: 'radial-gradient(circle, rgba(34,211,238,0.8) 0%, transparent 70%)',
@@ -60,25 +60,25 @@ function FloatingElements() {
           animation: 'float-slow 25s ease-in-out infinite reverse',
         }}
       />
-      
+
       {/* Floating lines */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]">
-        <line 
-          x1="20%" y1="30%" x2="35%" y2="45%" 
-          stroke="url(#line-gradient)" 
+        <line
+          x1="20%" y1="30%" x2="35%" y2="45%"
+          stroke="url(#line-gradient)"
           strokeWidth="0.5"
           className="animate-pulse"
         />
-        <line 
-          x1="70%" y1="20%" x2="85%" y2="35%" 
-          stroke="url(#line-gradient)" 
+        <line
+          x1="70%" y1="20%" x2="85%" y2="35%"
+          stroke="url(#line-gradient)"
           strokeWidth="0.5"
           style={{ animationDelay: '1s' }}
           className="animate-pulse"
         />
-        <line 
-          x1="80%" y1="60%" x2="90%" y2="70%" 
-          stroke="url(#line-gradient)" 
+        <line
+          x1="80%" y1="60%" x2="90%" y2="70%"
+          stroke="url(#line-gradient)"
           strokeWidth="0.5"
           style={{ animationDelay: '2s' }}
           className="animate-pulse"
@@ -91,7 +91,7 @@ function FloatingElements() {
           </linearGradient>
         </defs>
       </svg>
-      
+
       {/* Floating dots */}
       {[...Array(6)].map((_, i) => (
         <div
@@ -105,7 +105,7 @@ function FloatingElements() {
           }}
         />
       ))}
-      
+
       <style jsx>{`
         @keyframes float-slow {
           0%, 100% { transform: translate(0, 0) scale(1); }
@@ -127,7 +127,7 @@ function FloatingElements() {
 
 function FloatingLabels() {
   const [time, setTime] = useState("")
-  
+
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
@@ -148,7 +148,7 @@ function FloatingLabels() {
         </div>
         <div className="pl-3 text-primary/30">LOCALE: CN/NZ</div>
       </div>
-      
+
       {/* Top right */}
       <div className="absolute top-24 right-6 lg:right-8 text-[9px] font-mono text-right text-muted-foreground/50 tracking-widest space-y-1">
         <div className="flex items-center justify-end gap-2">
@@ -157,13 +157,13 @@ function FloatingLabels() {
         </div>
         <div className="text-brand/30">MODE: EXPLORE</div>
       </div>
-      
+
       {/* Bottom left */}
       <div className="absolute bottom-20 left-6 lg:left-8 text-[9px] font-mono text-muted-foreground/30 tracking-widest">
         <div>LAT: 34.2667</div>
         <div>LNG: 108.9167</div>
       </div>
-      
+
       {/* Bottom right */}
       <div className="absolute bottom-20 right-6 lg:right-8 text-[9px] font-mono text-right text-muted-foreground/30 tracking-widest">
         <div>FIELD: ARCHITECTURE</div>
@@ -182,7 +182,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
   const [mounted, setMounted] = useState(false)
   const [typedText, setTypedText] = useState("")
   const fullText = "ADAPTIVE_PORTFOLIO_V2.0"
-  
+
   const handleViewChange = (view: ViewType) => {
     if (onViewChange) {
       onViewChange(view)
@@ -211,7 +211,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY })
     }
-    
+
     window.addEventListener("mousemove", handleMouseMove)
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
@@ -220,20 +220,20 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
     <section className="min-h-screen flex flex-col relative overflow-hidden">
       {/* Floating decorative elements */}
       <FloatingElements />
-      
+
       {/* Floating status labels */}
       <FloatingLabels />
 
       {/* Marquee Banners */}
       <div className="relative z-10 pt-20">
-        <MarqueeBanner 
-          texts={marqueeData.topMarquee} 
-          direction="left" 
+        <MarqueeBanner
+          texts={marqueeData.topMarquee}
+          direction="left"
           className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/60"
         />
-        <MarqueeBanner 
-          texts={marqueeData.middleMarquee} 
-          direction="right" 
+        <MarqueeBanner
+          texts={marqueeData.middleMarquee}
+          direction="right"
           className="border-b border-[rgba(34,211,238,0.08)] bg-brand/[0.03] text-brand/60"
         />
       </div>
@@ -254,14 +254,14 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
                   )}
                 </span>
               </div>
-              
+
               {/* Particle Title - Left aligned, above Chinese name */}
               <div className="relative">
-                <ParticleTitle 
+                <ParticleTitle
                   text={heroData.nameEn}
                   className="w-full max-w-xl h-24 md:h-32 lg:h-40"
                 />
-                
+
                 {/* Chinese name - directly below particle title, left aligned */}
                 <p className="text-lg md:text-xl text-muted-foreground tracking-[0.3em] font-light mt-2 pl-1">
                   <span className="text-brand/40">[</span>
@@ -269,18 +269,18 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
                   <span className="text-brand/40">]</span>
                 </p>
               </div>
-              
+
               <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
                 {heroData.headline}
               </p>
-              
+
               <p className="mt-4 text-sm md:text-base text-muted-foreground/70 max-w-xl leading-relaxed">
                 {heroData.subheadline}
               </p>
-              
+
               {/* Quick links - View switchers */}
               <div className="mt-10 flex flex-wrap gap-4">
-                <button 
+                <button
                   onClick={() => handleViewChange("projects")}
                   className={cn(
                     "group px-5 py-2.5 rounded text-sm font-mono tracking-wider",
@@ -298,7 +298,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
                   </span>
                   <span className="absolute inset-0 bg-brand/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </button>
-                <button 
+                <button
                   onClick={() => handleViewChange("about")}
                   className={cn(
                     "group px-5 py-2.5 rounded text-sm font-mono tracking-wider",
@@ -317,10 +317,10 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
                 </button>
               </div>
             </div>
-            
+
             {/* Right Side - Particle Avatar */}
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-              <ParticleAvatar 
+              <ParticleAvatar
                 imageSrc="/images/avatar.png"
                 className="w-72 h-72 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem]"
               />
@@ -331,9 +331,9 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
 
       {/* Bottom Marquee */}
       <div className="relative z-10 pb-8">
-        <MarqueeBanner 
-          texts={marqueeData.bottomMarquee} 
-          direction="left" 
+        <MarqueeBanner
+          texts={marqueeData.bottomMarquee}
+          direction="left"
           className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/50"
         />
       </div>
@@ -349,11 +349,11 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
   )
 }
 
-function MarqueeBanner({ 
-  texts, 
+function MarqueeBanner({
+  texts,
   direction = "left",
   className = ""
-}: { 
+}: {
   texts: string[]
   direction?: "left" | "right"
   className?: string
@@ -363,7 +363,7 @@ function MarqueeBanner({
 
   return (
     <div className={cn("overflow-hidden py-2.5", className)}>
-      <div 
+      <div
         className="flex whitespace-nowrap text-[11px] tracking-[0.15em] font-mono"
         style={{
           animation: `marquee-${direction} 80s linear infinite`,
