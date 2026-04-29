@@ -76,79 +76,91 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "portfolio-website",
-    title: "Portfolio Website Design",
-    description: "基于 Next.js 和 React 构建的交互式建筑作品集网站，采用自适应阅读模式和时间轴导航系统。",
-    keywords: ["Web Design", "Next.js", "Interactive", "HCI"],
+    title: "Adaptive Portfolio Interface",
+    description: "基于 Next.js 和 React 构建的面向设计评审场景的作品集界面，采用自适应阅读模式和时间轴导航系统。",
+    keywords: ["Adaptive Interface", "Behavior Modeling", "Web HCI"],
     coverImage: "/images/works/portfolio/cover.png",
-    fullDescription: "设计并开发个人建筑作品集网站，集成自适应阅读模式系统，根据用户行为智能切换快速浏览、过程探索和研究深入三种阅读体验。采用时间轴导航、粒子效果头像、科技风格UI等创新交互设计。",
+    fullDescription: "系统通过 Quick / Process / Research 三种阅读模式，匹配快速判断、过程审查与研究评估三类评审目标；结合时间轴导航与行为信号识别，为作品集阅读提供更高效、可控、可回溯的信息路径。",
     year: "2026",
     startDate: "2026.3",
     endDate: "2026.5",
-    location: "奥克兰，新西兰",
+    location: "西安，中国",
     role: "设计师与开发者",
     details: [
-      "自适应阅读模式系统设计",
-      "时间轴导航与项目筛选",
-      "响应式布局与动效设计",
-      "Next.js + React + Tailwind CSS 技术栈",
+      "Quick / Process / Research 三层阅读模式",
+      "阅读行为识别与模式推荐",
+      "时间轴导航、项目筛选与长按预览",
+      "A/B 测试：Linear vs. Adaptive Portfolio",
+      "Next.js + React + Tailwind CSS",
+      "AI-assisted prototyping 辅助前端迭代"
     ],
     galleryImages: [
       { src: "/images/works/portfolio/01.png", caption: "" },
     ],
     quickContent: {
-      headline: "融合人机交互理念的自适应建筑作品集网站",
+      headline: "根据评审阅读行为调整内容密度的自适应作品集界面",
       keyPoints: [
-        "自适应阅读模式根据用户行为智能切换",
-        "时间轴导航系统实现项目筛选",
-        "粒子效果头像与科技风格UI",
-        "响应式设计适配多终端"
+        "三种模式对应快速判断、过程审查与研究评估",
+        "通过滚动、停留、点击和导航路径识别阅读意图",
+        "系统提供模式建议，但保留用户手动控制权",
+        "A/B 测试验证阅读效率、信息清晰度与控制感"
       ],
-      outcome: "创建了一个能感知用户阅读偏好的交互式作品集"
+      outcome: "将作品集从线性展示转化为行为响应式叙事界面。"
     },
     processContent: {
       phases: [
         {
-          title: "交互设计研究",
-          description: "研究用户阅读行为模式，设计自适应阅读模式系统"
+          title: "评审任务拆解",
+          description: "定义快速判断、过程追踪与研究验证三类阅读任务。"
         },
         {
-          title: "视觉系统设计",
-          description: "建立科技感视觉语言，设计深色主题配色和动效系统"
+          title: "行为信号建模",
+          description: "记录滚动速度、停留时间、点击深度与导航路径。"
         },
         {
-          title: "前端开发",
-          description: "使用 Next.js + React + Tailwind CSS 实现响应式布局"
+          title: "三模式界面设计",
+          description: "建立 Quick / Process / Research 三种内容密度。"
         },
         {
-          title: "行为追踪系统",
-          description: "开发用户行为追踪和分析系统，实现智能模式切换"
+          title: "前端原型实现",
+          description: "实现模式切换、时间轴筛选、项目预览与响应式布局。"
+        },
+        {
+          title: "A/B 用户测试",
+          description: "对比线性作品集与自适应作品集的任务表现。"
         }
       ],
-      methodology: "以用户为中心的设计方法，通过行为数据驱动界面优化",
-      iterations: "经历多轮用户测试，持续优化阅读体验和交互细节",
+      methodology: "对比线性作品集与自适应作品集的任务表现。",
+      iterations: "从线性列表、时间轴筛选、三模式阅读，到行为推荐机制完成多轮迭代。",
       decisions: [
-        "选择 Next.js 作为框架以获得最佳性能",
-        "采用深色主题突出作品内容",
-        "使用时间轴作为主要导航方式"
+        "用 Quick 支持 1 分钟快速判断",
+        "用 Process 呈现设计过程和关键决策",
+        "用 Research 承载问题、方法、测试与反思",
+        "用时间轴强化项目发展关系",
+        "采用建议机制，而非强制自动切换",
+        "AI 辅助组件实现，但交互逻辑和测试指标由设计者定义"
       ]
     },
     researchContent: {
-      problemStatement: "传统作品集网站缺乏交互性，无法适应不同用户的阅读习惯和深度需求",
-      context: "随着 HCI 研究的发展，网站可以根据用户行为智能调整内容呈现方式。本项目将这一理念应用于建筑作品集设计",
-      hypothesis: "通过追踪用户行为并提供三种阅读模式，可以提升用户体验和信息获取效率",
-      approach: "采用行为驱动的设计方法，从用户数据出发优化界面和交互",
+      problemStatement: "评审阅读作品集时，会在快速扫读、过程审查和研究评估之间切换。传统线性作品集把所有内容放在同一叙事层级中，导致快速阅读负担重，深入阅读路径不清。",
+      context: "项目将作品集视为面向评审任务的信息界面，研究阅读行为、内容密度、叙事层级与用户控制权之间的关系。",
+      hypothesis: "如果系统能根据阅读行为推荐合适的内容层级，并保留用户主动切换权，就能降低信息搜索成本，提高理解效率。",
+      approach: "基于 Next.js 与 React 构建原型，设置 Quick / Process / Research 三种模式，并记录滚动速度、停留时间、点击深度与导航路径。通过 6 名参与者的 A/B 测试，对比线性与自适应版本。",
       logic: [
         "不同用户有不同的阅读深度需求 → 需要多种阅读模式",
         "用户行为反映其意图 → 可以通过行为数据推断偏好",
+        "自适应系统应建议，而不是替用户决定",
         "作品集需要展示过程而非仅结果 → 需要分层内容结构"
       ],
       strategies: [
         "设计三种阅读模式：快速浏览、过程探索、研究深入",
         "开发行为追踪系统实时分析用户意图",
-        "使用时间轴实现直观的项目筛选"
+        "使用时间轴实现直观的项目筛选",
+        "用长按预览减少跳转成本",
+        "保留手动切换和忽略选项"
       ],
-      findings: "自适应阅读模式显著提升了用户在网站的停留时间和探索深度",
-      reflection: "项目展示了 HCI 原理在作品集设计中的应用价值，未来可进一步优化推断算法"
+      findings: "A/B 测试显示，自适应版本降低了信息查找时间：理解项目核心内容由 10.9 秒降至 5.20 秒，找到设计过程由 4.1 秒降至 1.13 秒，找到研究逻辑由 6.3 秒降至 1.42 秒。信息清晰度由 3/5 提升至 4.5/5，用户控制感由 2/5 提升至 4/5",
+      reflection: "项目证明，自适应界面的价值不是替用户阅读，而是帮助用户更快进入合适的信息层级。后续需扩大样本，并继续处理行为追踪、隐私保护与用户控制权的边界。"
     }
   },
 
