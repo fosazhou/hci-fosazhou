@@ -14,10 +14,20 @@ interface ParticleAvatarProps {
   className?: string
 }
 
+interface TrailPoint {
+  x: number
+  y: number
+  age: number
+}
+
 export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const trailCanvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const particlesRef = useRef<Particle[]>([])
+  const trailRef = useRef<TrailPoint[]>([])
+  const mouseRef = useRef({ x: -1000, y: -1000, isInside: false })
+  const animationRef = useRef<number>(0)
   const [isLoaded, setIsLoaded] = useState(false)
   
   // Create particles from image - NO mouse interaction
@@ -86,7 +96,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     setIsLoaded(true)
   }, [])
   
-  // Static render - no animation needed for static dots
+  // Static render for particles - unchanged
   const render = useCallback(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext("2d")
@@ -106,16 +116,96 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [])
   
+  // Trail animation loop - separate from particle rendering
+  const renderTrail = useCallback(() => {
+    const canvas = trailCanvasRef.current
+    const ctx = canvas?.getContext("2d")
+    if (!canvas || !ctx) return
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    
+    const trail = trailRef.current
+    const mouse = mouseRef.current
+    
+    // Add new trail point if mouse is inside
+    if (mouse.isInside && mouse.x > 0 && mouse.y > 0) {
+      trail.push({ x: mouse.x, y: mouse.y, age: 0 })
+      // Limit trail length
+      if (trail.length > 50) trail.shift()
+    }
+    
+    // Update ages and remove old points
+    for (let i = trail.length - 1; i >= 0; i--) {
+      trail[i].age += 1
+      if (trail[i].age > 40) {
+        trail.splice(i, 1)
+      }
+    }
+    
+    // Draw trail
+    if (trail.length > 1) {
+      for (let i = 1; i < trail.length; i++) {
+        const p1 = trail[i - 1]
+        const p2 = trail[i]
+        const opacity = Math.max(0, 1 - p2.age / 40)
+        
+        // Outer glow
+        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.15})`
+        ctx.lineWidth = 12
+        ctx.lineCap = 'round'
+        ctx.beginPath()
+        ctx.moveTo(p1.x, p1.y)
+        ctx.lineTo(p2.x, p2.y)
+        ctx.stroke()
+        
+        // Middle glow
+        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.4})`
+        ctx.lineWidth = 5
+        ctx.beginPath()
+        ctx.moveTo(p1.x, p1.y)
+        ctx.lineTo(p2.x, p2.y)
+        ctx.stroke()
+        
+        // Core line
+        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.9})`
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.moveTo(p1.x, p1.y)
+        ctx.lineTo(p2.x, p2.y)
+        ctx.stroke()
+      }
+      
+      // Draw glow at current mouse position
+      if (mouse.isInside && trail.length > 0) {
+        const last = trail[trail.length - 1]
+        const gradient = ctx.createRadialGradient(last.x, last.y, 0, last.x, last.y, 20)
+        gradient.addColorStop(0, 'rgba(34, 211, 238, 0.6)')
+        gradient.addColorStop(0.5, 'rgba(34, 211, 238, 0.2)')
+        gradient.addColorStop(1, 'rgba(34, 211, 238, 0)')
+        ctx.fillStyle = gradient
+        ctx.beginPath()
+        ctx.arc(last.x, last.y, 20, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+    
+    animationRef.current = requestAnimationFrame(renderTrail)
+  }, [])
+  
   // Initialize
   useEffect(() => {
     const canvas = canvasRef.current
+    const trailCanvas = trailCanvasRef.current
     const container = containerRef.current
-    if (!canvas || !container) return
+    if (!canvas || !trailCanvas || !container) return
     
     const updateSize = () => {
       const rect = container.getBoundingClientRect()
       canvas.width = rect.width
       canvas.height = rect.height
+      trailCanvas.width = rect.width
+      trailCanvas.height = rect.height
       
       const img = new Image()
       img.crossOrigin = "anonymous"
@@ -133,12 +223,46 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [imageSrc, createParticles])
   
-  // Render when loaded
+  // Mouse tracking
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect()
+      mouseRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        isInside: true
+      }
+    }
+    
+    const handleMouseLeave = () => {
+      mouseRef.current.isInside = false
+    }
+    
+    container.addEventListener('mousemove', handleMouseMove)
+    container.addEventListener('mouseleave', handleMouseLeave)
+    
+    return () => {
+      container.removeEventListener('mousemove', handleMouseMove)
+      container.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [])
+  
+  // Render particles when loaded, start trail animation
   useEffect(() => {
     if (isLoaded) {
       render()
+      renderTrail()
     }
-  }, [isLoaded, render])
+    
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+    }
+  }, [isLoaded, render, renderTrail])
   
   return (
     <div 
@@ -152,6 +276,13 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
       <canvas
         ref={canvasRef}
         className="w-full h-full"
+        style={{ background: "transparent" }}
+      />
+      
+      {/* Trail canvas overlay */}
+      <canvas
+        ref={trailCanvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none"
         style={{ background: "transparent" }}
       />
       
