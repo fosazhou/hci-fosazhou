@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils"
 
 const researchInterests = [
   "空间中的人机交互",
-  "交互式建筑环境",
-  "建筑生成式设计",
-  "计算设计与数字制造",
+  "具身交互体验",
+  "自适应界面",
+  "实时反馈系统",
 ]
 
 export function About() {
@@ -52,7 +52,7 @@ export function About() {
               </div>
 
               <p className="text-sm text-foreground/80 leading-relaxed">
-                FOSA 是一名建筑学学生，探索建筑设计与人机交互的交叉领域。通过设计实验与数字工具，研究空间如何感知、响应和增强人类体验。
+                周亦楠 是一名建筑学背景的设计者，关注 Spatial HCI、具身交互与自适应界面。她的项目从音频驱动的实时视觉反馈、自适应作品集界面，到 1:1 响应式空间原型，探索身体行为、动态数据与空间感知如何被转译为可反馈、可调节的界面与环境系统。
               </p>
             </div>
 
