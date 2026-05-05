@@ -2,7 +2,11 @@ import { cn } from "@/lib/utils"
 
 const skillCategories = [
   {
-    label: "3D_MODELING",
+    label: "INTERACTIVE",
+    skills: ["TouchDesigner", "Unity", "Arduino"]
+  },
+  {
+    label: "SPATIAL_DESIGN",
     skills: ["Rhino", "Grasshopper", "SketchUp"]
   },
   {
@@ -12,11 +16,8 @@ const skillCategories = [
   {
     label: "VISUALIZATION",
     skills: ["D5 Render", "Adobe Suite", "Stable Diffusion", "ComfyUI"]
-  },
-  {
-    label: "INTERACTIVE",
-    skills: ["TouchDesigner", "Unity", "Arduino"]
   }
+  
 ]
 
 export function Skills() {
