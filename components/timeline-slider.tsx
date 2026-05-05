@@ -143,9 +143,9 @@ export function TimelineSlider({
   // Get type label
   const getTypeLabel = (type: 'project' | 'exchange' | 'work') => {
     switch (type) {
-      case 'project': return '项目'
-      case 'exchange': return '交流'
-      case 'work': return '作品'
+      case 'project': return '核心项目'
+      case 'exchange': return '国际交流'
+      case 'work': return '建筑作品'
     }
   }
   
