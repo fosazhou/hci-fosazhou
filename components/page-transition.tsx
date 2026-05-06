@@ -86,93 +86,45 @@ export function getAndClearTimelineState(): string | null {
 
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
-  const [phase, setPhase] = useState<'idle' | 'fadeIn' | 'hold' | 'fadeOut'>('idle')
-  const pendingUrl = useRef<string | null>(null)
+  const [isActive, setIsActive] = useState(false)
 
   const navigateWithTransition = useCallback((url: string) => {
     // 保存滚动位置
     saveScrollPosition()
     // 标记正在过渡
     setTransitioning(true)
-    // 保存目标 URL
-    pendingUrl.current = url
-    // 开始淡入
-    setPhase('fadeIn')
-  }, [])
-
-  // 处理转场阶段
-  useEffect(() => {
-    if (phase === 'fadeIn') {
-      // 淡入完成后，跳转页面
-      const timer = setTimeout(() => {
-        if (pendingUrl.current) {
-          router.push(pendingUrl.current)
-          pendingUrl.current = null
-        }
-        setPhase('hold')
-      }, 120) // 淡入时间 (更快)
-      return () => clearTimeout(timer)
-    }
+    // 立即显示黑色遮罩
+    setIsActive(true)
     
-    if (phase === 'hold') {
-      // 短暂保持后开始淡出
-      const timer = setTimeout(() => {
-        setPhase('fadeOut')
-      }, 50) // 保持时间 (更短)
-      return () => clearTimeout(timer)
-    }
-    
-    if (phase === 'fadeOut') {
-      // 淡出完成后重置
-      const timer = setTimeout(() => {
-        setPhase('idle')
+    // 等待一帧确保遮罩渲染，然后跳转
+    requestAnimationFrame(() => {
+      router.push(url)
+      
+      // 给页面加载一点时间后淡出
+      setTimeout(() => {
+        setIsActive(false)
         setTransitioning(false)
-      }, 400) // 淡出时间 (稍长，更平滑)
-      return () => clearTimeout(timer)
-    }
-  }, [phase, router])
-
-  // 计算透明度
-  const getOpacity = () => {
-    switch (phase) {
-      case 'fadeIn': return 1
-      case 'hold': return 1
-      case 'fadeOut': return 0
-      default: return 0
-    }
-  }
-
-  // 计算过渡时间
-  const getTransition = () => {
-    switch (phase) {
-      case 'fadeIn': return 'opacity 0.12s ease-in'
-      case 'fadeOut': return 'opacity 0.4s ease-out'
-      default: return 'none'
-    }
-  }
-
-  const isVisible = phase !== 'idle'
+      }, 300)
+    })
+  }, [router])
 
   return (
     <TransitionContext.Provider value={{ navigateWithTransition }}>
       {children}
       
-      {/* 平滑淡入淡出遮罩 */}
+      {/* 简单的黑色遮罩 */}
       <div 
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          right: 0,
-          bottom: 0,
           width: '100vw',
           height: '100vh',
           backgroundColor: '#000000',
           zIndex: 999999,
-          pointerEvents: isVisible ? 'auto' : 'none',
-          opacity: getOpacity(),
-          transition: getTransition(),
-          willChange: 'opacity',
+          pointerEvents: isActive ? 'auto' : 'none',
+          opacity: isActive ? 1 : 0,
+          transition: isActive ? 'none' : 'opacity 0.4s ease-out',
         }}
       />
     </TransitionContext.Provider>
