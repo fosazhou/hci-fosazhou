@@ -620,8 +620,6 @@ export function TimelineSlider({
                         <img 
                           src={work.coverImage} 
                           alt={work.title}
-                          loading="lazy"
-                          decoding="async"
                           className="w-full h-full object-cover"
                         />
                       </div>

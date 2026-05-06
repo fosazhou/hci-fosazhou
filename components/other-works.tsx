@@ -44,8 +44,6 @@ function WorkMedia({
         <img 
           src={coverImage} 
           alt={alt} 
-          loading="lazy"
-          decoding="async"
           className={cn(
             "w-full h-full object-cover absolute inset-0 transition-all duration-500",
             isHovered && previewVideo ? 'opacity-0' : 'opacity-100',
