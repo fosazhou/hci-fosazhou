@@ -299,9 +299,12 @@ export const projects: Project[] = [
       "粒子、尺度与运动参数联动"
     ],
     galleryImages: [
-      { src: "/images/works/td/01.jpg", caption: "" },
+      { src: "/images/works/td/01.png", caption: "" },
       { src: "/images/works/td/02.png", caption: "" },
-      { src: "/images/works/td/03.jpg", caption: "" },
+      { src: "/images/works/td/03.png", caption: "" },
+      { src: "/images/works/td/04.png", caption: "" },
+      { src: "/images/works/td/05.png", caption: "" },
+      { src: "/images/works/td/06.png", caption: "" },
     ],
     quickContent: {
       headline: "将声音信号转译为实时视觉反馈的交互实验",
