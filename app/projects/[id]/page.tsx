@@ -52,7 +52,7 @@ function GalleryImageBox({
         <img 
           src={image.src}
           alt={image.caption || `Image ${index + 1}`}
-          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
           loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
@@ -103,7 +103,7 @@ function VideoPlayer({
   return (
     <div 
       className={cn(
-        "w-full max-w-2xl mx-auto overflow-hidden rounded-lg relative cursor-pointer",
+        "w-full overflow-hidden rounded-lg relative cursor-pointer",
         "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]"
       )}
       style={{ aspectRatio }}
@@ -352,7 +352,7 @@ function ProjectContent() {
                   PROJECT_DEMO
                 </span>
               </div>
-              <VideoPlayer videoSrc={project.video} aspectRatio="3/4" />
+              <VideoPlayer videoSrc={project.video} aspectRatio="16/9" />
             </div>
           )}
           
