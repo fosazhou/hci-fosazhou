@@ -94,6 +94,8 @@ function ExchangeCard({
             <img 
               src={exchange.coverImage} 
               alt={exchange.title}
+              loading="lazy"
+              decoding="async"
               className={cn(
                 "w-full h-full object-cover transition-all duration-500",
                 isHovered && "scale-105"

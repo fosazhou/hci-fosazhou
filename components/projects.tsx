@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useState, useEffect, useRef } from "react"
+import React, { useMemo, useState } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
@@ -24,7 +24,6 @@ function ProjectCard({
   const { navigateWithTransition } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -32,17 +31,7 @@ function ProjectCard({
     navigateWithTransition(`/projects/${project.id}`)
   }
 
-  // Play video when hovered (for projects with preview video)
-  useEffect(() => {
-    if (videoRef.current && project.previewVideo) {
-      if (isHovered) {
-        videoRef.current.currentTime = 0
-        videoRef.current.play().catch(() => {})
-      } else {
-        videoRef.current.pause()
-      }
-    }
-  }, [isHovered, project.previewVideo])
+
 
   return (
     <div
@@ -168,6 +157,8 @@ function ProjectCard({
               <img 
                 src={project.coverImage} 
                 alt={project.title}
+                loading="lazy"
+                decoding="async"
                 className={cn(
                   "w-full h-full object-cover transition-all duration-700",
                   isHovered && !project.previewVideo && "scale-110",
@@ -176,18 +167,15 @@ function ProjectCard({
               />
             )}
             
-            {/* Video preview on hover */}
-            {project.previewVideo && (
+            {/* Video preview on hover - only load when hovered */}
+            {project.previewVideo && isHovered && (
               <video
-                ref={videoRef}
                 src={project.previewVideo}
                 muted
                 loop
                 playsInline
-                className={cn(
-                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
-                  isHovered ? "opacity-100" : "opacity-0"
-                )}
+                autoPlay
+                className="absolute inset-0 w-full h-full object-cover"
               />
             )}
             

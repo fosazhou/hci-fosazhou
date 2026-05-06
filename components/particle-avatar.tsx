@@ -116,17 +116,25 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [])
   
-  // Trail animation loop - separate from particle rendering
+  // Trail animation loop - only runs when mouse is inside or trail is fading
   const renderTrail = useCallback(() => {
     const canvas = trailCanvasRef.current
     const ctx = canvas?.getContext("2d")
     if (!canvas || !ctx) return
     
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    
     const trail = trailRef.current
     const mouse = mouseRef.current
+    
+    // Only continue animation if mouse is inside OR trail still has points
+    if (!mouse.isInside && trail.length === 0) {
+      // Clear canvas and stop animation
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      animationRef.current = 0
+      return
+    }
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     
     // Add new trail point if mouse is inside
     if (mouse.isInside && mouse.x > 0 && mouse.y > 0) {
@@ -223,7 +231,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [imageSrc, createParticles])
   
-  // Mouse tracking
+  // Mouse tracking - start animation on enter, let it fade on leave
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -235,10 +243,15 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         y: e.clientY - rect.top,
         isInside: true
       }
+      // Start animation if not running
+      if (!animationRef.current) {
+        renderTrail()
+      }
     }
     
     const handleMouseLeave = () => {
       mouseRef.current.isInside = false
+      // Animation will continue until trail fades out
     }
     
     container.addEventListener('mousemove', handleMouseMove)
@@ -248,13 +261,12 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
       container.removeEventListener('mousemove', handleMouseMove)
       container.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [])
+  }, [renderTrail])
   
-  // Render particles when loaded, start trail animation
+  // Render particles when loaded (trail animation starts on mouse enter)
   useEffect(() => {
     if (isLoaded) {
       render()
-      renderTrail()
     }
     
     return () => {
@@ -262,7 +274,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [isLoaded, render, renderTrail])
+  }, [isLoaded, render])
   
   return (
     <div 
