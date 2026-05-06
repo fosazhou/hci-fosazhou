@@ -96,6 +96,13 @@ export const projects: Project[] = [
     ],
     galleryImages: [
       { src: "/images/works/portfolio/01.png", caption: "" },
+      { src: "/images/works/portfolio/02.png", caption: "" },
+      { src: "/images/works/portfolio/03.png", caption: "" },
+      { src: "/images/works/portfolio/04.png", caption: "" },
+      { src: "/images/works/portfolio/05.png", caption: "" },
+      { src: "/images/works/portfolio/06.png", caption: "" },
+      { src: "/images/works/portfolio/07.png", caption: "" },
+      { src: "/images/works/portfolio/08.png", caption: "" },
     ],
     quickContent: {
       headline: "根据评审阅读行为调整内容密度的自适应作品集界面",
