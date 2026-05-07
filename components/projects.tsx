@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useState, useEffect, useRef } from "react"
+import React, { useMemo, useState } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
@@ -24,25 +24,12 @@ function ProjectCard({
   const { navigateWithTransition } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     onTrack(project.keywords)
     navigateWithTransition(`/projects/${project.id}`)
   }
-
-  // Play video when hovered (for projects with preview video)
-  useEffect(() => {
-    if (videoRef.current && project.previewVideo) {
-      if (isHovered) {
-        videoRef.current.currentTime = 0
-        videoRef.current.play().catch(() => {})
-      } else {
-        videoRef.current.pause()
-      }
-    }
-  }, [isHovered, project.previewVideo])
 
   return (
     <div
@@ -181,7 +168,6 @@ function ProjectCard({
             {/* Video preview on hover - only load when hovered */}
             {project.previewVideo && isHovered && (
               <video
-                ref={videoRef}
                 src={project.previewVideo}
                 muted
                 loop

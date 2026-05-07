@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback, ReactNode, useEffect, useRef } from "react"
+import { createContext, useContext, useState, useCallback, ReactNode } from "react"
 import { useRouter } from "next/navigation"
 
 // 滚动位置存储 key
@@ -86,64 +86,55 @@ export function getAndClearTimelineState(): string | null {
 
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
-  const [phase, setPhase] = useState<'idle' | 'fadeIn' | 'fadeOut'>('idle')
+  const [showOverlay, setShowOverlay] = useState(false)
+  const [isFadingOut, setIsFadingOut] = useState(false)
 
   const navigateWithTransition = useCallback((url: string) => {
     // 保存滚动位置
     saveScrollPosition()
     // 标记正在过渡
     setTransitioning(true)
-    // 开始渐入白色遮罩
-    setPhase('fadeIn')
+    // 立即显示白色遮罩
+    setShowOverlay(true)
+    setIsFadingOut(false)
     
-    // 渐入完成后立即跳转并开始渐出
+    // 立即跳转页面
+    router.push(url)
+    
+    // 开始淡出
+    requestAnimationFrame(() => {
+      setIsFadingOut(true)
+    })
+    
+    // 淡出完成后隐藏遮罩
     setTimeout(() => {
-      router.push(url)
-      setPhase('fadeOut')
-      
-      // 渐出完成后重置
-      setTimeout(() => {
-        setPhase('idle')
-        setTransitioning(false)
-      }, 300)
-    }, 40)
+      setShowOverlay(false)
+      setIsFadingOut(false)
+      setTransitioning(false)
+    }, 350)
   }, [router])
-
-  const getOpacity = () => {
-    switch (phase) {
-      case 'fadeIn': return 1
-      case 'fadeOut': return 0
-      default: return 0
-    }
-  }
-
-  const getTransition = () => {
-    switch (phase) {
-      case 'fadeIn': return 'opacity 40ms ease-in'
-      case 'fadeOut': return 'opacity 300ms ease-out'
-      default: return 'none'
-    }
-  }
 
   return (
     <TransitionContext.Provider value={{ navigateWithTransition }}>
       {children}
       
       {/* 白色闪屏遮罩 */}
-      <div 
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: '#ffffff',
-          zIndex: 999999,
-          pointerEvents: phase !== 'idle' ? 'auto' : 'none',
-          opacity: getOpacity(),
-          transition: getTransition(),
-        }}
-      />
+      {showOverlay && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: '#ffffff',
+            zIndex: 999999,
+            pointerEvents: 'auto',
+            opacity: isFadingOut ? 0 : 1,
+            transition: isFadingOut ? 'opacity 300ms ease-out' : 'none',
+          }}
+        />
+      )}
     </TransitionContext.Provider>
   )
 }
