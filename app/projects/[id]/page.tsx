@@ -130,6 +130,32 @@ function VeilspaceGallery({ images, onImageClick }: { images: GalleryImage[], on
   )
 }
 
+// Portfolio Custom Gallery Layout
+function PortfolioGallery({ images, onImageClick }: { images: GalleryImage[], onImageClick: (index: number) => void }) {
+  if (!images || images.length === 0) return null
+  
+  return (
+    <div className="space-y-8">
+      {/* Images 01-06: Normal full width */}
+      {images.slice(0, 6).map((image, index) => (
+        <GalleryImageBox key={index} image={image} index={index} priority={index === 0} onClick={() => onImageClick(index)} />
+      ))}
+      
+      {/* Images 07-08: Side by side, centered, items-start for top alignment */}
+      {images[6] && images[7] && (
+        <div className="flex justify-center items-start gap-6">
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[6]} index={6} onClick={() => onImageClick(6)} />
+          </div>
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[7]} index={7} onClick={() => onImageClick(7)} />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // Video Component with auto aspect ratio and audio fade out
 function VideoPlayer({ 
   videoSrc, 
@@ -502,6 +528,8 @@ function ProjectContent() {
             {project.galleryImages && project.galleryImages.length > 0 ? (
               project.id === "veilspace" ? (
                 <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+              ) : project.id === "portfolio-website" ? (
+                <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
               ) : (
                 <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
               )
