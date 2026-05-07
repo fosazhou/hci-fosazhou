@@ -78,6 +78,58 @@ function DefaultGallery({ images, onImageClick }: { images: GalleryImage[], onIm
   )
 }
 
+// Veilspace Custom Gallery Layout
+function VeilspaceGallery({ images, onImageClick }: { images: GalleryImage[], onImageClick: (index: number) => void }) {
+  if (!images || images.length === 0) return null
+  
+  return (
+    <div className="space-y-8">
+      {/* Images 01-06: Normal full width */}
+      {images.slice(0, 6).map((image, index) => (
+        <GalleryImageBox key={index} image={image} index={index} priority={index === 0} onClick={() => onImageClick(index)} />
+      ))}
+      
+      {/* Image 07: Half width, centered */}
+      {images[6] && (
+        <div className="flex justify-center">
+          <div className="w-1/2">
+            <GalleryImageBox image={images[6]} index={6} onClick={() => onImageClick(6)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Images 08-09: Side by side, centered, items-start for top alignment */}
+      {images[7] && images[8] && (
+        <div className="flex justify-center gap-6">
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[7]} index={7} onClick={() => onImageClick(7)} />
+          </div>
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[8]} index={8} onClick={() => onImageClick(8)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Images 10-11: Side by side, centered, items-start for top alignment */}
+      {images[9] && images[10] && (
+        <div className="flex justify-center gap-6">
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[9]} index={9} onClick={() => onImageClick(9)} />
+          </div>
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[10]} index={10} onClick={() => onImageClick(10)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Image 12: Normal full width */}
+      {images[11] && (
+        <GalleryImageBox image={images[11]} index={11} onClick={() => onImageClick(11)} />
+      )}
+    </div>
+  )
+}
+
 // Video Component with auto aspect ratio and audio fade out
 function VideoPlayer({ 
   videoSrc, 
@@ -448,7 +500,11 @@ function ProjectContent() {
             </div>
             
             {project.galleryImages && project.galleryImages.length > 0 ? (
-              <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+              project.id === "veilspace" ? (
+                <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+              ) : (
+                <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+              )
             ) : (
               <div className="py-16 text-center">
                 <p className="text-muted-foreground text-sm font-mono">NO_IMAGES_AVAILABLE</p>
