@@ -78,35 +78,114 @@ function DefaultGallery({ images, onImageClick }: { images: GalleryImage[], onIm
   )
 }
 
-// Video Component
+// Video Component with auto aspect ratio and audio fade out
 function VideoPlayer({ 
   videoSrc, 
-  aspectRatio = "16/9" 
+  aspectRatio = "auto"  // "auto" will detect from video, or specify like "16/9"
 }: { 
   videoSrc: string
   aspectRatio?: string
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [detectedRatio, setDetectedRatio] = useState("16/9")
+  const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  
+  // Detect video aspect ratio when metadata loads
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || aspectRatio !== "auto") return
+    
+    const handleMetadata = () => {
+      const { videoWidth, videoHeight } = video
+      if (videoWidth && videoHeight) {
+        setDetectedRatio(`${videoWidth}/${videoHeight}`)
+      }
+    }
+    
+    video.addEventListener('loadedmetadata', handleMetadata)
+    // If already loaded
+    if (video.readyState >= 1) {
+      handleMetadata()
+    }
+    
+    return () => video.removeEventListener('loadedmetadata', handleMetadata)
+  }, [aspectRatio])
+  
+  // Intersection Observer to pause and fade out audio when leaving viewport
+  useEffect(() => {
+    const video = videoRef.current
+    const container = containerRef.current
+    if (!video || !container) return
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && isPlaying) {
+            // Fade out audio over 500ms
+            const fadeOut = () => {
+              if (fadeIntervalRef.current) {
+                clearInterval(fadeIntervalRef.current)
+              }
+              
+              let currentVolume = video.volume
+              fadeIntervalRef.current = setInterval(() => {
+                currentVolume -= 0.1
+                if (currentVolume <= 0) {
+                  video.volume = 0
+                  video.pause()
+                  setIsPlaying(false)
+                  if (fadeIntervalRef.current) {
+                    clearInterval(fadeIntervalRef.current)
+                  }
+                  // Reset volume for next play
+                  video.volume = 1
+                } else {
+                  video.volume = currentVolume
+                }
+              }, 50)
+            }
+            
+            fadeOut()
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+    
+    observer.observe(container)
+    
+    return () => {
+      observer.disconnect()
+      if (fadeIntervalRef.current) {
+        clearInterval(fadeIntervalRef.current)
+      }
+    }
+  }, [isPlaying])
   
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause()
       } else {
+        videoRef.current.volume = 1
         videoRef.current.play()
       }
       setIsPlaying(!isPlaying)
     }
   }
   
+  const finalAspectRatio = aspectRatio === "auto" ? detectedRatio : aspectRatio
+  
   return (
     <div 
+      ref={containerRef}
       className={cn(
         "w-full overflow-hidden rounded-lg relative cursor-pointer",
         "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]"
       )}
-      style={{ aspectRatio }}
+      style={{ aspectRatio: finalAspectRatio }}
       onClick={togglePlay}
     >
       <video
@@ -352,7 +431,7 @@ function ProjectContent() {
                   PROJECT_DEMO
                 </span>
               </div>
-              <VideoPlayer videoSrc={project.video} aspectRatio="16/9" />
+              <VideoPlayer videoSrc={project.video} aspectRatio="auto" />
             </div>
           )}
           
