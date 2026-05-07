@@ -165,15 +165,18 @@ function ProjectCard({
               />
             )}
             
-            {/* Video preview on hover - only load when hovered */}
-            {project.previewVideo && isHovered && (
+            {/* Video preview on hover */}
+            {project.previewVideo && (
               <video
-                src={project.previewVideo}
+                src={isHovered ? project.previewVideo : undefined}
                 muted
                 loop
                 playsInline
                 autoPlay
-                className="absolute inset-0 w-full h-full object-cover"
+                className={cn(
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+                  isHovered ? "opacity-100" : "opacity-0"
+                )}
               />
             )}
             
