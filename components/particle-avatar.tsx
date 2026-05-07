@@ -116,22 +116,28 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [])
   
-  // Trail animation loop - separate from particle rendering
+  // Trail animation loop - only runs when needed
   const renderTrail = useCallback(() => {
     const canvas = trailCanvasRef.current
     const ctx = canvas?.getContext("2d")
     if (!canvas || !ctx) return
     
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    
     const trail = trailRef.current
     const mouse = mouseRef.current
+    
+    // Stop animation if mouse left and trail is empty
+    if (!mouse.isInside && trail.length === 0) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      animationRef.current = 0
+      return
+    }
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     
     // Add new trail point if mouse is inside
     if (mouse.isInside && mouse.x > 0 && mouse.y > 0) {
       trail.push({ x: mouse.x, y: mouse.y, age: 0 })
-      // Limit trail length
       if (trail.length > 50) trail.shift()
     }
     
@@ -150,7 +156,6 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         const p2 = trail[i]
         const opacity = Math.max(0, 1 - p2.age / 40)
         
-        // Outer glow
         ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.15})`
         ctx.lineWidth = 12
         ctx.lineCap = 'round'
@@ -159,7 +164,6 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         ctx.lineTo(p2.x, p2.y)
         ctx.stroke()
         
-        // Middle glow
         ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.4})`
         ctx.lineWidth = 5
         ctx.beginPath()
@@ -167,7 +171,6 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         ctx.lineTo(p2.x, p2.y)
         ctx.stroke()
         
-        // Core line
         ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.9})`
         ctx.lineWidth = 2
         ctx.beginPath()
@@ -176,7 +179,6 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         ctx.stroke()
       }
       
-      // Draw glow at current mouse position
       if (mouse.isInside && trail.length > 0) {
         const last = trail[trail.length - 1]
         const gradient = ctx.createRadialGradient(last.x, last.y, 0, last.x, last.y, 20)
@@ -223,7 +225,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [imageSrc, createParticles])
   
-  // Mouse tracking
+  // Mouse tracking - start animation only on mouse enter
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -234,6 +236,10 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
         isInside: true
+      }
+      // Start animation if not running
+      if (!animationRef.current) {
+        renderTrail()
       }
     }
     
@@ -248,13 +254,12 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
       container.removeEventListener('mousemove', handleMouseMove)
       container.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [])
+  }, [renderTrail])
   
-  // Render particles when loaded, start trail animation
+  // Render particles when loaded (trail starts on mouse enter)
   useEffect(() => {
     if (isLoaded) {
       render()
-      renderTrail()
     }
     
     return () => {
@@ -262,7 +267,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [isLoaded, render, renderTrail])
+  }, [isLoaded, render])
   
   return (
     <div 

@@ -43,7 +43,9 @@ function WorkMedia({
       {coverImage && (
         <img 
           src={coverImage} 
-          alt={alt} 
+          alt={alt}
+          loading="lazy"
+          decoding="async"
           className={cn(
             "w-full h-full object-cover absolute inset-0 transition-all duration-500",
             isHovered && previewVideo ? 'opacity-0' : 'opacity-100',
@@ -51,17 +53,15 @@ function WorkMedia({
           )}
         />
       )}
-      {previewVideo && (
+      {previewVideo && isHovered && (
         <video
           ref={videoRef}
           src={previewVideo}
           muted
           loop
           playsInline
-          className={cn(
-            "w-full h-full object-cover absolute inset-0 transition-opacity duration-300",
-            isHovered ? 'opacity-100' : 'opacity-0'
-          )}
+          autoPlay
+          className="w-full h-full object-cover absolute inset-0"
         />
       )}
       {!coverImage && !previewVideo && (

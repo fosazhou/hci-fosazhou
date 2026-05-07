@@ -168,6 +168,8 @@ function ProjectCard({
               <img 
                 src={project.coverImage} 
                 alt={project.title}
+                loading="lazy"
+                decoding="async"
                 className={cn(
                   "w-full h-full object-cover transition-all duration-700",
                   isHovered && !project.previewVideo && "scale-110",
@@ -176,18 +178,16 @@ function ProjectCard({
               />
             )}
             
-            {/* Video preview on hover */}
-            {project.previewVideo && (
+            {/* Video preview on hover - only load when hovered */}
+            {project.previewVideo && isHovered && (
               <video
                 ref={videoRef}
                 src={project.previewVideo}
                 muted
                 loop
                 playsInline
-                className={cn(
-                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
-                  isHovered ? "opacity-100" : "opacity-0"
-                )}
+                autoPlay
+                className="absolute inset-0 w-full h-full object-cover"
               />
             )}
             
