@@ -538,7 +538,9 @@ function WorkContent() {
                   PROJECT_DEMO
                 </span>
               </div>
-              <VideoPlayer videoSrc={work.video || work.demoVideo || ''} aspectRatio="16/9" />
+              <div className="max-w-[50%] mx-auto">
+                <VideoPlayer videoSrc={work.video || work.demoVideo || ''} aspectRatio="auto" />
+              </div>
             </div>
           )}
           
