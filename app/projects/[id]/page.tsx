@@ -431,7 +431,9 @@ function ProjectContent() {
                   PROJECT_DEMO
                 </span>
               </div>
-              <VideoPlayer videoSrc={project.video} aspectRatio="auto" />
+              <div className="max-w-[50%]">
+                <VideoPlayer videoSrc={project.video} aspectRatio="auto" />
+              </div>
             </div>
           )}
           
