@@ -75,6 +75,111 @@ function DefaultGallery({ images, onImageClick }: { images: GalleryImage[], onIm
   )
 }
 
+// Nestide Custom Gallery: 01, 02+05, 03+04, 06
+function NestideGallery({ images, onImageClick }: { images: GalleryImage[], onImageClick: (index: number) => void }) {
+  if (!images || images.length === 0) return null
+  return (
+    <div className="space-y-8">
+      {/* Image 01: Full width */}
+      {images[0] && (
+        <GalleryImageBox image={images[0]} index={0} priority onClick={() => onImageClick(0)} />
+      )}
+      
+      {/* Images 02+05: Side by side */}
+      {images[1] && images[4] && (
+        <div className="flex justify-center items-start gap-6">
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[1]} index={1} onClick={() => onImageClick(1)} />
+          </div>
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[4]} index={4} onClick={() => onImageClick(4)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Images 03+04: Side by side */}
+      {images[2] && images[3] && (
+        <div className="flex justify-center items-start gap-6">
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[2]} index={2} onClick={() => onImageClick(2)} />
+          </div>
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[3]} index={3} onClick={() => onImageClick(3)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Image 06: Full width */}
+      {images[5] && (
+        <GalleryImageBox image={images[5]} index={5} onClick={() => onImageClick(5)} />
+      )}
+    </div>
+  )
+}
+
+// Xicang Custom Gallery: 01, 02+04, 03, 05-12
+function XicangGallery({ images, onImageClick }: { images: GalleryImage[], onImageClick: (index: number) => void }) {
+  if (!images || images.length === 0) return null
+  return (
+    <div className="space-y-8">
+      {/* Image 01: Full width */}
+      {images[0] && (
+        <GalleryImageBox image={images[0]} index={0} priority onClick={() => onImageClick(0)} />
+      )}
+      
+      {/* Images 02+04: Side by side */}
+      {images[1] && images[3] && (
+        <div className="flex justify-center items-start gap-6">
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[1]} index={1} onClick={() => onImageClick(1)} />
+          </div>
+          <div className="w-[40%]">
+            <GalleryImageBox image={images[3]} index={3} onClick={() => onImageClick(3)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Image 03: Full width */}
+      {images[2] && (
+        <GalleryImageBox image={images[2]} index={2} onClick={() => onImageClick(2)} />
+      )}
+      
+      {/* Images 05-12: Full width */}
+      {images.slice(4).map((image, i) => (
+        <GalleryImageBox key={i + 4} image={image} index={i + 4} onClick={() => onImageClick(i + 4)} />
+      ))}
+    </div>
+  )
+}
+
+// AIGC Custom Gallery: 01+02+03 side by side
+function AigcGallery({ images, onImageClick }: { images: GalleryImage[], onImageClick: (index: number) => void }) {
+  if (!images || images.length === 0) return null
+  return (
+    <div className="space-y-8">
+      {/* Images 01+02+03: Three in a row */}
+      {images[0] && images[1] && images[2] && (
+        <div className="flex justify-center items-start gap-4">
+          <div className="w-[30%]">
+            <GalleryImageBox image={images[0]} index={0} priority onClick={() => onImageClick(0)} />
+          </div>
+          <div className="w-[30%]">
+            <GalleryImageBox image={images[1]} index={1} onClick={() => onImageClick(1)} />
+          </div>
+          <div className="w-[30%]">
+            <GalleryImageBox image={images[2]} index={2} onClick={() => onImageClick(2)} />
+          </div>
+        </div>
+      )}
+      
+      {/* Remaining images: Full width */}
+      {images.slice(3).map((image, i) => (
+        <GalleryImageBox key={i + 3} image={image} index={i + 3} onClick={() => onImageClick(i + 3)} />
+      ))}
+    </div>
+  )
+}
+
 // Video Component
 function VideoPlayer({ 
   videoSrc, 
@@ -555,7 +660,15 @@ function WorkContent() {
             </div>
             
             {work.galleryImages && work.galleryImages.length > 0 ? (
-              <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+              work.id === "nestide" ? (
+                <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+              ) : work.id === "integrates-hans-hui-nationality" ? (
+                <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+              ) : work.id === "zhihui-jiangxia" ? (
+                <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+              ) : (
+                <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+              )
             ) : (
               <div className="py-16 text-center">
                 <p className="text-muted-foreground text-sm font-mono">NO_IMAGES_AVAILABLE</p>
