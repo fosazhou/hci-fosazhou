@@ -86,33 +86,50 @@ export function getAndClearTimelineState(): string | null {
 
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
-  const [isActive, setIsActive] = useState(false)
+  const [phase, setPhase] = useState<'idle' | 'fadeIn' | 'fadeOut'>('idle')
 
   const navigateWithTransition = useCallback((url: string) => {
     // 保存滚动位置
     saveScrollPosition()
     // 标记正在过渡
     setTransitioning(true)
-    // 立即显示黑色遮罩
-    setIsActive(true)
+    // 开始渐入白色遮罩
+    setPhase('fadeIn')
     
-    // 等待一帧确保遮罩渲染，然后跳转
-    requestAnimationFrame(() => {
+    // 渐入完成后立即跳转并开始渐出
+    setTimeout(() => {
       router.push(url)
+      setPhase('fadeOut')
       
-      // 给页面加载一点时间后淡出
+      // 渐出完成后重置
       setTimeout(() => {
-        setIsActive(false)
+        setPhase('idle')
         setTransitioning(false)
       }, 300)
-    })
+    }, 40)
   }, [router])
+
+  const getOpacity = () => {
+    switch (phase) {
+      case 'fadeIn': return 1
+      case 'fadeOut': return 0
+      default: return 0
+    }
+  }
+
+  const getTransition = () => {
+    switch (phase) {
+      case 'fadeIn': return 'opacity 40ms ease-in'
+      case 'fadeOut': return 'opacity 300ms ease-out'
+      default: return 'none'
+    }
+  }
 
   return (
     <TransitionContext.Provider value={{ navigateWithTransition }}>
       {children}
       
-      {/* 简单的黑色遮罩 */}
+      {/* 白色闪屏遮罩 */}
       <div 
         style={{
           position: 'fixed',
@@ -120,11 +137,11 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           left: 0,
           width: '100vw',
           height: '100vh',
-          backgroundColor: '#000000',
+          backgroundColor: '#ffffff',
           zIndex: 999999,
-          pointerEvents: isActive ? 'auto' : 'none',
-          opacity: isActive ? 1 : 0,
-          transition: isActive ? 'none' : 'opacity 0.4s ease-out',
+          pointerEvents: phase !== 'idle' ? 'auto' : 'none',
+          opacity: getOpacity(),
+          transition: getTransition(),
         }}
       />
     </TransitionContext.Provider>
