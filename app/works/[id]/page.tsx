@@ -241,11 +241,70 @@ function VideoPlayer({
   )
 }
 
+// First image component for QuickView
+function FirstImageBox({ 
+  image, 
+  onClick 
+}: { 
+  image: GalleryImage
+  onClick?: () => void 
+}) {
+  const [isHovered, setIsHovered] = useState(false)
+  
+  return (
+    <figure className="group">
+      <div 
+        className={cn(
+          "overflow-hidden rounded-lg cursor-zoom-in",
+          "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]",
+          "transition-all duration-300",
+          "hover:border-[rgba(34,211,238,0.3)]"
+        )}
+        style={{
+          boxShadow: isHovered ? "0 0 30px rgba(34, 211, 238, 0.15)" : "none"
+        }}
+        onClick={onClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img 
+          src={image.src}
+          alt={image.caption || "Project image"}
+          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      {image.caption && (
+        <figcaption className="mt-3 text-xs text-muted-foreground font-mono">
+          {image.caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
 // Quick View Component
-function QuickView({ work }: { work: OtherWork }) {
+function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (index: number) => void }) {
+  const { setMode } = useReadingMode()
+  const firstImage = work.galleryImages?.[0]
+  
   if (!work.quickContent) {
     return (
       <div className="space-y-8">
+        {/* First Image Preview */}
+        {firstImage && (
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[10px] font-mono text-primary/60 tracking-widest">PREVIEW/</span>
+              <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                PROJECT_IMAGE
+              </span>
+            </div>
+            <FirstImageBox image={firstImage} onClick={() => onImageClick?.(0)} />
+          </div>
+        )}
+        
         <p className="text-lg text-muted-foreground leading-relaxed">
           {work.fullDescription}
         </p>
@@ -257,12 +316,74 @@ function QuickView({ work }: { work: OtherWork }) {
             </div>
           ))}
         </div>
+        
+        {/* Read time indicator */}
+        <div className="flex items-center justify-center gap-2 pt-3 border-t border-[rgba(34,211,238,0.08)]">
+          <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[9px] font-mono text-muted-foreground/70 tracking-wider">
+            ~1 MIN READ COMPLETE
+          </span>
+        </div>
+        
+        {/* Mode Entry Buttons */}
+        <div className="pt-6 space-y-3">
+          <p className="text-[10px] font-mono text-muted-foreground/60 text-center tracking-wider uppercase mb-4">
+            EXPLORE_MORE
+          </p>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              onClick={() => setMode("process")}
+              className={cn(
+                "group flex items-center justify-between p-4 rounded-lg",
+                "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+                "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+                "transition-all duration-300"
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-mono text-primary/60">PROCESS</span>
+                <span className="text-xs text-muted-foreground">~5 min</span>
+              </div>
+              <ArrowLeft className="w-4 h-4 text-primary/40 group-hover:text-primary rotate-180 group-hover:translate-x-1 transition-all" />
+            </button>
+            
+            <button
+              onClick={() => setMode("research")}
+              className={cn(
+                "group flex items-center justify-between p-4 rounded-lg",
+                "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+                "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+                "transition-all duration-300"
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-mono text-secondary/60">RESEARCH</span>
+                <span className="text-xs text-muted-foreground">~10 min</span>
+              </div>
+              <ArrowLeft className="w-4 h-4 text-secondary/40 group-hover:text-secondary rotate-180 group-hover:translate-x-1 transition-all" />
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="space-y-12">
+      {/* First Image Preview */}
+      {firstImage && (
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[10px] font-mono text-primary/60 tracking-widest">PREVIEW/</span>
+            <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+              PROJECT_IMAGE
+            </span>
+          </div>
+          <FirstImageBox image={firstImage} onClick={() => onImageClick?.(0)} />
+        </div>
+      )}
+      
       <div className="space-y-6">
         <div className="flex items-center gap-3">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">OVERVIEW/</span>
@@ -301,12 +422,61 @@ function QuickView({ work }: { work: OtherWork }) {
           )}
         </div>
       </div>
+      
+      {/* Read time indicator */}
+      <div className="flex items-center justify-center gap-2 pt-3 border-t border-[rgba(34,211,238,0.08)]">
+        <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="text-[9px] font-mono text-muted-foreground/70 tracking-wider">
+          ~1 MIN READ COMPLETE
+        </span>
+      </div>
+      
+      {/* Mode Entry Buttons */}
+      <div className="pt-6 space-y-3">
+        <p className="text-[10px] font-mono text-muted-foreground/60 text-center tracking-wider uppercase mb-4">
+          EXPLORE_MORE
+        </p>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            onClick={() => setMode("process")}
+            className={cn(
+              "group flex items-center justify-between p-4 rounded-lg",
+              "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+              "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+              "transition-all duration-300"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono text-primary/60">PROCESS</span>
+              <span className="text-xs text-muted-foreground">~5 min</span>
+            </div>
+            <ArrowLeft className="w-4 h-4 text-primary/40 group-hover:text-primary rotate-180 group-hover:translate-x-1 transition-all" />
+          </button>
+          
+          <button
+            onClick={() => setMode("research")}
+            className={cn(
+              "group flex items-center justify-between p-4 rounded-lg",
+              "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+              "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+              "transition-all duration-300"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono text-secondary/60">RESEARCH</span>
+              <span className="text-xs text-muted-foreground">~10 min</span>
+            </div>
+            <ArrowLeft className="w-4 h-4 text-secondary/40 group-hover:text-secondary rotate-180 group-hover:translate-x-1 transition-all" />
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
 
 // Process View Component
-function ProcessView({ work }: { work: OtherWork }) {
+function ProcessView({ work, galleryComponent }: { work: OtherWork, galleryComponent?: React.ReactNode }) {
   if (!work.processContent) {
     return <QuickView work={work} />
   }
@@ -349,12 +519,27 @@ function ProcessView({ work }: { work: OtherWork }) {
           ))}
         </ul>
       </div>
+      
+      {/* Gallery */}
+      {galleryComponent && (
+        <div className="mt-16">
+          {galleryComponent}
+        </div>
+      )}
+      
+      {/* Read time indicator - after gallery */}
+      <div className="flex items-center justify-center gap-2 pt-8 mt-8 border-t border-[rgba(34,211,238,0.1)]">
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+          ~5 MIN READ COMPLETE
+        </span>
+      </div>
     </div>
   )
 }
 
 // Research View Component
-function ResearchView({ work }: { work: OtherWork }) {
+function ResearchView({ work, galleryComponent }: { work: OtherWork, galleryComponent?: React.ReactNode }) {
   if (!work.researchContent) {
     return <QuickView work={work} />
   }
@@ -414,6 +599,21 @@ function ResearchView({ work }: { work: OtherWork }) {
       <div className="space-y-4 p-6 rounded-lg bg-[rgba(10,10,15,0.4)] border border-[rgba(34,211,238,0.1)]">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">REFLECTION</h3>
         <p className="text-muted-foreground leading-relaxed">{work.researchContent.reflection}</p>
+      </div>
+      
+      {/* Gallery */}
+      {galleryComponent && (
+        <div className="mt-16">
+          {galleryComponent}
+        </div>
+      )}
+      
+      {/* Read time indicator - after gallery */}
+      <div className="flex items-center justify-center gap-2 pt-8 mt-8 border-t border-[rgba(34,211,238,0.1)]">
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+          ~10 MIN READ COMPLETE
+        </span>
       </div>
     </div>
   )
@@ -629,50 +829,60 @@ function WorkContent() {
             "transition-opacity duration-300",
             isTransitioning ? "opacity-0" : "opacity-100"
           )}>
-            {mode === "quick" && <QuickView work={work} />}
-            {mode === "process" && <ProcessView work={work} />}
-            {mode === "research" && <ResearchView work={work} />}
-          </div>
-          
-          {/* Video (if available) */}
-          {(work.video || work.demoVideo) && (
-            <div className="mt-16">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
-                <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                  PROJECT_DEMO
-                </span>
-              </div>
-              <div className="max-w-[50%] mx-auto">
-                <VideoPlayer videoSrc={work.video || work.demoVideo || ''} aspectRatio="auto" />
-              </div>
-            </div>
-          )}
-          
-          {/* Gallery */}
-          <div className="mt-16">
-            <div className="flex items-center gap-3 mb-8">
-              <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
-              <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                PROJECT_IMAGES
-              </span>
-              <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
-            </div>
-            
-            {work.galleryImages && work.galleryImages.length > 0 ? (
-              work.id === "nestide" ? (
-                <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
-              ) : work.id === "integrates-hans-hui-nationality" ? (
-                <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
-              ) : work.id === "zhihui-jiangxia" ? (
-                <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
-              ) : (
-                <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
-              )
-            ) : (
-              <div className="py-16 text-center">
-                <p className="text-muted-foreground text-sm font-mono">NO_IMAGES_AVAILABLE</p>
-              </div>
+            {mode === "quick" && <QuickView work={work} onImageClick={openLightbox} />}
+            {mode === "process" && (
+              <ProcessView 
+                work={work} 
+                galleryComponent={
+                  work.galleryImages && work.galleryImages.length > 0 ? (
+                    <>
+                      <div className="flex items-center gap-3 mb-8">
+                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                          PROJECT_IMAGES
+                        </span>
+                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                      </div>
+                      {work.id === "nestide" ? (
+                        <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      ) : work.id === "integrates-hans-hui-nationality" ? (
+                        <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      ) : work.id === "zhihui-jiangxia" ? (
+                        <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      ) : (
+                        <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      )}
+                    </>
+                  ) : null
+                }
+              />
+            )}
+            {mode === "research" && (
+              <ResearchView 
+                work={work} 
+                galleryComponent={
+                  work.galleryImages && work.galleryImages.length > 0 ? (
+                    <>
+                      <div className="flex items-center gap-3 mb-8">
+                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                          PROJECT_IMAGES
+                        </span>
+                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                      </div>
+                      {work.id === "nestide" ? (
+                        <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      ) : work.id === "integrates-hans-hui-nationality" ? (
+                        <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      ) : work.id === "zhihui-jiangxia" ? (
+                        <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      ) : (
+                        <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+                      )}
+                    </>
+                  ) : null
+                }
+              />
             )}
           </div>
         </div>

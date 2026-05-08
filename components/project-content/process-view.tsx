@@ -1,15 +1,17 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import type { Project } from "@/lib/projects-data"
+import type { Project, GalleryImage } from "@/lib/projects-data"
 import { GitBranch, Workflow, RefreshCw, Lightbulb } from "lucide-react"
+import { useState } from "react"
 
 interface ProcessViewProps {
   project: Project
   className?: string
+  galleryComponent?: React.ReactNode
 }
 
-export function ProcessView({ project, className }: ProcessViewProps) {
+export function ProcessView({ project, className, galleryComponent }: ProcessViewProps) {
   const content = project.processContent
 
   if (!content) {
@@ -138,8 +140,15 @@ export function ProcessView({ project, className }: ProcessViewProps) {
         </div>
       </div>
 
-      {/* Read time indicator */}
-      <div className="flex items-center justify-center gap-2 pt-4 border-t border-[rgba(34,211,238,0.1)]">
+      {/* Gallery (passed from parent) */}
+      {galleryComponent && (
+        <div className="mt-16">
+          {galleryComponent}
+        </div>
+      )}
+      
+      {/* Read time indicator - after gallery */}
+      <div className="flex items-center justify-center gap-2 pt-8 mt-8 border-t border-[rgba(34,211,238,0.1)]">
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
           ~5 MIN READ COMPLETE

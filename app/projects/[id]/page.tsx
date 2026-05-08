@@ -495,9 +495,57 @@ function ProjectContent() {
             "transition-opacity duration-300",
             isTransitioning ? "opacity-0" : "opacity-100"
           )}>
-            {mode === "quick" && <QuickView project={project} />}
-            {mode === "process" && <ProcessView project={project} />}
-            {mode === "research" && <ResearchView project={project} />}
+            {mode === "quick" && <QuickView project={project} onImageClick={openLightbox} />}
+            {mode === "process" && (
+              <ProcessView 
+                project={project} 
+                galleryComponent={
+                  project.galleryImages && project.galleryImages.length > 0 ? (
+                    <>
+                      <div className="flex items-center gap-3 mb-8">
+                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                          PROJECT_IMAGES
+                        </span>
+                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                      </div>
+                      {project.id === "veilspace" ? (
+                        <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+                      ) : project.id === "portfolio-website" ? (
+                        <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
+                      ) : (
+                        <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+                      )}
+                    </>
+                  ) : null
+                }
+              />
+            )}
+            {mode === "research" && (
+              <ResearchView 
+                project={project} 
+                galleryComponent={
+                  project.galleryImages && project.galleryImages.length > 0 ? (
+                    <>
+                      <div className="flex items-center gap-3 mb-8">
+                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                          PROJECT_IMAGES
+                        </span>
+                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                      </div>
+                      {project.id === "veilspace" ? (
+                        <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+                      ) : project.id === "portfolio-website" ? (
+                        <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
+                      ) : (
+                        <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+                      )}
+                    </>
+                  ) : null
+                }
+              />
+            )}
           </div>
           
           {/* Video (if available) */}
@@ -515,30 +563,7 @@ function ProjectContent() {
             </div>
           )}
           
-          {/* Gallery */}
-          <div className="mt-16">
-            <div className="flex items-center gap-3 mb-8">
-              <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
-              <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                PROJECT_IMAGES
-              </span>
-              <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
-            </div>
-            
-            {project.galleryImages && project.galleryImages.length > 0 ? (
-              project.id === "veilspace" ? (
-                <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
-              ) : project.id === "portfolio-website" ? (
-                <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
-              ) : (
-                <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
-              )
-            ) : (
-              <div className="py-16 text-center">
-                <p className="text-muted-foreground text-sm font-mono">NO_IMAGES_AVAILABLE</p>
-              </div>
-            )}
-          </div>
+
         </div>
       </article>
       

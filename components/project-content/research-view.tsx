@@ -17,9 +17,10 @@ import {
 interface ResearchViewProps {
   project: Project
   className?: string
+  galleryComponent?: React.ReactNode
 }
 
-export function ResearchView({ project, className }: ResearchViewProps) {
+export function ResearchView({ project, className, galleryComponent }: ResearchViewProps) {
   const content = project.researchContent
 
   if (!content) {
@@ -222,8 +223,15 @@ export function ResearchView({ project, className }: ResearchViewProps) {
         </div>
       )}
 
-      {/* Read time indicator */}
-      <div className="flex items-center justify-center gap-2 pt-4 border-t border-[rgba(34,211,238,0.1)]">
+      {/* Gallery (passed from parent) */}
+      {galleryComponent && (
+        <div className="mt-16">
+          {galleryComponent}
+        </div>
+      )}
+      
+      {/* Read time indicator - after gallery */}
+      <div className="flex items-center justify-center gap-2 pt-8 mt-8 border-t border-[rgba(34,211,238,0.1)]">
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
           ~10 MIN READ COMPLETE

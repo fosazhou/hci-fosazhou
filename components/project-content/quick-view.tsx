@@ -1,16 +1,64 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import type { Project } from "@/lib/projects-data"
-import { Zap, Check, Target } from "lucide-react"
+import type { Project, GalleryImage } from "@/lib/projects-data"
+import { Zap, Check, Target, ArrowRight, Workflow, Search } from "lucide-react"
+import { useReadingMode } from "@/contexts/reading-mode-context"
+import { useState } from "react"
 
 interface QuickViewProps {
   project: Project
   className?: string
+  onImageClick?: (index: number) => void
 }
 
-export function QuickView({ project, className }: QuickViewProps) {
+// First image component
+function FirstImageBox({ 
+  image, 
+  onClick 
+}: { 
+  image: GalleryImage
+  onClick?: () => void 
+}) {
+  const [isHovered, setIsHovered] = useState(false)
+  
+  return (
+    <figure className="group">
+      <div 
+        className={cn(
+          "overflow-hidden rounded-lg cursor-zoom-in",
+          "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]",
+          "transition-all duration-300",
+          "hover:border-[rgba(34,211,238,0.3)]"
+        )}
+        style={{
+          boxShadow: isHovered ? "0 0 30px rgba(34, 211, 238, 0.15)" : "none"
+        }}
+        onClick={onClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img 
+          src={image.src}
+          alt={image.caption || "Project image"}
+          className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      {image.caption && (
+        <figcaption className="mt-3 text-xs text-muted-foreground font-mono">
+          {image.caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
+export function QuickView({ project, className, onImageClick }: QuickViewProps) {
   const content = project.quickContent
+  const { setMode } = useReadingMode()
+  const firstImage = project.galleryImages?.[0]
 
   if (!content) {
     return (
@@ -24,6 +72,19 @@ export function QuickView({ project, className }: QuickViewProps) {
 
   return (
     <div className={cn("space-y-6", className)}>
+      {/* First Image Preview */}
+      {firstImage && (
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[10px] font-mono text-primary/60 tracking-widest">PREVIEW/</span>
+            <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+              PROJECT_IMAGE
+            </span>
+          </div>
+          <FirstImageBox image={firstImage} onClick={() => onImageClick?.(0)} />
+        </div>
+      )}
+      
       {/* Headline */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-3">
@@ -100,8 +161,61 @@ export function QuickView({ project, className }: QuickViewProps) {
       <div className="flex items-center justify-center gap-2 pt-3 border-t border-[rgba(34,211,238,0.08)]">
         <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
         <span className="text-[9px] font-mono text-muted-foreground/70 tracking-wider">
-          ~1 MIN READ
+          ~1 MIN READ COMPLETE
         </span>
+      </div>
+      
+      {/* Mode Entry Buttons */}
+      <div className="pt-6 space-y-3">
+        <p className="text-[10px] font-mono text-muted-foreground/60 text-center tracking-wider uppercase mb-4">
+          EXPLORE_MORE
+        </p>
+        
+        <div className="grid grid-cols-2 gap-4">
+          {/* Process Entry */}
+          <button
+            onClick={() => setMode("process")}
+            className={cn(
+              "group flex items-center justify-between p-4 rounded-lg",
+              "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+              "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+              "transition-all duration-300"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded bg-primary/10 border border-primary/20">
+                <Workflow className="h-4 w-4 text-primary" />
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] font-mono text-primary/60 block">PROCESS</span>
+                <span className="text-xs text-muted-foreground">~5 min read</span>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary/40 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+          </button>
+          
+          {/* Research Entry */}
+          <button
+            onClick={() => setMode("research")}
+            className={cn(
+              "group flex items-center justify-between p-4 rounded-lg",
+              "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+              "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+              "transition-all duration-300"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded bg-secondary/10 border border-secondary/20">
+                <Search className="h-4 w-4 text-secondary" />
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] font-mono text-secondary/60 block">RESEARCH</span>
+                <span className="text-xs text-muted-foreground">~10 min read</span>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-secondary/40 group-hover:text-secondary group-hover:translate-x-1 transition-all" />
+          </button>
+        </div>
       </div>
     </div>
   )
