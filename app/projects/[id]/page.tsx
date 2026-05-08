@@ -500,24 +500,42 @@ function ProjectContent() {
               <ProcessView 
                 project={project} 
                 galleryComponent={
-                  project.galleryImages && project.galleryImages.length > 0 ? (
-                    <>
-                      <div className="flex items-center gap-3 mb-8">
-                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
-                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                          PROJECT_IMAGES
-                        </span>
-                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                  <>
+                    {/* Video before gallery */}
+                    {project.video && (
+                      <div className="mb-16">
+                        <div className="flex items-center gap-3 mb-6">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_DEMO
+                          </span>
+                        </div>
+                        <div className="max-w-[50%] mx-auto">
+                          <VideoPlayer videoSrc={project.video} aspectRatio="auto" />
+                        </div>
                       </div>
-                      {project.id === "veilspace" ? (
-                        <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
-                      ) : project.id === "portfolio-website" ? (
-                        <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
-                      ) : (
-                        <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
-                      )}
-                    </>
-                  ) : null
+                    )}
+                    
+                    {/* Gallery */}
+                    {project.galleryImages && project.galleryImages.length > 0 && (
+                      <>
+                        <div className="flex items-center gap-3 mb-8">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_IMAGES
+                          </span>
+                          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                        </div>
+                        {project.id === "veilspace" ? (
+                          <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+                        ) : project.id === "portfolio-website" ? (
+                          <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
+                        ) : (
+                          <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+                        )}
+                      </>
+                    )}
+                  </>
                 }
               />
             )}
@@ -525,43 +543,48 @@ function ProjectContent() {
               <ResearchView 
                 project={project} 
                 galleryComponent={
-                  project.galleryImages && project.galleryImages.length > 0 ? (
-                    <>
-                      <div className="flex items-center gap-3 mb-8">
-                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
-                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                          PROJECT_IMAGES
-                        </span>
-                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                  <>
+                    {/* Video before gallery */}
+                    {project.video && (
+                      <div className="mb-16">
+                        <div className="flex items-center gap-3 mb-6">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_DEMO
+                          </span>
+                        </div>
+                        <div className="max-w-[50%] mx-auto">
+                          <VideoPlayer videoSrc={project.video} aspectRatio="auto" />
+                        </div>
                       </div>
-                      {project.id === "veilspace" ? (
-                        <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
-                      ) : project.id === "portfolio-website" ? (
-                        <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
-                      ) : (
-                        <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
-                      )}
-                    </>
-                  ) : null
+                    )}
+                    
+                    {/* Gallery */}
+                    {project.galleryImages && project.galleryImages.length > 0 && (
+                      <>
+                        <div className="flex items-center gap-3 mb-8">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_IMAGES
+                          </span>
+                          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                        </div>
+                        {project.id === "veilspace" ? (
+                          <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+                        ) : project.id === "portfolio-website" ? (
+                          <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
+                        ) : (
+                          <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+                        )}
+                      </>
+                    )}
+                  </>
                 }
               />
             )}
           </div>
           
-          {/* Video (if available) */}
-          {project.video && (
-            <div className="mt-16">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
-                <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                  PROJECT_DEMO
-                </span>
-              </div>
-              <div className="max-w-[50%] mx-auto">
-                <VideoPlayer videoSrc={project.video} aspectRatio="auto" />
-              </div>
-            </div>
-          )}
+
           
 
         </div>

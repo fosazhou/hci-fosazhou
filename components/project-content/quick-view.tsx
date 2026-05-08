@@ -183,26 +183,13 @@ export function QuickView({ project, className, onImageClick }: QuickViewProps) 
     )
   }
 
-  // veilspace shows video only, other projects show first image
+  // veilspace and projects with video show video only in process/research, not in quick
   const hasVideo = !!project.video
   const showVideoOnly = project.id === "veilspace"
   
   return (
     <div className={cn("space-y-6", className)}>
-      {/* Video Preview (for projects with video like veilspace) */}
-      {hasVideo && (
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
-            <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-              PROJECT_DEMO
-            </span>
-          </div>
-          <QuickVideoPlayer videoSrc={project.video!} />
-        </div>
-      )}
-      
-      {/* First Image Preview (only if no video or not video-only project) */}
+      {/* First Image Preview (only for projects without video) */}
       {firstImage && !showVideoOnly && !hasVideo && (
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
@@ -304,7 +291,16 @@ export function QuickView({ project, className, onImageClick }: QuickViewProps) 
         <div className="grid grid-cols-2 gap-4">
           {/* Process Entry */}
           <button
-            onClick={() => setMode("process")}
+            onClick={() => {
+              setMode("process")
+              // Scroll to READING_DENSITY section after mode change
+              setTimeout(() => {
+                const densitySection = document.getElementById('reading-density-section')
+                if (densitySection) {
+                  densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }, 100)
+            }}
             className={cn(
               "group flex items-center justify-between p-4 rounded-lg",
               "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
@@ -326,7 +322,16 @@ export function QuickView({ project, className, onImageClick }: QuickViewProps) 
           
           {/* Research Entry */}
           <button
-            onClick={() => setMode("research")}
+            onClick={() => {
+              setMode("research")
+              // Scroll to READING_DENSITY section after mode change
+              setTimeout(() => {
+                const densitySection = document.getElementById('reading-density-section')
+                if (densitySection) {
+                  densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }, 100)
+            }}
             className={cn(
               "group flex items-center justify-between p-4 rounded-lg",
               "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",

@@ -44,13 +44,16 @@ export function ReadingModeSwitcher({ className, compact = false }: ReadingModeS
   }
 
   return (
-    <div className={cn(
-      "relative",
-      "bg-[rgba(10,10,15,0.8)] backdrop-blur-xl",
-      "border border-[rgba(34,211,238,0.15)] rounded-lg",
-      "p-4",
-      className
-    )}>
+    <div 
+      id="reading-density-section"
+      className={cn(
+        "relative",
+        "bg-[rgba(10,10,15,0.8)] backdrop-blur-xl",
+        "border border-[rgba(34,211,238,0.15)] rounded-lg",
+        "p-4",
+        className
+      )}
+    >
       {/* Header */}
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[rgba(34,211,238,0.1)]">
         <span className="text-[10px] font-mono text-primary/60 tracking-widest">MODE/</span>

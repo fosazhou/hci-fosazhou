@@ -355,21 +355,6 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
   if (!work.quickContent) {
     return (
       <div className="space-y-8">
-        {/* Video Preview (for projects with video like td) */}
-        {hasVideo && (
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
-              <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                PROJECT_DEMO
-              </span>
-            </div>
-            <div className="max-w-[50%] mx-auto">
-              <VideoPlayer videoSrc={videoSrc} aspectRatio="auto" />
-            </div>
-          </div>
-        )}
-        
         {/* First Image Preview (only if no video) */}
         {firstImage && !hasVideo && (
           <div className="mb-8">
@@ -411,7 +396,13 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
           
           <div className="grid grid-cols-2 gap-4">
             <button
-              onClick={() => setMode("process")}
+              onClick={() => {
+                setMode("process")
+                setTimeout(() => {
+                  const densitySection = document.getElementById('reading-density-section')
+                  if (densitySection) densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }, 100)
+              }}
               className={cn(
                 "group flex items-center justify-between p-4 rounded-lg",
                 "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
@@ -427,7 +418,13 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
             </button>
             
             <button
-              onClick={() => setMode("research")}
+              onClick={() => {
+                setMode("research")
+                setTimeout(() => {
+                  const densitySection = document.getElementById('reading-density-section')
+                  if (densitySection) densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }, 100)
+              }}
               className={cn(
                 "group flex items-center justify-between p-4 rounded-lg",
                 "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
@@ -449,21 +446,6 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
 
   return (
     <div className="space-y-12">
-      {/* Video Preview (for projects with video like td) */}
-      {hasVideo && (
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
-            <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-              PROJECT_DEMO
-            </span>
-          </div>
-          <div className="max-w-[50%] mx-auto">
-            <VideoPlayer videoSrc={videoSrc} aspectRatio="auto" />
-          </div>
-        </div>
-      )}
-      
       {/* First Image Preview (only if no video) */}
       {firstImage && !hasVideo && (
         <div className="mb-8">
@@ -532,7 +514,13 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
         
         <div className="grid grid-cols-2 gap-4">
           <button
-            onClick={() => setMode("process")}
+            onClick={() => {
+              setMode("process")
+              setTimeout(() => {
+                const densitySection = document.getElementById('reading-density-section')
+                if (densitySection) densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }, 100)
+            }}
             className={cn(
               "group flex items-center justify-between p-4 rounded-lg",
               "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
@@ -548,7 +536,13 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
           </button>
           
           <button
-            onClick={() => setMode("research")}
+            onClick={() => {
+              setMode("research")
+              setTimeout(() => {
+                const densitySection = document.getElementById('reading-density-section')
+                if (densitySection) densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }, 100)
+            }}
             className={cn(
               "group flex items-center justify-between p-4 rounded-lg",
               "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
@@ -927,26 +921,44 @@ function WorkContent() {
               <ProcessView 
                 work={work} 
                 galleryComponent={
-                  work.galleryImages && work.galleryImages.length > 0 ? (
-                    <>
-                      <div className="flex items-center gap-3 mb-8">
-                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
-                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                          PROJECT_IMAGES
-                        </span>
-                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                  <>
+                    {/* Video before gallery */}
+                    {(work.video || work.demoVideo) && (
+                      <div className="mb-16">
+                        <div className="flex items-center gap-3 mb-6">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_DEMO
+                          </span>
+                        </div>
+                        <div className="max-w-[50%] mx-auto">
+                          <VideoPlayer videoSrc={work.video || work.demoVideo || ''} aspectRatio="auto" />
+                        </div>
                       </div>
-                      {work.id === "nestide" ? (
-                        <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      ) : work.id === "integrates-hans-hui-nationality" ? (
-                        <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      ) : work.id === "zhihui-jiangxia" ? (
-                        <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      ) : (
-                        <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      )}
-                    </>
-                  ) : null
+                    )}
+                    
+                    {/* Gallery */}
+                    {work.galleryImages && work.galleryImages.length > 0 && (
+                      <>
+                        <div className="flex items-center gap-3 mb-8">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_IMAGES
+                          </span>
+                          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                        </div>
+                        {work.id === "nestide" ? (
+                          <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        ) : work.id === "integrates-hans-hui-nationality" ? (
+                          <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        ) : work.id === "zhihui-jiangxia" ? (
+                          <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        ) : (
+                          <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        )}
+                      </>
+                    )}
+                  </>
                 }
               />
             )}
@@ -954,26 +966,44 @@ function WorkContent() {
               <ResearchView 
                 work={work} 
                 galleryComponent={
-                  work.galleryImages && work.galleryImages.length > 0 ? (
-                    <>
-                      <div className="flex items-center gap-3 mb-8">
-                        <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
-                        <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
-                          PROJECT_IMAGES
-                        </span>
-                        <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                  <>
+                    {/* Video before gallery */}
+                    {(work.video || work.demoVideo) && (
+                      <div className="mb-16">
+                        <div className="flex items-center gap-3 mb-6">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_DEMO
+                          </span>
+                        </div>
+                        <div className="max-w-[50%] mx-auto">
+                          <VideoPlayer videoSrc={work.video || work.demoVideo || ''} aspectRatio="auto" />
+                        </div>
                       </div>
-                      {work.id === "nestide" ? (
-                        <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      ) : work.id === "integrates-hans-hui-nationality" ? (
-                        <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      ) : work.id === "zhihui-jiangxia" ? (
-                        <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      ) : (
-                        <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
-                      )}
-                    </>
-                  ) : null
+                    )}
+                    
+                    {/* Gallery */}
+                    {work.galleryImages && work.galleryImages.length > 0 && (
+                      <>
+                        <div className="flex items-center gap-3 mb-8">
+                          <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
+                          <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                            PROJECT_IMAGES
+                          </span>
+                          <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
+                        </div>
+                        {work.id === "nestide" ? (
+                          <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        ) : work.id === "integrates-hans-hui-nationality" ? (
+                          <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        ) : work.id === "zhihui-jiangxia" ? (
+                          <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        ) : (
+                          <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+                        )}
+                      </>
+                    )}
+                  </>
                 }
               />
             )}
