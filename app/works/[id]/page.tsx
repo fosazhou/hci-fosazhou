@@ -349,14 +349,29 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
   const firstImage = work.galleryImages?.[0]
   const hasVideo = !!(work.video || work.demoVideo)
   const videoSrc = work.video || work.demoVideo || ''
-  // td-music-visualization shows video only
-  const showVideoOnly = work.id === "td-music-visualization"
+  // td-music-visualization shows video in quick view
+  const showVideoInQuick = work.id === "td-music-visualization"
   
   if (!work.quickContent) {
     return (
       <div className="space-y-8">
+        {/* Video Preview for td */}
+        {showVideoInQuick && hasVideo && (
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+              <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+                PROJECT_DEMO
+              </span>
+            </div>
+            <div className="max-w-[50%] mx-auto">
+              <VideoPlayer videoSrc={videoSrc} aspectRatio="auto" />
+            </div>
+          </div>
+        )}
+        
         {/* First Image Preview (only if no video) */}
-        {firstImage && !hasVideo && (
+        {firstImage && !showVideoInQuick && !hasVideo && (
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] font-mono text-primary/60 tracking-widest">PREVIEW/</span>
@@ -446,8 +461,23 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
 
   return (
     <div className="space-y-12">
+      {/* Video Preview for td */}
+      {showVideoInQuick && hasVideo && (
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+            <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+              PROJECT_DEMO
+            </span>
+          </div>
+          <div className="max-w-[50%] mx-auto">
+            <VideoPlayer videoSrc={videoSrc} aspectRatio="auto" />
+          </div>
+        </div>
+      )}
+      
       {/* First Image Preview (only if no video) */}
-      {firstImage && !hasVideo && (
+      {firstImage && !showVideoInQuick && !hasVideo && (
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-[10px] font-mono text-primary/60 tracking-widest">PREVIEW/</span>

@@ -183,14 +183,27 @@ export function QuickView({ project, className, onImageClick }: QuickViewProps) 
     )
   }
 
-  // veilspace and projects with video show video only in process/research, not in quick
+  // veilspace shows video in quick view
   const hasVideo = !!project.video
-  const showVideoOnly = project.id === "veilspace"
+  const showVideoInQuick = project.id === "veilspace"
   
   return (
     <div className={cn("space-y-6", className)}>
+      {/* Video Preview for veilspace */}
+      {showVideoInQuick && hasVideo && (
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[10px] font-mono text-primary/60 tracking-widest">VIDEO/</span>
+            <span className="text-[11px] font-mono text-muted-foreground tracking-wider uppercase">
+              PROJECT_DEMO
+            </span>
+          </div>
+          <QuickVideoPlayer videoSrc={project.video!} />
+        </div>
+      )}
+      
       {/* First Image Preview (only for projects without video) */}
-      {firstImage && !showVideoOnly && !hasVideo && (
+      {firstImage && !showVideoInQuick && !hasVideo && (
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-[10px] font-mono text-primary/60 tracking-widest">PREVIEW/</span>
