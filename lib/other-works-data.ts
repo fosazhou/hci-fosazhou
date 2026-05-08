@@ -82,7 +82,7 @@ export const otherWorks: OtherWork[] = [
     id: "nestide",
     title: "Nestide/巢流",
     titleCn: "巢流",
-    description: "城市医疗物流的智能基础设施节点原型，在节点-廊道-平台系统中整合起降、中转与控制塔功能",
+    description: "城市医疗物流的智能基础设施节点原型，在节点-廊道-平台系统中整合起降、中转与控制塔功能。中国高等教育学会华灿奖国家级一等奖作品。",
     keywords: ["智能建筑", "城市基础设施", "交互系统"],
     coverImage: "/images/projects/nestide/cover.jpg",
     fullDescription: "Nestide 是一个综合性基础设施原型，旨在满足城市智能医疗物流的新兴需求。",
@@ -93,12 +93,12 @@ export const otherWorks: OtherWork[] = [
     location: "幸福林带，西安，中国",
     role: "主设计师",
     galleryImages: [
-      { src: "/images/projects/nestide/01.jpg", caption: "" },
-      { src: "/images/projects/nestide/02.png", caption: "" },
-      { src: "/images/projects/nestide/03.jpg", caption: "" },
-      { src: "/images/projects/nestide/04.jpg", caption: "" },
-      { src: "/images/projects/nestide/05.jpg", caption: "" },
-      { src: "/images/projects/nestide/06.jpg", caption: "" },
+      { src: "/images/projects/nestide/01.jpg", caption: "节点赋予廊道新生" },
+      { src: "/images/projects/nestide/02.png", caption: "前期分析" },
+      { src: "/images/projects/nestide/03.jpg", caption: "一层平面图" },
+      { src: "/images/projects/nestide/04.jpg", caption: "二层平面图" },
+      { src: "/images/projects/nestide/05.jpg", caption: "B1层功能分区" },
+      { src: "/images/projects/nestide/06.jpg", caption: "爆炸流线图" },
     ],
     details: [
       "集成垂直起降平台",
@@ -114,7 +114,7 @@ export const otherWorks: OtherWork[] = [
         "实时交通管理与监控系统",
         "环境感知与自动化物流处理"
       ],
-      outcome: "提出了一套可复制的智能物流基础设施设计范式"
+      outcome: "获国家级一等奖。提出了一套可复制的智能物流基础设施设计范式。"
     },
     processContent: {
       phases: [
@@ -154,10 +154,10 @@ export const otherWorks: OtherWork[] = [
     id: "fu",
     title: "FU",
     titleCn: "波形建筑",
-    description: "基于波形逻辑和参数化设计的生成式建筑系统，探索算法规则如何塑造空间结构和建筑形态",
+    description: "基于声音频谱、环境数据与文化图案转译的生成式屋顶设计，探索数据如何转化为空间结构、屋顶界面与公共活动场景。奥克兰交换期间项目。",
     keywords: ["生成式设计", "参数化建筑", "算法形态"],
     coverImage: "/images/projects/fu/cover.png",
-    fullDescription: "FU 研究数学波形原理与建筑形态生成的交叉领域。",
+    fullDescription: "FU 研究数学波形原理与建筑形态生成的交叉领域。尝试将声音频谱、环境感知与文化图案作为形态生成的输入，将抽象数据转译为空间结构、屋顶覆盖与公共停留界面。",
     year: "2025",
     startDate: "2025.8",
     endDate: "2025.11",
@@ -165,14 +165,14 @@ export const otherWorks: OtherWork[] = [
     location: "奥克兰 Harbour，新西兰",
     role: "设计师",
     galleryImages: [
-      { src: "/images/projects/fu/01.jpg", caption: "" },
-      { src: "/images/projects/fu/02.jpg", caption: "" },
-      { src: "/images/projects/fu/03.jpg", caption: "" },
-      { src: "/images/projects/fu/04.jpg", caption: "" },
-      { src: "/images/projects/fu/05.jpg", caption: "" },
-      { src: "/images/projects/fu/06.jpg", caption: "" },
-      { src: "/images/projects/fu/07.JPG", caption: "" },
-      { src: "/images/projects/fu/08.png", caption: "" },
+      { src: "/images/projects/fu/01.jpg", caption: "立面效果图" },
+      { src: "/images/projects/fu/02.jpg", caption: "Inspiration" },
+      { src: "/images/projects/fu/03.jpg", caption: "爆炸分析图" },
+      { src: "/images/projects/fu/04.jpg", caption: "声音频谱转译" },
+      { src: "/images/projects/fu/05.jpg", caption: "剖面图" },
+      { src: "/images/projects/fu/06.jpg", caption: "屋顶连接Detail" },
+      { src: "/images/projects/fu/07.JPG", caption: "Sectional Model" },
+      { src: "/images/projects/fu/08.png", caption: "室内空间" },
     ],
     details: [
       "基于多重波函数叠加的算法",
@@ -188,7 +188,7 @@ export const otherWorks: OtherWork[] = [
         "输出兼容数字制造工艺",
         "探索形态与声学的内在关联"
       ],
-      outcome: "建立了从算法到建造的完整生成式设计流程"
+      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成式设计流程。"
     },
     processContent: {
       phases: [
@@ -227,9 +227,9 @@ export const otherWorks: OtherWork[] = [
   {
     id: "arbor-of-enduring-harmonics",
     title: "Arbor of Enduring Harmonics",
-    titleCn: "栎渊泽",
-    description: "2025 第十三届全国大学生数字媒体科技作品及创意竞赛，陕西省第三等奖（组长）",
-    keywords: ["竞赛", "建筑设计", "省级奖项"],
+    titleCn: "树与水之间",
+    description: "2025 第十三届全国大学生数字媒体科技作品及创意竞赛 陕西赛区三等奖",
+    keywords: ["竞赛", "课程设计", "省级奖项"],
     coverImage: "/images/works/arbor/cover.jpg",
     galleryImages: [
       { src: "/images/works/arbor/01.jpg", caption: "" },
@@ -251,7 +251,7 @@ export const otherWorks: OtherWork[] = [
     category: "建筑设计竞赛",
     location: "西安，中国",
     role: "组长",
-    awards: "陕西省三等奖",
+    awards: "省级三等奖",
     details: [
       "探索建筑与自然环境的和谐共生",
       "结合传统建筑元素与现代设计语言",
@@ -322,17 +322,17 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/xicang/11.jpg", caption: "" },
       { src: "/images/works/xicang/12.jpg", caption: "" },
     ],
-    fullDescription: "作品聚焦于汉回民族文化融合的空间表达，通过建筑设计促进社区和谐与文化交流。",
+    fullDescription: "作品聚焦于汉回民族文化融合的空间表达，通过设计并落地一件1：1实体搭建构筑物促进社区和谐与文化交流。获陕西省第十八届实体空间搭建竞赛 三等奖。",
     year: "2025",
     startDate: "2025.4",
     endDate: "2025.4",
     category: "建筑设计竞赛",
     location: "西安西仓，中国",
     role: "核心成员",
-    awards: "三等奖",
+    awards: "省级三等奖",
     details: [
       "探索汉回民族文化融合的空间表达",
-      "城市更新视角下的社区设计",
+      "1:1实体搭建",
       "促进社区和谐与文化交流",
     ],
     quickContent: {
@@ -350,7 +350,7 @@ export const otherWorks: OtherWork[] = [
         { title: "文化调研", description: "深入了解汉回两族的生活方式和空间需求" },
         { title: "场地分析", description: "研究西仓地区的历史脉络和现状问题" },
         { title: "空间策略", description: "制定促进文化交流的空间组织方案" },
-        { title: "实体搭建", description: "按比���制作实体模型并参与搭建" }
+        { title: "实体搭建", description: "按比1:1制作实体模型并参与搭建" }
       ],
       methodology: "文化导向的设计方法，从两族共同需求出发寻找空间交集",
       iterations: "从概念模型到详细设计再到实体搭建的完整过程",
@@ -383,7 +383,7 @@ export const otherWorks: OtherWork[] = [
     id: "zhihui-jiangxia",
     title: "智绘江夏·水乡新韵",
     titleCn: "智绘江夏·水乡新韵",
-    description: "2024 年全国高校 AIGC 数智建筑与文创产品设计大赛，建筑类组国奖三等奖（组长）",
+    description: "2024 年全国高校 AIGC 数智建筑与文创产品设计大赛 建筑类组国家级二等奖（组长）",
     keywords: ["AIGC", "数智设计", "国家级奖项"],
     coverImage: "/images/works/aigc/cover.jpg",
     galleryImages: [
@@ -391,14 +391,14 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/aigc/02.png", caption: "" },
       { src: "/images/works/aigc/03.png", caption: "" },
     ],
-    fullDescription: "运用 AIGC 技术探索江南水乡建筑的数字化设计方法，获得全国三等奖。",
+    fullDescription: "运用 AIGC 技术探索江南水乡建筑的数字化设计方法，获得全国高校 AIGC 数智建筑与文创产品设计大赛二等奖。",
     year: "2024",
     startDate: "2024.9",
     endDate: "2024.11",
     category: "数智设计竞赛",
-    location: "武汉江夏，中国",
+    location: "武汉，中国",
     role: "组长",
-    awards: "国奖三等奖",
+    awards: "国家级二等奖",
     details: [
       "运用 AIGC 技术进行建筑设计",
       "探索江南水乡建筑的数字化表达",
@@ -412,7 +412,7 @@ export const otherWorks: OtherWork[] = [
         "数字化表达传统建筑意境",
         "探索人机协作的设计模式"
       ],
-      outcome: "获得全国三等奖，展示了 AIGC 在传统建筑设计中的应用潜力"
+      outcome: "获得全国二等奖，展示了 AIGC 在传统建筑设计中的应用潜力"
     },
     processContent: {
       phases: [
@@ -525,7 +525,7 @@ export const otherWorks: OtherWork[] = [
     id: "energize-commons",
     title: "Energize Commons",
     titleCn: "光合空间",
-    description: "2025 第十届「两岸新锐设计竞赛·华灿奖」（组长）",
+    description: "2025 第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖（组长）",
     keywords: ["竞赛", "社区空间", "环境设计"],
     coverImage: "/images/works/energize/cover.png",
     galleryImages: [
@@ -538,14 +538,14 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/energize/07.png", caption: "" },
       { src: "/images/works/energize/08.png", caption: "" },
     ],
-    fullDescription: "以 Grasshopper 为载体进行参数化环境设计，探索自然光与社区空间的关系，获台湾国家三等奖。",
+    fullDescription: "以 Grasshopper 为载体进行参数化环境设计，探索自然光与社区空间的关系，获第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖",
     year: "2025",
-    startDate: "2025.11",
+    startDate: "2025.9",
     endDate: "2025.11",
     category: "环境设计竞赛",
     location: "台北，中国台湾",
     role: "组长",
-    awards: "国家三等奖",
+    awards: "国家二等奖",
     details: [
       "以 Grasshopper 为载体进行参数化设计",
       "探索自然光与社区空间的关系",
@@ -559,7 +559,7 @@ export const otherWorks: OtherWork[] = [
         "社区公共空间的环境品质",
         "可持续的被动式设计策略"
       ],
-      outcome: "获得两岸设计竞赛国家三等奖"
+      outcome: "获第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖"
     },
     processContent: {
       phases: [
