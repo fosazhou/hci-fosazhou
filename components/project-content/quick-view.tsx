@@ -183,9 +183,9 @@ export function QuickView({ project, className, onImageClick }: QuickViewProps) 
     )
   }
 
-  // veilspace shows video in quick view
+  // veilspace and td show video in quick view
   const hasVideo = !!project.video
-  const showVideoInQuick = project.id === "veilspace"
+  const showVideoInQuick = project.id === "veilspace" || project.id === "td-music-visualization"
   
   return (
     <div className={cn("space-y-6", className)}>

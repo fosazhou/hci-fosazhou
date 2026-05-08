@@ -15,7 +15,7 @@ interface ExchangesProps {
 }
 
 export function Exchanges({ filterIds }: ExchangesProps) {
-  const { navigateWithTransition } = usePageTransition()
+  const { navigateWithTransition, prefetch } = usePageTransition()
   const { 
     isLoaded, 
     trackClick, 
@@ -36,6 +36,10 @@ export function Exchanges({ filterIds }: ExchangesProps) {
     e.stopPropagation()
     trackClick(exchange.keywords)
     navigateWithTransition(`/exchanges/${exchange.id}`)
+  }
+  
+  const handlePrefetch = (exchangeId: string) => {
+    prefetch(`/exchanges/${exchangeId}`)
   }
 
   return (
@@ -61,6 +65,7 @@ export function Exchanges({ filterIds }: ExchangesProps) {
               exchange={exchange}
               index={index}
               onClick={(e) => handleClick(e, exchange)}
+              onPrefetch={() => handlePrefetch(exchange.id)}
             />
           ))}
         </div>
@@ -72,19 +77,30 @@ export function Exchanges({ filterIds }: ExchangesProps) {
 function ExchangeCard({ 
   exchange, 
   index,
-  onClick 
+  onClick,
+  onPrefetch
 }: { 
   exchange: Exchange
   index: number
   onClick: (e: React.MouseEvent) => void
+  onPrefetch: () => void
 }) {
   const [isHovered, setIsHovered] = useState(false)
+  const [hasPrefetched, setHasPrefetched] = useState(false)
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    if (!hasPrefetched) {
+      onPrefetch()
+      setHasPrefetched(true)
+    }
+  }
 
   return (
     <div 
       className="block cursor-pointer group"
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
       <GlowCard hover className="overflow-hidden h-full">

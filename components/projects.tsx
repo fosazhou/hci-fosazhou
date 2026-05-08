@@ -21,21 +21,31 @@ function ProjectCard({
   onTrack: (tags: string[]) => void
   index: number
 }) {
-  const { navigateWithTransition } = usePageTransition()
+  const { navigateWithTransition, prefetch } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
+  const [hasPrefetched, setHasPrefetched] = useState(false)
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     onTrack(project.keywords)
     navigateWithTransition(`/projects/${project.id}`)
   }
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    // 首次 hover 时预取详情页
+    if (!hasPrefetched) {
+      prefetch(`/projects/${project.id}`)
+      setHasPrefetched(true)
+    }
+  }
 
   return (
     <div
       className="group cursor-pointer"
       onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => {
         setIsHovered(false)
         setIsPressed(false)

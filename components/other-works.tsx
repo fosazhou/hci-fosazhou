@@ -80,8 +80,9 @@ function WorkCard({
   index: number
   onTrack: (tags: string[]) => void
 }) {
-  const { navigateWithTransition } = usePageTransition()
+  const { navigateWithTransition, prefetch } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
+  const [hasPrefetched, setHasPrefetched] = useState(false)
   
   const isReversed = index % 2 !== 0
 
@@ -91,12 +92,20 @@ function WorkCard({
     onTrack(work.keywords)
     navigateWithTransition(`/works/${work.id}`)
   }
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    if (!hasPrefetched) {
+      prefetch(`/works/${work.id}`)
+      setHasPrefetched(true)
+    }
+  }
 
   return (
     <div 
       className="cursor-pointer group"
       onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
       <GlowCard hover className="overflow-hidden">

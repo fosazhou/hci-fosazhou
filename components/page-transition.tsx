@@ -12,6 +12,7 @@ const TIMELINE_STATE_KEY = "timeline-state"
 
 interface TransitionContextType {
   navigateWithTransition: (url: string) => void
+  prefetch: (url: string) => void
 }
 
 const TransitionContext = createContext<TransitionContextType | null>(null)
@@ -98,24 +99,36 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     setShowOverlay(true)
     setIsFadingOut(false)
     
-    // 立即跳转页面
-    router.push(url)
+    // 使用 requestIdleCallback 或 setTimeout 延迟路由跳转，让遮罩先显示
+    const navigate = () => {
+      router.push(url)
+      
+      // 开始淡出
+      requestAnimationFrame(() => {
+        setIsFadingOut(true)
+      })
+      
+      // 淡出完成后隐藏遮罩
+      setTimeout(() => {
+        setShowOverlay(false)
+        setIsFadingOut(false)
+        setTransitioning(false)
+      }, 350)
+    }
     
-    // 开始淡出
+    // 使用微任务延迟，确保遮罩先渲染
     requestAnimationFrame(() => {
-      setIsFadingOut(true)
+      requestAnimationFrame(navigate)
     })
-    
-    // 淡出完成后隐藏遮罩
-    setTimeout(() => {
-      setShowOverlay(false)
-      setIsFadingOut(false)
-      setTransitioning(false)
-    }, 350)
+  }, [router])
+  
+  // 预取链接的方法
+  const prefetch = useCallback((url: string) => {
+    router.prefetch(url)
   }, [router])
 
   return (
-    <TransitionContext.Provider value={{ navigateWithTransition }}>
+    <TransitionContext.Provider value={{ navigateWithTransition, prefetch }}>
       {children}
       
       {/* 白色闪屏遮罩 */}
