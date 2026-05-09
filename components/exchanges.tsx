@@ -112,7 +112,10 @@ function ExchangeCard({
               alt={exchange.title}
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover"
+              className={cn(
+                "w-full h-full object-cover transition-all duration-500",
+                isHovered && "scale-105"
+              )}
             />
           ) : (
             <div className="w-full h-full bg-muted/20" />
