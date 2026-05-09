@@ -258,21 +258,10 @@ export function TimelineSlider({
   const handleTrackClick = (e: React.MouseEvent) => {
     if (!trackRef.current || isDragging) return
     
-    const rect = trackRef.current.getBoundingClientRect()
-    const position = ((e.clientX - rect.left) / rect.width) * 100
-    const clickedMonth = getDateFromPosition(position)
-    const worksInMonth = getWorksForMonth(clickedMonth)
-    
-    // Only show popup if there are works in that month
-    if (worksInMonth.length > 0) {
-      if (selectedMonth === clickedMonth) {
-        setSelectedMonth(null)
-        setClickPosition(null)
-      } else {
-        setSelectedMonth(clickedMonth)
-        setClickPosition(position)
-      }
-    }
+    // 点击背景（黑色部分）关闭 popup
+    // 彩色条的点击会阻止冒泡，所以这里只会处理背景点击
+    setSelectedMonth(null)
+    setClickPosition(null)
   }
   
   // Close popup when clicking outside
@@ -411,6 +400,18 @@ export function TimelineSlider({
                 }}
                 onMouseEnter={() => setHoveredWork(work)}
                 onMouseLeave={() => setHoveredWork(null)}
+                onClick={(e) => {
+                  e.stopPropagation() // 阻止冒泡到 track
+                  const clickedMonth = work.startDate
+                  const position = (workStartPos + workEndPos) / 2
+                  if (selectedMonth === clickedMonth) {
+                    setSelectedMonth(null)
+                    setClickPosition(null)
+                  } else {
+                    setSelectedMonth(clickedMonth)
+                    setClickPosition(position)
+                  }
+                }}
               />
             )
           })}
