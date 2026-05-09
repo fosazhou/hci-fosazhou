@@ -539,12 +539,6 @@ export function TimelineSlider({
         {/* Selected month popup - shows project details (below timeline) */}
         {selectedMonth && clickPosition !== null && (
           <>
-            {/* Backdrop to close popup */}
-            <div 
-              className="fixed inset-0 z-40"
-              onClick={handleClosePopup}
-            />
-            
             {/* Connecting line from point to popup */}
             <div 
               className="absolute z-45 w-[1px] bg-primary/50"
@@ -555,7 +549,7 @@ export function TimelineSlider({
               }}
             />
             
-            {/* Popup - positioned below timeline */}
+            {/* Popup - positioned below timeline, closes on mouse leave */}
             <div 
               className={cn(
                 "absolute z-50",
@@ -571,6 +565,7 @@ export function TimelineSlider({
                 transform: 'translateX(-50%)',
                 boxShadow: "0 0 20px rgba(34,211,238,0.2), 0 4px 16px rgba(0,0,0,0.4)",
               }}
+              onMouseLeave={handleClosePopup}
             >
               {/* Arrow pointing up */}
               <div 

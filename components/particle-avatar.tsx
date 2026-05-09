@@ -116,7 +116,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
   }, [])
   
-  // Trail animation loop - only runs when needed
+  // Trail animation loop - simplified for performance
   const renderTrail = useCallback(() => {
     const canvas = trailCanvasRef.current
     const ctx = canvas?.getContext("2d")
@@ -135,59 +135,47 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     
-    // Add new trail point if mouse is inside
+    // Add new trail point if mouse is inside (throttle to every other frame)
     if (mouse.isInside && mouse.x > 0 && mouse.y > 0) {
-      trail.push({ x: mouse.x, y: mouse.y, age: 0 })
-      if (trail.length > 50) trail.shift()
+      const lastPoint = trail[trail.length - 1]
+      // Only add point if moved enough distance
+      if (!lastPoint || Math.hypot(mouse.x - lastPoint.x, mouse.y - lastPoint.y) > 3) {
+        trail.push({ x: mouse.x, y: mouse.y, age: 0 })
+        if (trail.length > 25) trail.shift() // Reduced from 50
+      }
     }
     
     // Update ages and remove old points
     for (let i = trail.length - 1; i >= 0; i--) {
-      trail[i].age += 1
-      if (trail[i].age > 40) {
+      trail[i].age += 2 // Faster fade
+      if (trail[i].age > 30) { // Reduced from 40
         trail.splice(i, 1)
       }
     }
     
-    // Draw trail
+    // Draw trail - simplified single pass
     if (trail.length > 1) {
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+      
+      // Single gradient stroke instead of multiple passes
+      ctx.beginPath()
+      ctx.moveTo(trail[0].x, trail[0].y)
       for (let i = 1; i < trail.length; i++) {
-        const p1 = trail[i - 1]
-        const p2 = trail[i]
-        const opacity = Math.max(0, 1 - p2.age / 40)
-        
-        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.15})`
-        ctx.lineWidth = 12
-        ctx.lineCap = 'round'
-        ctx.beginPath()
-        ctx.moveTo(p1.x, p1.y)
-        ctx.lineTo(p2.x, p2.y)
-        ctx.stroke()
-        
-        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.4})`
-        ctx.lineWidth = 5
-        ctx.beginPath()
-        ctx.moveTo(p1.x, p1.y)
-        ctx.lineTo(p2.x, p2.y)
-        ctx.stroke()
-        
-        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.9})`
-        ctx.lineWidth = 2
-        ctx.beginPath()
-        ctx.moveTo(p1.x, p1.y)
-        ctx.lineTo(p2.x, p2.y)
-        ctx.stroke()
+        ctx.lineTo(trail[i].x, trail[i].y)
       }
       
+      const lastOpacity = Math.max(0, 1 - trail[trail.length - 1].age / 30)
+      ctx.strokeStyle = `rgba(34, 211, 238, ${lastOpacity * 0.5})`
+      ctx.lineWidth = 3
+      ctx.stroke()
+      
+      // Glow at cursor position
       if (mouse.isInside && trail.length > 0) {
         const last = trail[trail.length - 1]
-        const gradient = ctx.createRadialGradient(last.x, last.y, 0, last.x, last.y, 20)
-        gradient.addColorStop(0, 'rgba(34, 211, 238, 0.6)')
-        gradient.addColorStop(0.5, 'rgba(34, 211, 238, 0.2)')
-        gradient.addColorStop(1, 'rgba(34, 211, 238, 0)')
-        ctx.fillStyle = gradient
+        ctx.fillStyle = `rgba(34, 211, 238, 0.3)`
         ctx.beginPath()
-        ctx.arc(last.x, last.y, 20, 0, Math.PI * 2)
+        ctx.arc(last.x, last.y, 12, 0, Math.PI * 2)
         ctx.fill()
       }
     }
