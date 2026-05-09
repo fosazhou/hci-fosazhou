@@ -100,7 +100,7 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
         src={videoSrc}
         loop
         playsInline
-        preload="none"
+        preload="metadata"
         className="w-full h-full object-cover"
       />
       <div className={cn(

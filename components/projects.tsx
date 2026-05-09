@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
+import React, { useMemo, useState, useRef } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
@@ -25,6 +25,7 @@ function ProjectCard({
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const [hasPrefetched, setHasPrefetched] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -39,6 +40,20 @@ function ProjectCard({
       prefetch(`/projects/${project.id}`)
       setHasPrefetched(true)
     }
+    // 播放视频
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.play().catch(() => {})
+    }
+  }
+  
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    setIsPressed(false)
+    // 暂停视频
+    if (videoRef.current) {
+      videoRef.current.pause()
+    }
   }
 
   return (
@@ -46,10 +61,7 @@ function ProjectCard({
       className="group cursor-pointer"
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={() => {
-        setIsHovered(false)
-        setIsPressed(false)
-      }}
+      onMouseLeave={handleMouseLeave}
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}
     >
@@ -175,16 +187,19 @@ function ProjectCard({
               />
             )}
             
-            {/* Video preview on hover - only load when hovered */}
-            {project.previewVideo && isHovered && (
+            {/* Video preview - always mounted, preloaded, shown on hover */}
+            {project.previewVideo && (
               <video
+                ref={videoRef}
                 src={project.previewVideo}
                 muted
                 loop
                 playsInline
-                autoPlay
-                preload="none"
-                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100"
+                preload="auto"
+                className={cn(
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
+                  isHovered ? "opacity-100" : "opacity-0"
+                )}
               />
             )}
             
