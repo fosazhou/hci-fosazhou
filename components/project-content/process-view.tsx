@@ -2,8 +2,8 @@
 
 import { cn } from "@/lib/utils"
 import type { Project, GalleryImage } from "@/lib/projects-data"
-import { GitBranch, Workflow, RefreshCw, Lightbulb } from "lucide-react"
-import { useState } from "react"
+import { GitBranch, Workflow, RefreshCw, Lightbulb, Zap, Search, ArrowRight } from "lucide-react"
+import { useReadingMode } from "@/contexts/reading-mode-context"
 
 interface ProcessViewProps {
   project: Project
@@ -12,6 +12,7 @@ interface ProcessViewProps {
 }
 
 export function ProcessView({ project, className, galleryComponent }: ProcessViewProps) {
+  const { setMode } = useReadingMode()
   const content = project.processContent
 
   if (!content) {
@@ -153,6 +154,75 @@ export function ProcessView({ project, className, galleryComponent }: ProcessVie
         <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
           ~5 MIN READ COMPLETE
         </span>
+      </div>
+      
+      {/* Mode Entry Buttons */}
+      <div className="pt-6 space-y-3">
+        <p className="text-[10px] font-mono text-muted-foreground/60 text-center tracking-wider uppercase mb-4">
+          EXPLORE_MORE
+        </p>
+        
+        <div className="grid grid-cols-2 gap-4">
+          {/* Quick Entry */}
+          <button
+            onClick={() => {
+              setMode("quick")
+              setTimeout(() => {
+                const densitySection = document.getElementById('reading-density-section')
+                if (densitySection) {
+                  densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }, 100)
+            }}
+            className={cn(
+              "group flex items-center justify-between p-4 rounded-lg",
+              "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+              "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+              "transition-all duration-300"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded bg-primary/10 border border-primary/20">
+                <Zap className="h-4 w-4 text-primary" />
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] font-mono text-primary/60 block">QUICK</span>
+                <span className="text-xs text-muted-foreground">~1 min read</span>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary/40 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+          </button>
+          
+          {/* Research Entry */}
+          <button
+            onClick={() => {
+              setMode("research")
+              setTimeout(() => {
+                const densitySection = document.getElementById('reading-density-section')
+                if (densitySection) {
+                  densitySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }, 100)
+            }}
+            className={cn(
+              "group flex items-center justify-between p-4 rounded-lg",
+              "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.15)]",
+              "hover:border-[rgba(34,211,238,0.4)] hover:bg-[rgba(10,10,15,0.8)]",
+              "transition-all duration-300"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded bg-secondary/10 border border-secondary/20">
+                <Search className="h-4 w-4 text-secondary" />
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] font-mono text-secondary/60 block">RESEARCH</span>
+                <span className="text-xs text-muted-foreground">~10 min read</span>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-secondary/40 group-hover:text-secondary group-hover:translate-x-1 transition-all" />
+          </button>
+        </div>
       </div>
     </div>
   )
