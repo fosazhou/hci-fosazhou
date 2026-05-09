@@ -276,7 +276,14 @@ export function StickyReadingModeSwitcher({ className }: { className?: string })
           {modes.map((m) => (
             <button
               key={m.id}
-              onClick={() => setMode(m.id)}
+              onClick={() => {
+                setMode(m.id)
+                // 滚动到 READING_DENSITY 区域
+                const target = document.getElementById('reading-density-section')
+                if (target) {
+                  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }}
               disabled={isTransitioning}
               className={cn(
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-full",
