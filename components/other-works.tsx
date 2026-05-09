@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState, useEffect, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { otherWorks, type OtherWork } from "@/lib/other-works-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
@@ -25,19 +25,6 @@ function WorkMedia({
   alt: string
   isHovered: boolean
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    if (videoRef.current && previewVideo) {
-      if (isHovered) {
-        videoRef.current.currentTime = 0
-        videoRef.current.play().catch(() => {})
-      } else {
-        videoRef.current.pause()
-      }
-    }
-  }, [isHovered, previewVideo])
-
   return (
     <>
       {coverImage && (
@@ -55,7 +42,6 @@ function WorkMedia({
       )}
       {previewVideo && isHovered && (
         <video
-          ref={videoRef}
           src={previewVideo}
           muted
           loop
