@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import type { Project, GalleryImage } from "@/lib/projects-data"
 import { Zap, Check, Target, ArrowRight, Workflow, Search } from "lucide-react"
 import { useReadingMode } from "@/contexts/reading-mode-context"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 
 interface QuickViewProps {
   project: Project
@@ -12,72 +12,16 @@ interface QuickViewProps {
   onImageClick?: (index: number) => void
 }
 
-// Video Player for Quick View
+// Simple Video Player for Quick View
 function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [detectedRatio, setDetectedRatio] = useState("16/9")
-  const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    
-    const handleMetadata = () => {
-      const { videoWidth, videoHeight } = video
-      if (videoWidth && videoHeight) {
-        setDetectedRatio(`${videoWidth}/${videoHeight}`)
-      }
-    }
-    
-    video.addEventListener('loadedmetadata', handleMetadata)
-    if (video.readyState >= 1) handleMetadata()
-    
-    return () => video.removeEventListener('loadedmetadata', handleMetadata)
-  }, [])
-  
-  useEffect(() => {
-    const video = videoRef.current
-    const container = containerRef.current
-    if (!video || !container) return
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting && isPlaying) {
-            let currentVolume = video.volume
-            fadeIntervalRef.current = setInterval(() => {
-              currentVolume -= 0.1
-              if (currentVolume <= 0) {
-                video.volume = 0
-                video.pause()
-                setIsPlaying(false)
-                if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current)
-                video.volume = 1
-              } else {
-                video.volume = currentVolume
-              }
-            }, 50)
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-    
-    observer.observe(container)
-    return () => {
-      observer.disconnect()
-      if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current)
-    }
-  }, [isPlaying])
   
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause()
       } else {
-        videoRef.current.volume = 1
         videoRef.current.play()
       }
       setIsPlaying(!isPlaying)
@@ -86,13 +30,12 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
   
   return (
     <div 
-      ref={containerRef}
       className={cn(
         "w-full overflow-hidden rounded-lg relative cursor-pointer mx-auto",
         "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]",
         "max-w-[50%]"
       )}
-      style={{ aspectRatio: detectedRatio }}
+      style={{ aspectRatio: "16/9" }}
       onClick={togglePlay}
     >
       <video
@@ -100,26 +43,18 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
         src={videoSrc}
         loop
         playsInline
+        muted
         preload="none"
         className="w-full h-full object-cover"
       />
       <div className={cn(
-        "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
-        isPlaying ? "opacity-0 hover:opacity-100 bg-black/20" : "opacity-100 bg-black/40"
+        "absolute inset-0 flex items-center justify-center",
+        isPlaying ? "opacity-0" : "opacity-100 bg-black/40"
       )}>
-        <div 
-          className="w-16 h-16 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center"
-          style={{ boxShadow: "0 0 20px var(--primary-glow)" }}
-        >
-          {isPlaying ? (
-            <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-            </svg>
-          ) : (
-            <svg className="w-6 h-6 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          )}
+        <div className="w-16 h-16 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+          <svg className="w-6 h-6 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
         </div>
       </div>
     </div>

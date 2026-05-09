@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState, useEffect, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { otherWorks, type OtherWork } from "@/lib/other-works-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
@@ -8,7 +8,7 @@ import { GlowCard } from "@/components/glow-card"
 import { HoverScan } from "@/components/scan-line"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { cn } from "@/lib/utils"
-import { ExternalLink, Play } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 
 interface OtherWorksProps {
   filterIds?: string[]
@@ -16,28 +16,11 @@ interface OtherWorksProps {
 
 function WorkMedia({ 
   coverImage, 
-  previewVideo, 
-  alt, 
-  isHovered 
+  alt
 }: { 
   coverImage?: string
-  previewVideo?: string
   alt: string
-  isHovered: boolean
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    if (videoRef.current && previewVideo) {
-      if (isHovered) {
-        videoRef.current.currentTime = 0
-        videoRef.current.play().catch(() => {})
-      } else {
-        videoRef.current.pause()
-      }
-    }
-  }, [isHovered, previewVideo])
-
   return (
     <>
       {coverImage && (
@@ -46,26 +29,10 @@ function WorkMedia({
           alt={alt}
           loading="lazy"
           decoding="async"
-          className={cn(
-            "w-full h-full object-cover absolute inset-0 transition-all duration-500",
-            isHovered && previewVideo ? 'opacity-0' : 'opacity-100',
-            isHovered && "scale-105"
-          )}
-        />
-      )}
-      {previewVideo && isHovered && (
-        <video
-          ref={videoRef}
-          src={previewVideo}
-          muted
-          loop
-          playsInline
-          autoPlay
-          preload="none"
           className="w-full h-full object-cover absolute inset-0"
         />
       )}
-      {!coverImage && !previewVideo && (
+      {!coverImage && (
         <div className="w-full h-full bg-muted/20" />
       )}
     </>
@@ -118,18 +85,9 @@ function WorkCard({
           <div className="relative w-full md:w-2/5 aspect-video md:aspect-auto md:h-48 bg-[rgba(10,10,15,0.8)] overflow-hidden">
             <WorkMedia 
               coverImage={work.coverImage}
-              previewVideo={work.previewVideo}
               alt={work.title}
-              isHovered={isHovered}
             />
             <HoverScan active={isHovered} />
-            
-            {/* Video indicator */}
-            {work.previewVideo && (
-              <div className="absolute bottom-3 right-3 p-1.5 rounded bg-[rgba(10,10,15,0.8)] border border-primary/20">
-                <Play className="h-3 w-3 text-primary/60" />
-              </div>
-            )}
           </div>
           
           {/* Content */}

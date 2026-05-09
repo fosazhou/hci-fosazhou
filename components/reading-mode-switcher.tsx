@@ -165,21 +165,25 @@ export function StickyReadingModeSwitcher({ className }: { className?: string })
   const { mode, setMode, isTransitioning } = useReadingMode()
   const [isSticky, setIsSticky] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const placeholderRef = useRef<HTMLDivElement>(null)
   
   const modes = Object.values(READING_MODES)
   
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect()
-        // When the original position scrolls past the header (56px), make it sticky
-        setIsSticky(rect.top <= 56)
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (sectionRef.current) {
+            const rect = sectionRef.current.getBoundingClientRect()
+            setIsSticky(rect.top <= 56)
+          }
+          ticking = false
+        })
+        ticking = true
       }
     }
     
     window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll() // Check initial state
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
   
@@ -189,7 +193,6 @@ export function StickyReadingModeSwitcher({ className }: { className?: string })
       <div ref={sectionRef} id="reading-density-section" className={cn("w-full scroll-mt-20", className)}>
         {/* Original position marker */}
         <div 
-          ref={placeholderRef}
           className={cn(
             "relative",
             "bg-[rgba(10,10,15,0.8)] backdrop-blur-xl",
