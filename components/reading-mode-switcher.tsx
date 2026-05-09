@@ -45,7 +45,6 @@ export function ReadingModeSwitcher({ className, compact = false }: ReadingModeS
 
   return (
     <div 
-      id="reading-density-section"
       className={cn(
         "relative",
         "bg-[rgba(10,10,15,0.8)] backdrop-blur-xl",
