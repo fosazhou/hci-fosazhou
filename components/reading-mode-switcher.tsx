@@ -186,11 +186,10 @@ export function StickyReadingModeSwitcher({ className }: { className?: string })
   return (
     <>
       {/* Placeholder to maintain layout when sticky */}
-      <div ref={sectionRef} className={cn("w-full", className)}>
+      <div ref={sectionRef} id="reading-density-section" className={cn("w-full scroll-mt-20", className)}>
         {/* Original position marker */}
         <div 
           ref={placeholderRef}
-          id="reading-density-section"
           className={cn(
             "relative",
             "bg-[rgba(10,10,15,0.8)] backdrop-blur-xl",
