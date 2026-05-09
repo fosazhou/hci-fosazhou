@@ -277,11 +277,13 @@ export function StickyReadingModeSwitcher({ className }: { className?: string })
               key={m.id}
               onClick={() => {
                 setMode(m.id)
-                // 滚动到 READING_DENSITY 区域
-                const target = document.getElementById('reading-density-section')
-                if (target) {
-                  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                }
+                // 滚动到 READING_DENSITY 区域 - 延迟等待模式切换完成
+                setTimeout(() => {
+                  const target = document.getElementById('reading-density-section')
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
+                }, 100)
               }}
               disabled={isTransitioning}
               className={cn(
