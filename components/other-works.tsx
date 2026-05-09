@@ -61,6 +61,7 @@ function WorkMedia({
           loop
           playsInline
           autoPlay
+          preload="none"
           className="w-full h-full object-cover absolute inset-0"
         />
       )}

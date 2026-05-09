@@ -271,6 +271,8 @@ function VideoPlayer({
         src={videoSrc}
         loop
         playsInline
+        preload="none"
+        poster={videoSrc.replace('.mp4', '_poster.jpg').replace('_demo', '_preview')}
         className="w-full h-full object-cover"
       />
       <div className={cn(
