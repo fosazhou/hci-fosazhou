@@ -9,7 +9,7 @@ import { ImageLightbox } from "@/components/image-lightbox"
 import { Logo } from "@/components/logo"
 import { cn } from "@/lib/utils"
 import { ReadingModeProvider, useReadingMode } from "@/contexts/reading-mode-context"
-import { ReadingModeSwitcher } from "@/components/reading-mode-switcher"
+import { ReadingModeSwitcher, StickyReadingModeSwitcher } from "@/components/reading-mode-switcher"
 import { ReadingModeSuggestion } from "@/components/reading-mode-suggestion"
 import { useBehaviorTracking } from "@/hooks/use-behavior-tracking"
 import { StatusIndicator } from "@/components/scan-line"
@@ -822,8 +822,17 @@ function WorkContent() {
           
           <Logo size="sm" />
           
-          {/* Compact mode switcher in header */}
-          <ReadingModeSwitcher compact />
+          {/* CV Entry in header */}
+          <Link
+            href="/cv"
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded",
+              "border border-primary/20 bg-primary/5",
+              "text-primary hover:bg-primary/10 transition-colors"
+            )}
+          >
+            <span className="text-[10px] font-mono tracking-wider">CV</span>
+          </Link>
         </div>
       </header>
       
@@ -936,10 +945,8 @@ function WorkContent() {
       {/* Content Area */}
       <article className="relative py-16 md:py-24 px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          {/* Mode Switcher */}
-          <div className="mb-12">
-            <ReadingModeSwitcher />
-          </div>
+          {/* Mode Switcher - Sticky on scroll */}
+          <StickyReadingModeSwitcher className="mb-12" />
           
           {/* Mode-specific content with transition */}
           <div className={cn(
