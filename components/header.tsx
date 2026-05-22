@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { Logo } from "@/components/logo"
 import { StatusIndicator } from "@/components/scan-line"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { cn } from "@/lib/utils"
 
 export function Header() {
@@ -58,8 +59,10 @@ export function Header() {
             </Link>
           </div>
           
-          {/* Right side - CV link */}
-          <div className="flex items-center gap-2">
+          {/* Right side - Language switcher and CV link */}
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            
             <Link
               href="/cv"
               className="group relative px-3 py-1.5 text-[11px] font-mono tracking-wider text-muted-foreground transition-all duration-300 hover:text-primary"
