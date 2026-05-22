@@ -9,13 +9,14 @@ import {
   type ReactNode,
 } from "react"
 
-export type Language = "zh" | "en"
+export type Language = "zh" | "zh-hk" | "en"
 
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (zh: string, en: string) => string
+  t: (zh: string, en: string, zhHk?: string) => string
   isZh: boolean
+  isZhHk: boolean
   isEn: boolean
   isTransitioning: boolean
 }
@@ -32,7 +33,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language
-      if (stored && (stored === "zh" || stored === "en")) {
+      if (stored && (stored === "zh" || stored === "zh-hk" || stored === "en")) {
         setLanguageState(stored)
       }
     }
@@ -44,7 +45,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // 开始过渡动画
     setIsTransitioning(true)
     
-    // 更快切换语言，过渡更平滑
+    // 加长过渡时间
     setTimeout(() => {
       setLanguageState(lang)
       if (typeof window !== "undefined") {
@@ -54,12 +55,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       // 完成过渡
       setTimeout(() => {
         setIsTransitioning(false)
-      }, 50)
-    }, 100)
+      }, 100)
+    }, 200)
   }, [language])
 
   // Translation helper
-  const t = useCallback((zh: string, en: string) => {
+  const t = useCallback((zh: string, en: string, zhHk?: string) => {
+    if (language === "zh-hk") return zhHk || zh
     return language === "zh" ? zh : en
   }, [language])
 
@@ -68,6 +70,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguage,
     t,
     isZh: language === "zh",
+    isZhHk: language === "zh-hk",
     isEn: language === "en",
     isTransitioning,
   }
@@ -79,7 +82,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
           opacity: isTransitioning ? 0.6 : 1,
           filter: isTransitioning ? 'blur(2px)' : 'blur(0px)',
           transform: isTransitioning ? 'scale(0.995)' : 'scale(1)',
-          transition: 'opacity 150ms ease-out, filter 150ms ease-out, transform 150ms ease-out',
+          transition: 'opacity 300ms ease-out, filter 300ms ease-out, transform 300ms ease-out',
         }}
       >
         {children}

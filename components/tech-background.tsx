@@ -135,7 +135,7 @@ export function TechBackground() {
       ctx.fillStyle = "rgba(5, 5, 8, 0.1)"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      drawGrid()
+      // 移除网格效果，只保留粒子
       drawParticles()
 
       animationRef.current = requestAnimationFrame(animate)
