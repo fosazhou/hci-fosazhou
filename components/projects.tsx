@@ -5,6 +5,7 @@ import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
+import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 
 interface ProjectsProps {
@@ -26,6 +27,7 @@ function ProjectCard({
   const [isPressed, setIsPressed] = useState(false)
   const [hasPrefetched, setHasPrefetched] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const { language } = useLanguage()
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -106,13 +108,13 @@ function ProjectCard({
                     isHovered ? "text-foreground" : "text-foreground/80"
                   )}
                 >
-                  {project.title}
+                  {language === "en" && project.titleEn ? project.titleEn : project.title}
                 </h3>
                 
-                {/* Subtitle - English name if exists */}
-                {project.keywords[0] && (
+                {/* Subtitle - first keyword */}
+                {(language === "en" ? project.keywordsEn?.[0] : project.keywords[0]) && (
                   <p className="text-sm text-muted-foreground/50 mt-0.5">
-                    {project.keywords[0]}
+                    {language === "en" ? project.keywordsEn?.[0] : project.keywords[0]}
                   </p>
                 )}
               </div>
@@ -140,12 +142,12 @@ function ProjectCard({
             >
               {/* Description */}
               <p className="text-sm text-muted-foreground/70 leading-relaxed mb-4">
-                {project.description}
+                {language === "en" && project.descriptionEn ? project.descriptionEn : project.description}
               </p>
               
               {/* Keywords tags */}
               <div className="flex flex-wrap gap-2">
-                {project.keywords.map((keyword, i) => (
+                {(language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords).map((keyword, i) => (
                   <span 
                     key={i}
                     className={cn(

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { StatusIndicator } from "@/components/scan-line"
 import { ParticleTitle } from "@/components/particle-title"
 import { ParticleAvatar } from "@/components/particle-avatar"
+import { useLanguage } from "@/contexts/language-context"
 
 export type ViewType = "projects" | "about"
 
@@ -23,6 +24,7 @@ const heroData = {
   headline: "Mediated Responsive Spatial Interaction for Health and Wellbeing",
   headlineCn: "面向健康与福祉的 AI 驱动响应式空间交互",
   subheadline: "我以建筑学背景切入 Spatial HCI，研究 AI 驱动的响应式空间如何通过具身感知与环境反馈，促进人的健康与福祉。我的项目从音频驱动的实时视觉反馈、自适应交互界面，到 1:1 响应式空间原型，探索身体、数据与空间之间更具疗愈性的人机交互方式。",
+  subheadlineEn: "With a background in architecture, I explore Spatial HCI, researching how AI-driven responsive spaces promote health and wellbeing through embodied sensing and environmental feedback. My projects span audio-driven real-time visual feedback, adaptive interfaces, to 1:1 responsive spatial prototypes, exploring more healing human-computer interaction between body, data, and space.",
 }
 
 const marqueeData = {
@@ -31,8 +33,14 @@ const marqueeData = {
     "From Behavior to Feedback.",
     "From Architecture to Interaction.",
   ],
-  middleMarquee: ["空间人机交互 · 具身感知 · 响应式环境"],
-  bottomMarquee: ["长安大学建筑学院", "University of Auckland"],
+  middleMarquee: {
+    zh: ["空间人机交互 · 具身感知 · 响应式环境"],
+    en: ["Spatial HCI · Embodied Sensing · Responsive Environment"],
+  },
+  bottomMarquee: {
+    zh: ["长安大学建筑学院", "University of Auckland"],
+    en: ["Chang'an University School of Architecture", "University of Auckland"],
+  },
 }
 
 // ============================================
@@ -183,6 +191,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
   const [mounted, setMounted] = useState(false)
   const [typedText, setTypedText] = useState("")
   const fullText = "RESPONSIVE_SPATIAL_HCI"
+  const { language, t } = useLanguage()
 
   const handleViewChange = (view: ViewType) => {
     if (onViewChange) {
@@ -233,7 +242,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
           className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/60"
         />
         <MarqueeBanner
-          texts={marqueeData.middleMarquee}
+          texts={language === "zh" ? marqueeData.middleMarquee.zh : marqueeData.middleMarquee.en}
           direction="right"
           className="border-b border-[rgba(34,211,238,0.08)] bg-brand/[0.03] text-brand/60"
         />
@@ -281,7 +290,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
               </p>
 
               <p className="mt-6 text-sm md:text-base text-muted-foreground/70 max-w-xl leading-relaxed">
-                {heroData.subheadline}
+                {language === "zh" ? heroData.subheadline : heroData.subheadlineEn}
               </p>
 
               {/* Quick links - View switchers */}
@@ -338,7 +347,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
       {/* Bottom Marquee */}
       <div className="relative z-10 pb-8">
         <MarqueeBanner
-          texts={marqueeData.bottomMarquee}
+          texts={language === "zh" ? marqueeData.bottomMarquee.zh : marqueeData.bottomMarquee.en}
           direction="left"
           className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/50"
         />

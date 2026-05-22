@@ -7,6 +7,7 @@ import { usePageTransition } from "@/components/page-transition"
 import { GlowCard } from "@/components/glow-card"
 import { HoverScan } from "@/components/scan-line"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
+import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 import { ExternalLink, Play } from "lucide-react"
 
@@ -70,6 +71,7 @@ function WorkCard({
   const { navigateWithTransition, prefetch } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
   const [hasPrefetched, setHasPrefetched] = useState(false)
+  const { language } = useLanguage()
   
   const isReversed = index % 2 !== 0
 
@@ -129,23 +131,23 @@ function WorkCard({
             
             <h3 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2 group-hover:text-primary transition-colors" suppressHydrationWarning>
               {isReversed && <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity md:order-first" />}
-              {work.title}
+              {language === "en" && work.titleEn ? work.titleEn : work.title}
               {!isReversed && <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />}
             </h3>
             
             <p className="text-[10px] text-muted-foreground/60 mb-2 font-mono" suppressHydrationWarning>
-              {work.titleCn}
+              {language === "en" ? work.title : work.titleCn}
             </p>
             
             <p className="text-sm text-muted-foreground leading-relaxed mb-3 line-clamp-2" suppressHydrationWarning>
-              {work.description}
+              {language === "en" && work.descriptionEn ? work.descriptionEn : work.description}
             </p>
             
             <div className={cn(
               "flex flex-wrap gap-1.5",
               isReversed && "md:justify-end"
             )}>
-              {work.keywords.slice(0, 3).map((tag, i) => (
+              {(language === "en" && work.keywordsEn ? work.keywordsEn : work.keywords).slice(0, 3).map((tag, i) => (
                 <span 
                   key={i}
                   className={cn(
