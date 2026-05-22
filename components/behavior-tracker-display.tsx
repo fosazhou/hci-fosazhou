@@ -3,10 +3,42 @@
 import { useState, useEffect, useMemo } from "react"
 import { cn } from "@/lib/utils"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
+import { useLanguage } from "@/contexts/language-context"
 
 interface BehaviorTrackerDisplayProps {
   section: "projects" | "exchanges" | "works"
   itemCount: number
+}
+
+// Tag translation mapping (Chinese to English)
+const TAG_TRANSLATIONS: Record<string, string> = {
+  // Projects
+  "自适应界面": "Adaptive Interface",
+  "认知负荷": "Cognitive Load",
+  "行为感知": "Behavior Sensing",
+  "响应式空间": "Responsive Space",
+  "具身感知": "Embodied Sensing",
+  "健康福祉": "Health & Wellbeing",
+  "实时数据反馈": "Real-time Data Feedback",
+  "实时可视化": "Real-time Visualization",
+  // Exchanges
+  "交换项目": "Exchange Program",
+  "建筑教育": "Architecture Education",
+  "文化交流": "Cultural Exchange",
+  "国际视野": "Global Perspective",
+  // Other Works
+  "参数化设计": "Parametric Design",
+  "生成式设计": "Generative Design",
+  "环境模拟": "Environmental Simulation",
+  "数字制造": "Digital Fabrication",
+  "公共空间": "Public Space",
+  "城市更新": "Urban Renewal",
+  "文化融合": "Cultural Integration",
+  "社区营造": "Community Building",
+  "构造研究": "Construction Research",
+  "模型制作": "Model Making",
+  "AIGC": "AIGC",
+  "Creative Coding": "Creative Coding",
 }
 
 // 动态检测状态短语
@@ -28,9 +60,19 @@ const DETECTED_PHRASES = [
 
 export function BehaviorTrackerDisplay({ section, itemCount }: BehaviorTrackerDisplayProps) {
   const { isLoaded, totalClicks, topTag } = useUserBehavior()
+  const { language } = useLanguage()
   const [currentPhrase, setCurrentPhrase] = useState(SCANNING_PHRASES[0])
   const [dotCount, setDotCount] = useState(1)
   const [scanValue, setScanValue] = useState(0)
+
+  // Translate tag based on current language
+  const displayTag = useMemo(() => {
+    if (!topTag) return null
+    if (language === "en") {
+      return TAG_TRANSLATIONS[topTag] || topTag
+    }
+    return topTag
+  }, [topTag, language])
 
   // 循环显示扫描短语
   useEffect(() => {
@@ -138,7 +180,7 @@ export function BehaviorTrackerDisplay({ section, itemCount }: BehaviorTrackerDi
           ) : (
             <span>
               {">"} {currentPhrase} 
-              <span className="text-brand ml-2">[{topTag}]</span>
+              <span className="text-brand ml-2">[{displayTag}]</span>
               <span className="text-muted-foreground/40 ml-2">
                 {totalClicks} interactions logged
               </span>
