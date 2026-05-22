@@ -439,6 +439,16 @@ export const projects: Project[] = [
       ],
       outcome: "完成了一个将身体姿态转化为物理边界运动与数字视觉反馈的具身交互原型。"
     },
+    quickContentEn: {
+      headline: "A 1:1 embodied interactive installation that translates body posture into spatial boundary changes",
+      keyPoints: [
+        "Recognize sitting, reclining, and leaving through FSR pressure sensors on seat and backrest",
+        "Arduino, CNC Shield, and NEMA17 stepper motors drive fabric boundary movement",
+        "Unity synchronously generates visual feedback for clear, blurred, work, and rest scenes",
+        "Build experience flow from entering, retreating to re-engaging through five interaction states"
+      ],
+      outcome: "Completed an embodied interactive prototype that transforms body posture into physical boundary movement and digital visual feedback."
+    },
     quickContentHk: {
       headline: "一個將身體姿態轉譯為空間邊界變化的 1:1 具身交互裝置",
       keyPoints: [
@@ -484,6 +494,43 @@ export const projects: Project[] = [
         "以织物形成柔性、可逆、非封闭的空间边界",
         "采用座面与靠背的多点传感，而非摄像头识别",
         "用 Unity 作为数字反馈层，强化用户对空间状态变化的感知"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        {
+          title: "User Context Extraction",
+          description: "Observe needs for temporary privacy, emotional buffering, and low-disturbance rest in semi-open spaces."
+        },
+        {
+          title: "Interaction Concept Definition",
+          description: "Transform natural body behaviors like sitting, reclining, and leaving into interaction inputs requiring no learning."
+        },
+        {
+          title: "Body Input Testing",
+          description: "Identify different posture states through seat and backrest FSR sensors."
+        },
+        {
+          title: "Physical Feedback Construction",
+          description: "Use Arduino, CNC Shield, and NEMA17 motors to control fabric boundary movement."
+        },
+        {
+          title: "Fabric Interface Debugging",
+          description: "Adjust pulleys, steel rods, fabric tension, and motion paths to optimize boundary change stability."
+        },
+        {
+          title: "Digital Feedback Linkage",
+          description: "Synchronize real-time visuals, blur layers, scene switching, and particle feedback through Unity."
+        }
+      ],
+      methodology: "Starting from privacy adjustment needs in semi-open spaces, integrate body input, physical movement, and digital feedback through 1:1 prototype testing.",
+      iterations: "Project went through multiple iterations including concept sketches, FSR sensor testing, motor control debugging, fabric boundary experiments, and complete 1:1 prototype construction.",
+      decisions: [
+        "Use rocking chair to amplify body state differences between upright sitting, reclining, and leaving",
+        "Use FSR pressure sensors for passive triggering to reduce interaction learning cost",
+        "Form flexible, reversible, non-enclosed spatial boundaries with fabric",
+        "Adopt multi-point sensing on seat and backrest rather than camera recognition",
+        "Use Unity as digital feedback layer to enhance user perception of spatial state changes"
       ]
     },
     processContentHk: {
@@ -544,6 +591,28 @@ export const projects: Project[] = [
       ],
       findings: "在小范围体验反馈中，70% 体验者能够理解身体姿态与织物变化之间的对应关系，并主动进行多次尝试。部分体验者将装置描述为具有「回应感」和「生命感」的空间界面。由于样本量有限，该结果主要用于验证交互方向，而非统计性结论。",
       reflection: "项目初步建立了身体输入、实体运动与数字反馈之间的联动机制。后续仍需进一步优化传感稳定性、机械可靠性、织物运动精度，以及实时视觉反馈中的隐私边界。"
+    },
+    researchContentEn: {
+      problemStatement: "In semi-open spaces, users' privacy needs are often not complete isolation, but temporary, reversible, low-disturbance boundary adjustment. Veilspace asks: can spatial boundaries change according to body posture and become an interactive interface that can be perceived and operated?",
+      context: "The project uses spatial boundaries as entry point, combining embodied interaction and physical computing methods to study the linkage between body posture, fabric movement, and digital feedback. The focus is not on creating enclosed spaces, but constructing dynamic boundary states between openness and concealment, exploring how space forms perceivable responses through body input.",
+      hypothesis: "If natural body behaviors like sitting, reclining, and leaving can be transformed into system inputs and synchronously trigger fabric boundary changes and visual feedback, users can understand and use this spatial interaction system without additional learning.",
+      approach: "The project validates through 1:1 physical prototype: FSR pressure sensors on seat and backrest read body pressure changes, Arduino processes input signals, stepper motors control fabric boundary movement, Unity synchronously generates real-time visuals, blur layers, scene switching, and visual feedback.",
+      logic: [
+        "Spatial boundaries can be designed as interactive interfaces",
+        "Body posture can be low-threshold, non-explicit input method",
+        "Privacy is not simple on/off, but continuously adjustable spatial state",
+        "Physical and digital feedback need to occur synchronously to form clear interaction perception"
+      ],
+      strategies: [
+        "Use rocking chair to amplify posture differences between upright sitting, reclining, and leaving",
+        "Read body pressure changes through seat and backrest FSR sensors",
+        "Form flexible, reversible spatial boundaries with fabric movement",
+        "Enhance spatial state feedback with Unity visual changes",
+        "Organize experience of entering, retreating, re-engaging, and leaving through five-stage flow",
+        "Avoid camera recognition to reduce privacy pressure and interaction intrusiveness"
+      ],
+      findings: "In small-scale experience feedback, 70% of participants could understand the correspondence between body posture and fabric changes, and actively made multiple attempts. Some participants described the installation as a spatial interface with 'responsiveness' and 'sense of life'. Due to limited sample size, results are mainly for validating interaction direction rather than statistical conclusions.",
+      reflection: "The project preliminarily established linkage mechanism between body input, physical movement, and digital feedback. Future work still needs to optimize sensing stability, mechanical reliability, fabric motion precision, and privacy boundaries in real-time visual feedback."
     },
     researchContentHk: {
       problemStatement: "在半開放空間中，用戶的私密需求往往不是完全隔離，而是短暫、可逆、低打擾的邊界調節。Veilspace 關注的問題是：空間邊界能否根據身體姿態發生變化，並成為一種可被感知和操作的交互介面？",
@@ -751,7 +820,7 @@ export const projects: Project[] = [
       ],
       strategies: [
         "将低频映射为整体尺度和大幅运动",
-        "将中频映射为主要形态变化",
+        "将中频映射为主要形态变��",
         "将高频映射为粒子扰动和细节闪动",
         "使用平滑参数降低视觉抖动",
         "通过实时控制面板调整反馈强度"

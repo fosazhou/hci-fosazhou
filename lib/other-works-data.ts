@@ -221,7 +221,7 @@ export const otherWorks: OtherWork[] = [
         "选择垂直叠合而非水平铺展，以降低既有城市片区中的用地压力",
         "将起降平台置于上部，减少与地面人流、车流和公共活动的冲突",
         "将医疗物资储存与中转空间设置于建筑中部，缩短起降、卸载和分拣之间的流程距离",
-        "将控制与调度功能置于高点，强化对低空运行、周边环境与城市廊道的观察关系",
+        "将控制与调度功能置于高点，强化对低空运行、周���环境与城市廊道的观察关系",
         "采用模块化节点逻辑，使该原型能够适配医院、社区中心、交通节点和大型公共建筑屋顶等不同场景",
         "将公共服务空间保留在地面和低层，使低空基础设施不只是物流设备，也能成为社区可进入的城市服务节点"
       ]
@@ -420,7 +420,7 @@ export const otherWorks: OtherWork[] = [
         "输出兼容数字制造工艺",
         "探索形态与声学的内在关联"
       ],
-      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成式设计流程。"
+      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成式设��流程。"
     },
     quickContentEn: {
       headline: "Generative architectural morphology system based on waveform mathematics",
@@ -560,7 +560,7 @@ export const otherWorks: OtherWork[] = [
         "生成式設計回應結構邏輯和使用體驗"
       ],
       findings: "設計推演表明，聲音和環境數據可以作為形態生成的組織線索，而不是停留在概念敘事層面。通過參數化控制，屋頂形態可以在連續起伏、結構秩序和公共使用之間形成相對穩定的關係。項目也說明，生成式設計的價值不只是產生複雜幾何，而是幫助設計者系統性地比較形態、結構和空間體驗之間的差異。",
-      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設計。但項目仍以概念原型和形態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
+      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設計。但項目仍以概念原型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
     }
   },
   {
@@ -619,6 +619,16 @@ export const otherWorks: OtherWork[] = [
       ],
       outcome: "获得陕西省三等奖，展现了建筑与自然融合的设计理念"
     },
+    quickContentEn: {
+      headline: "Spatial design exploring harmonious coexistence between architecture and natural environment",
+      keyPoints: [
+        "Integrating traditional architectural elements with modern design language",
+        "Emphasizing spatial sequence and visitor experience",
+        "Material selection highlighting natural textures",
+        "Light and shadow design creating poetic atmosphere"
+      ],
+      outcome: "Won Shaanxi Provincial Third Prize, demonstrating design philosophy of architecture-nature integration"
+    },
     processContent: {
       phases: [
         { title: "概念构思", description: "从栎树与水的意象出发，建立设计概念" },
@@ -634,6 +644,23 @@ export const otherWorks: OtherWork[] = [
         "利用庭院、灰空间与高差变化增强空间层次",
         "将青铜器意象转化为建筑体量和界面语言，而非直接符号复制",
         "弱化装饰化表达，强调博物馆空间本身的仪式感和叙事性"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        { title: "Concept Development", description: "Establish design concept from imagery of oak trees and water" },
+        { title: "Spatial Sequence Design", description: "Plan visitor paths and spatial hierarchy" },
+        { title: "Form Development", description: "Refine architectural form and construction details" },
+        { title: "Presentation", description: "Create renderings and animation presentations" }
+      ],
+      methodology: "The project adopts cultural translation and narrative space design methods, transforming Western Zhou ritual and music civilization, bronze vessel forms, and sense of order into architectural volume, visitor circulation, and exhibition space organization.",
+      iterations: "The scheme went through multiple rounds of adjustment from cultural concept extraction, functional zoning, circulation organization to volume development, with focus shifting from single formal expression to comprehensive organization of museum spatial narrative, exhibition rhythm, and site relationships.",
+      decisions: [
+        "Use Western Zhou ritual and music order as core clue for spatial organization",
+        "Form rhythmic visitor sequence through continuous exhibition halls and transitional spaces",
+        "Use courtyards, gray spaces, and elevation changes to enhance spatial hierarchy",
+        "Transform bronze vessel imagery into architectural volume and interface language rather than direct symbol copying",
+        "Weaken decorative expression, emphasize ritual sense and narrative of museum space itself"
       ]
     },
     researchContent: {
@@ -657,6 +684,28 @@ export const otherWorks: OtherWork[] = [
       ],
       findings: "设计推演表明，文化建筑的表达重点不应只是提取传统符号，而应建立文化逻辑、空间秩序和参观体验之间的对应关系。周文化中的礼制秩序可以转化为空间层级，青铜器意象可以转化为体量与界面，历史叙事则可以通过参观路径和展陈节奏被逐步展开。",
       reflection: "该课设训练了我对文化主题、叙事空间和博物馆功能组织的理解。相比后续更技术化或交互化的项目，它更强调建筑学基本功：场地回应、空间序列、展陈逻辑与文化转译。后续仍需要进一步加强结构系统、展陈细节和真实运营流线的推敲。"
+    },
+    researchContentEn: {
+      problemStatement: "Historical and cultural museums often stay at the level of symbol collage and artifact display, struggling to convey cultural order, historical narrative, and visitor experience through architectural space itself. The project asks: how can ritual order, bronze vessel imagery, and historical memory in Zhou culture be transformed into spatial structure and visitor sequence of contemporary museums?",
+      context: "This was a junior year architectural design course project, themed around Zhou Culture Museum, exploring Western Zhou ritual and music civilization, bronze vessel culture, and historical narrative. Design focus is not on replicating traditional forms, but establishing museum experience with sense of order and immersion through volume organization, exhibition circulation, courtyard spaces, and light-shadow changes.",
+      hypothesis: "If ritual order, bronze vessel forms, and historical narrative in Zhou culture are transformed into spatial hierarchy, visitor paths, and exhibition rhythm, museums can become not just buildings housing artifacts, but spatial media guiding audiences to understand cultural structure.",
+      approach: "The project proceeds along two lines of cultural research and spatial organization: first extract core features from Western Zhou ritual civilization, bronze vessel imagery, and ceremonial spaces; then transform them into entrance sequences, exhibition hall layouts, courtyard nodes, and volume relationships; finally express museum spatial narrative through plans, sections, axonometrics, and renderings.",
+      logic: [
+        "Zhou culture emphasizes order and ritual → Architecture needs clear spatial hierarchy and axis relationships",
+        "Bronze vessels have weight, enclosure, and symbolism → Can be transformed into volume and interface language",
+        "Museum visits have temporality → Need to form narrative rhythm through path organization",
+        "Historical cultural expression should not stay at symbol copying → Need to transform into spatial experience"
+      ],
+      strategies: [
+        "Organize main spatial structure with ritual and music order",
+        "Form continuous visitor sequence through entrance, transitions, exhibition halls, and courtyards",
+        "Abstract bronze vessel imagery into architectural volume and facade order",
+        "Create ritual sense through light-shadow, scale changes, and spatial compression-release",
+        "Buffer exhibition spaces and urban environment through courtyards and gray spaces",
+        "Use analytical diagrams to express translation process from cultural concepts to spatial organization"
+      ],
+      findings: "Design derivation shows that expression focus of cultural buildings should not only extract traditional symbols, but establish correspondence between cultural logic, spatial order, and visitor experience. Ritual order in Zhou culture can be transformed into spatial hierarchy, bronze vessel imagery into volume and interface, and historical narrative can be gradually unfolded through visitor paths and exhibition rhythm.",
+      reflection: "This course project trained my understanding of cultural themes, narrative spaces, and museum functional organization. Compared to subsequent more technical or interactive projects, it emphasized architectural fundamentals: site response, spatial sequence, exhibition logic, and cultural translation. Further work on structural systems, exhibition details, and real operational circulation is still needed."
     }
   },
   {
@@ -684,17 +733,27 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/xicang/12.jpg", caption: "" },
     ],
     fullDescription: "作品聚焦于汉回民族文化融合的空间表达，通过设计并落地一件1：1实体搭建构筑物促进社区和谐与文化交流。获陕西省第十八届实体空间搭建竞赛 三等奖。",
+    fullDescriptionEn: "The work focuses on spatial expression of Han-Hui ethnic cultural integration, promoting community harmony and cultural exchange through designing and constructing a 1:1 physical structure. Won Third Prize at the 18th Shaanxi Provincial Physical Space Construction Competition.",
     year: "2025",
     startDate: "2025.4",
     endDate: "2025.4",
     category: "建筑设计竞赛",
+    categoryEn: "Architectural Design Competition",
     location: "西安西仓，中国",
+    locationEn: "Xicang, Xi'an, China",
     role: "核心成员",
+    roleEn: "Core Member",
     awards: "省级三等奖",
+    awardsEn: "Provincial Third Prize",
     details: [
       "探索汉回民族文化融合的空间表达",
       "1:1实体搭建",
       "促进社区和谐与文化交流",
+    ],
+    detailsEn: [
+      "Exploring spatial expression of Han-Hui ethnic cultural integration",
+      "1:1 physical construction",
+      "Promoting community harmony and cultural exchange",
     ],
     quickContent: {
       headline: "汉回文化融合的社区公共空间设计",
@@ -705,6 +764,16 @@ export const otherWorks: OtherWork[] = [
         "实体搭建验证设计可行性"
       ],
       outcome: "获省级三等奖，实现了文化融合空间的实体呈现"
+    },
+    quickContentEn: {
+      headline: "Community public space design for Han-Hui cultural integration",
+      keyPoints: [
+        "Respecting spatial traditions of both cultures",
+        "Creating shared public activity spaces",
+        "Preserving historical memory and neighborhood fabric",
+        "Physical construction validating design feasibility"
+      ],
+      outcome: "Won Provincial Third Prize, achieved physical presentation of cultural integration space"
     },
     processContent: {
       phases: [
@@ -745,7 +814,30 @@ export const otherWorks: OtherWork[] = [
         "将项目成果从图纸表达推进到真实尺度的空间原型"
       ],
       findings: "项目表明，多元文化语境下的公共空间设计不应简单追求符号化融合，而应关注日常行为、空间边界和身体尺度之间的关系。1:1 实体搭建使设计从概念叙事进入真实体验层面，也暴露了材料连接、构造稳定性和现场调整中的具体问题。项目获陕西省三等奖。",
-      reflection: "该项目强化了我从文��语境、空间概念到实体建造的完整执行能力。相比纯概念设计，1:1 搭建更直接地检验了尺度、材料、结构和使用体验。后续如果继续深化，需要增加更系统的使用者观察、现场反馈记录和构造节点优化。"
+      reflection: "该项目强化了我从文化语境、空间概念到实体建造的完整执行能力。相比纯概念设计，1:1 搭建更直接地检验了尺度、材料、结构和使用体验。后续如果继续深化，需要增加更系统的使用者观察、现场反馈记录和构造节点优化。"
+    },
+    researchContentEn: {
+      problemStatement: "Public spaces in multicultural communities should not simply pursue formal integration, but also respond to different living habits, staying patterns, and boundary needs. The project asks: in Han-Hui coexisting neighborhood context, how to create public interfaces that both respect differences and allow daily encounters through a spatial prototype that can be actually built and used?",
+      context: "The project is set in the Han-Hui mixed residential context of Xi'an Xicang district, focusing on daily life scenes such as markets, alleys, dining, communication, and temporary staying. Design does not attempt to summarize two cultures with a single symbol, but starts from commonly used public spaces to explore relationships between cultural differences, daily behaviors, and spatial boundaries.",
+      hypothesis: "If ritual order, bronze vessel forms, and historical narrative in Zhou culture are transformed into spatial hierarchy, visitor paths, and exhibition rhythm, museums can become not just buildings housing artifacts, but spatial media guiding audiences to understand cultural structure.",
+      approach: "The project starts from daily public activities in Han-Hui communities, extracting spatial elements such as market squares, temporary staying, alley communication, and boundary transitions; then forms spatial prototypes through conceptual models and structural refinement, and further completes 1:1 physical construction. Design process focuses on validating spatial proportions, material connections, body scale, and on-site use feeling rather than staying at conceptual expression level.",
+      logic: [
+        "Markets are high-frequency public life scenes → Can serve as spatial core where different groups converge",
+        "Cultural differences need to be respected → Space should maintain moderate boundaries and optional staying patterns",
+        "Shared space does not equal completely open → Semi-open interfaces are more suitable for low-pressure communication",
+        "Cultural expression should not rely on symbol collage → Should be transformed into construction, scale, and spatial experience",
+        "1:1 construction can test body scale and material perception that drawings cannot accurately judge"
+      ],
+      strategies: [
+        "Use market squares and alley staying as main use scenarios",
+        "Set up semi-open spatial interfaces to form accessible but non-oppressive public nodes",
+        "Improve construction efficiency and on-site adjustment capability through prefabricated construction",
+        "Express cultural boundary sense through materials, opening relationships, and scale changes",
+        "Validate spatial proportions, structural stability, and use experience through physical construction",
+        "Advance project results from drawing expression to real-scale spatial prototypes"
+      ],
+      findings: "Project shows that public space design in multicultural contexts should not simply pursue symbolic integration, but focus on relationships between daily behaviors, spatial boundaries, and body scale. 1:1 physical construction moved design from conceptual narrative to real experience level, also exposing specific problems in material connections, structural stability, and on-site adjustments. Project won Shaanxi Provincial Third Prize.",
+      reflection: "This project strengthened my complete execution capability from cultural context, spatial concept to physical construction. Compared to pure conceptual design, 1:1 construction more directly tested scale, materials, structure, and use experience. Future deepening needs more systematic user observation, on-site feedback recording, and construction joint optimization."
     }
   },
   {
@@ -768,13 +860,22 @@ export const otherWorks: OtherWork[] = [
     startDate: "2024.9",
     endDate: "2024.11",
     category: "数智设计竞赛",
+    categoryEn: "Digital Design Competition",
     location: "武汉，中国",
+    locationEn: "Wuhan, China",
     role: "组长",
+    roleEn: "Team Leader",
     awards: "国家级二等奖",
+    awardsEn: "National Second Prize",
     details: [
       "运用 AIGC 技术进行建筑设计",
       "探索江南水乡建筑的数字化表达",
       "结合传统文化与智能设计方法",
+    ],
+    detailsEn: [
+      "Using AIGC technology for architectural design",
+      "Exploring digital expression of Jiangnan water town architecture",
+      "Combining traditional culture with intelligent design methods",
     ],
     quickContent: {
       headline: "AIGC 驱动的江南水乡建筑数字化设计",
@@ -785,6 +886,16 @@ export const otherWorks: OtherWork[] = [
         "探索人机协作的设计模式"
       ],
       outcome: "获得全国二等奖，展示了 AIGC 在传统建筑设计中的应用潜力"
+    },
+    quickContentEn: {
+      headline: "AIGC-driven digital design for Jiangnan water town architecture",
+      keyPoints: [
+        "Using AI generation technology to assist design conception",
+        "Extracting formal features of water town architecture",
+        "Digitally expressing traditional architectural mood",
+        "Exploring human-machine collaborative design patterns"
+      ],
+      outcome: "Won National Second Prize, demonstrating AIGC application potential in traditional architectural design"
     },
     processContent: {
       phases: [
@@ -849,16 +960,25 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/lumley/08.jpg", caption: "" },
     ],
     fullDescription: "奥克兰大学 ARCH-TECH 315 课程作业，制作 Lumley Tower 的 1:10 局部构造实体模型，深入研究建筑结构细部与水体系的设计逻辑。",
+    fullDescriptionEn: "University of Auckland ARCH-TECH 315 course assignment, creating a 1:10 partial construction physical model of Lumley Tower, studying architectural structural details and water system design logic in depth.",
     year: "2025",
     startDate: "2025.9",
     endDate: "2025.9",
     category: "课程作业",
+    categoryEn: "Course Assignment",
     location: "奥克兰，新西兰",
+    locationEn: "Auckland, New Zealand",
     role: "独立完成",
+    roleEn: "Independent Work",
     details: [
       "1:10 比例局部构造实体模型",
       "结构细部与连接节点研究",
       "水体系的详图绘制与分析",
+    ],
+    detailsEn: [
+      "1:10 scale partial construction physical model",
+      "Structural detail and connection joint research",
+      "Water system detailed drawing and analysis",
     ],
     quickContent: {
       headline: "建筑构造细部的实体研究与精确表达",
@@ -870,6 +990,16 @@ export const otherWorks: OtherWork[] = [
       ],
       outcome: "通过实体模型深入理解建筑构造的逻辑与细节"
     },
+    quickContentEn: {
+      headline: "Physical research and precise expression of architectural construction details",
+      keyPoints: [
+        "1:10 precise scale model making",
+        "In-depth analysis of structural connection joints",
+        "Detailed drawing of drainage systems",
+        "Practical exploration of materials and craftsmanship"
+      ],
+      outcome: "Deeply understanding architectural construction logic and details through physical models"
+    },
     processContent: {
       phases: [
         { title: "案例研究", description: "分析 Lumley Tower 的构造体系和设计逻辑" },
@@ -877,7 +1007,7 @@ export const otherWorks: OtherWork[] = [
         { title: "材料选择", description: "根据表达需求选择合适的模型材料" },
         { title: "精确制作", description: "按比例制作局部构造实体模型" }
       ],
-      methodology: "从图纸分析到实体制作的构造研究方法",
+      methodology: "从图纸分析到实体制作��构造研究方法",
       iterations: "经历图纸分析、草模试做、精模制作三个阶段",
       decisions: [
         "选择墙身与屋顶交接处作为研究重点",
@@ -925,17 +1055,27 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/energize/08.png", caption: "" },
     ],
     fullDescription: "以 Grasshopper 为载体进行参数化环境设计，探索自然光与社区空间的关系，获第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖",
+    fullDescriptionEn: "Using Grasshopper for parametric environmental design, exploring the relationship between natural light and community spaces, won National Second Prize at the 10th 'Cross-Strait Emerging Design Competition - Huacan Award'",
     year: "2025",
     startDate: "2025.9",
     endDate: "2025.11",
     category: "环境设计竞赛",
+    categoryEn: "Environmental Design Competition",
     location: "台北，中国台湾",
+    locationEn: "Taipei, Taiwan, China",
     role: "组长",
+    roleEn: "Team Leader",
     awards: "国家二等奖",
+    awardsEn: "National Second Prize",
     details: [
       "以 Grasshopper 为载体进行参数化设计",
       "探索自然光与社区空间的关系",
       "可量化的环境设计策略",
+    ],
+    detailsEn: [
+      "Parametric design using Grasshopper as platform",
+      "Exploring relationship between natural light and community spaces",
+      "Quantifiable environmental design strategies",
     ],
     quickContent: {
       headline: "参数化驱动的社区光环境设计",
@@ -946,6 +1086,16 @@ export const otherWorks: OtherWork[] = [
         "可持续的被动式设计策略"
       ],
       outcome: "获第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖"
+    },
+    quickContentEn: {
+      headline: "Parametric-driven community light environment design",
+      keyPoints: [
+        "Grasshopper parametric design tool",
+        "Quantitative analysis and optimization of natural light",
+        "Environmental quality of community public spaces",
+        "Sustainable passive design strategies"
+      ],
+      outcome: "Won National Second Prize at the 10th 'Cross-Strait Emerging Design Competition - Huacan Award'"
     },
     processContent: {
       phases: [
@@ -977,13 +1127,13 @@ export const otherWorks: OtherWork[] = [
       ],
       strategies: [
         "建立日照时长、阴影范围和公共活动适应性的评价指标",
-        "使用参数化模型控制形态、高度、开口和遮阳构件变化",
+        "使用参数化模型控制形态、高度��开口和遮阳构件变化",
         "通过多轮模拟比较不同方案的光环境表现",
         "在主要停留区域强化适度采光与遮阳保护",
         "根据不同时段的光影变化组织活动空间",
         "将量化模拟结果与空间体验、公共性和场地氛围进行综合判断"
       ],
-      findings: "模拟结果显示，经过多轮参数化调整后，主要公共活动区域的有效日照表现较初始方案有所提升，其中关键区域的日照时长提升约 30%。这一结果说明，参数化环境分析能够有效辅助方案筛选，但仍需结合热舒适、遮阳需求和实际使用行为进行���合判断。",
+      findings: "模拟结果显示，经过多轮参数化调整后，主要公共活动区域的有效日照表现较初始方案有所提升，其中关键区域的日照���长提升约 30%。这一结果说明，参数化环境分析能够有效辅助方案筛选，但仍需结合热舒适、遮阳需求和实际使用行为进行���合判断。",
       reflection: "项目说明，量化分析可以为设计决策提供更客观的参考，但它不能替代空间体验和使用行为判断。光环境优化不应只追求单一指标最大化，而需要综合考虑采光、遮阳、活动需求、视觉开放性和社区公共性。后续如果继续深化，需要进一步引入更完整的气候数据、热舒适分析、使用者行为观察和长期环境表现评估。"
     }
   },
