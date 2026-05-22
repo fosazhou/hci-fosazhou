@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useParams, useSearchParams } from "next/navigation"
 import { ArrowLeft, ExternalLink } from "lucide-react"
-import { projects, getProjectById, type GalleryImage } from "@/lib/projects-data"
+import { projects, getProjectById, type GalleryImage, type Project } from "@/lib/projects-data"
 import { useEffect, useState, useRef, useCallback, Suspense } from "react"
 import { ImageLightbox } from "@/components/image-lightbox"
 import { Logo } from "@/components/logo"
@@ -299,12 +299,61 @@ function VideoPlayer({
   )
 }
 
+// Project Hero Content Component with language support
+function ProjectHeroContent({ project }: { project: Project }) {
+  const { language, t } = useLanguage()
+  
+  // Get localized content
+  const keywords = language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords
+  const title = language === "en" && project.titleEn ? project.titleEn : project.title
+  const location = language === "en" && project.locationEn ? project.locationEn : project.location
+  const role = language === "en" && project.roleEn ? project.roleEn : project.role
+  
+  return (
+    <div className="mx-auto max-w-4xl">
+      {/* Keywords */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {keywords.map((keyword, i) => (
+          <span 
+            key={i}
+            className="px-3 py-1 text-[10px] font-mono text-primary/80 border border-primary/30 rounded-full bg-primary/5 uppercase tracking-wider"
+          >
+            {keyword}
+          </span>
+        ))}
+      </div>
+      
+      {/* Title */}
+      <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight">
+        {title}
+      </h1>
+      
+      {/* Meta info */}
+      <div className="flex flex-wrap gap-8 text-sm font-mono">
+        <div>
+          <span className="text-muted-foreground/60 mr-2">YEAR/</span>
+          <span className="text-foreground">{project.year}</span>
+        </div>
+        <div>
+          <span className="text-muted-foreground/60 mr-2">LOCATION/</span>
+          <span className="text-foreground">{location}</span>
+        </div>
+        <div>
+          <span className="text-muted-foreground/60 mr-2">ROLE/</span>
+          <span className="text-foreground">{role}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // Project Content Component
 function ProjectContent() {
   const params = useParams()
   const id = params.id as string
   const project = getProjectById(id)
   const { mode, isTransitioning } = useReadingMode()
+  const { language } = useLanguage()
   
   // Behavior tracking
   useBehaviorTracking()
@@ -316,6 +365,16 @@ function ProjectContent() {
   // Lightbox state
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  
+  // Get localized gallery images
+  const galleryImages = language === "en" && project?.galleryImagesEn 
+    ? project.galleryImagesEn 
+    : project?.galleryImages || []
+  
+  // Get localized cover image
+  const coverImage = language === "en" && project?.coverImageEn 
+    ? project.coverImageEn 
+    : project?.coverImage
   
   const openLightbox = useCallback((index: number) => {
     setLightboxIndex(index)
@@ -356,7 +415,7 @@ function ProjectContent() {
     <main className="min-h-screen">
       {/* Lightbox */}
       <ImageLightbox 
-        images={project.galleryImages || []}
+        images={galleryImages}
         initialIndex={lightboxIndex}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
@@ -413,7 +472,7 @@ function ProjectContent() {
         >
           {project.coverImage ? (
             <img 
-              src={project.coverImage}
+              src={coverImage}
               alt={project.title}
               className="w-full h-full object-cover"
             />
@@ -445,45 +504,12 @@ function ProjectContent() {
           <Logo size="md" linkToHome={false} />
         </div>
         
-        {/* Hero content */}
+// Hero content
         <div 
           className="absolute bottom-0 left-0 right-0 p-8 md:p-16 z-10"
           style={{ opacity: heroOpacity }}
         >
-          <div className="mx-auto max-w-4xl">
-            {/* Keywords */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              {project.keywords.map((keyword, i) => (
-                <span 
-                  key={i}
-                  className="px-3 py-1 text-[10px] font-mono text-primary/80 border border-primary/30 rounded-full bg-primary/5 uppercase tracking-wider"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-            
-            {/* Title */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight">
-              {project.title}
-            </h1>
-            
-            {/* Meta info */}
-            <div className="flex flex-wrap gap-8 text-sm font-mono">
-              <div>
-                <span className="text-muted-foreground/60 mr-2">YEAR/</span>
-                <span className="text-foreground">{project.year}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground/60 mr-2">LOCATION/</span>
-                <span className="text-foreground">{project.location}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground/60 mr-2">ROLE/</span>
-                <span className="text-foreground">{project.role}</span>
-              </div>
-            </div>
-          </div>
+          <ProjectHeroContent project={project} />
         </div>
         
         {/* Scroll indicator */}
@@ -530,7 +556,7 @@ function ProjectContent() {
                     )}
                     
                     {/* Gallery */}
-                    {project.galleryImages && project.galleryImages.length > 0 && (
+                    {galleryImages && galleryImages.length > 0 && (
                       <>
                         <div className="flex items-center gap-3 mb-8">
                           <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
@@ -540,11 +566,11 @@ function ProjectContent() {
                           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
                         </div>
                         {project.id === "veilspace" ? (
-                          <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+                          <VeilspaceGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : project.id === "portfolio-website" ? (
-                          <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
+                          <PortfolioGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : (
-                          <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+                          <DefaultGallery images={galleryImages} onImageClick={openLightbox} />
                         )}
                       </>
                     )}
@@ -573,7 +599,7 @@ function ProjectContent() {
                     )}
                     
                     {/* Gallery */}
-                    {project.galleryImages && project.galleryImages.length > 0 && (
+                    {galleryImages && galleryImages.length > 0 && (
                       <>
                         <div className="flex items-center gap-3 mb-8">
                           <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
@@ -583,11 +609,11 @@ function ProjectContent() {
                           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
                         </div>
                         {project.id === "veilspace" ? (
-                          <VeilspaceGallery images={project.galleryImages} onImageClick={openLightbox} />
+                          <VeilspaceGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : project.id === "portfolio-website" ? (
-                          <PortfolioGallery images={project.galleryImages} onImageClick={openLightbox} />
+                          <PortfolioGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : (
-                          <DefaultGallery images={project.galleryImages} onImageClick={openLightbox} />
+                          <DefaultGallery images={galleryImages} onImageClick={openLightbox} />
                         )}
                       </>
                     )}

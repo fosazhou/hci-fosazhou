@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import type { Project, GalleryImage } from "@/lib/projects-data"
 import { GitBranch, Workflow, RefreshCw, Lightbulb, Zap, Search, ArrowRight } from "lucide-react"
 import { useReadingMode } from "@/contexts/reading-mode-context"
+import { useLanguage } from "@/contexts/language-context"
 
 interface ProcessViewProps {
   project: Project
@@ -12,8 +13,9 @@ interface ProcessViewProps {
 }
 
 export function ProcessView({ project, className, galleryComponent }: ProcessViewProps) {
+  const { language } = useLanguage()
   const { setMode } = useReadingMode()
-  const content = project.processContent
+  const content = language === "en" && project.processContentEn ? project.processContentEn : project.processContent
 
   if (!content) {
     return (

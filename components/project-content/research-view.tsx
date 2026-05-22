@@ -17,6 +17,7 @@ import {
   ArrowRight
 } from "lucide-react"
 import { useReadingMode } from "@/contexts/reading-mode-context"
+import { useLanguage } from "@/contexts/language-context"
 
 interface ResearchViewProps {
   project: Project
@@ -25,8 +26,9 @@ interface ResearchViewProps {
 }
 
 export function ResearchView({ project, className, galleryComponent }: ResearchViewProps) {
+  const { language } = useLanguage()
   const { setMode } = useReadingMode()
-  const content = project.researchContent
+  const content = language === "en" && project.researchContentEn ? project.researchContentEn : project.researchContent
 
   if (!content) {
     return (

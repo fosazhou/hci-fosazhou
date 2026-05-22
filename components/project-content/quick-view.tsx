@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import type { Project, GalleryImage } from "@/lib/projects-data"
 import { Zap, Check, Target, ArrowRight, Workflow, Search } from "lucide-react"
 import { useReadingMode } from "@/contexts/reading-mode-context"
+import { useLanguage } from "@/contexts/language-context"
 import { useState, useRef, useEffect } from "react"
 
 interface QuickViewProps {
@@ -170,7 +171,8 @@ function FirstImageBox({
 }
 
 export function QuickView({ project, className, onImageClick }: QuickViewProps) {
-  const content = project.quickContent
+  const { language } = useLanguage()
+  const content = language === "en" && project.quickContentEn ? project.quickContentEn : project.quickContent
   const { setMode } = useReadingMode()
   const firstImage = project.galleryImages?.[0]
 
