@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useParams, useSearchParams } from "next/navigation"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import { ArrowLeft, ExternalLink, Maximize, Minimize } from "lucide-react"
 import { projects, getProjectById, type GalleryImage, type Project } from "@/lib/projects-data"
 import { useEffect, useState, useRef, useCallback, Suspense } from "react"
 import { ImageLightbox } from "@/components/image-lightbox"
@@ -158,7 +158,7 @@ function PortfolioGallery({ images, onImageClick }: { images: GalleryImage[], on
   )
 }
 
-// Video Component with auto aspect ratio and audio fade out
+// Video Component with auto aspect ratio, audio fade out, and fullscreen support
 function VideoPlayer({ 
   videoSrc, 
   aspectRatio = "auto"  // "auto" will detect from video, or specify like "16/9"
@@ -169,6 +169,7 @@ function VideoPlayer({
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [detectedRatio, setDetectedRatio] = useState("16/9")
   const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null)
   
@@ -193,6 +194,16 @@ function VideoPlayer({
     return () => video.removeEventListener('loadedmetadata', handleMetadata)
   }, [aspectRatio])
   
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
+  
   // Intersection Observer to pause and fade out audio when leaving viewport
   useEffect(() => {
     const video = videoRef.current
@@ -202,7 +213,7 @@ function VideoPlayer({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && isPlaying) {
+          if (!entry.isIntersecting && isPlaying && !isFullscreen) {
             // Fade out audio over 500ms
             const fadeOut = () => {
               if (fadeIntervalRef.current) {
@@ -242,9 +253,9 @@ function VideoPlayer({
         clearInterval(fadeIntervalRef.current)
       }
     }
-  }, [isPlaying])
+  }, [isPlaying, isFullscreen])
   
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause()
@@ -254,7 +265,23 @@ function VideoPlayer({
       }
       setIsPlaying(!isPlaying)
     }
-  }
+  }, [isPlaying])
+  
+  const toggleFullscreen = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const container = containerRef.current
+    if (!container) return
+    
+    try {
+      if (!document.fullscreenElement) {
+        await container.requestFullscreen()
+      } else {
+        await document.exitFullscreen()
+      }
+    } catch (err) {
+      console.error('Fullscreen error:', err)
+    }
+  }, [])
   
   const finalAspectRatio = aspectRatio === "auto" ? detectedRatio : aspectRatio
   
@@ -262,10 +289,11 @@ function VideoPlayer({
     <div 
       ref={containerRef}
       className={cn(
-        "w-full overflow-hidden rounded-lg relative cursor-pointer",
-        "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]"
+        "w-full overflow-hidden rounded-lg relative cursor-pointer group",
+        "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]",
+        isFullscreen && "rounded-none"
       )}
-      style={{ aspectRatio: finalAspectRatio }}
+      style={{ aspectRatio: isFullscreen ? undefined : finalAspectRatio }}
       onClick={togglePlay}
     >
       <video
@@ -274,8 +302,12 @@ function VideoPlayer({
         loop
         playsInline
         preload="metadata"
-        className="w-full h-full object-cover"
+        className={cn(
+          "w-full h-full object-cover",
+          isFullscreen && "object-contain"
+        )}
       />
+      {/* Play/Pause overlay */}
       <div className={cn(
         "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
         isPlaying ? "opacity-0 hover:opacity-100 bg-black/20" : "opacity-100 bg-black/40"
@@ -295,6 +327,24 @@ function VideoPlayer({
           )}
         </div>
       </div>
+      {/* Fullscreen button */}
+      <button
+        onClick={toggleFullscreen}
+        className={cn(
+          "absolute bottom-4 right-4 p-2 rounded-lg",
+          "bg-black/60 border border-primary/30 text-primary",
+          "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+          "hover:bg-black/80 hover:border-primary/50",
+          "z-10"
+        )}
+        title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+      >
+        {isFullscreen ? (
+          <Minimize className="w-5 h-5" />
+        ) : (
+          <Maximize className="w-5 h-5" />
+        )}
+      </button>
     </div>
   )
 }

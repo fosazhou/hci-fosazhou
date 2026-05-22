@@ -2,10 +2,10 @@
 
 import { cn } from "@/lib/utils"
 import type { Project, GalleryImage } from "@/lib/projects-data"
-import { Zap, Check, Target, ArrowRight, Workflow, Search } from "lucide-react"
+import { Zap, Check, Target, ArrowRight, Workflow, Search, Maximize, Minimize } from "lucide-react"
 import { useReadingMode } from "@/contexts/reading-mode-context"
 import { useLanguage } from "@/contexts/language-context"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 
 interface QuickViewProps {
   project: Project
@@ -18,6 +18,7 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [detectedRatio, setDetectedRatio] = useState("16/9")
   const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null)
   
@@ -38,6 +39,16 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
     return () => video.removeEventListener('loadedmetadata', handleMetadata)
   }, [])
   
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
+  
   useEffect(() => {
     const video = videoRef.current
     const container = containerRef.current
@@ -46,7 +57,7 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && isPlaying) {
+          if (!entry.isIntersecting && isPlaying && !isFullscreen) {
             let currentVolume = video.volume
             fadeIntervalRef.current = setInterval(() => {
               currentVolume -= 0.1
@@ -71,9 +82,9 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
       observer.disconnect()
       if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current)
     }
-  }, [isPlaying])
+  }, [isPlaying, isFullscreen])
   
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause()
@@ -83,17 +94,33 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
       }
       setIsPlaying(!isPlaying)
     }
-  }
+  }, [isPlaying])
+  
+  const toggleFullscreen = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const container = containerRef.current
+    if (!container) return
+    
+    try {
+      if (!document.fullscreenElement) {
+        await container.requestFullscreen()
+      } else {
+        await document.exitFullscreen()
+      }
+    } catch (err) {
+      console.error('Fullscreen error:', err)
+    }
+  }, [])
   
   return (
     <div 
       ref={containerRef}
       className={cn(
-        "w-full overflow-hidden rounded-lg relative cursor-pointer mx-auto",
+        "w-full overflow-hidden rounded-lg relative cursor-pointer mx-auto group",
         "bg-[rgba(10,10,15,0.6)] border border-[rgba(34,211,238,0.1)]",
-        "max-w-[50%]"
+        isFullscreen ? "max-w-none rounded-none" : "max-w-[50%]"
       )}
-      style={{ aspectRatio: detectedRatio }}
+      style={{ aspectRatio: isFullscreen ? undefined : detectedRatio }}
       onClick={togglePlay}
     >
       <video
@@ -102,8 +129,12 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
         loop
         playsInline
         preload="metadata"
-        className="w-full h-full object-cover"
+        className={cn(
+          "w-full h-full object-cover",
+          isFullscreen && "object-contain"
+        )}
       />
+      {/* Play/Pause overlay */}
       <div className={cn(
         "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
         isPlaying ? "opacity-0 hover:opacity-100 bg-black/20" : "opacity-100 bg-black/40"
@@ -123,6 +154,24 @@ function QuickVideoPlayer({ videoSrc }: { videoSrc: string }) {
           )}
         </div>
       </div>
+      {/* Fullscreen button */}
+      <button
+        onClick={toggleFullscreen}
+        className={cn(
+          "absolute bottom-4 right-4 p-2 rounded-lg",
+          "bg-black/60 border border-primary/30 text-primary",
+          "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+          "hover:bg-black/80 hover:border-primary/50",
+          "z-10"
+        )}
+        title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+      >
+        {isFullscreen ? (
+          <Minimize className="w-5 h-5" />
+        ) : (
+          <Maximize className="w-5 h-5" />
+        )}
+      </button>
     </div>
   )
 }
