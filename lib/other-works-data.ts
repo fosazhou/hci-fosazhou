@@ -173,7 +173,7 @@ export const otherWorks: OtherWork[] = [
     researchContent: {
       problemStatement: "在高密度既有城市片区中，医疗资源分布、老龄社区需求与地面交通可达性之间存在错位。传统地面医疗物流依赖道路系统，容易受到交通拥堵、片区割裂和末端配送效率的限制。NESTIDE 关注的问题是：低空医疗物流能否通过建筑节点嵌入既有城市结构，并转化为一种可组织、可运营、可扩展的城市基础设施？",
       context: "项目以西安幸福林带片区为背景。该区域具有线性绿带、周边社区密集、城市道路割裂和公共服务需求复合等特征，为低空医疗物流提供了潜在的空间廊道和服务场景。低空经济不应只被理解为飞行器技术或政策概念，而需要进一步转化为具体的起降界面、中转空间、调度节点和公共服务设施。",
-      hypothesis: "如果将无人机起降、医疗物资中转、应急调度和社区公共服务整合为复合型建筑节点，并通过“节点—廊道—平台”系统连接医院、社区与城市交通界面，就可以提升医疗物资的空间组织效率，并为低空经济提供可落地的建筑基础设施原型。",
+      hypothesis: "如果���无人机起降、医疗物资中转、应急调度和社区公共服务整合为复合型建筑节点，并通过“节点—廊道—平台”系统连接医院、社区与城市交通界面，就可以提升医疗物资的空间组织效率，并为低空经济提供可落地的建筑基础设施原型。",
       approach: "项目采用场景推演与建筑原型设计结合的方法。首先分析片区医疗服务需求、交通割裂和社区分布；其次梳理急救药品配送、医疗物资中转和应急响应等典型流程；随后将流程拆解为起降、卸载、分拣、储存、调度和公共服务等空间单元；最终通过垂直叠合、模块化平台和控制塔组织，形成面向城市低空医疗物流的复合建筑节点。",
       logic: [
         "医疗物流具有高时效需求 → 需要绕开部分地面交通限制的低空配送路径",
@@ -260,12 +260,12 @@ export const otherWorks: OtherWork[] = [
     },
     processContent: {
       phases: [
-        { title: "数学原理研究", description: "研究波形叠加、相位干涉等数学原理" },
+        { title: "数学原理研究", description: "研究波形叠���、相位干涉等数学原理" },
         { title: "算法开发", description: "使用 Grasshopper 和 C# 开发波形生成算法" },
         { title: "形态探索", description: "通过调整参数生成大量形态变体" },
         { title: "制造验证", description: "将选定形态转化为 CNC 和 3D 打印可执行的文件" }
       ],
-      methodology: "项目采用生成式设计方法，将声音频谱、波形函数与文化图案转化为可调节的形态生成规则。设计并不直接追求单一造型结果，而是通过参数变化探索屋顶结构、覆盖界面与公共停留空间之间的多种可能性。",
+      methodology: "项目采用生成式设计方法，将声音频谱、波形函数与文化图案转化为可调节��形态生成规则。设计并不直接追求单一造型结果，而是通过参数变化探索屋顶结构、覆盖界面与公共停留空间之间的多种可能性。",
       iterations: "设计过程经历了从二维频谱提取、波形曲线生成、曲面转译、结构秩序调整到空间体验优化的多轮迭代。项目生成并筛选了大量形态变体，最终选择具有较好空间连续性、结构可读性与公共界面潜力的方案进行深化。",
       decisions: [
         "选择声音频谱和波形曲线作为形态生成的基础线索",
@@ -461,7 +461,7 @@ export const otherWorks: OtherWork[] = [
       ]
     },
     researchContent: {
-      problemStatement: "如多元文化社区中的公共空间不应只追求形式上的融合，也需要回应不同生活习惯、停留方式和边界感需求。项目关注的问题是：在汉回共生的街区语境中，如何通过一个可被真实搭建和使用的空间原型，创造既尊重差异又允许日常交汇的公共界面？",
+      problemStatement: "如多元文化社区中的公共空间不应只追求形式上的融合，也需要回应不同生活习惯、停留方式和边界感需求。项目关注的问题是：在汉回共生的街区语境中，如何通过一个可被真实搭建和使用的空间原型，创���既尊重差异又允许日常交汇的公共界面？",
       context: "项目以西安西仓片区的汉回混居语境为背景，关注市集、街巷、饮食、交往和临时停留等日常生活场景。设计并不试图用单一符号概括两种文化，而是从共同使用的公共空间入手，探索文化差异、日常行为与空间边界之间的关系。",
       hypothesis: "如果将周文化中的礼制秩序、青铜器形制和历史叙事转化为空间层级、参观路径与展陈节奏，博物馆就可以不只是容纳展品的建筑，而成为一种引导观众理解文化结构的空间媒介。",
       approach: "项目从汉回社区的日常公共活动出发，提取市集广场、临时停留、街巷交流和边界过渡等空间要素；随后通过概念模型和构造推敲形成空间原型，并进一步完成 1:1 实体搭建。设计过程重点验证空间比例、材料连接、身体尺度和现场使用感，而不是停留在概念表达层面。",
@@ -487,9 +487,12 @@ export const otherWorks: OtherWork[] = [
   {
     id: "zhihui-jiangxia",
     title: "智绘江夏·水乡新韵",
+    titleEn: "AI-Painted Jiangxia: New Rhythm of Water Town",
     titleCn: "智绘江夏·水乡新韵",
     description: "2024 年全国高校 AIGC 数智建筑与文创产品设计大赛 建筑类组国家级二等奖（组长）",
+    descriptionEn: "2024 National College AIGC Digital Architecture and Cultural Product Design Competition - National Second Prize in Architecture Category (Team Leader)",
     keywords: ["AIGC", "数智设计", "国家级奖项"],
+    keywordsEn: ["AIGC", "Digital Design", "National Award"],
     coverImage: "/images/works/aigc/cover.jpg",
     galleryImages: [
       { src: "/images/works/aigc/01.png", caption: "" },
@@ -564,9 +567,12 @@ export const otherWorks: OtherWork[] = [
   {
     id: "lumley-tower",
     title: "Lumley Tower",
+    titleEn: "Lumley Tower",
     titleCn: "局部构造实体模型",
     description: "课程作业，1:10 建筑构造实体模型，结构细部与水体系的详图绘制",
+    descriptionEn: "Course assignment, 1:10 architectural construction model, detailed drawings of structural details and water systems",
     keywords: ["建构", "模型制作", "ARCH-TECH 315"],
+    keywordsEn: ["Tectonics", "Model Making", "ARCH-TECH 315"],
     coverImage: "/images/works/lumley/cover.jpg",
     galleryImages: [
       { src: "/images/works/lumley/01.png", caption: "" },
@@ -637,9 +643,12 @@ export const otherWorks: OtherWork[] = [
   {
     id: "energize-commons",
     title: "Energize Commons",
+    titleEn: "Energize Commons",
     titleCn: "光合空间",
     description: "2025 第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖（组长）",
+    descriptionEn: "2025 10th Cross-Strait Emerging Design Competition 'Huacan Award' - National Second Prize (Team Leader)",
     keywords: ["竞赛", "社区空间", "环境设计"],
+    keywordsEn: ["Competition", "Community Space", "Environmental Design"],
     coverImage: "/images/works/energize/cover.png",
     galleryImages: [
       { src: "/images/works/energize/01.png", caption: "" },
@@ -682,7 +691,7 @@ export const otherWorks: OtherWork[] = [
         { title: "方案整合", description: "将优化结果转化为可实施方案" }
       ],
       methodology: "项目采用数据驱动的环境设计方法，将日照、遮阳、空间舒适度与公共活动需求转化为可被分析和比较的设计参数。通过环境模拟与参数化形态调整，探索社区公共空间如何在自然采光、遮阳保护和活动适应性之间取得平衡。",
-      iterations: "设计过程经历了场地光环境分析、关键参数提取、遮阳构件与空间形态调整、模拟反馈和方案优化等多轮迭代。每一轮调整都围绕日照时长、阴影分布、公共空间可用性和视觉通透性进行比较，而不是仅凭形式直觉进行判断。",
+      iterations: "设计过程经历了场地光环境分析、关键参数提取、遮阳构件与空间形态调整、模拟反��和方案优化等多轮迭代。每一轮调整都围绕日照时长、阴影分布、公共空间可用性和视觉通透性进行比较，而不是仅凭形式直觉进行判断。",
       decisions: [
         "以日照时长、遮阳范围和公共空间舒适度作为主要评价指标",
         "通过参数化方法控制屋顶、遮阳构件和开放空间的形态变化",

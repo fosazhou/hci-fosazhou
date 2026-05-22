@@ -19,7 +19,7 @@ export default function Home() {
       <Suspense fallback={null}>
         <Header />
       </Suspense>
-      <main className="relative">
+      <main className="relative pt-14">
         <Suspense fallback={<HomePageFallback />}>
           <HomePageClient />
         </Suspense>

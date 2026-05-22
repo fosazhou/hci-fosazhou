@@ -146,7 +146,7 @@ export const projects: Project[] = [
       keyPoints: [
         "Quick / Process / Research 三种模式对应快速判断、过程审查与研究评估",
         "通过滚动速度、停留时间、点击深度与导航路径判断阅读倾向",
-        "系统提供阅读模式建议，同时保留用户的手动切换与忽略权",
+        "系统提供阅读模式建议，同时保留用户的手动��换与忽略权",
         "通过小样本 A/B 测试验证信息查找效率、清晰度与用户控制感"
       ],
       outcome: "将作品集从线性展示转化为可根据阅读目标调整信息层级的自适应界面。"
@@ -399,22 +399,34 @@ export const projects: Project[] = [
   {
     id: "td-music-visualization",
     title: "Audio-Driven Interactive Visualization",
+    titleEn: "Audio-Driven Interactive Visualization",
     description: "基于 TouchDesigner 的音频驱动视觉实验，将频谱、节奏与强度转译为图像尺度、运动轨迹和动态形态变化。为沉浸式空间、舞台界面与空间人机交互提供跨模态反馈原型。",
+    descriptionEn: "Audio-driven visual experiment based on TouchDesigner, translating spectrum, rhythm, and intensity into image scale, motion trajectory, and dynamic morphology changes. Providing cross-modal feedback prototypes for immersive spaces, stage interfaces, and spatial HCI.",
     keywords: ["实时数据反馈", "Creative Coding", "实时可视化"],
+    keywordsEn: ["Real-time Data Feedback", "Creative Coding", "Real-time Visualization"],
     coverImage: "/images/works/td/cover.png",
     previewVideo: "/videos/works/td_preview.mp4",
     fullDescription: "基于 TouchDesigner将音频频谱、节奏与强度转译为实时视觉反馈，探索声音输入与空间化图像之间的跨模态映射关系。该实验可作为沉浸式展演、舞台视觉、巨幕界面和 AR/VR 环境反馈的基础原型。",
+    fullDescriptionEn: "Translating audio spectrum, rhythm, and intensity into real-time visual feedback based on TouchDesigner, exploring cross-modal mapping between sound input and spatialized imagery. This experiment serves as a foundational prototype for immersive performances, stage visuals, large screen interfaces, and AR/VR environmental feedback.",
     year: "2024",
     startDate: "2024.8",
     endDate: "2024.8",
     location: "西安，中国",
+    locationEn: "Xi'an, China",
     role: "设计师",
+    roleEn: "Designer",
     video: "/videos/works/td_demo.mp4",
     details: [
       "TouchDesigner 实时视觉生成",
       "音频频谱与节奏特征提取",
       "低频 / 中频 / 高频分层映射",
       "粒子、尺度与运动参数联动"
+    ],
+    detailsEn: [
+      "TouchDesigner real-time visual generation",
+      "Audio spectrum and rhythm feature extraction",
+      "Low/mid/high frequency layered mapping",
+      "Particle, scale, and motion parameter linkage"
     ],
     galleryImages: [
       { src: "/images/works/td/01.png", caption: "" },
