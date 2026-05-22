@@ -35,10 +35,12 @@ const marqueeData = {
   ],
   middleMarquee: {
     zh: ["空间人机交互 · 具身感知 · 响应式环境"],
+    "zh-hk": ["空間人機交互 · 具身感知 · 響應式環境"],
     en: ["Spatial HCI · Embodied Sensing · Responsive Environment"],
   },
   bottomMarquee: {
-    zh: ["长安大学建筑学院", "University of Auckland"],
+    zh: ["长安大学建筑学院", "奥克兰大学"],
+    "zh-hk": ["長安大學建築學院", "奧克蘭大學"],
     en: ["Chang'an University School of Architecture", "University of Auckland"],
   },
 }
@@ -235,18 +237,22 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
       <FloatingLabels />
 
       {/* Marquee Banners */}
-      <div className="relative z-10 pt-20">
+      {/* Top Marquee - Fixed at top */}
+      <div className="fixed top-14 left-0 right-0 z-40">
         <MarqueeBanner
           texts={marqueeData.topMarquee}
           direction="left"
-          className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/60"
+          className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.9)] backdrop-blur-md text-muted-foreground/60"
         />
         <MarqueeBanner
-          texts={language === "zh" ? marqueeData.middleMarquee.zh : marqueeData.middleMarquee.en}
+          texts={marqueeData.middleMarquee[language] || marqueeData.middleMarquee.en}
           direction="right"
-          className="border-b border-[rgba(34,211,238,0.08)] bg-brand/[0.03] text-brand/60"
+          className="border-b border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.9)] backdrop-blur-md text-brand/60"
         />
       </div>
+      
+      {/* Spacer for fixed marquee */}
+      <div className="h-[76px]" />
 
       {/* Main Content - Left/Right Layout */}
       <div className="flex-1 flex flex-col justify-center px-6 lg:px-8 relative z-10">
@@ -344,7 +350,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
       {/* Bottom Marquee */}
       <div className="relative z-10 pb-8">
         <MarqueeBanner
-          texts={language === "zh" ? marqueeData.bottomMarquee.zh : marqueeData.bottomMarquee.en}
+          texts={marqueeData.bottomMarquee[language] || marqueeData.bottomMarquee.en}
           direction="left"
           className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/50"
         />

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import { X, Briefcase, Globe, Palette } from "lucide-react"
 import { saveTimelineState, getAndClearTimelineState } from "@/components/page-transition"
+import { useLanguage } from "@/contexts/language-context"
 
 export interface TimelineWork {
   id: string
@@ -69,6 +70,7 @@ export function TimelineSlider({
   const trackRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null)
   const [hoveredMonth, setHoveredMonth] = useState<string | null>(null)
+  const { language } = useLanguage()
   const [hoverPosition, setHoverPosition] = useState<number | null>(null) // Exact mouse position %
   const [hoveredWork, setHoveredWork] = useState<TimelineWork | null>(null) // Currently hovered work bar
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
@@ -142,6 +144,19 @@ export function TimelineSlider({
   
   // Get type label
   const getTypeLabel = (type: 'project' | 'exchange' | 'work') => {
+    if (language === "en") {
+      switch (type) {
+        case 'project': return 'Core Project'
+        case 'exchange': return 'Exchange'
+        case 'work': return 'Architecture'
+      }
+    } else if (language === "zh-hk") {
+      switch (type) {
+        case 'project': return '核心項目'
+        case 'exchange': return '國際交流'
+        case 'work': return '建築作品'
+      }
+    }
     switch (type) {
       case 'project': return '核心项目'
       case 'exchange': return '国际交流'
@@ -651,15 +666,15 @@ export function TimelineSlider({
       <div className="mt-4 flex items-center justify-center gap-6 text-[9px] font-mono text-muted-foreground/60">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-1 rounded-full bg-[rgba(233,30,99,0.5)]" />
-          <span>项目</span>
+          <span>{language === "en" ? "Project" : language === "zh-hk" ? "項目" : "项目"}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-1 rounded-full bg-[rgba(34,211,238,0.5)]" />
-          <span>交流</span>
+          <span>{language === "en" ? "Exchange" : language === "zh-hk" ? "交流" : "交流"}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-1 rounded-full bg-[rgba(156,39,176,0.5)]" />
-          <span>作品</span>
+          <span>{language === "en" ? "Work" : language === "zh-hk" ? "作品" : "作品"}</span>
         </div>
       </div>
     </div>

@@ -4,10 +4,12 @@ import { cn } from "@/lib/utils"
 import { useReadingMode, READING_MODES } from "@/contexts/reading-mode-context"
 import { X, ArrowRight, Zap, GitBranch, Search, Sparkles } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useLanguage } from "@/contexts/language-context"
 
 // Minimized suggestion hint - subtle reminder that can be clicked
 function SuggestionHint() {
   const { suggestion, showSuggestionBadge, expandSuggestion } = useReadingMode()
+  const { language } = useLanguage()
   
   // Only show hint if badge should be visible but popup not shown yet
   if (!showSuggestionBadge || !suggestion.mode || suggestion.shown) return null
@@ -17,6 +19,8 @@ function SuggestionHint() {
     process: <GitBranch className="h-3 w-3" />,
     research: <Search className="h-3 w-3" />,
   }
+  
+  const hintText = language === "en" ? "Optimize reading?" : language === "zh-hk" ? "優化閱讀體驗?" : "优化阅读体验?"
   
   return (
     <div
@@ -40,7 +44,7 @@ function SuggestionHint() {
       >
         <Sparkles className="h-3 w-3 text-primary/70" />
         <span className="text-[10px] font-mono text-primary/70 tracking-wider">
-          优化阅读体验?
+          {hintText}
         </span>
         <span className="flex items-center justify-center w-4 h-4 rounded bg-primary/15 text-primary/70">
           {icons[suggestion.mode]}
@@ -59,6 +63,7 @@ function SuggestionPopup() {
     acceptSuggestion,
     inference,
   } = useReadingMode()
+  const { language } = useLanguage()
   
   const [isVisible, setIsVisible] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
@@ -99,7 +104,15 @@ function SuggestionPopup() {
     research: <Search className="h-4 w-4" />,
   }
 
-  const readerTypeLabels = {
+  const readerTypeLabels = language === "en" ? {
+    skim: "Quick Scanner",
+    process: "Process-Oriented",
+    research: "Deep Researcher",
+  } : language === "zh-hk" ? {
+    skim: "快速瀏覽型",
+    process: "過程導向型",
+    research: "研究深度型",
+  } : {
     skim: "快速浏览型",
     process: "过程导向型",
     research: "研究深度型",

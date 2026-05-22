@@ -1,13 +1,39 @@
-import { cn } from "@/lib/utils"
+"use client"
 
-const researchInterests = [
-  "空间中的人机交互",
-  "具身交互体验",
-  "自适应界面",
-  "实时反馈系统",
-]
+import { cn } from "@/lib/utils"
+import { useLanguage } from "@/contexts/language-context"
+
+const researchInterestsData = {
+  zh: [
+    "空间中的人机交互",
+    "具身交互体验",
+    "自适应界面",
+    "实时反馈系统",
+  ],
+  "zh-hk": [
+    "空間中的人機交互",
+    "具身交互體驗",
+    "自適應界面",
+    "實時反饋系統",
+  ],
+  en: [
+    "Human-Computer Interaction in Space",
+    "Embodied Interaction Experience",
+    "Adaptive Interface",
+    "Real-time Feedback System",
+  ],
+}
+
+const bioData = {
+  zh: "周亦楠 是一名建筑学背景的设计者，关注 Spatial HCI、具身交互与自适应界面。她的项目从音频驱动的实时视觉反馈、自适应作品集界面，到 1:1 响应式空间原型，探索身体行为、动态数据与空间感知如何被转译为可反馈、可调节的界面与环境系统。",
+  "zh-hk": "周亦楠 是一名建築學背景的設計者，關注 Spatial HCI、具身交互與自適應界面。她的項目從音頻驅動的實時視覺反饋、自適應作品集界面，到 1:1 響應式空間原型，探索身體行為、動態數據與空間感知如何被轉譯為可反饋、可調節的界面與環境系統。",
+  en: "FOSA (Zhou Yinan) is a designer with an architecture background, focusing on Spatial HCI, embodied interaction, and adaptive interfaces. Her projects span from audio-driven real-time visual feedback, adaptive portfolio interfaces, to 1:1 responsive spatial prototypes, exploring how body behavior, dynamic data, and spatial perception can be translated into responsive and adjustable interface and environmental systems.",
+}
 
 export function About() {
+  const { language } = useLanguage()
+  const researchInterests = researchInterestsData[language] || researchInterestsData.en
+  const bio = bioData[language] || bioData.en
   return (
     <section id="about" className="py-16 px-6 lg:px-8 border-t border-[rgba(34,211,238,0.1)]">
       <div className="mx-auto max-w-7xl">
@@ -52,7 +78,7 @@ export function About() {
               </div>
 
               <p className="text-sm text-foreground/80 leading-relaxed">
-                周亦楠 是一名建筑学背景的设计者，关注 Spatial HCI、具身交互与自适应界面。她的项目从音频驱动的实时视觉反馈、自适应作品集界面，到 1:1 响应式空间原型，探索身体行为、动态数据与空间感知如何被转译为可反馈、可调节的界面与环境系统。
+                {bio}
               </p>
             </div>
 
