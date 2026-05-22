@@ -146,12 +146,12 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/projects/nestide/06.jpg", caption: "爆炸流线图" },
     ],
     galleryImagesEn: [
-      { src: "/images/projects/nestide/01_en.jpg", caption: "Node revitalizes corridor" },
-      { src: "/images/projects/nestide/02_en.png", caption: "Preliminary analysis" },
-      { src: "/images/projects/nestide/03_en.jpg", caption: "Ground floor plan" },
-      { src: "/images/projects/nestide/04_en.jpg", caption: "Second floor plan" },
-      { src: "/images/projects/nestide/05_en.jpg", caption: "B1 floor functional zoning" },
-      { src: "/images/projects/nestide/06_en.jpg", caption: "Exploded circulation diagram" },
+      { src: "/images/projects/nestide/01.jpg", caption: "Node revitalizes corridor" },
+      { src: "/images/projects/nestide/02.png", caption: "Preliminary analysis" },
+      { src: "/images/projects/nestide/03.jpg", caption: "Ground floor plan" },
+      { src: "/images/projects/nestide/04.jpg", caption: "Second floor plan" },
+      { src: "/images/projects/nestide/05.jpg", caption: "B1 floor functional zoning" },
+      { src: "/images/projects/nestide/06.jpg", caption: "Exploded circulation diagram" },
     ],
     galleryImagesHk: [
       { src: "/images/projects/nestide/01.jpg", caption: "節點賦予廊道新生" },
@@ -410,7 +410,7 @@ export const otherWorks: OtherWork[] = [
     ],
     detailsHk: [
       "基於多重波函數疊加的算法",
-      "參數化控制頻率、振幅和相位關係",
+      "參數化控制頻率��振幅和相位關係",
       "使用 Grasshopper 和自定義 C# 組件",
       "輸出格式兼容 CNC 製造和 3D 列印",
     ],
@@ -422,7 +422,7 @@ export const otherWorks: OtherWork[] = [
         "输出兼容数字制造工艺",
         "探索形态与声学的内在关联"
       ],
-      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完��生����设��流程。"
+      outcome: "获奥���兰大学2025本科优秀毕业设计。建立了从算法到建造的完��生����设��流程。"
     },
     quickContentEn: {
       headline: "Generative architectural morphology system based on waveform mathematics",
@@ -562,7 +562,7 @@ export const otherWorks: OtherWork[] = [
         "生成式設計回應結構邏輯和使用體驗"
       ],
       findings: "設計推演表明，聲音和環境數據可以作為形態生成的��織線索，而不���停留在概念敘事層面。通過參數化控制，屋頂形態可以在連續起伏、結構秩序和公共使用之間形成相對穩定的關係。項目也說明，生成式設計的價值不只是產生複雜幾何，而是幫助設計者系統性地比較形態、結構和空間體驗之間的差異。",
-      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設���。但項目仍���概念���型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
+      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉��為生成式屋頂系統，探索數據如何進入建築形態和公共空間設���。但項目仍���概念���型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
     }
   },
   {
@@ -792,7 +792,7 @@ export const otherWorks: OtherWork[] = [
         "以市集和日常停留作为公共空间原型的核心场景",
         "通过半开放构筑形成可进入、可停留、可交流的空间界面",
         "保留适度边界感，避免将不同文化活动简单混合",
-        "采用轻量化材料与可装配构造，便于现场搭建与调整",
+        "采用轻量化材料��可装配构造，便于现场搭建与调整",
         "通过 1:1 实体尺度验证空间比例、材料触感与使用体验",
         "将文化符号转化为空间构造与���面语言，而非直接装饰拼���"
       ]
@@ -958,7 +958,7 @@ export const otherWorks: OtherWork[] = [
       ]
     },
     researchContent: {
-      context: "项目以江夏城市更新为背景，面对传统街区风貌延续、公共空间重塑和视觉表达效率等问题。AIGC 的优势在于快速生成多种空间意向，但其局限也很明显：它容易产生风格化图像，却难以自动理解真实场地、功能流线、尺度关系和空间逻辑。因此，项目将 AIGC 放在人机协作流程中，而不是将其视为独立完成设计的工具。",
+      context: "项目以江夏城市更新为背景，面对传统街区风貌延续、公共空间重塑和视觉表达效率等问题。AIGC 的优势在于快速生成多种空间意向，但其局限也很明显：它容易产生风格化图像，却难以自动理���真实场地、功能流线、尺度关系和空间逻辑。因此，项目将 AIGC 放在人机协作流程中，而不是将其视为独立完成设计的工具。",
       hypothesis: "如果将地域风貌、公共空间需求和设计目标转化为清晰的提示词与图像约束，并通过人工筛选和二次修正，AIGC 可以有效支持城市更新中的空间意向推演、场景比较和视觉表达。",
       approach: "项目建立了从场地特征提取到 AI 辅助表达的工作流程：首先梳理江夏城市更新中的空间问题与风貌关键词；随后构建不同主题的提示词，生成街区界面、公共活动、空间氛围和更新场景图像；再通过人工评估筛选具有空间逻辑和表达价值的结果；最终将 AI 图像转化为竞赛图面中的概念表达、场景渲染和设计叙事。在图像生成阶段，项目尝试通过自定义 LoRA 或风格参考图控制地域建筑风貌，使生成结果更接近目标街区的空间气质。",
       logic: [
@@ -1037,7 +1037,7 @@ export const otherWorks: OtherWork[] = [
     details: [
       "1:10 比例局部构造实体模型",
       "结构细部与连接节点研究",
-      "水体系的详图绘制与分析",
+      "水体系的��图绘制与分析",
     ],
     detailsEn: [
       "1:10 scale partial construction physical model",

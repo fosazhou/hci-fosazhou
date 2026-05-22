@@ -414,9 +414,14 @@ export default function ExchangePage() {
   const fullDescription = language === "en" && exchange.fullDescriptionEn ? exchange.fullDescriptionEn : exchange.fullDescription
   const details = language === "en" && exchange.detailsEn ? exchange.detailsEn : exchange.details
   
+  // Get localized gallery images
+  const galleryImages = language === "en" && exchange.galleryImagesEn 
+    ? exchange.galleryImagesEn 
+    : exchange.galleryImages
+  
   // 根据 id 渲染不同的图库
   const renderGallery = () => {
-    const images = exchange.galleryImages
+    const images = galleryImages
     switch (id) {
       case "auckland-exchange":
         return <AucklandGallery images={images} onImageClick={openLightbox} />
@@ -433,7 +438,7 @@ export default function ExchangePage() {
     <main className="min-h-screen">
       {/* 图片放大查看器 */}
       <ImageLightbox 
-        images={exchange.galleryImages || []}
+        images={galleryImages || []}
         initialIndex={lightboxIndex}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
