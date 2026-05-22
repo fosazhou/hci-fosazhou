@@ -17,6 +17,7 @@ interface LanguageContextType {
   t: (zh: string, en: string) => string
   isZh: boolean
   isEn: boolean
+  isTransitioning: boolean
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
@@ -25,6 +26,7 @@ const LANGUAGE_STORAGE_KEY = "preferred_language"
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("zh")
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -37,11 +39,24 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang)
-    if (typeof window !== "undefined") {
-      localStorage.setItem(LANGUAGE_STORAGE_KEY, lang)
-    }
-  }, [])
+    if (lang === language) return
+    
+    // 开始过渡动画
+    setIsTransitioning(true)
+    
+    // 短暂延迟后切换语言
+    setTimeout(() => {
+      setLanguageState(lang)
+      if (typeof window !== "undefined") {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, lang)
+      }
+      
+      // 完成过渡
+      setTimeout(() => {
+        setIsTransitioning(false)
+      }, 150)
+    }, 150)
+  }, [language])
 
   // Translation helper
   const t = useCallback((zh: string, en: string) => {
@@ -54,11 +69,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     t,
     isZh: language === "zh",
     isEn: language === "en",
+    isTransitioning,
   }
 
   return (
     <LanguageContext.Provider value={value}>
-      {children}
+      <div 
+        className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+      >
+        {children}
+      </div>
     </LanguageContext.Provider>
   )
 }

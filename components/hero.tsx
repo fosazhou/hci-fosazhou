@@ -282,10 +282,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
 
               <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
                 <span className="block text-xl md:text-2xl font-light tracking-wide text-foreground mb-2">
-                  {heroData.headline}
-                </span>
-                <span className="block text-sm md:text-base text-primary/80 font-medium tracking-wider">
-                  {heroData.headlineCn}
+                  {language === "zh" ? heroData.headlineCn : heroData.headline}
                 </span>
               </p>
 
