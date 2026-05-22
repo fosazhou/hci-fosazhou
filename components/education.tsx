@@ -11,31 +11,23 @@ const educationData = [
   {
     school: "Chang'an University",
     schoolCn: "长安大学",
-    schoolHk: "長安大學",
     department: "School of Architecture",
     departmentCn: "建筑学院",
-    departmentHk: "建築學院",
     degree: "B.Arch",
     degreeCn: "建筑学",
-    degreeHk: "建築學",
     period: "2022.9 - Present",
     periodCn: "2022.9 - 至今",
-    periodHk: "2022.9 - 至今",
     logo: "/images/chu.png",
   },
   {
     school: "University of Auckland",
     schoolCn: "奥克兰大学",
-    schoolHk: "奧克蘭大學",
     department: "School of Architecture and Planning",
     departmentCn: "建筑与规划学院",
-    departmentHk: "建築與規劃學院",
     degree: "Exchange Student",
     degreeCn: "交换生",
-    degreeHk: "交換生",
     period: "2025.7 - 2025.12",
     periodCn: "2025.7 - 2025.12",
-    periodHk: "2025.7 - 2025.12",
     logo: "/images/uoa.png",
   },
 ]
@@ -47,9 +39,8 @@ const educationData = [
 export function Education() {
   const { language } = useLanguage()
   
-  const getLocalizedText = (en: string, cn: string, hk: string) => {
+  const getLocalizedText = (en: string, cn: string) => {
     if (language === "zh") return cn
-    if (language === "zh-hk") return hk
     return en
   }
 
@@ -98,17 +89,17 @@ export function Education() {
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <h3 className="text-sm font-medium text-foreground">
-                  {getLocalizedText(edu.school, edu.schoolCn, edu.schoolHk)}
+                  {getLocalizedText(edu.school, edu.schoolCn)}
                 </h3>
                 <p className="text-[11px] text-muted-foreground mt-0.5 font-mono">
-                  {getLocalizedText(edu.department, edu.departmentCn, edu.departmentHk)} · {getLocalizedText(edu.degree, edu.degreeCn, edu.degreeHk)}
+                  {getLocalizedText(edu.department, edu.departmentCn)} · {getLocalizedText(edu.degree, edu.degreeCn)}
                 </p>
               </div>
 
               {/* Date */}
               <div className="flex-shrink-0 text-right">
                 <p className="text-[10px] text-primary/60 font-mono tracking-wider">
-                  {getLocalizedText(edu.period, edu.periodCn, edu.periodHk)}
+                  {getLocalizedText(edu.period, edu.periodCn)}
                 </p>
               </div>
             </div>

@@ -7,7 +7,6 @@ import { ChevronDown } from "lucide-react"
 
 const languageOptions: { value: Language; label: string; labelEn: string }[] = [
   { value: "zh", label: "简体中文", labelEn: "Simplified Chinese" },
-  { value: "zh-hk", label: "繁體中文", labelEn: "Traditional Chinese" },
   { value: "en", label: "English", labelEn: "English" },
 ]
 

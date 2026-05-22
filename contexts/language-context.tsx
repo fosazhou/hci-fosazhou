@@ -9,14 +9,13 @@ import {
   type ReactNode,
 } from "react"
 
-export type Language = "zh" | "zh-hk" | "en"
+export type Language = "zh" | "en"
 
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (zh: string, en: string, zhHk?: string) => string
+  t: (zh: string, en: string) => string
   isZh: boolean
-  isZhHk: boolean
   isEn: boolean
 }
 
@@ -32,7 +31,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language
-      if (stored && (stored === "zh" || stored === "zh-hk" || stored === "en")) {
+      if (stored && (stored === "zh" || stored === "en")) {
         setLanguageState(stored)
       }
     }
@@ -59,8 +58,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [language])
 
   // Translation helper
-  const t = useCallback((zh: string, en: string, zhHk?: string) => {
-    if (language === "zh-hk") return zhHk || zh
+  const t = useCallback((zh: string, en: string) => {
     return language === "zh" ? zh : en
   }, [language])
 
@@ -69,7 +67,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguage,
     t,
     isZh: language === "zh",
-    isZhHk: language === "zh-hk",
     isEn: language === "en",
   }
 
