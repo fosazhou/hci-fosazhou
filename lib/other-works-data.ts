@@ -198,17 +198,24 @@ export const otherWorks: OtherWork[] = [
   {
     id: "fu",
     title: "FU",
+    titleEn: "FU",
     titleCn: "波形建筑",
     description: "基于声音频谱与环境数据的生成式屋顶设计，探索数据驱动的空间形态如何创造更具感知性与疗愈性的公共环境体验。",
+    descriptionEn: "A generative roof design based on sound spectrum and environmental data, exploring how data-driven spatial forms create more perceptive and healing public environment experiences.",
     keywords: ["环境感知", "生成式设计", "疗愈空间"],
+    keywordsEn: ["Environmental Sensing", "Generative Design", "Healing Space"],
     coverImage: "/images/projects/fu/cover.png",
     fullDescription: "FU 探索声音频谱、环境数据与空间形态之间的转译关系，研究数据驱动的屋顶系统如何通过起伏、节奏与遮蔽变化，创造更具感知性与疗愈性的公共空间体验，促进使用者的身心福祉。",
+    fullDescriptionEn: "FU explores the translation relationship between sound spectrum, environmental data, and spatial form, studying how data-driven roof systems create more perceptive and healing public space experiences through undulation, rhythm, and shading variations, promoting users' physical and mental wellbeing.",
     year: "2025",
     startDate: "2025.8",
     endDate: "2025.11",
     category: "环境感知设计",
+    categoryEn: "Environmental Sensing Design",
     location: "奥克兰 Harbour，新西兰",
+    locationEn: "Auckland Harbour, New Zealand",
     role: "设计师",
+    roleEn: "Designer",
     galleryImages: [
       { src: "/images/projects/fu/01.jpg", caption: "立面效果图" },
       { src: "/images/projects/fu/02.jpg", caption: "Inspiration" },
@@ -219,11 +226,27 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/projects/fu/07.JPG", caption: "Sectional Model" },
       { src: "/images/projects/fu/08.png", caption: "室内空间" },
     ],
+    galleryImagesEn: [
+      { src: "/images/projects/fu/01.jpg", caption: "Facade Rendering" },
+      { src: "/images/projects/fu/02.jpg", caption: "Inspiration" },
+      { src: "/images/projects/fu/03.jpg", caption: "Exploded Diagram" },
+      { src: "/images/projects/fu/04.jpg", caption: "Sound Spectrum Translation" },
+      { src: "/images/projects/fu/05.jpg", caption: "Section" },
+      { src: "/images/projects/fu/06.jpg", caption: "Roof Connection Detail" },
+      { src: "/images/projects/fu/07.JPG", caption: "Sectional Model" },
+      { src: "/images/projects/fu/08.png", caption: "Interior Space" },
+    ],
     details: [
       "基于多重波函数叠加的算法",
       "参数化控制频率、振幅和相位关系",
       "使用 Grasshopper 和自定义 C# 组件",
       "输出格式兼容 CNC 制造和 3D 打印",
+    ],
+    detailsEn: [
+      "Algorithm based on multiple wave function superposition",
+      "Parametric control of frequency, amplitude, and phase relationships",
+      "Using Grasshopper and custom C# components",
+      "Output compatible with CNC manufacturing and 3D printing",
     ],
     quickContent: {
       headline: "基于波形数学的生成式建筑形态系统",
@@ -254,7 +277,7 @@ export const otherWorks: OtherWork[] = [
       ]
     },
     researchContent: {
-      problemStatement: "传统屋顶常被理解为建筑的顶部覆盖构件，其公共性、感知性和环境响应能力往往被弱化。FU 关注的问题是：屋顶能否不只是遮蔽结构，而成为一种由声音、环境数据和文化图案共同驱动的空间界面？",
+      problemStatement: "传统屋顶常被理解为建筑的顶部覆盖构件，其公共性、感知性和环境响应能力���往被弱化。FU 关注的问题是：屋顶能否不只是遮蔽结构，而成为一种由声音、环境数据和文化图案共同驱动的空间界面？",
       context: "项目位于奥克兰滨水区语境下，场地具有开放视野、公共活动和文化叙事的复合需求。设计尝试将声音频谱、环境感知和文化图案作为形态生成输入，探索抽象数据如何被转译为可体验的建筑结构、屋顶覆盖和公共停留界面。",
       hypothesis: "如果将声音频谱和环境数据转化为可调节的几何参数，并通过生成式设计方法控制屋顶的起伏、密度和结构节奏，那么屋顶可以从单一覆盖构件转化为具有公共活动、观景停留和环境感知能力的复合空间系统。",
       approach: "项目采用从数据提取到空间转译的设计路径。首先从声音频谱与波形曲线中提取频率、振幅和节奏变化，再将其转化为参数化形态控制逻辑。随后通过曲面生成、结构细分和空间筛选，将抽象波形转译为屋顶系统，并进一步测试其作为公共界面、停留场所和场地标识的可能性。",
@@ -279,9 +302,12 @@ export const otherWorks: OtherWork[] = [
   {
     id: "arbor-of-enduring-harmonics",
     title: "Arbor of Enduring Harmonics",
+    titleEn: "Arbor of Enduring Harmonics",
     titleCn: "树与水之间",
     description: "2025 第十三届全国大学生数字媒体科技作品及创意竞赛 陕西赛区三等奖",
+    descriptionEn: "2025 13th National College Students Digital Media Technology Works and Creative Competition - Shaanxi Third Prize",
     keywords: ["竞赛", "课程设计", "省级奖项"],
+    keywordsEn: ["Competition", "Course Design", "Provincial Award"],
     coverImage: "/images/works/arbor/cover.jpg",
     galleryImages: [
       { src: "/images/works/arbor/01.jpg", caption: "" },
@@ -297,17 +323,27 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/arbor/11.jpg", caption: "" },
     ],
     fullDescription: "参与第十三届全国大学生数字媒体科技作品及创意竞赛，作品探索建筑与自然环境的和谐共生关系，获得陕西省三等奖。",
+    fullDescriptionEn: "Participated in the 13th National College Students Digital Media Technology Works and Creative Competition, exploring the harmonious coexistence between architecture and natural environment, won Shaanxi Provincial Third Prize.",
     year: "2024",
     startDate: "2024.9",
     endDate: "2024.11",
     category: "建筑设计竞赛",
+    categoryEn: "Architectural Design Competition",
     location: "西安，中国",
+    locationEn: "Xi'an, China",
     role: "组长",
+    roleEn: "Team Leader",
     awards: "省级三等奖",
+    awardsEn: "Provincial Third Prize",
     details: [
       "探索建筑与自然环境的和谐共生",
       "结合传统建筑元素与现代设计语言",
       "关注空间序列与体验设计",
+    ],
+    detailsEn: [
+      "Exploring harmonious coexistence between architecture and nature",
+      "Combining traditional architectural elements with modern design language",
+      "Focusing on spatial sequence and experiential design",
     ],
     quickContent: {
       headline: "探索建筑与自然环境和谐共生的空间设计",
@@ -345,7 +381,7 @@ export const otherWorks: OtherWork[] = [
         "周文化强调秩序与礼制 → 建筑需要清晰的空间层级和轴线关系",
         "青铜器具有厚重、围合与象征性 → 可转化为体量和界面语言",
         "博物馆参观具有时间性 → 需要通过路径组织形成叙事节奏",
-        "历史文化表达不应停留在符号复制 → 需要转化为空间体验"
+        "历史文化表达不应停留在符号复制 → 需��转化为空间体验"
       ],
       strategies: [
         "以礼乐秩序组织主要空间结构",
@@ -362,9 +398,12 @@ export const otherWorks: OtherWork[] = [
   {
     id: "integrates-hans-hui-nationality",
     title: "Integrates Hans & Hui Nationality",
+    titleEn: "Integrates Hans & Hui Nationality",
     titleCn: "西仓新月驿",
     description: "2025 陕西省第十八届实体空间搭建竞赛，三等奖（核心成员）",
+    descriptionEn: "2025 Shaanxi Province 18th Physical Space Construction Competition - Third Prize (Core Member)",
     keywords: ["竞赛", "文化融合", "城市更新"],
+    keywordsEn: ["Competition", "Cultural Integration", "Urban Renewal"],
     coverImage: "/images/works/xicang/cover.png",
     galleryImages: [
       { src: "/images/works/xicang/01.jpg", caption: "" },
@@ -457,7 +496,7 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/works/aigc/02.png", caption: "" },
       { src: "/images/works/aigc/03.png", caption: "" },
     ],
-    fullDescription: "运用 AIGC 技术探索江南水乡建筑的数字化设计方法，获得全国高校 AIGC 数智建筑与文创产品设计大赛二等奖。",
+    fullDescription: "运用 AIGC 技术探索江南水乡建筑的数字化设计方法，获得全国��校 AIGC 数智建筑与文创产品设计大赛二等奖。",
     year: "2024",
     startDate: "2024.9",
     endDate: "2024.11",

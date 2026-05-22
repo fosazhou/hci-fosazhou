@@ -287,8 +287,8 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
               </div>
 
               <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
-                <span className="block text-xl md:text-2xl font-light tracking-wide text-foreground mb-2">
-                  {language === "zh" ? heroData.headlineCn : heroData.headline}
+                <span className="block text-xl md:text-2xl font-bold tracking-wide text-foreground mb-2">
+                  {language === "zh" ? heroData.headlineCn : language === "zh-hk" ? "面向健康與福祉的 AI 驅動響應式空間交互" : heroData.headline}
                 </span>
               </p>
 

@@ -7,6 +7,7 @@ import { usePageTransition } from "@/components/page-transition"
 import { GlowCard } from "@/components/glow-card"
 import { HoverScan } from "@/components/scan-line"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
+import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 import { MapPin, Calendar, ExternalLink } from "lucide-react"
 
@@ -87,6 +88,7 @@ function ExchangeCard({
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const [hasPrefetched, setHasPrefetched] = useState(false)
+  const { language } = useLanguage()
   
   const handleMouseEnter = () => {
     setIsHovered(true)
@@ -95,6 +97,11 @@ function ExchangeCard({
       setHasPrefetched(true)
     }
   }
+  
+  // Get localized content
+  const title = language === "en" && exchange.titleEn ? exchange.titleEn : exchange.title
+  const description = language === "en" && exchange.descriptionEn ? exchange.descriptionEn : exchange.description
+  const keywords = language === "en" && exchange.keywordsEn ? exchange.keywordsEn : exchange.keywords
 
   return (
     <div 
@@ -139,7 +146,7 @@ function ExchangeCard({
           </span>
           
           <h3 className="text-base font-semibold text-foreground mb-1 flex items-center gap-2 group-hover:text-primary transition-colors" suppressHydrationWarning>
-            {exchange.title}
+            {title}
             <ExternalLink className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </h3>
           
@@ -149,11 +156,11 @@ function ExchangeCard({
           </div>
           
           <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2" suppressHydrationWarning>
-            {exchange.description}
+            {description}
           </p>
           
           <div className="flex flex-wrap gap-1.5">
-            {exchange.keywords.slice(0, 3).map((keyword, i) => (
+            {keywords.slice(0, 3).map((keyword, i) => (
               <span 
                 key={i}
                 className={cn(
