@@ -26,6 +26,7 @@ const LANGUAGE_STORAGE_KEY = "preferred_language"
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("zh")
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -40,11 +41,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLanguage = useCallback((lang: Language) => {
     if (lang === language) return
     
-    // 直接切换，不使用过渡动画（避免破坏 fixed 定位）
-    setLanguageState(lang)
-    if (typeof window !== "undefined") {
-      localStorage.setItem(LANGUAGE_STORAGE_KEY, lang)
-    }
+    // 开始淡出
+    setIsTransitioning(true)
+    
+    // 淡出后切换语言
+    setTimeout(() => {
+      setLanguageState(lang)
+      if (typeof window !== "undefined") {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, lang)
+      }
+      
+      // 淡入
+      setTimeout(() => {
+        setIsTransitioning(false)
+      }, 50)
+    }, 150)
   }, [language])
 
   // Translation helper
@@ -64,7 +75,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider value={value}>
-      {children}
+      <div 
+        className={`transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}
+      >
+        {children}
+      </div>
     </LanguageContext.Provider>
   )
 }
