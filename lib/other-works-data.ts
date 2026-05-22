@@ -46,21 +46,31 @@ export interface ResearchContent {
 export interface OtherWork {
   id: string
   title: string
+  titleEn?: string
   titleCn: string
   description: string
+  descriptionEn?: string
   keywords: string[]
+  keywordsEn?: string[]
   fullDescription: string
+  fullDescriptionEn?: string
   year: string
   // 新增：精确到月份的时间范围，格式 "YYYY.M"
   startDate: string  // 如 "2024.9"
   endDate: string    // 如 "2024.11"
   category: string
+  categoryEn?: string
   location?: string
+  locationEn?: string
   role?: string
+  roleEn?: string
   awards?: string
+  awardsEn?: string
   details: string[]
+  detailsEn?: string[]
   // 封面图片路径（放入 public 文件夹，例如 "/images/works/arbor-cover.jpg"）
   coverImage?: string
+  coverImageEn?: string
   // 悬停预览视频路径（可选，悬停时自动播放约5秒）
   // 请将视频放入 /public/videos/works/ 文件夹
   previewVideo?: string
@@ -69,29 +79,41 @@ export interface OtherWork {
   video?: string
   // 详情页图片列表 - 每张图片都可以有标注
   galleryImages?: GalleryImage[]
+  galleryImagesEn?: GalleryImage[]
   // 自定义封面比例（可选，如 "4/3", "16/9", "1/1" 等，不填则使用默认布局）
   aspectRatio?: string
   // 三种阅读模式内容
   quickContent?: QuickContent
+  quickContentEn?: QuickContent
   processContent?: ProcessContent
+  processContentEn?: ProcessContent
   researchContent?: ResearchContent
+  researchContentEn?: ResearchContent
 }
 
 export const otherWorks: OtherWork[] = [
   {
     id: "nestide",
     title: "Nestide/巢流",
+    titleEn: "Nestide",
     titleCn: "巢流",
     description: "城市医疗物流的智能基础设施节点原型，探索低空医疗配送如何缩短急救响应时间，提升城市健康服务的可达性与公平性。",
+    descriptionEn: "A smart infrastructure node prototype for urban medical logistics, exploring how low-altitude medical delivery can shorten emergency response time and improve accessibility and equity of urban health services.",
     keywords: ["健康基础设施", "医疗可达性", "城市福祉"],
+    keywordsEn: ["Health Infrastructure", "Medical Accessibility", "Urban Wellbeing"],
     coverImage: "/images/projects/nestide/cover.jpg",
+    coverImageEn: "/images/projects/nestide/cover_en.jpg",
     fullDescription: "Nestide 是一个面向城市健康服务的智能基础设施原型，关注低空医疗物流如何通过缩短急救响应时间，提升老龄社区和高密度片区的医疗可达性，从而促进城市整体的健康福祉。",
+    fullDescriptionEn: "Nestide is a smart infrastructure prototype for urban health services, focusing on how low-altitude medical logistics can improve medical accessibility in aging communities and high-density areas by shortening emergency response time, thereby promoting overall urban health and wellbeing.",
     year: "2025",
     startDate: "2025.6",
     endDate: "2025.8",
     category: "健康基础设施设计",
+    categoryEn: "Health Infrastructure Design",
     location: "幸福林带，西安，中国",
+    locationEn: "Xingfu Forest Belt, Xi'an, China",
     role: "主设计师",
+    roleEn: "Lead Designer",
     galleryImages: [
       { src: "/images/projects/nestide/01.jpg", caption: "节点赋予廊道新生" },
       { src: "/images/projects/nestide/02.png", caption: "前期分析" },
@@ -100,11 +122,25 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/projects/nestide/05.jpg", caption: "B1层功能分区" },
       { src: "/images/projects/nestide/06.jpg", caption: "爆炸流线图" },
     ],
+    galleryImagesEn: [
+      { src: "/images/projects/nestide/01_en.jpg", caption: "Node revitalizes corridor" },
+      { src: "/images/projects/nestide/02_en.png", caption: "Preliminary analysis" },
+      { src: "/images/projects/nestide/03_en.jpg", caption: "Ground floor plan" },
+      { src: "/images/projects/nestide/04_en.jpg", caption: "Second floor plan" },
+      { src: "/images/projects/nestide/05_en.jpg", caption: "B1 floor functional zoning" },
+      { src: "/images/projects/nestide/06_en.jpg", caption: "Exploded circulation diagram" },
+    ],
     details: [
       "集成垂直起降平台",
       "自动化中转系统",
       "实时空中交通控制塔",
       "模块化设计",
+    ],
+    detailsEn: [
+      "Integrated VTOL platform",
+      "Automated transit system",
+      "Real-time air traffic control tower",
+      "Modular design",
     ],
     quickContent: {
       headline: "为城市智能医疗物流设计的模块化基础设施节点",
@@ -232,11 +268,11 @@ export const otherWorks: OtherWork[] = [
       strategies: [
         "声音频谱具有时间、节奏和强弱变化 → 可转化为屋顶形态的起伏与密度",
         "环境数据具有方向性和动态性 → 可影响屋顶的开合、遮蔽和空间层次",
-        "文化图案具有秩序和象征意义 → 可作为形态生成中的组织线索",
+        "文化图案具有秩序和��征意义 → 可作为形态生成中的组织线索",
         "屋顶不只是覆盖���件 → 可以成为观景、停留、活动和环境响应的公共界面",
         "生成式设计不应只追求复杂造型 → 需要回应结构逻辑、使用行为和场地体验"
       ],
-      findings: "设计推演表明，声音和环境数据可以作为形态生成的组织线索，而不是停留在概念叙事层面。通过参数化控制，屋顶形态可以在连续起伏、结构秩序和公共使用之间形成相对稳定的关系。项目也说明，生��式设计的价值不只是产生复杂几何，而是帮助设计者系统性地比较形态、结构和空间体验之间的差异。",
+      findings: "设计推演表明，声音和环境数据可以作为形态生成的组织线索，而不是停留在概念叙事层面。通过参数化控制，屋顶形态可以在连���起伏、结构秩序和公共使用之间形成相对稳定的关系。项目也说明，生��式设计的价值不只是产生复杂几何，而是帮助设计者系统性地比较形态、结构和空间体验之间的差异。",
       reflection: "FU 将声音频谱、环境数据与文化图案转化为生成式屋顶系统，探索数据如何进入建筑形态和公共空间设计。但项目仍以概念原型和形态推演为主，后续需要进一步引入结构分析、材料节点、环境性能模拟和真实使用行为评估，才能验证其作为可建造屋顶系统的完整可行性。"
     }
   },
@@ -375,7 +411,7 @@ export const otherWorks: OtherWork[] = [
         { title: "实体搭建", description: "按比1:1制作实体模型并参与搭建" }
       ],
       methodology: "文化导向的设计方法，从两族共同需求出发寻找空间交集。从西仓汉回共生的日常生活场景出发，提取市集、停留、交流与边界过渡等空间需求，并将其转化为可被真实搭建和体验的公共空间原型。",
-      iterations: "设计经历了从文化调研、概念模型、结构推敲、材料选择到 1:1 实体搭建的完整过程。相比单纯图纸表达，项目更关注空间尺度、材料连接、身体体验和现场建造中的实际反馈。",
+      iterations: "设计经历了从文化调研、概念模型、结构推敲、材料选择到 1:1 实体搭建的完整过程。相比单纯图纸表达，项��更关注空间尺度、材料连接、身体体验和现场建造中的实际反馈。",
       decisions: [
         "以市集和日常停留作为公共空间原型的核心场景",
         "通过半开放构筑形成可进入、可停留、可交流的空间界面",
@@ -451,10 +487,10 @@ export const otherWorks: OtherWork[] = [
         { title: "设计生成", description: "通过提示词引导 AI 生成设计方案" },
         { title: "人工优化", description: "对 AI 生成结果进行筛选和深化" }
       ],
-      methodology: "项目采用人机协作的设计方法，将 AIGC 作为城市更新场景推演、空间意向生成与视觉表达的辅助工具。AI 负责快速生成多种空间氛围与风貌可能性，设计者负责筛选、判断、修正和整合，使生成结果服务于具体的��市空间问题。",
+      methodology: "项目采用人机协作的设计方法，将 AIGC 作为城市更新场景推演、空间意向生成与视觉表达的辅助工具。AI 负责快速生成多种空间氛围与风���可能性，设计者负责筛选、判断、修正和整合，使生成结果服务于具体的��市空间问题。",
       iterations: "设计过程经历了从场地关键词提取、提示词构建、图像生成、结果筛选到方案表达整合的多轮迭代。项目重点不在于单张图像生成，而在于建立一套从地域风貌理解到空间场景表达的 AIGC 辅助设计流程。",
       decisions: [
-        "以江夏城市更新和地域公共空间作为设计对象",
+        "以江夏城市更新和地域公共空间作为设���对象",
         "使用 AIGC 快速生成多种空间氛围、街区界面与公共场景意向",
         "通过人工筛选控制图像结果的空间逻辑、尺度关系与风貌一致性",
         "将 AI 生成图像作为概念推演工具，而不是直接替代建筑设计决策",
@@ -548,7 +584,7 @@ export const otherWorks: OtherWork[] = [
       logic: [
         "构造是建筑的物质基础 → 需要深入理解其逻辑",
         "图纸是抽象的表达 → 实体模型提供直观认知",
-        "细部决定品质 → 关注节点的精确处理"
+        "细部决定品质 → 关注节点���精确处理"
       ],
       strategies: [
         "选择典型节点进行深入研究",

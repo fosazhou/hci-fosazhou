@@ -53,39 +53,58 @@ export interface ResearchContent {
 export interface Project {
   id: string
   title: string
+  titleEn?: string
   description: string
+  descriptionEn?: string
   keywords: string[]
+  keywordsEn?: string[]
   coverImage?: string
+  coverImageEn?: string  // English version cover image
   previewVideo?: string
   fullDescription: string
+  fullDescriptionEn?: string
   year: string
   // 新增：精确到月份的时间范围，格式 "YYYY.M"
   startDate: string  // 如 "2025.6"
   endDate: string    // 如 "2025.8"
   location: string
+  locationEn?: string
   role: string
+  roleEn?: string
   details: string[]
+  detailsEn?: string[]
   video?: string
   galleryImages?: GalleryImage[]
+  galleryImagesEn?: GalleryImage[]  // English version gallery images
   // 三种阅读模式的内容
   quickContent?: QuickContent
+  quickContentEn?: QuickContent
   processContent?: ProcessContent
+  processContentEn?: ProcessContent
   researchContent?: ResearchContent
+  researchContentEn?: ResearchContent
 }
 
 export const projects: Project[] = [
   {
     id: "portfolio-website",
     title: "Adaptive Portfolio Interface",
+    titleEn: "Adaptive Portfolio Interface",
     description: "基于阅读行为感知的自适应界面实验，探索信息密度动态调整如何降低认知负荷，提升复杂信息的理解效率与用户控制感。",
+    descriptionEn: "An adaptive interface experiment based on reading behavior perception, exploring how dynamic information density adjustment can reduce cognitive load and improve understanding efficiency.",
     keywords: ["自适应界面", "认知负荷", "行为感知"],
+    keywordsEn: ["Adaptive Interface", "Cognitive Load", "Behavior Sensing"],
     coverImage: "/images/works/portfolio/cover.png",
+    coverImageEn: "/images/works/portfolio/cover_en.png",
     fullDescription: "项目从设计评审中的快速浏览、过程审查与研究理解三类阅读需求出发，提出 Quick / Process / Research 三种阅读模式。通过滚动速度、停留时间与点击深度等行为信号识别用户阅读状态，动态调整信息密度与内容层级，降低认知负荷，提升用户在复杂信息环境中的控制感与理解效率。",
+    fullDescriptionEn: "Starting from three reading needs in design reviews—quick browsing, process review, and research understanding—the project proposes Quick / Process / Research modes. By recognizing user reading states through scroll speed, dwell time, and click depth, it dynamically adjusts information density and content hierarchy to reduce cognitive load.",
     year: "2026",
     startDate: "2026.3",
     endDate: "2026.5",
     location: "西安，中国",
+    locationEn: "Xi'an, China",
     role: "设计师",
+    roleEn: "Designer",
     details: [
       "Quick / Process / Research 三种阅读模式",
       "基于行为信号的阅读状态感知",
@@ -93,6 +112,14 @@ export const projects: Project[] = [
       "降低认知负荷的自适应策略",
       "Next.js + React + Tailwind CSS 前端实现",
       "AI-assisted prototyping 辅助前端迭代"
+    ],
+    detailsEn: [
+      "Quick / Process / Research reading modes",
+      "Reading state perception based on behavioral signals",
+      "Dynamic adjustment of information density and content hierarchy",
+      "Adaptive strategies for reducing cognitive load",
+      "Next.js + React + Tailwind CSS frontend implementation",
+      "AI-assisted prototyping for frontend iteration"
     ],
     galleryImages: [
       { src: "/images/works/portfolio/01.png", caption: "" },
@@ -104,6 +131,16 @@ export const projects: Project[] = [
       { src: "/images/works/portfolio/07.png", caption: "" },
       { src: "/images/works/portfolio/08.png", caption: "" },
     ],
+    galleryImagesEn: [
+      { src: "/images/works/portfolio/01_en.png", caption: "" },
+      { src: "/images/works/portfolio/02_en.png", caption: "" },
+      { src: "/images/works/portfolio/03_en.png", caption: "" },
+      { src: "/images/works/portfolio/04_en.png", caption: "" },
+      { src: "/images/works/portfolio/05_en.png", caption: "" },
+      { src: "/images/works/portfolio/06_en.png", caption: "" },
+      { src: "/images/works/portfolio/07_en.png", caption: "" },
+      { src: "/images/works/portfolio/08_en.png", caption: "" },
+    ],
     quickContent: {
       headline: "根据评审阅读行为调整内容密度的自适应作品集界面",
       keyPoints: [
@@ -113,6 +150,16 @@ export const projects: Project[] = [
         "通过小样本 A/B 测试验证信息查找效率、清晰度与用户控制感"
       ],
       outcome: "将作品集从线性展示转化为可根据阅读目标调整信息层级的自适应界面。"
+    },
+    quickContentEn: {
+      headline: "An adaptive portfolio interface that adjusts content density based on reviewer reading behavior",
+      keyPoints: [
+        "Quick / Process / Research modes correspond to quick judgment, process review, and research evaluation",
+        "Determine reading preferences through scroll speed, dwell time, click depth, and navigation paths",
+        "System provides reading mode suggestions while preserving user's manual switching and ignore rights",
+        "Validated through small-sample A/B testing for information retrieval efficiency, clarity, and user control"
+      ],
+      outcome: "Transformed portfolio from linear display to adaptive interface that adjusts information hierarchy based on reading goals."
     },
     processContent: {
       phases: [
@@ -148,6 +195,40 @@ export const projects: Project[] = [
         "AI 辅助前端组件实现，但交互逻辑、阅读任务与测试指标由设计者定义"
       ]
     },
+    processContentEn: {
+      phases: [
+        {
+          title: "Review Task Decomposition",
+          description: "Define three reading tasks: quick judgment, process tracking, and research validation."
+        },
+        {
+          title: "Reading Behavior Recognition",
+          description: "Record scroll speed, dwell time, click depth, and navigation paths to infer user's current reading preference."
+        },
+        {
+          title: "Three-Mode Interface Design",
+          description: "Establish Quick / Process / Research content density and narrative levels."
+        },
+        {
+          title: "Frontend Prototype Implementation",
+          description: "Implement mode switching, timeline filtering, project preview, and responsive layout based on Next.js and React."
+        },
+        {
+          title: "Small-Sample A/B Testing",
+          description: "Compare linear portfolio and adaptive portfolio on task completion efficiency, information clarity, and sense of control."
+        }
+      ],
+      methodology: "Using design review scenarios as research subjects, validate adaptive portfolio interface feasibility through task decomposition, behavior recording, interface prototyping, and small-sample comparative testing.",
+      iterations: "Project went through multiple iterations from linear list, timeline filtering, three-mode reading, to behavior suggestion mechanism.",
+      decisions: [
+        "Use Quick to support 1-minute quick judgment",
+        "Use Process to present design process and key decisions",
+        "Use Research to carry problems, methods, tests, and reflections",
+        "Use timeline to strengthen project development relationships",
+        "Adopt suggestion mechanism rather than forced automatic switching",
+        "AI assists frontend component implementation, but interaction logic, reading tasks, and test metrics are defined by designer"
+      ]
+    },
     researchContent: {
       problemStatement: "评审阅读作品集时，会在快速扫读、过程审查和研究评估之间切换。传统线性作品集把所有内容放在同一叙事层级中，导致快速阅读负担重，快速判断成本高，深入阅读路径不清。",
       context: "项目将作品集视为一种面向评审任务的信息界面，而不是静态展示页面。研究重点放在阅读行为、内容密度、叙事层级与用户控制权之间的关系。",
@@ -168,22 +249,50 @@ export const projects: Project[] = [
       ],
       findings: "小样本 A/B 测试显示，自适应版本在典型信息查找任务中表现更高效：理解项目核心内容的时间由 10.9 秒降至 5.20 秒，找到设计过程由 4.1 秒降至 1.13 秒，找到研究逻辑由 6.3 秒降至 1.42 秒。信息清晰度由 3/5 提升至 4.5/5，用户控制感由 2/5 提升至 4/5。由于样本量较小，结果主要用于验证设计方向，而非作为统计显著性结论。",
       reflection: "项目说明，自适应界面的价值并不是替用户阅读，而是帮助用户更快进入合适的信息层级。后续需要扩大测试样本，并进一步处理行为记录、隐私边界、模式误判与用户控制权之间的关系。"
+    },
+    researchContentEn: {
+      problemStatement: "When reviewing portfolios, reviewers switch between quick scanning, process review, and research evaluation. Traditional linear portfolios place all content at the same narrative level, leading to heavy quick reading burden, high quick judgment cost, and unclear deep reading paths.",
+      context: "The project views the portfolio as an information interface for review tasks, not a static display page. Research focuses on the relationship between reading behavior, content density, narrative hierarchy, and user control.",
+      hypothesis: "If the interface can suggest appropriate content levels based on user reading behavior while allowing users to retain active switching rights, it can reduce information search costs and improve project understanding efficiency.",
+      approach: "The project built an interactive prototype based on Next.js and React, set up Quick / Process / Research three reading modes, and recorded scroll speed, dwell time, click depth, and navigation paths. Then through small-sample A/B testing with 6 participants, compared linear portfolio and adaptive portfolio performance in typical reading tasks.",
+      logic: [
+        "Different users have different reading depth needs → Interface needs to provide multiple information levels",
+        "User behavior: scrolling, staying, and clicking → Preferences can be inferred through behavioral data",
+        "Adaptive systems should suggest, not decide for users",
+        "Portfolio needs to show process, not just results → Needs layered content structure to present process, methods, and research logic"
+      ],
+      strategies: [
+        "Design Quick / Process / Research three reading modes",
+        "Judge reading preferences through scrolling, staying, clicking, and navigation paths",
+        "Use timeline to organize project development relationships",
+        "Reduce navigation cost through project preview",
+        "Preserve manual switching, ignoring suggestions, and autonomous browsing paths"
+      ],
+      findings: "Small-sample A/B testing showed adaptive version performed more efficiently in typical information retrieval tasks: time to understand project core content dropped from 10.9s to 5.20s, finding design process from 4.1s to 1.13s, finding research logic from 6.3s to 1.42s. Information clarity improved from 3/5 to 4.5/5, user control sense from 2/5 to 4/5. Due to small sample size, results are mainly for validating design direction, not statistical significance conclusions.",
+      reflection: "The project shows that the value of adaptive interfaces is not to read for users, but to help users enter appropriate information levels faster. Future work needs to expand test samples and further address relationships between behavior recording, privacy boundaries, mode misjudgment, and user control."
     }
   },
 
   {
     id: "veilspace",
     title: "Soft Thresholds · Veilspace",
+    titleEn: "Soft Thresholds · Veilspace",
     description: "1:1 具身响应式空间装置，通过身体行为触发织物边界变化，为用户提供可调节的私密状态与情绪缓冲空间，探索响应式环境如何促进心理健康与福祉。",
+    descriptionEn: "A 1:1 embodied responsive spatial installation that triggers fabric boundary changes through body behavior, providing adjustable privacy states and emotional buffer spaces, exploring how responsive environments promote mental health and wellbeing.",
     keywords: ["响应式空间", "具身感知", "健康福祉"],
+    keywordsEn: ["Responsive Space", "Embodied Sensing", "Health & Wellbeing"],
     coverImage: "/images/projects/veilspace/cover.png",
+    coverImageEn: "/images/projects/veilspace/cover_en.png",
     previewVideo: "/videos/projects/veilspace_preview.mp4",
     fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型，关注空间如何通过感知人的身体状态，提供私密调节与情绪缓冲。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开。项目探索的核心问题是：响应式空间边界能否通过具身感知与环境反馈，为使用者创造更具疗愈性的空间体验，从而促进心理健康与福祉。",
+    fullDescriptionEn: "Soft Thresholds · VeilSpace is a 1:1 embodied responsive spatial prototype that focuses on how space can provide privacy adjustment and emotional buffering by sensing human body states. Using FSR pressure sensors to recognize sitting, leaning, staying, and leaving states, Arduino and stepper motors control the descent, gathering, and expansion of flexible fabric boundaries. The core question is: can responsive spatial boundaries create more healing spatial experiences through embodied sensing and environmental feedback, thereby promoting mental health and wellbeing.",
     year: "2025",
     startDate: "2025.7",
     endDate: "2025.9",
     location: "奥克兰，新西兰",
+    locationEn: "Auckland, New Zealand",
     role: "设计师与制作者",
+    roleEn: "Designer & Maker",
     video: "/videos/projects/veilspace_demo.mp4",
     details: [
       "中国高等教育学会华灿奖国家级二等奖",
@@ -192,6 +301,14 @@ export const projects: Project[] = [
       "Arduino + 步进电机响应系统",
       "可调节的私密状态与情绪缓冲",
       "探索空间对健康福祉的促进作用"
+    ],
+    detailsEn: [
+      "National Second Prize, Huacan Award, China Association of Higher Education",
+      "1:1 flexible fabric boundary installation",
+      "FSR pressure sensors for body state sensing",
+      "Arduino + stepper motor response system",
+      "Adjustable privacy states and emotional buffering",
+      "Exploring spatial promotion of health and wellbeing"
     ],
     // ====== VEILSPACE 项目图集 ======
     galleryImages: [
@@ -274,7 +391,7 @@ export const projects: Project[] = [
         "用五阶段流程组织进入、退隐、重新介入与离开的体验",
         "避免使用摄像头识别，降低隐私压力与交互侵入感"
       ],
-      findings: "在小范围体验反馈中，70% 体验者能够理解身体姿态与织物变化之间的对应关系，并主动进行多次尝试。部分体验者将装置描述为具有“回应感”和“生命感”的空间界面。由于样本量有限，该结果主要用于验证交互方向，而非统计性结论。",
+      findings: "在小范围体验反馈中，70% 体验者能够理解身体姿态与织物变化之间的对应关系，并主动进行多次尝试。部分体验者将装置描述为具有“回应感��和“生命感”的空间界面。由于样本量有限，该结果主要用于验证交互方向，而非统计性结论。",
       reflection: "项目初步建立了身体输入、实体运动与数字反馈之间的联动机制。后续仍需进一步优化传感稳定性、机械可靠性、织物运动精度，以及实时视觉反馈中的隐私边界。"
     }
   },

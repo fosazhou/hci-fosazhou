@@ -16,6 +16,8 @@ import { ProcessView } from "@/components/project-content/process-view"
 import { ResearchView } from "@/components/project-content/research-view"
 import { useBehaviorTracking } from "@/hooks/use-behavior-tracking"
 import { StatusIndicator } from "@/components/scan-line"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { useLanguage } from "@/contexts/language-context"
 
 // Gallery Image Component
 function GalleryImageBox({ 
@@ -383,17 +385,20 @@ function ProjectContent() {
           
           <Logo size="sm" />
           
-          {/* CV Entry in header */}
-          <Link
-            href="/cv"
-            className={cn(
-              "flex items-center gap-2 px-3 py-1.5 rounded",
-              "border border-primary/20 bg-primary/5",
-              "text-primary hover:bg-primary/10 transition-colors"
-            )}
-          >
-            <span className="text-[10px] font-mono tracking-wider">CV</span>
-          </Link>
+          {/* Language Switcher & CV Entry in header */}
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <Link
+              href="/cv"
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded",
+                "border border-primary/20 bg-primary/5",
+                "text-primary hover:bg-primary/10 transition-colors"
+              )}
+            >
+              <span className="text-[10px] font-mono tracking-wider">CV</span>
+            </Link>
+          </div>
         </div>
       </header>
       
