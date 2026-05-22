@@ -188,6 +188,16 @@ export const otherWorks: OtherWork[] = [
       ],
       outcome: "获国家级一等奖。提出了一套可复制的智能物流基础设施设计范式。"
     },
+    quickContentEn: {
+      headline: "Modular infrastructure node designed for urban smart medical logistics",
+      keyPoints: [
+        "Integrates takeoff/landing, transit, and control tower functions",
+        "Modular design adapts to different urban environments",
+        "Real-time traffic management and monitoring system",
+        "Environmental sensing and automated logistics processing"
+      ],
+      outcome: "Won National First Prize. Proposed a replicable smart logistics infrastructure design paradigm."
+    },
     quickContentHk: {
       headline: "為城市智能醫療物流設計的模組化基礎設施節點",
       keyPoints: [
@@ -214,6 +224,24 @@ export const otherWorks: OtherWork[] = [
         "将控制与调度功能置于高点，强化对低空运行、周边环境与城市廊道的观察关系",
         "采用模块化节点逻辑，使该原型能够适配医院、社区中心、交通节点和大型公共建筑屋顶等不同场景",
         "将公共服务空间保留在地面和低层，使低空基础设施不只是物流设备，也能成为社区可进入的城市服务节点"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        { title: "Site Research & Needs Analysis", description: "Analyze urban fabric, traffic flow, and medical resource distribution of Xingfu Forest Belt" },
+        { title: "Functional Prototype Design", description: "Determine takeoff platform scale and transit space flow through iterative testing" },
+        { title: "Structure & Form Generation", description: "Explore structural forms using parametric tools" },
+        { title: "System Integration & Optimization", description: "Integrate sensor networks, automation equipment, and traffic management systems" }
+      ],
+      methodology: "The project adopts a research-based design method of 'urban problem identification—service scenario derivation—functional unit decomposition—architectural prototype generation—system network integration', deriving architectural space requirements from low-altitude medical logistics operational processes.",
+      iterations: "The scheme went through multiple iterations from single takeoff facilities, vertical transit towers, to composite low-altitude medical logistics hubs. Design focus gradually shifted from form generation to comprehensive organization of low-altitude service processes, ground public circulation, material transit efficiency, and urban infrastructure embedding.",
+      decisions: [
+        "Choose vertical stacking over horizontal spreading to reduce land pressure in existing urban areas",
+        "Place takeoff platform on top to reduce conflicts with ground pedestrian flow, traffic, and public activities",
+        "Set medical material storage and transit space in the middle of the building to shorten process distance between takeoff, unloading, and sorting",
+        "Place control and dispatch functions at high points to strengthen observation of low-altitude operations, surrounding environment, and urban corridors",
+        "Adopt modular node logic to adapt the prototype to hospitals, community centers, transit nodes, and large public building rooftops",
+        "Reserve public service space on ground and lower floors so low-altitude infrastructure becomes not just logistics equipment but community-accessible urban service nodes"
       ]
     },
     processContentHk: {
@@ -258,8 +286,32 @@ export const otherWorks: OtherWork[] = [
       findings: "设计推演表明，低空医疗物流设施不宜被理解为孤立的无人机起降点，而应被组织为兼具起降、中转、调度和公共服务功能的建筑基础设施节点。通过垂直叠合和模块化组织，建筑可以在有限用地中整合多种低空服务功能，并与既有城市公共空间、医疗设施和交通系统形成协同关系。",
       reflection: "NESTIDE 将低空经济从抽象政策和技术想象转化为具体的建筑空间问题：低空服务如何落地、如何中转、如何与人流和车流分离、如何进入既有城市片区。项目仍需要进一步引入更精确的物流仿真、飞行安全边界、噪声影响评估和运营管理机制，以验证低空医疗物流节点在真实城市环境中的可行性。"
     },
+    researchContentEn: {
+      problemStatement: "In high-density existing urban areas, there is a mismatch between medical resource distribution, aging community needs, and ground transportation accessibility. Traditional ground medical logistics relies on road systems and is easily constrained by traffic congestion, district fragmentation, and last-mile delivery efficiency. NESTIDE asks: can low-altitude medical logistics be embedded into existing urban structures through architectural nodes and transformed into organized, operable, and scalable urban infrastructure?",
+      context: "The project is set in Xi'an's Xingfu Forest Belt district. This area features linear green belt, dense surrounding communities, fragmented urban roads, and complex public service needs, providing potential spatial corridors and service scenarios for low-altitude medical logistics. The low-altitude economy should not only be understood as aircraft technology or policy concepts, but needs to be further translated into specific takeoff interfaces, transit spaces, dispatch nodes, and public service facilities.",
+      hypothesis: "If drone takeoff/landing, medical material transit, emergency dispatch, and community public services are integrated into composite architectural nodes, connected through a 'node—corridor—platform' system linking hospitals, communities, and urban transportation interfaces, it can improve the spatial organization efficiency of medical materials and provide implementable architectural infrastructure prototypes for the low-altitude economy.",
+      approach: "The project combines scenario derivation with architectural prototype design. First, analyze district medical service needs, traffic fragmentation, and community distribution; then sort out typical processes such as emergency medicine delivery, medical material transit, and emergency response; subsequently decompose processes into spatial units including takeoff, unloading, sorting, storage, dispatch, and public services; finally form composite architectural nodes for urban low-altitude medical logistics through vertical stacking, modular platforms, and control tower organization.",
+      logic: [
+        "Medical logistics has high time-sensitivity requirements → Needs low-altitude delivery paths that bypass some ground traffic restrictions",
+        "Low-altitude flight needs urban landing points → Requires buildings to provide takeoff, transit, storage, and dispatch interfaces",
+        "Existing urban land is scarce → Needs to improve functional organization efficiency through vertical stacking",
+        "Single facilities cannot support urban services → Needs to build distributed network of nodes—corridors—platforms",
+        "Low-altitude infrastructure cannot only serve equipment → Needs to connect with community public services and ground circulation"
+      ],
+      strategies: [
+        "Build 'node—corridor—platform' low-altitude medical logistics system",
+        "Vertically organize takeoff platform, transit layer, storage layer, and control tower",
+        "Respond to drone takeoff needs through rooftop platforms and high-point interfaces",
+        "Set up independent logistics circulation to reduce conflicts with public circulation",
+        "Transform ground floor into community-accessible public service interface",
+        "Improve adaptability of low-altitude nodes to different urban districts through modular approach",
+        "Express coordination between ground traffic, building function, and low-altitude operation through section organization"
+      ],
+      findings: "Design derivation shows that low-altitude medical logistics facilities should not be understood as isolated drone takeoff points, but organized as architectural infrastructure nodes integrating takeoff, transit, dispatch, and public service functions. Through vertical stacking and modular organization, buildings can integrate multiple low-altitude service functions within limited land and form synergistic relationships with existing urban public spaces, medical facilities, and transportation systems.",
+      reflection: "NESTIDE transforms low-altitude economy from abstract policy and technological imagination into specific architectural space questions: how low-altitude services land, transit, separate from pedestrian and vehicle flow, and enter existing urban districts. The project still needs to further introduce more precise logistics simulation, flight safety boundaries, noise impact assessment, and operational management mechanisms to verify the feasibility of low-altitude medical logistics nodes in real urban environments."
+    },
     researchContentHk: {
-      problemStatement: "在高密度既有城市片區中，醫療資源分佈、老齡社區需求與地面交通可達性之間存在錯位。傳統地面醫療物流依賴道路系統，容易受到交通擁堵、片區割裂和末端配送效率的限制。NESTIDE 關注的問題是：低空醫療物流能否通過建築節點嵌入既有城市結構，並轉化為一種���組��、可運營、可擴展的城市基礎設施？",
+      problemStatement: "在高密度既有城市片區中，醫療資源分佈、老齡社區需求與地面交通可達性之間存在錯位。傳統地面醫療物流依賴道路系統，容易受到交通擁堵、片區割裂和末端配送效率的限制。NESTIDE 關注的問題是：低空醫療物流能否通過建築節點嵌入既有城市結構，並轉化為一�����組��、可運營、可擴展的城市基礎設施？",
       context: "項目以西安幸福林帶片區為背景。該區域具有線性綠帶、周邊社區密集、城市道路割裂和公共服務需求複合等特徵，為低空醫療物流提供了潛在的空間廊道和服務場景。低空經濟不應只被理解為飛行器技術或政策概念，而需要進一步轉化為具體的起降介面、中轉空間、調度節點和公共服務設施。",
       hypothesis: "如果將無人機起降、醫療物資中轉、應急調度和社區公共服務整合為複合型建築節點，並通過「節點—廊道—平台」系統連接醫院、社區與城市交通介面，就可以提升醫療物資的空間組織效率，並為低空經濟提供可落地的建築基礎設施原型。",
       approach: "項目採用場景推演與建築原型設計結合的方法。首先分析片區醫療服務需求、交通割裂和社區分佈；其次梳理急救藥品配送、醫療物資中轉和應急響應等典型流程；隨後將流程拆解為起降、卸載、分揀、儲存、調度和公共服務等空間單元；最終通過垂直疊合、模組化平台和控制塔組織，形成面向城市低空醫療物流的複合建築節點。",
@@ -370,6 +422,16 @@ export const otherWorks: OtherWork[] = [
       ],
       outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成式设计流程。"
     },
+    quickContentEn: {
+      headline: "Generative architectural morphology system based on waveform mathematics",
+      keyPoints: [
+        "Multiple wave function superposition generates complex geometry",
+        "Parametric control enables infinite morphological variations",
+        "Output compatible with digital manufacturing processes",
+        "Explores inherent connections between form and acoustics"
+      ],
+      outcome: "Won 2025 Outstanding Undergraduate Graduation Design at University of Auckland. Established complete generative design workflow from algorithm to construction."
+    },
     quickContentHk: {
       headline: "基於波形數學的生成式建築形態系統",
       keyPoints: [
@@ -396,6 +458,24 @@ export const otherWorks: OtherWork[] = [
         "弱化单纯的形式复杂度，优先保留可停留、可穿行和可观看的空间界面",
         "将文化图案作为形态秩序的辅助控制，而不是直接贴附的装饰",
         "在生成结果中筛选兼具视觉识别度、结构逻辑和公共使用潜力的方案"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        { title: "Mathematical Principle Research", description: "Study mathematical principles of wave superposition and phase interference" },
+        { title: "Algorithm Development", description: "Develop waveform generation algorithms using Grasshopper and C#" },
+        { title: "Morphology Exploration", description: "Generate numerous morphological variants through parameter adjustment" },
+        { title: "Manufacturing Verification", description: "Convert selected forms into CNC and 3D printing executable files" }
+      ],
+      methodology: "The project adopts generative design methods, converting sound spectrum, waveform functions, and cultural patterns into adjustable morphological generation rules. Design does not directly pursue a single formal result, but explores multiple possibilities between roof structure, covering interface, and public staying space through parameter variation.",
+      iterations: "The design process went through multiple iterations from 2D spectrum extraction, waveform curve generation, surface translation, structural order adjustment, to spatial experience optimization. The project generated and screened numerous morphological variants, finally selecting schemes with good spatial continuity, structural readability, and public interface potential for further development.",
+      decisions: [
+        "Choose sound spectrum and waveform curves as foundational clues for form generation",
+        "Convert frequency, amplitude, phase, and rhythm changes into adjustable geometric parameters",
+        "Control roof continuity, undulation intensity, and structural density through surface subdivision",
+        "Weaken pure formal complexity, prioritizing retainable, traversable, and viewable spatial interfaces",
+        "Use cultural patterns as auxiliary control for formal order rather than directly applied decoration",
+        "Screen generated results for schemes combining visual recognition, structural logic, and public use potential"
       ]
     },
     processContentHk: {
@@ -438,9 +518,31 @@ export const otherWorks: OtherWork[] = [
       findings: "设计推演表明，声音和环境数据可以作为形态生成的组织线索，而不是停留在概念叙事层面。通过参数化控制，屋顶形态可以在连续起伏、结构秩序和公共使用之间形成相对稳定的关系。项目也说明，生成式设计的价值不只是产生复杂几何，而是帮助设计者系统性地比较形态、结构和空间体验之间的差异。",
       reflection: "FU 将声音频谱、环境数据与文化图案转化为生成式屋顶系统，探索数据如何进入建筑形态和公共空间设计。但项目仍以概念原型和形态推演为主，后续需要进一步引入结构分析、材料节点、环境性能模拟和真实使用行为评估，才能验证其作为可建造屋顶系统的完整可行性。"
     },
+    researchContentEn: {
+      problemStatement: "Traditional roofs are often understood as top covering elements of buildings, with their public, perceptual, and environmental response capabilities often weakened. FU asks: can roofs be not just shelter structures, but spatial interfaces driven by sound, environmental data, and cultural patterns?",
+      context: "The project is situated in Auckland's waterfront context, where the site has complex needs for open views, public activities, and cultural narrative. Design attempts to use sound spectrum, environmental sensing, and cultural patterns as form generation inputs, exploring how abstract data can be translated into experiential architectural structures, roof coverings, and public staying interfaces.",
+      hypothesis: "If sound spectrum and environmental data are converted into adjustable geometric parameters, and generative design methods control the roof's undulation, density, and structural rhythm, then roofs can transform from single covering elements into composite spatial systems with public activity, scenic staying, and environmental sensing capabilities.",
+      approach: "The project adopts a design path from data extraction to spatial translation. First extract frequency, amplitude, and rhythm changes from sound spectrum and waveform curves, then convert them into parametric form control logic. Subsequently translate abstract waveforms into roof systems through surface generation, structural subdivision, and spatial screening, and further test their possibilities as public interfaces, staying places, and site identifiers.",
+      logic: [
+        "Sound spectrum has temporal, rhythmic, and intensity variations → Can be converted into roof form undulation and density",
+        "Environmental data has directionality and dynamics → Can influence roof opening/closing, shading, and spatial hierarchy",
+        "Cultural patterns have order and symbolic meaning → Can serve as organizational clues in form generation",
+        "Roofs are not just covering elements → Can become public interfaces for viewing, staying, activities, and environmental response",
+        "Generative design should not only pursue complex forms → Needs to respond to structural logic, use behavior, and site experience"
+      ],
+      strategies: [
+        "Convert sound spectrum into roof form undulation and density",
+        "Use environmental data to control roof opening/closing and shading",
+        "Use cultural patterns as organizational clues in form generation",
+        "Achieve coordination of form, structure, and space through parametric control",
+        "Generative design responds to structural logic and use experience"
+      ],
+      findings: "Design derivation shows that sound and environmental data can serve as organizational clues for form generation rather than remaining at conceptual narrative level. Through parametric control, roof forms can form relatively stable relationships between continuous undulation, structural order, and public use. The project also shows that the value of generative design is not only producing complex geometry, but helping designers systematically compare differences between form, structure, and spatial experience.",
+      reflection: "FU transforms sound spectrum, environmental data, and cultural patterns into generative roof systems, exploring how data enters architectural form and public space design. But the project still focuses on conceptual prototypes and form derivation. Further structural analysis, material joints, environmental performance simulation, and real use behavior evaluation are needed to verify its complete feasibility as a constructable roof system."
+    },
     researchContentHk: {
-      problemStatement: "傳統屋頂常被理解為建築的頂部覆蓋構件，其公共性、感知性和環境響���能力往往被弱化。FU 關注的問題是：屋頂能否不只是遮蔽結構，而成為一種由聲音、環境數據和文化圖案共同驅動的空間介面？",
-      context: "項目位於奧克蘭濱水區語境下，場地具有開放視野、公共活動和文化敘事的複合需求。設計嘗試將聲音頻譜、環境感知和文化圖案作為形態生成輸入，探索抽象數據如何被轉譯為可體驗的建築結構、屋頂覆蓋和公共停留介面。",
+      problemStatement: "傳統屋頂常被理解為建築的頂部覆蓋構件，其公共性、感知性和��境響���能力往往被弱化。FU 關注的問題是：屋頂能否不只是遮蔽結構，而成為一種由聲音、環境數據和文化圖案共同驅動的空間介面？",
+      context: "項目位於奧克蘭濱水區語境下，場地具有開放視野、公共活動和文化敘事的複合需求。設計嘗試將聲音頻譜、環境感知和文化圖案作為形態生成輸入，探索抽象數據如何被轉譯為可體驗的建築結構、屋頂覆蓋和公共停留介面���",
       hypothesis: "如果將聲音頻譜和環境數據轉化為可調節的幾何參數，並通過生成式設計方法控制屋頂的起伏、密度和結構節奏，那麼屋頂可以從單一覆蓋構件轉化為具有公共活動、觀景停留和環境感知能力的複合空間系統。",
       approach: "項目採用從數據提取到空間轉譯的設計路徑。首先從聲音頻譜與波形曲線中提取頻率、振幅和節奏變化，再將其轉化為參數化形態控制邏輯。隨後通過曲面生成、結構細分和空間篩選，將抽象波形轉譯為屋頂系統，並進一步測試其作為公共介面、停留場所和場地標識的可能性。",
       logic: [
@@ -537,7 +639,7 @@ export const otherWorks: OtherWork[] = [
     researchContent: {
       problemStatement: "历史文化类博物馆容易停留在符号拼贴和展品陈列层面，难以通过建筑空间本身传达文化秩序、历史叙事与参观体验。项目关注的问题是：周文化中的礼乐秩序、青铜器意象与历史记忆，如何转化为当代博物馆的空间结构和参观序列？",
       context: "项目为大三建筑设计课设，以周文化博物馆为题，围绕西周礼乐文明、青铜器文化和历史叙事展开设计。设计重点不在于复刻传统形式，而是通过体量组织、展陈流线、庭院空间和光影变化，建立一种具有秩序感和沉浸感的博物馆体验。",
-      hypothesis: "如果将周文化中的礼制秩序、青铜器形制和历史叙事转化为空间层级、参观路径与展陈节奏，博物馆就可以不只是容纳展品的建筑，而成为一种引导观众理解文化结构的空间媒介。",
+      hypothesis: "如果将周文化中的礼制秩序、青铜器形制和历史叙事转化为空间层级、参观路径与展陈节奏，博物馆就可以不只是容纳展品的建筑，而成为一种引导���众理解文化结构的空间媒介。",
       approach: "项目从文化研究和空间组织两条线展开：首先提取西周礼乐文明、青铜器意象和仪式空间中的核心特征；随后将其转化为入口序列、展厅布局、庭院节点和体量关系；最后通过平面、剖面、轴测和效果图表达博物馆的空间叙事。",
       logic: [
         "周文化强调秩序与礼制 → 建筑需要清晰的空间层级和轴线关系",

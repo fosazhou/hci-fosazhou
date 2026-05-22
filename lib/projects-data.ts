@@ -631,6 +631,16 @@ export const projects: Project[] = [
       ],
       outcome: "建立了一个音频驱动的实时视觉反馈原型"
     },
+    quickContentEn: {
+      headline: "Interactive experiment translating sound signals into real-time visual feedback",
+      keyPoints: [
+        "Analyze audio spectrum, rhythm, and intensity changes",
+        "Map different frequency bands to scale, trajectory, and particle parameters",
+        "Achieve real-time rendering and parameter control through TouchDesigner",
+        "Explore multi-modal relationships between sound input and visual output"
+      ],
+      outcome: "Established an audio-driven real-time visual feedback prototype"
+    },
     quickContentHk: {
       headline: "將聲音信號轉譯為即時視覺反饋的交互實驗",
       keyPoints: [
@@ -668,6 +678,35 @@ export const projects: Project[] = [
         "将高频用于细节扰动，提升画面活性",
         "通过参数平滑避免画面跳变",
         "保留实时控制接口，便于现场调整视觉强度"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        {
+          title: "Audio Feature Extraction",
+          description: "Extract spectrum, rhythm, and intensity changes as input parameters for visual generation."
+        },
+        {
+          title: "Visual Parameter Construction",
+          description: "Establish visual control parameters such as scale, motion trajectory, particle count, and morphology changes."
+        },
+        {
+          title: "Mapping Relationship Design",
+          description: "Map low, mid, and high frequencies to different levels of visual changes with distinct rules."
+        },
+        {
+          title: "Real-time Feedback Debugging",
+          description: "Optimize rendering performance to ensure real-time visual response."
+        }
+      ],
+      methodology: "Experiment-driven design method, establishing audio-visual correspondence through continuous testing.",
+      iterations: "Went through multiple rounds of parameter adjustment to optimize synchronization between visual effects and music.",
+      decisions: [
+        "Use spectrum analysis to extract sound structure",
+        "Use low frequency for large-scale motion to enhance rhythm",
+        "Use high frequency for detail disturbance to increase visual activity",
+        "Use parameter smoothing to avoid visual jumps",
+        "Retain real-time control interface for on-site visual intensity adjustment"
       ]
     },
     processContentHk: {
@@ -720,11 +759,32 @@ export const projects: Project[] = [
       findings: "观众普遍认为视觉效果增强了对音乐的理解和情感体验，低频控制整体运动、高频控制细节扰动的方式，使视觉反馈更能体现音乐的节奏结构和动态强弱。",
       reflection: "该项目目前仍是屏幕端技术实验，尚未完成真实舞台、巨幕或 AR/VR 场景部署。它的价值在于建立一套可迁移的音频—视觉反馈方法，为后续空间人机交互、沉浸式展演和环境界面设计提供基础。"
     },
+    researchContentEn: {
+      problemStatement: "Sound is a time-based input, and visual feedback often tends to remain at a decorative level. This project focuses on: how to translate audio features into perceivable, adjustable, and hierarchically structured real-time visual feedback?",
+      context: "The project serves cross-modal feedback research in spatial HCI. It does not directly address spatial boundaries, but explores the coupling between sound input, real-time computation, and visual output.",
+      hypothesis: "When audio frequency bands, rhythm, and intensity are split into different input parameters and mapped to scale, motion, and particle changes respectively, visual feedback can more clearly present sound structure rather than just mechanically flickering with volume.",
+      approach: "Build a real-time audio analysis and visual generation network through TouchDesigner, converting sound signal input into spectrum data and mapping it to image scale, motion paths, particle density, and dynamic morphology parameters.",
+      logic: [
+        "Music has structural hierarchy (beat, melody, harmony) → Visual should have corresponding hierarchy",
+        "Human perception of music and vision share commonalities → Cross-sensory mapping can be established",
+        "Mapping should maintain real-time responsiveness while avoiding mechanical jumps",
+        "Parameter control needs to retain adjustability to adapt to different sound types"
+      ],
+      strategies: [
+        "Map low frequency to overall scale and large-scale motion",
+        "Map mid frequency to main morphology changes",
+        "Map high frequency to particle disturbance and detail flickering",
+        "Use smoothing parameters to reduce visual jitter",
+        "Adjust feedback intensity through real-time control panel"
+      ],
+      findings: "Audiences generally felt that visual effects enhanced their understanding and emotional experience of music. The approach of using low frequency to control overall motion and high frequency for detail disturbance made visual feedback better reflect the rhythmic structure and dynamic intensity of music.",
+      reflection: "This project is still a screen-based technical experiment and has not been deployed in real stage, large screen, or AR/VR scenarios. Its value lies in establishing a transferable audio-visual feedback method, providing a foundation for subsequent spatial HCI, immersive performances, and environmental interface design."
+    },
     researchContentHk: {
       problemStatement: "聲音是一種時間性輸入，視覺反饋往往容易停留在裝飾性效果上。本項目關注的是：如何將音頻特徵轉譯為可感知、可調節、具有層次關係的即時視覺反饋？",
       context: "項目服務於空間人機交互中的跨模態反饋研究。它不直接處理空間邊界，而是補充探索聲音輸入、即時計算與視覺輸出之間的耦合方式。",
       hypothesis: "當音頻頻段、節奏和強度被拆分為不同輸入參數，並分別對應到尺度、運動和粒子變化時，視覺反饋可以更清晰地呈現聲音結構，而不是只隨音量機械閃爍。",
-      approach: "通過 TouchDesigner 搭建即時音頻分析與視覺生成網絡，將聲音信號輸入轉化為頻譜數據，並映射到圖像尺度、運動路徑、粒子密度���動態形態參數。",
+      approach: "通過 TouchDesigner 搭建即時音頻分析與視覺生成網絡，將聲音信號輸入轉化為頻譜數據，並映射到圖像尺度、運動路徑���粒子密度���動態形態參數。",
       logic: [
         "音樂有結構層次（節拍、旋律、和聲）→ 視覺也應有對應層次",
         "人對音樂和視覺的感知有共通性 → 可以建立跨感官映射",
