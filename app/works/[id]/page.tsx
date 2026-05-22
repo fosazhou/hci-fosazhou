@@ -349,13 +349,20 @@ function FirstImageBox({
 // Quick View Component
 function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (index: number) => void }) {
   const { setMode } = useReadingMode()
+  const { language } = useLanguage()
   const firstImage = work.galleryImages?.[0]
   const hasVideo = !!(work.video || work.demoVideo)
   const videoSrc = work.video || work.demoVideo || ''
   // td-music-visualization shows video in quick view
   const showVideoInQuick = work.id === "td-music-visualization"
   
-  if (!work.quickContent) {
+  // Get localized content
+  const quickContent = language === "en" && work.quickContentEn ? work.quickContentEn : work.quickContent
+  const fullDescription = language === "en" && work.fullDescriptionEn ? work.fullDescriptionEn : work.fullDescription
+  const details = language === "en" && work.detailsEn ? work.detailsEn : work.details
+  const awards = language === "en" && work.awardsEn ? work.awardsEn : work.awards
+  
+  if (!quickContent) {
     return (
       <div className="space-y-8">
         {/* Video Preview for td */}
@@ -387,10 +394,10 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
         )}
         
         <p className="text-lg text-muted-foreground leading-relaxed">
-          {work.fullDescription}
+          {fullDescription}
         </p>
         <div className="space-y-4">
-          {work.details.map((detail, i) => (
+          {details.map((detail, i) => (
             <div key={i} className="flex gap-4">
               <span className="text-primary/40 font-mono text-sm">0{i + 1}</span>
               <span className="text-muted-foreground">{detail}</span>
@@ -500,7 +507,7 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
           </span>
         </div>
         <h2 className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
-          {work.quickContent.headline}
+          {quickContent.headline}
         </h2>
       </div>
 
@@ -508,7 +515,7 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
         <div className="space-y-4">
           <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">KEY_POINTS</h3>
           <ul className="space-y-3">
-            {work.quickContent.keyPoints.map((point, i) => (
+            {quickContent.keyPoints.map((point, i) => (
               <li key={i} className="flex gap-3 text-muted-foreground">
                 <span className="text-primary/40 font-mono text-sm">0{i + 1}</span>
                 <span>{point}</span>
@@ -520,12 +527,12 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
         <div className="space-y-4">
           <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">OUTCOME</h3>
           <p className="text-muted-foreground leading-relaxed">
-            {work.quickContent.outcome}
+            {quickContent.outcome}
           </p>
-          {work.awards && (
+          {awards && (
             <div className="mt-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
               <span className="text-xs font-mono text-primary/60">AWARD: </span>
-              <span className="text-foreground">{work.awards}</span>
+              <span className="text-foreground">{awards}</span>
             </div>
           )}
         </div>
@@ -597,7 +604,12 @@ function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (in
 
 // Process View Component
 function ProcessView({ work, galleryComponent }: { work: OtherWork, galleryComponent?: React.ReactNode }) {
-  if (!work.processContent) {
+  const { language } = useLanguage()
+  
+  // Get localized content
+  const processContent = language === "en" && work.processContentEn ? work.processContentEn : work.processContent
+  
+  if (!processContent) {
     return <QuickView work={work} />
   }
 
@@ -611,7 +623,7 @@ function ProcessView({ work, galleryComponent }: { work: OtherWork, galleryCompo
           </span>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
-          {work.processContent.phases.map((phase, i) => (
+          {processContent.phases.map((phase, i) => (
             <div key={i} className="p-6 rounded-lg bg-[rgba(10,10,15,0.4)] border border-[rgba(34,211,238,0.1)]">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-primary/40 font-mono text-sm">0{i + 1}</span>
@@ -625,13 +637,13 @@ function ProcessView({ work, galleryComponent }: { work: OtherWork, galleryCompo
 
       <div className="space-y-6">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">METHODOLOGY</h3>
-        <p className="text-muted-foreground leading-relaxed">{work.processContent.methodology}</p>
+        <p className="text-muted-foreground leading-relaxed">{processContent.methodology}</p>
       </div>
 
       <div className="space-y-6">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">KEY_DECISIONS</h3>
         <ul className="space-y-3">
-          {work.processContent.decisions.map((decision, i) => (
+          {processContent.decisions.map((decision, i) => (
             <li key={i} className="flex gap-3 text-muted-foreground">
               <span className="text-primary">-</span>
               <span>{decision}</span>
@@ -660,7 +672,12 @@ function ProcessView({ work, galleryComponent }: { work: OtherWork, galleryCompo
 
 // Research View Component
 function ResearchView({ work, galleryComponent }: { work: OtherWork, galleryComponent?: React.ReactNode }) {
-  if (!work.researchContent) {
+  const { language } = useLanguage()
+  
+  // Get localized content
+  const researchContent = language === "en" && work.researchContentEn ? work.researchContentEn : work.researchContent
+  
+  if (!researchContent) {
     return <QuickView work={work} />
   }
 
@@ -673,23 +690,23 @@ function ResearchView({ work, galleryComponent }: { work: OtherWork, galleryComp
             PROBLEM_STATEMENT
           </span>
         </div>
-        <p className="text-xl text-foreground leading-relaxed">{work.researchContent.problemStatement}</p>
+        <p className="text-xl text-foreground leading-relaxed">{researchContent.problemStatement}</p>
       </div>
 
       <div className="space-y-6">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">CONTEXT</h3>
-        <p className="text-muted-foreground leading-relaxed">{work.researchContent.context}</p>
+        <p className="text-muted-foreground leading-relaxed">{researchContent.context}</p>
       </div>
 
       <div className="space-y-6">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">HYPOTHESIS</h3>
-        <p className="text-muted-foreground leading-relaxed italic">{work.researchContent.hypothesis}</p>
+        <p className="text-muted-foreground leading-relaxed italic">{researchContent.hypothesis}</p>
       </div>
 
       <div className="space-y-6">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">DESIGN_LOGIC</h3>
         <ul className="space-y-3">
-          {work.researchContent.logic.map((item, i) => (
+          {researchContent.logic.map((item, i) => (
             <li key={i} className="flex gap-3 text-muted-foreground">
               <span className="text-primary/40 font-mono text-sm">0{i + 1}</span>
               <span>{item}</span>
@@ -702,7 +719,7 @@ function ResearchView({ work, galleryComponent }: { work: OtherWork, galleryComp
         <div className="space-y-4">
           <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">STRATEGIES</h3>
           <ul className="space-y-2">
-            {work.researchContent.strategies.map((strategy, i) => (
+            {researchContent.strategies.map((strategy, i) => (
               <li key={i} className="flex gap-3 text-sm text-muted-foreground">
                 <span className="text-primary">-</span>
                 <span>{strategy}</span>
@@ -712,13 +729,13 @@ function ResearchView({ work, galleryComponent }: { work: OtherWork, galleryComp
         </div>
         <div className="space-y-4">
           <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">FINDINGS</h3>
-          <p className="text-muted-foreground leading-relaxed">{work.researchContent.findings}</p>
+          <p className="text-muted-foreground leading-relaxed">{researchContent.findings}</p>
         </div>
       </div>
 
       <div className="space-y-4 p-6 rounded-lg bg-[rgba(10,10,15,0.4)] border border-[rgba(34,211,238,0.1)]">
         <h3 className="text-xs font-mono text-primary/60 uppercase tracking-wider">REFLECTION</h3>
-        <p className="text-muted-foreground leading-relaxed">{work.researchContent.reflection}</p>
+        <p className="text-muted-foreground leading-relaxed">{researchContent.reflection}</p>
       </div>
       
       {/* Gallery */}
@@ -745,6 +762,7 @@ function WorkContent() {
   const id = params.id as string
   const work = otherWorks.find((w) => w.id === id)
   const { mode, isTransitioning } = useReadingMode()
+  const { language } = useLanguage()
   
   // Behavior tracking
   useBehaviorTracking()
@@ -791,6 +809,14 @@ function WorkContent() {
   const parallaxOffset = scrollY * 0.4
   const heroOpacity = Math.max(0, 1 - (scrollY / 700) ** 1.2)
   const heroScale = 1 + Math.min(scrollY * 0.0002, 0.15)
+  
+  // Get localized content for hero
+  const keywords = language === "en" && work.keywordsEn ? work.keywordsEn : work.keywords
+  const title = language === "en" ? work.title : work.titleCn
+  const subtitle = language === "en" ? work.titleCn : work.title
+  const location = language === "en" && work.locationEn ? work.locationEn : work.location
+  const role = language === "en" && work.roleEn ? work.roleEn : work.role
+  const category = language === "en" && work.categoryEn ? work.categoryEn : work.category
   
   return (
     <main className="min-h-screen">
@@ -893,7 +919,7 @@ function WorkContent() {
           <div className="mx-auto max-w-4xl">
             {/* Keywords */}
             <div className="flex flex-wrap gap-2 mb-6">
-              {work.keywords.map((keyword, i) => (
+              {keywords.map((keyword, i) => (
                 <span 
                   key={i}
                   className="px-3 py-1 text-[10px] font-mono text-primary/80 border border-primary/30 rounded-full bg-primary/5 uppercase tracking-wider"
@@ -905,11 +931,11 @@ function WorkContent() {
             
             {/* Title */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 tracking-tight">
-              {work.title}
+              {title}
             </h1>
             
-            {/* Chinese title */}
-            <p className="text-xl text-foreground/70 mb-6">{work.titleCn}</p>
+            {/* Subtitle */}
+            <p className="text-xl text-foreground/70 mb-6">{subtitle}</p>
             
             {/* Meta info */}
             <div className="flex flex-wrap gap-8 text-sm font-mono">
@@ -917,21 +943,21 @@ function WorkContent() {
                 <span className="text-muted-foreground/60 mr-2">YEAR/</span>
                 <span className="text-foreground">{work.year}</span>
               </div>
-              {work.location && (
+              {location && (
                 <div>
                   <span className="text-muted-foreground/60 mr-2">LOCATION/</span>
-                  <span className="text-foreground">{work.location}</span>
+                  <span className="text-foreground">{location}</span>
                 </div>
               )}
-              {work.role && (
+              {role && (
                 <div>
                   <span className="text-muted-foreground/60 mr-2">ROLE/</span>
-                  <span className="text-foreground">{work.role}</span>
+                  <span className="text-foreground">{role}</span>
                 </div>
               )}
               <div>
                 <span className="text-muted-foreground/60 mr-2">CATEGORY/</span>
-                <span className="text-foreground">{work.category}</span>
+                <span className="text-foreground">{category}</span>
               </div>
             </div>
           </div>

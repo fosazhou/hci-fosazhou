@@ -13,6 +13,8 @@ import { ImageLightbox } from "@/components/image-lightbox"
 import { Logo } from "@/components/logo"
 import { cn } from "@/lib/utils"
 import { StatusIndicator } from "@/components/scan-line"
+import { useLanguage } from "@/contexts/language-context"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 // 获取作品封面信息
 function getWorkCover(workId: string) {
@@ -343,6 +345,7 @@ export default function ExchangePage() {
   const params = useParams()
   const id = params.id as string
   const exchange = getExchangeById(id)
+  const { language } = useLanguage()
   
   const [scrollY, setScrollY] = useState(0)
   const [headerVisible, setHeaderVisible] = useState(false)
@@ -402,6 +405,15 @@ export default function ExchangePage() {
   const heroOpacity = Math.max(0, 1 - (scrollY / 700) ** 1.2)
   const heroScale = 1 + Math.min(scrollY * 0.0002, 0.15)
   
+  // Get localized content
+  const keywords = language === "en" && exchange.keywordsEn ? exchange.keywordsEn : exchange.keywords
+  const title = language === "en" && exchange.titleEn ? exchange.titleEn : exchange.title
+  const subtitle = language === "en" && exchange.subtitleEn ? exchange.subtitleEn : exchange.subtitle
+  const location = language === "en" && exchange.locationEn ? exchange.locationEn : exchange.location
+  const program = language === "en" && exchange.programEn ? exchange.programEn : exchange.program
+  const fullDescription = language === "en" && exchange.fullDescriptionEn ? exchange.fullDescriptionEn : exchange.fullDescription
+  const details = language === "en" && exchange.detailsEn ? exchange.detailsEn : exchange.details
+  
   // 根据 id 渲染不同的图库
   const renderGallery = () => {
     const images = exchange.galleryImages
@@ -455,7 +467,8 @@ export default function ExchangePage() {
           
           <Logo size="sm" />
           
-          <div className="w-16" />
+          {/* Language Switcher */}
+          <LanguageSwitcher />
         </div>
       </header>
       
@@ -510,7 +523,7 @@ export default function ExchangePage() {
           <div className="mx-auto max-w-4xl">
             {/* Keywords */}
             <div className="flex flex-wrap gap-2 mb-6">
-              {exchange.keywords.map((keyword, i) => (
+              {keywords.map((keyword, i) => (
                 <span 
                   key={i}
                   className="px-3 py-1 text-[10px] font-mono text-primary/80 border border-primary/30 rounded-full bg-primary/5 uppercase tracking-wider"
@@ -522,12 +535,12 @@ export default function ExchangePage() {
             
             {/* Title */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 tracking-tight">
-              {exchange.title}
+              {title}
             </h1>
             
             {/* Subtitle */}
             <p className="text-xl text-foreground/70 mb-6 font-light">
-              {exchange.subtitle}
+              {subtitle}
             </p>
             
             {/* Meta info */}
@@ -538,11 +551,11 @@ export default function ExchangePage() {
               </div>
               <div>
                 <span className="text-muted-foreground/60 mr-2">LOCATION/</span>
-                <span className="text-foreground">{exchange.location}</span>
+                <span className="text-foreground">{location}</span>
               </div>
               <div>
                 <span className="text-muted-foreground/60 mr-2">PROGRAM/</span>
-                <span className="text-foreground">{exchange.program}</span>
+                <span className="text-foreground">{program}</span>
               </div>
             </div>
           </div>
@@ -571,7 +584,7 @@ export default function ExchangePage() {
               </span>
             </div>
             <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-              {exchange.fullDescription}
+              {fullDescription}
             </p>
           </div>
           
@@ -586,7 +599,7 @@ export default function ExchangePage() {
             </div>
             
             <div className="grid gap-4">
-              {exchange.details.map((detail, i) => (
+              {details.map((detail, i) => (
                 <div
                   key={i}
                   className={cn(
