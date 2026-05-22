@@ -135,12 +135,15 @@ export function HomeClientContent() {
         items.push({
           id: p.id,
           title: p.title,
+          titleEn: p.titleEn || p.title,
           startDate: p.startDate,
           endDate: p.endDate,
           type: 'project',
           coverImage: p.coverImage,
           keywords: p.keywords,
-          description: p.description
+          keywordsEn: p.keywordsEn,
+          description: p.description,
+          descriptionEn: p.descriptionEn
         })
       }
     })
@@ -151,12 +154,15 @@ export function HomeClientContent() {
         items.push({
           id: e.id,
           title: e.title,
+          titleEn: e.titleEn || e.title,
           startDate: e.startDate,
           endDate: e.endDate,
           type: 'exchange',
           coverImage: e.coverImage,
           keywords: e.keywords,
-          description: e.description
+          keywordsEn: e.keywordsEn,
+          description: e.description,
+          descriptionEn: e.descriptionEn
         })
       }
     })
@@ -167,12 +173,15 @@ export function HomeClientContent() {
         items.push({
           id: w.id,
           title: w.title,
+          titleEn: w.titleEn || w.title,
           startDate: w.startDate,
           endDate: w.endDate,
           type: 'work',
           coverImage: w.coverImage,
           keywords: w.keywords,
-          description: w.description
+          keywordsEn: w.keywordsEn,
+          description: w.description,
+          descriptionEn: w.descriptionEn
         })
       }
     })

@@ -9,12 +9,15 @@ import { useLanguage } from "@/contexts/language-context"
 export interface TimelineWork {
   id: string
   title: string
+  titleEn?: string
   startDate: string  // "YYYY.M" format
   endDate: string    // "YYYY.M" format
   type: 'project' | 'exchange' | 'work'
   coverImage?: string
   keywords: string[]
+  keywordsEn?: string[]
   description?: string  // Brief description for popup
+  descriptionEn?: string
 }
 
 interface TimelineSliderProps {
@@ -647,11 +650,11 @@ export function TimelineSlider({
                       </div>
                       {/* Title */}
                       <h4 className="text-[11px] font-medium text-foreground/90 group-hover:text-primary transition-colors truncate">
-                        {work.title}
+                        {language === "en" && work.titleEn ? work.titleEn : work.title}
                       </h4>
                       {/* Keywords */}
                       <p className="text-[9px] text-muted-foreground/50 truncate">
-                        {work.keywords.slice(0, 2).join(' · ')}
+                        {(language === "en" && work.keywordsEn ? work.keywordsEn : work.keywords).slice(0, 2).join(' · ')}
                       </p>
                     </div>
                   </a>
