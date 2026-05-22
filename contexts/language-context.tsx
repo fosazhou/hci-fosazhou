@@ -44,7 +44,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // 开始过渡动画
     setIsTransitioning(true)
     
-    // 短暂延迟后切换语言
+    // 更快切换语言，过渡更平滑
     setTimeout(() => {
       setLanguageState(lang)
       if (typeof window !== "undefined") {
@@ -54,8 +54,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       // 完成过渡
       setTimeout(() => {
         setIsTransitioning(false)
-      }, 150)
-    }, 150)
+      }, 50)
+    }, 100)
   }, [language])
 
   // Translation helper
@@ -75,7 +75,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   return (
     <LanguageContext.Provider value={value}>
       <div 
-        className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+        style={{
+          opacity: isTransitioning ? 0.6 : 1,
+          filter: isTransitioning ? 'blur(2px)' : 'blur(0px)',
+          transform: isTransitioning ? 'scale(0.995)' : 'scale(1)',
+          transition: 'opacity 150ms ease-out, filter 150ms ease-out, transform 150ms ease-out',
+        }}
       >
         {children}
       </div>
