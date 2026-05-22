@@ -20,9 +20,8 @@ interface HeroProps {
 const heroData = {
   nameEn: "FOSA",
   nameCn: "周亦楠",
-  headline: "Mediated Responsive Spatial Interaction for Health and Wellbeing",
-  headlineCn: "面向健康与福祉的 AI 驱动响应式空间交互",
-  subheadline: "我以建筑学背景切入 Spatial HCI，研究 AI 驱动的响应式空间如何通过具身感知与环境反馈，促进人的健康与福祉。我的项目从音频驱动的实时视觉反馈、自适应交互界面，到 1:1 响应式空间原型，探索身体、数据与空间之间更具疗愈性的人机交互方式。",
+  headline: "以建筑学背景切入空间人机交互，探索行为、数据与空间反馈之间的关系。",
+  subheadline: "我以建筑学背景切入 Spatial HCI，关注身体行为、动态数据与空间感知如何被转译为交互界面。我的项目从音频驱动的实时视觉反馈、自适应作品集界面，到 1:1 响应式空间原型，探索屏幕、身体与空间之间更连续的人机交互方式。",
 }
 
 const marqueeData = {
@@ -31,7 +30,7 @@ const marqueeData = {
     "From Behavior to Feedback.",
     "From Architecture to Interaction.",
   ],
-  middleMarquee: ["空间人机交互 · 具身感知 · 响应式环境"],
+  middleMarquee: ["空间人机交互 • 身体行为感知 • 自适应界面 • 响应式空间"],
   bottomMarquee: ["长安大学建筑学院", "University of Auckland"],
 }
 
@@ -153,10 +152,10 @@ function FloatingLabels() {
       {/* Top right */}
       <div className="absolute top-24 right-6 lg:right-8 text-[9px] font-mono text-right text-muted-foreground/50 tracking-widest space-y-1">
         <div className="flex items-center justify-end gap-2">
-          <span>VER.2.0_RESPONSIVE</span>
+          <span>VER.2.0_ADAPTIVE</span>
           <span className="w-1 h-1 rounded-full bg-brand/50" />
         </div>
-        <div className="text-brand/30">MODE: WELLBEING</div>
+        <div className="text-brand/30">MODE: EXPLORE</div>
       </div>
 
       {/* Bottom left */}
@@ -167,8 +166,8 @@ function FloatingLabels() {
 
       {/* Bottom right */}
       <div className="absolute bottom-20 right-6 lg:right-8 text-[9px] font-mono text-right text-muted-foreground/30 tracking-widest">
-        <div>FIELD: SPATIAL HCI</div>
-        <div>FOCUS: HEALTH & WELLBEING</div>
+        <div>FIELD: ARCHITECTURE</div>
+        <div>FOCUS: SYSTEMS</div>
       </div>
     </>
   )
@@ -182,7 +181,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [mounted, setMounted] = useState(false)
   const [typedText, setTypedText] = useState("")
-  const fullText = "RESPONSIVE_SPATIAL_HCI"
+  const fullText = "ADAPTIVE_PORTFOLIO_V2.0"
 
   const handleViewChange = (view: ViewType) => {
     if (onViewChange) {
@@ -272,15 +271,10 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
               </div>
 
               <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
-                <span className="block text-xl md:text-2xl font-light tracking-wide text-foreground mb-2">
-                  {heroData.headline}
-                </span>
-                <span className="block text-sm md:text-base text-primary/80 font-medium tracking-wider">
-                  {heroData.headlineCn}
-                </span>
+                {heroData.headline}
               </p>
 
-              <p className="mt-6 text-sm md:text-base text-muted-foreground/70 max-w-xl leading-relaxed">
+              <p className="mt-4 text-sm md:text-base text-muted-foreground/70 max-w-xl leading-relaxed">
                 {heroData.subheadline}
               </p>
 
