@@ -39,8 +39,8 @@ export function HomePageClient({ initialView = "projects" }: HomePageClientProps
       <Hero currentView={currentView} onViewChange={handleViewChange} />
       
       <div className="w-[85%] lg:w-[75%] mx-auto">
-        {/* View indicator bar - below header and marquee */}
-        <div className="sticky top-[calc(3.5rem+76px)] z-30 py-4 bg-background/80 backdrop-blur-md border-b border-[rgba(34,211,238,0.1)]">
+        {/* View indicator bar - below fixed header */}
+        <div className="sticky top-14 z-30 py-4 bg-background/80 backdrop-blur-md border-b border-[rgba(34,211,238,0.1)]">
           <div className="flex items-center gap-6">
             <button
               onClick={() => handleViewChange("projects")}

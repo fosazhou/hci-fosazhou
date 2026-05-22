@@ -236,23 +236,19 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
       {/* Floating status labels */}
       <FloatingLabels />
 
-      {/* Marquee Banners */}
-      {/* Top Marquee - Fixed at top */}
-      <div className="fixed top-14 left-0 right-0 z-40">
+      {/* Marquee Banners - Not fixed, scrolls with content */}
+      <div className="relative z-10 pt-6">
         <MarqueeBanner
           texts={marqueeData.topMarquee}
           direction="left"
-          className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.9)] backdrop-blur-md text-muted-foreground/60"
+          className="border-y border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.4)] backdrop-blur-sm text-muted-foreground/60"
         />
         <MarqueeBanner
           texts={marqueeData.middleMarquee[language] || marqueeData.middleMarquee.en}
           direction="right"
-          className="border-b border-[rgba(34,211,238,0.08)] bg-[rgba(10,10,15,0.9)] backdrop-blur-md text-brand/60"
+          className="border-b border-[rgba(34,211,238,0.08)] bg-brand/[0.03] text-brand/60"
         />
       </div>
-      
-      {/* Spacer for fixed marquee */}
-      <div className="h-[76px]" />
 
       {/* Main Content - Left/Right Layout */}
       <div className="flex-1 flex flex-col justify-center px-6 lg:px-8 relative z-10">
