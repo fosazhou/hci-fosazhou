@@ -24,13 +24,15 @@ function GalleryImageBox({
   className = "",
   onClick
 }: { 
-  image: GalleryImage
+  image: GalleryImage & { captionEn?: string }
   index: number
   priority?: boolean
   className?: string
   onClick?: () => void
 }) {
   const [isHovered, setIsHovered] = useState(false)
+  const { language } = useLanguage()
+  const caption = language === "en" && image.captionEn ? image.captionEn : image.caption
   
   return (
     <figure className={cn("group", className)}>
@@ -50,15 +52,15 @@ function GalleryImageBox({
       >
         <img 
           src={image.src}
-          alt={image.caption || `Image ${index + 1}`}
+          alt={caption || `Image ${index + 1}`}
           className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
           loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
       </div>
-      {image.caption && (
+      {caption && (
         <figcaption className="mt-3 text-xs text-muted-foreground font-mono">
-          {image.caption}
+          {caption}
         </figcaption>
       )}
     </figure>
@@ -350,7 +352,13 @@ function FirstImageBox({
 function QuickView({ work, onImageClick }: { work: OtherWork, onImageClick?: (index: number) => void }) {
   const { setMode } = useReadingMode()
   const { language } = useLanguage()
-  const firstImage = work.galleryImages?.[0]
+  
+  // Get localized gallery
+  const localizedGallery = language === "en" && work.galleryImagesEn 
+    ? work.galleryImagesEn 
+    : work.galleryImages
+  const firstImage = localizedGallery?.[0]
+  
   const hasVideo = !!(work.video || work.demoVideo)
   const videoSrc = work.video || work.demoVideo || ''
   // td-music-visualization shows video in quick view
@@ -813,16 +821,21 @@ function WorkContent() {
   // Get localized content for hero
   const keywords = language === "en" && work.keywordsEn ? work.keywordsEn : work.keywords
   const title = language === "en" ? work.title : work.titleCn
-  const subtitle = language === "en" ? work.titleCn : work.title
+  const subtitle = language === "en" && work.subtitleEn ? work.subtitleEn : work.titleCn
   const location = language === "en" && work.locationEn ? work.locationEn : work.location
   const role = language === "en" && work.roleEn ? work.roleEn : work.role
   const category = language === "en" && work.categoryEn ? work.categoryEn : work.category
+  
+  // Get localized gallery images
+  const galleryImages = language === "en" && work.galleryImagesEn 
+    ? work.galleryImagesEn 
+    : work.galleryImages || []
   
   return (
     <main className="min-h-screen">
       {/* Lightbox */}
       <ImageLightbox 
-        images={work.galleryImages || []}
+        images={galleryImages}
         initialIndex={lightboxIndex}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
@@ -1007,7 +1020,7 @@ function WorkContent() {
                     )}
                     
                     {/* Gallery */}
-                    {work.galleryImages && work.galleryImages.length > 0 && (
+                    {galleryImages && galleryImages.length > 0 && (
                       <>
                         <div className="flex items-center gap-3 mb-8">
                           <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
@@ -1017,13 +1030,13 @@ function WorkContent() {
                           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
                         </div>
                         {work.id === "nestide" ? (
-                          <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <NestideGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : work.id === "integrates-hans-hui-nationality" ? (
-                          <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <XicangGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : work.id === "zhihui-jiangxia" ? (
-                          <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <AigcGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : (
-                          <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <DefaultGallery images={galleryImages} onImageClick={openLightbox} />
                         )}
                       </>
                     )}
@@ -1052,7 +1065,7 @@ function WorkContent() {
                     )}
                     
                     {/* Gallery */}
-                    {work.galleryImages && work.galleryImages.length > 0 && (
+                    {galleryImages && galleryImages.length > 0 && (
                       <>
                         <div className="flex items-center gap-3 mb-8">
                           <span className="text-[10px] font-mono text-primary/60 tracking-widest">GALLERY/</span>
@@ -1062,13 +1075,13 @@ function WorkContent() {
                           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
                         </div>
                         {work.id === "nestide" ? (
-                          <NestideGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <NestideGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : work.id === "integrates-hans-hui-nationality" ? (
-                          <XicangGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <XicangGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : work.id === "zhihui-jiangxia" ? (
-                          <AigcGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <AigcGallery images={galleryImages} onImageClick={openLightbox} />
                         ) : (
-                          <DefaultGallery images={work.galleryImages} onImageClick={openLightbox} />
+                          <DefaultGallery images={galleryImages} onImageClick={openLightbox} />
                         )}
                       </>
                     )}

@@ -112,6 +112,7 @@ export const otherWorks: OtherWork[] = [
     titleEn: "Nestide",
     titleHk: "Nestide/巢流",
     titleCn: "巢流",
+    subtitleEn: "Tidal Nest",
     titleCnHk: "巢流",
     description: "城市医疗物流的智能基础设施节点原型，探索低空医疗配送如何缩短急救响应时间，提升城市健康服务的可达性与公平性。",
     descriptionEn: "A smart infrastructure node prototype for urban medical logistics, exploring how low-altitude medical delivery can shorten emergency response time and improve accessibility and equity of urban health services.",
@@ -342,6 +343,7 @@ export const otherWorks: OtherWork[] = [
     titleHk: "FU",
     titleCn: "波形建筑",
     titleCnHk: "波形建築",
+    subtitleEn: "Waveform Architecture",
     description: "基于声音频谱与环境数据的生成式屋顶设计，探索数据驱动的空间形态如何创造更具感知性与疗愈性的公共环境体验。",
     descriptionEn: "A generative roof design based on sound spectrum and environmental data, exploring how data-driven spatial forms create more perceptive and healing public environment experiences.",
     descriptionHk: "基於聲音頻譜與環境數據的生成式屋頂設計，探索數據驅動的空間形態如何創造更具感知性與療癒性的公共環境體驗。",
@@ -420,7 +422,7 @@ export const otherWorks: OtherWork[] = [
         "输出兼容数字制造工艺",
         "探索形态与声学的内在关联"
       ],
-      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生����设��流程。"
+      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完��生����设��流程。"
     },
     quickContentEn: {
       headline: "Generative architectural morphology system based on waveform mathematics",
@@ -559,8 +561,8 @@ export const otherWorks: OtherWork[] = [
         "通過參數化控制實現形態、結構和空間的協調",
         "生成式設計回應結構邏輯和使用體驗"
       ],
-      findings: "設計推演表明，聲音和環境數據可以作為形態生成的組織線索，而不���停留在概念敘事層面。通過參數化控制，屋頂形態可以在連續起伏、結構秩序和公共使用之間形成相對穩定的關係。項目也說明，生成式設計的價值不只是產生複雜幾何，而是幫助設計者系統性地比較形態、結構和空間體驗之間的差異。",
-      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設計。但項目仍���概念���型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
+      findings: "設計推演表明，聲音和環境數據可以作為形態生成的��織線索，而不���停留在概念敘事層面。通過參數化控制，屋頂形態可以在連續起伏、結構秩序和公共使用之間形成相對穩定的關係。項目也說明，生成式設計的價值不只是產生複雜幾何，而是幫助設計者系統性地比較形態、結構和空間體驗之間的差異。",
+      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設���。但項目仍���概念���型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
     }
   },
   {
@@ -568,6 +570,7 @@ export const otherWorks: OtherWork[] = [
     title: "Arbor of Enduring Harmonics",
     titleEn: "Arbor of Enduring Harmonics",
     titleCn: "树与水之间",
+    subtitleEn: "Between Trees and Water",
     description: "2025 第十三届全国大学生数字媒体科技作品及创意竞赛 陕西赛区三等奖",
     descriptionEn: "2025 13th National College Students Digital Media Technology Works and Creative Competition - Shaanxi Third Prize",
     keywords: ["竞赛", "课程设计", "省级奖项"],
@@ -666,7 +669,7 @@ export const otherWorks: OtherWork[] = [
     researchContent: {
       problemStatement: "历史文化类博物馆容易停留在符号拼贴和展品陈列层面，难以通过建筑空间本身传达文化秩序、历史叙事与参观体验。项目关注的问题是：周文化中的礼乐秩序、青铜器意象与历史记忆，如何转化为当代博物馆的空间结构和参观序列？",
       context: "项目为大三建筑设计课设，以周文化博物馆为题，围绕西周礼乐文明、青铜器文化和历史叙事展开设计。设计重点不在于复刻传统形式，而是通过体量组织、展陈流线、庭院空间和光影变化，建立一种具有秩序感和沉浸感的博物馆体验。",
-      hypothesis: "如果将周文化中的礼制秩序、青铜器形制和历史叙事转化为空间层级、参观路径与展陈节奏，博物馆就可以不只是容纳展品的建���，而成为一种引导���众理解文化结构的空间媒介。",
+      hypothesis: "如果将周文化中的礼制秩序、青铜器形制和历史叙事转化为空间层级、参观路径与展陈节奏，博物馆就可以不���是容纳展品的建���，而成为一种引导���众理解文化结构的空间媒介。",
       approach: "项目从文化研究和空间组织两条线展开：首先提取西周礼乐文明、青铜器意象和仪式空间中的核心特征；随后将其转化为入口序列、展厅布局、庭院节点和体量关系；最后通过平面、剖面、轴测和效果图表达博物馆的空间叙事。",
       logic: [
         "周文化强调秩序与礼制 → 建筑需要清晰的空间层级和轴线关系",
@@ -713,6 +716,7 @@ export const otherWorks: OtherWork[] = [
     title: "Integrates Hans & Hui Nationality",
     titleEn: "Integrates Hans & Hui Nationality",
     titleCn: "西仓新月驿",
+    subtitleEn: "Xicang Crescent Station",
     description: "2025 陕西省第十八届实体空间搭建竞赛，三等奖（核心成员）",
     descriptionEn: "2025 Shaanxi Province 18th Physical Space Construction Competition - Third Prize (Core Member)",
     keywords: ["竞赛", "文化融合", "城市更新"],
@@ -763,7 +767,7 @@ export const otherWorks: OtherWork[] = [
         "保留历史记忆与街区肌理",
         "实体搭建验证设计可行性"
       ],
-      outcome: "获省级三等奖，实现了文化融合空间���实体呈现"
+      outcome: "获省级三等奖���实现了文化融合空间���实体呈现"
     },
     quickContentEn: {
       headline: "Community public space design for Han-Hui cultural integration",
@@ -790,7 +794,7 @@ export const otherWorks: OtherWork[] = [
         "保留适度边界感，避免将不同文化活动简单混合",
         "采用轻量化材料与可装配构造，便于现场搭建与调整",
         "通过 1:1 实体尺度验证空间比例、材料触感与使用体验",
-        "将文化符号转化为空间构造与界面语言，而非直接装饰拼���"
+        "将文化符号转化为空间构造与���面语言，而非直接装饰拼���"
       ]
     },
     processContentEn: {
@@ -863,6 +867,7 @@ export const otherWorks: OtherWork[] = [
     title: "智绘江夏·水乡新韵",
     titleEn: "AI-Painted Jiangxia: New Rhythm of Water Town",
     titleCn: "智绘江夏·水乡新韵",
+    subtitleEn: "AI-Painted Jiangxia: New Rhythm of Water Town",
     description: "2024 年全国高校 AIGC 数智建筑与文创产品设计大赛 建筑类组国家级二等奖（组长）",
     descriptionEn: "2024 National College AIGC Digital Architecture and Cultural Product Design Competition - National Second Prize in Architecture Category (Team Leader)",
     keywords: ["AIGC", "数智设计", "国家级奖项"],
@@ -1002,6 +1007,7 @@ export const otherWorks: OtherWork[] = [
     title: "Lumley Tower",
     titleEn: "Lumley Tower",
     titleCn: "局部构造实体模型",
+    subtitleEn: "Partial Construction Physical Model",
     description: "课程作业，1:10 建筑构造实体模型，结构细部与水体系的详图绘制",
     descriptionEn: "Course assignment, 1:10 architectural construction model, detailed drawings of structural details and water systems",
     keywords: ["建构", "模型制作", "ARCH-TECH 315"],
@@ -1130,6 +1136,7 @@ export const otherWorks: OtherWork[] = [
     title: "Energize Commons",
     titleEn: "Energize Commons",
     titleCn: "光合空间",
+    subtitleEn: "Photosynthetic Space",
     description: "2025 第十届「两岸新锐设计竞赛·华灿奖」 国家级二等奖（组长）",
     descriptionEn: "2025 10th Cross-Strait Emerging Design Competition 'Huacan Award' - National Second Prize (Team Leader)",
     keywords: ["竞赛", "社区空间", "环境设计"],
