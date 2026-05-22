@@ -77,10 +77,10 @@ export const projects: Project[] = [
   {
     id: "portfolio-website",
     title: "Adaptive Portfolio Interface",
-    description: "基于阅读行为与评审目标的自适应作品集界面实验，探索界面如何通过信息密度、导航路径与内容层级的动态调整，提升复杂设计项目的理解效率。",
-    keywords: ["自适应阅读界面", "阅读行为", "Web HCI"],
+    description: "基于阅读行为感知的自适应界面实验，探索信息密度动态调整如何降低认知负荷，提升复杂信息的理解效率与用户控制感。",
+    keywords: ["自适应界面", "认知负荷", "行为感知"],
     coverImage: "/images/works/portfolio/cover.png",
-    fullDescription: "项目从设计评审中的快速浏览、过程审查与研究理解三类阅读需求出发，提出 Quick / Process / Research 三种阅读模式，匹配快速判断、过程审查与研究评估三类评审目标；结合时间轴导航与行为信号识别，为作品集阅读提供更高效、可控、可回溯的信息路径。",
+    fullDescription: "项目从设计评审中的快速浏览、过程审查与研究理解三类阅读需求出发，提出 Quick / Process / Research 三种阅读模式。通过滚动速度、停留时间与点击深度等行为信号识别用户阅读状态，动态调整信息密度与内容层级，降低认知负荷，提升用户在复杂信息环境中的控制感与理解效率。",
     year: "2026",
     startDate: "2026.3",
     endDate: "2026.5",
@@ -88,9 +88,9 @@ export const projects: Project[] = [
     role: "设计师",
     details: [
       "Quick / Process / Research 三种阅读模式",
-      "面向设计评审场景的信息架构重组",
-      "基于阅读目的的内容密度与项目排序调整",
-      "小样本对比测试：Linear vs. Adaptive Portfolio",
+      "基于行为信号的阅读状态感知",
+      "信息密度与内容层级动态调整",
+      "降低认知负荷的自适应策略",
       "Next.js + React + Tailwind CSS 前端实现",
       "AI-assisted prototyping 辅助前端迭代"
     ],
@@ -174,11 +174,11 @@ export const projects: Project[] = [
   {
     id: "veilspace",
     title: "Soft Thresholds · Veilspace",
-    description: "1:1 具身响应式空间装置，通过身体行为触发织物边界变化，探索空间如何感知、反馈并调节人与环境的关系。中国高等教育学会华灿奖国家级二等奖作品。",
-    keywords: ["1:1响应式空间原型", "具身交互", "行为反馈"],
+    description: "1:1 具身响应式空间装置，通过身体行为触发织物边界变化，为用户提供可调节的私密状态与情绪缓冲空间，探索响应式环境如何促进心理健康与福祉。",
+    keywords: ["响应式空间", "具身感知", "健康福祉"],
     coverImage: "/images/projects/veilspace/cover.png",
     previewVideo: "/videos/projects/veilspace_preview.mp4",
-    fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，并由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开，同时联动 Unity 实时视觉反馈。项目关注的不是装置运动本身，而是空间如何根据人的停留状态、心理距离与私密需求产生连续响应，从而将建筑边界转化为一种可感知、可反馈、可调节的交互界面。项目获中国高等教育学会华灿奖国家级二等奖。",
+    fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型，关注空间如何通过感知人的身体状态，提供私密调节与情绪缓冲。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开。项目探索的核心问题是：响应式空间边界能否通过具身感知与环境反馈，为使用者创造更具疗愈性的空间体验，从而促进心理健康与福祉。",
     year: "2025",
     startDate: "2025.7",
     endDate: "2025.9",
@@ -188,10 +188,10 @@ export const projects: Project[] = [
     details: [
       "中国高等教育学会华灿奖国家级二等奖",
       "1:1 柔性织物边界装置",
-      "FSR 压力传感器识别身体行为",
-      "Arduino + 步进电机控制系统",
-      "Unity 实时视觉反馈",
-      "开放—半围合—私密的空间状态变化"
+      "FSR 压力传感器感知身体状态",
+      "Arduino + 步进电机响应系统",
+      "可调节的私密状态与情绪缓冲",
+      "探索空间对健康福祉的促进作用"
     ],
     // ====== VEILSPACE 项目图集 ======
     galleryImages: [
