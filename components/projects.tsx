@@ -12,6 +12,200 @@ interface ProjectsProps {
   filterIds?: string[]
 }
 
+// Featured Project Card - larger, more prominent (for Veilspace)
+function FeaturedProjectCard({ 
+  project, 
+  onTrack 
+}: { 
+  project: typeof projects[0]
+  onTrack: (tags: string[]) => void
+}) {
+  const { navigateWithTransition, prefetch } = usePageTransition()
+  const [isHovered, setIsHovered] = useState(false)
+  const [hasPrefetched, setHasPrefetched] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const { language } = useLanguage()
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    onTrack(project.keywords)
+    navigateWithTransition(`/projects/${project.id}`)
+  }
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    if (!hasPrefetched) {
+      prefetch(`/projects/${project.id}`)
+      setHasPrefetched(true)
+    }
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.play().catch(() => {})
+    }
+  }
+  
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    if (videoRef.current) {
+      videoRef.current.pause()
+    }
+  }
+
+  return (
+    <div
+      className="group cursor-pointer"
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div 
+        className={cn(
+          "relative overflow-hidden rounded-xl transition-all duration-500",
+          "border-2 border-[rgba(233,30,99,0.2)]",
+          "bg-gradient-to-br from-[rgba(10,10,15,0.6)] to-[rgba(20,15,25,0.4)]",
+          isHovered && "border-[rgba(233,30,99,0.4)] shadow-[0_0_40px_rgba(233,30,99,0.1)]"
+        )}
+      >
+        <div className="flex items-stretch">
+          {/* Left: Index with featured indicator */}
+          <div 
+            className={cn(
+              "w-20 md:w-24 flex-shrink-0 flex flex-col items-center justify-center gap-1",
+              "border-r border-[rgba(233,30,99,0.15)]",
+              "bg-[rgba(233,30,99,0.03)]",
+              "transition-colors duration-300",
+              isHovered && "bg-[rgba(233,30,99,0.08)]"
+            )}
+          >
+            <span className="text-[9px] font-mono text-brand/50 tracking-widest">FEATURED</span>
+            <span 
+              className={cn(
+                "text-3xl md:text-4xl font-light transition-colors duration-300",
+                isHovered ? "text-brand" : "text-brand/60"
+              )}
+            >
+              01
+            </span>
+          </div>
+          
+          {/* Center: Title and info - larger */}
+          <div className="flex-1 p-6 md:p-8">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <h3 
+                  className={cn(
+                    "text-xl md:text-2xl font-medium transition-colors duration-300",
+                    isHovered ? "text-foreground" : "text-foreground/90"
+                  )}
+                >
+                  {language === "en" && project.titleEn ? project.titleEn : project.title}
+                </h3>
+                
+                <p className="text-sm text-muted-foreground/60 mt-1">
+                  {(language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords).slice(0, 2).join(' · ')}
+                </p>
+              </div>
+              
+              <div 
+                className={cn(
+                  "px-4 py-1.5 rounded-full text-sm font-mono",
+                  "border transition-all duration-300",
+                  isHovered 
+                    ? "border-brand/40 text-brand bg-brand/10" 
+                    : "border-brand/20 text-brand/70"
+                )}
+              >
+                {project.year}
+              </div>
+            </div>
+            
+            {/* Always visible description for featured */}
+            <p className="text-sm text-muted-foreground/60 leading-relaxed mt-4 max-w-xl">
+              {language === "en" && project.descriptionEn ? project.descriptionEn : project.description}
+            </p>
+            
+            {/* Hover reveal: Keywords */}
+            <div 
+              className={cn(
+                "overflow-hidden transition-all duration-500 ease-out",
+                isHovered ? "max-h-24 opacity-100 mt-4" : "max-h-0 opacity-0 mt-0"
+              )}
+            >
+              <div className="flex flex-wrap gap-2">
+                {(language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords).map((keyword, i) => (
+                  <span 
+                    key={i}
+                    className={cn(
+                      "px-3 py-1 text-[10px] font-mono tracking-wider uppercase",
+                      "border border-brand/20 rounded-full",
+                      "text-brand/70 bg-brand/5"
+                    )}
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Right: Larger thumbnail */}
+          <div 
+            className={cn(
+              "w-44 md:w-64 flex-shrink-0 relative overflow-hidden",
+              "transition-all duration-500",
+              isHovered && "w-52 md:w-72"
+            )}
+          >
+            {project.coverImage && (
+              <img 
+                src={project.coverImage} 
+                alt={project.title}
+                loading="eager"
+                className={cn(
+                  "w-full h-full object-cover transition-all duration-700",
+                  isHovered && !project.previewVideo && "scale-105",
+                  isHovered && project.previewVideo && "opacity-0"
+                )}
+              />
+            )}
+            
+            {project.previewVideo && (
+              <video
+                ref={videoRef}
+                src={project.previewVideo}
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className={cn(
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
+                  isHovered ? "opacity-100" : "opacity-0"
+                )}
+              />
+            )}
+            
+            <div 
+              className={cn(
+                "absolute inset-0 bg-gradient-to-r from-[rgba(10,10,15,0.7)] via-transparent to-transparent",
+                "transition-opacity duration-300",
+                isHovered ? "opacity-20" : "opacity-40"
+              )}
+            />
+          </div>
+        </div>
+        
+        {/* Bottom accent line - thicker for featured */}
+        <div 
+          className={cn(
+            "absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-brand via-brand/80 to-primary/50 transition-all duration-500 ease-out",
+            isHovered ? "w-full" : "w-0"
+          )}
+        />
+      </div>
+    </div>
+  )
+}
+
 // Project Card with hover reveal deeper layer
 function ProjectCard({ 
   project, 
@@ -231,21 +425,27 @@ function ProjectCard({
 export function Projects({ filterIds }: ProjectsProps) {
   const { 
     isLoaded, 
-    topTag, 
-    totalClicks, 
     trackClick, 
     sortByPreference,
   } = useUserBehavior()
 
-  // Filter and sort projects
-  const filteredProjects = useMemo(() => {
+  // Veilspace is always first, excluded from adaptive sorting
+  const veilspaceProject = useMemo(() => {
+    return projects.find(p => p.id === "veilspace")
+  }, [])
+
+  // Other projects participate in adaptive sorting
+  const otherProjects = useMemo(() => {
     const filtered = filterIds 
-      ? projects.filter(p => filterIds.includes(p.id))
-      : projects
+      ? projects.filter(p => filterIds.includes(p.id) && p.id !== "veilspace")
+      : projects.filter(p => p.id !== "veilspace")
     
     if (!isLoaded) return filtered
     return sortByPreference(filtered)
   }, [isLoaded, sortByPreference, filterIds])
+
+  // Check if Veilspace should be shown
+  const showVeilspace = !filterIds || filterIds.includes("veilspace")
 
   return (
     <section className="py-12">
@@ -260,7 +460,7 @@ export function Projects({ filterIds }: ProjectsProps) {
         </div>
         
         {/* Behavior tracker display */}
-        <BehaviorTrackerDisplay section="projects" itemCount={filteredProjects.length} />
+        <BehaviorTrackerDisplay section="projects" itemCount={otherProjects.length + (showVeilspace ? 1 : 0)} />
         
         {/* Instruction hint */}
         <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
@@ -269,17 +469,26 @@ export function Projects({ filterIds }: ProjectsProps) {
         
         {/* Projects list */}
         <div className="space-y-3">
-          {filteredProjects.map((project, index) => (
+          {/* Veilspace - Featured, always first */}
+          {showVeilspace && veilspaceProject && (
+            <FeaturedProjectCard
+              project={veilspaceProject}
+              onTrack={trackClick}
+            />
+          )}
+          
+          {/* Other projects - adaptive sorted */}
+          {otherProjects.map((project, index) => (
             <ProjectCard
               key={project.id}
               project={project}
               onTrack={trackClick}
-              index={index}
+              index={index + 1} // Start from 02 since Veilspace is 01
             />
           ))}
         </div>
         
-        {filteredProjects.length === 0 && (
+        {otherProjects.length === 0 && !showVeilspace && (
           <div className="text-center py-16">
             <p className="text-muted-foreground/50 font-mono text-sm">
               NO_PROJECTS_IN_SELECTED_RANGE
