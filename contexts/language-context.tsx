@@ -81,8 +81,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         style={{
           opacity: isTransitioning ? 0.6 : 1,
           filter: isTransitioning ? 'blur(2px)' : 'blur(0px)',
-          transform: isTransitioning ? 'scale(0.995)' : 'scale(1)',
-          transition: 'opacity 300ms ease-out, filter 300ms ease-out, transform 300ms ease-out',
+          transition: 'opacity 300ms ease-out, filter 300ms ease-out',
         }}
       >
         {children}

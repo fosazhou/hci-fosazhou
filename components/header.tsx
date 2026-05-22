@@ -12,7 +12,7 @@ export function Header() {
   const currentView = searchParams.get("view") || "projects"
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-strong border-b border-[rgba(34,211,238,0.1)]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-[rgba(34,211,238,0.1)]">
       <nav className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between">
           {/* Left side - Logo and status */}
