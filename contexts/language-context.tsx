@@ -77,15 +77,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider value={value}>
-      <div 
-        style={{
-          opacity: isTransitioning ? 0.6 : 1,
-          filter: isTransitioning ? 'blur(2px)' : 'blur(0px)',
-          transition: 'opacity 300ms ease-out, filter 300ms ease-out',
-        }}
-      >
-        {children}
-      </div>
+      {children}
     </LanguageContext.Provider>
   )
 }
