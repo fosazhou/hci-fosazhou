@@ -221,7 +221,7 @@ export const otherWorks: OtherWork[] = [
         "选择垂直叠合而非水平铺展，以降低既有城市片区中的用地压力",
         "将起降平台置于上部，减少与地面人流、车流和公共活动的冲突",
         "将医疗物资储存与中转空间设置于建筑中部，缩短起降、卸载和分拣之间的流程距离",
-        "将控制与调度功能置于高点，强化对低空运行、周���环境与城市廊道的观察关系",
+        "将控制与调度功能置于高点，强化对低空运行、周����环境与城市廊道的观察关系",
         "采用模块化节点逻辑，使该原型能够适配医院、社区中心、交通节点和大型公共建筑屋顶等不同场景",
         "将公共服务空间保留在地面和低层，使低空基础设施不只是物流设备，也能成为社区可进入的城市服务节点"
       ]
@@ -420,7 +420,7 @@ export const otherWorks: OtherWork[] = [
         "输出兼容数字制造工艺",
         "探索形态与声学的内在关联"
       ],
-      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成式设��流程。"
+      outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成��设��流程。"
     },
     quickContentEn: {
       headline: "Generative architectural morphology system based on waveform mathematics",
@@ -500,7 +500,7 @@ export const otherWorks: OtherWork[] = [
       problemStatement: "传统屋顶常被理解为建筑的顶部覆盖构件，其公共性、感知性和环境响应能力往往被弱化。FU 关注的问题是：屋顶能否不只是遮蔽结构，而成为一种由声音、环境数据和文化图案共同驱动的空间界面？",
       context: "项目位于奥克兰滨水区语境下，场地具有开放视野、公共活动和文化叙事的复合需求。设计尝试将声音频谱、环境感知和文化图案作为形态生成输入，探索抽象数据如何被转译为可体验的建筑结构、屋顶覆盖和公共停留界面。",
       hypothesis: "如果将声音频谱和环境数据转化为可调节的几何参数，并通过生成式设计方法控制屋顶的起伏、密度和结构节奏，那么屋顶可以从单一覆盖构件转化为具有公共活动、观景停留和环境感知能力的复合空间系统。",
-      approach: "项目采用从数据提取到空间转译的设计路径。首先从声音频谱与波形曲线中提取频率、振幅和节奏变化，再将其转化为参数化形态控制逻辑。随后通过曲面生成、结构细分和空间筛选，将抽象波形转译为屋顶系统，并进一步测试其作为公共界面、停留场所和场地标识的可能性。",
+      approach: "项目采用从数据提取到空间转译的设计路径。首先从声音频谱与波形曲线中提取频率、振幅和��奏变化，再将其转化为参数化形态控制逻辑。随后通过曲面生成、结构细分和空间筛选，将抽象波形转译为屋顶系统，并进一步测试其作为公共界面、停留场所和场地标识的可能性。",
       logic: [
         "声音频谱具有时间、节奏和强弱变化 → 可转化为屋顶形态的起伏与密度",
         "环境数据具有方向性和动态性 → 可影响屋顶的开合、遮蔽和空间层次",
@@ -560,7 +560,7 @@ export const otherWorks: OtherWork[] = [
         "生成式設計回應結構邏輯和使用體驗"
       ],
       findings: "設計推演表明，聲音和環境數據可以作為形態生成的組織線索，而不是停留在概念敘事層面。通過參數化控制，屋頂形態可以在連續起伏、結構秩序和公共使用之間形成相對穩定的關係。項目也說明，生成式設計的價值不只是產生複雜幾何，而是幫助設計者系統性地比較形態、結構和空間體驗之間的差異。",
-      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設計。但項目仍以概念原型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
+      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設計。但項目仍以概念���型和���態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
     }
   },
   {
@@ -636,7 +636,7 @@ export const otherWorks: OtherWork[] = [
         { title: "形态深化", description: "细化建筑形态与构造细节" },
         { title: "表达呈现", description: "制作效果图与动画展示" }
       ],
-      methodology: "项目采用文化转译与叙事空间设计方法，将西周礼乐文明、青铜器形制和秩序感转化为建筑体量、参观流线与展陈空间组织。",
+      methodology: "项目采用文化转译与叙事空间设计方法，将西周礼乐文明、青铜器形制和秩序感转化为建筑体量、��观流线与展陈空间组织。",
       iterations: "方案经历了从文化概念提取、功能分区、流线组织到体块深化的多轮调整，重点从单一造型表达转向博物馆空间叙事、展陈节奏与场地关系的综合组织。",
       decisions: [
         "以西周礼乐秩序作为空间组织的核心线索",
@@ -783,7 +783,7 @@ export const otherWorks: OtherWork[] = [
         { title: "实体搭建", description: "按比1:1制作实体模型并参与搭建" }
       ],
       methodology: "文化导向的设计方法，从两族共同需求出发寻找空间交集。从西仓汉回共生的日常生活场景出发，提取市集、停留、交流与边界过渡等空间需求，并将其转化为可被真实搭建和体验的公共空间原型。",
-      iterations: "设计经历了从文化调研、概念模型、结构推敲、材料选择到 1:1 实体搭建的完整过程。相比单纯图纸表达，项��更关注空间尺度、材料连接、身体体验和现场建造中的实际反馈。",
+      iterations: "设计经历了从文化调研、概念模型、结构推敲、材料选择到 1:1 实体搭建的完整过程。相比单纯图纸表达，项目更关注空间尺度、材料连接、身体体验和现场建造中的实际反馈。",
       decisions: [
         "以市集和日常停留作为公共空间原型的核心场景",
         "通过半开放构筑形成可进入、可停留、可交流的空间界面",
@@ -791,6 +791,24 @@ export const otherWorks: OtherWork[] = [
         "采用轻量化材料与可装配构造，便于现场搭建与调整",
         "通过 1:1 实体尺度验证空间比例、材料触感与使用体验",
         "将文化符号转化为空间构造与界面语言，而非直接装饰拼贴"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        { title: "Cultural Research", description: "In-depth understanding of lifestyles and spatial needs of Han and Hui ethnic groups" },
+        { title: "Site Analysis", description: "Studying the historical context and current issues of the Xicang area" },
+        { title: "Spatial Strategy", description: "Developing spatial organization plans to promote cultural exchange" },
+        { title: "Physical Construction", description: "Creating 1:1 scale physical models and participating in construction" }
+      ],
+      methodology: "Culture-oriented design method, finding spatial intersections from the common needs of both ethnic groups. Starting from daily life scenes of Han-Hui coexistence in Xicang, extracting spatial needs such as markets, staying, communication, and boundary transitions, and transforming them into public space prototypes that can be actually built and experienced.",
+      iterations: "The design went through the complete process from cultural research, conceptual models, structural refinement, material selection to 1:1 physical construction. Compared to pure drawing expression, the project focuses more on spatial scale, material connections, body experience, and actual feedback from on-site construction.",
+      decisions: [
+        "Using markets and daily staying as core scenarios for public space prototypes",
+        "Forming accessible, stayable, and communicable spatial interfaces through semi-open structures",
+        "Maintaining moderate boundary sense, avoiding simple mixing of different cultural activities",
+        "Using lightweight materials and assemblable construction for easy on-site building and adjustment",
+        "Validating spatial proportions, material feel, and use experience through 1:1 physical scale",
+        "Transforming cultural symbols into spatial construction and interface language rather than direct decorative collage"
       ]
     },
     researchContent: {
@@ -915,8 +933,25 @@ export const otherWorks: OtherWork[] = [
         "将生成结果进一步转化为竞赛图面、场景表达和城市更新叙事"
       ]
     },
+    processContentEn: {
+      phases: [
+        { title: "Feature Extraction", description: "Analyzing typical forms and spatial features of Jiangnan water town architecture" },
+        { title: "AI Training", description: "Training generative models using architectural images" },
+        { title: "Design Generation", description: "Guiding AI to generate design proposals through prompts" },
+        { title: "Manual Optimization", description: "Screening and refining AI-generated results" }
+      ],
+      methodology: "The project adopts a human-machine collaborative design method, using AIGC as an auxiliary tool for urban renewal scenario derivation, spatial intention generation, and visual expression. AI is responsible for rapidly generating multiple spatial atmosphere and style possibilities, while designers are responsible for screening, judging, correcting, and integrating, making generated results serve specific urban spatial problems.",
+      iterations: "The design process went through multiple iterations from site keyword extraction, prompt construction, image generation, result screening to scheme expression integration. The project focus is not on single image generation, but on establishing an AIGC-assisted design workflow from regional style understanding to spatial scene expression.",
+      decisions: [
+        "Using Jiangxia urban renewal and regional public spaces as design objects",
+        "Using AIGC to rapidly generate multiple spatial atmospheres, block interfaces, and public scene intentions",
+        "Controlling spatial logic, scale relationships, and style consistency of image results through manual screening",
+        "Using AI-generated images as conceptual derivation tools rather than directly replacing architectural design decisions",
+        "Retaining designers' judgment on site issues, functional organization, and final expression quality",
+        "Further transforming generated results into competition drawings, scene expressions, and urban renewal narratives"
+      ]
+    },
     researchContent: {
-      problemStatement: "AIGC 技术能够快速生成大量空间图像，但在建筑与城市设计中，图像生成并不等于空间设计。项目关注的问题是：AIGC 如何从单纯的视觉生成工具，转化为辅助城市更新场景推演、风貌控制和方案表达的设计方法？",
       context: "项目以江夏城市更新为背景，面对传统街区风貌延续、公共空间重塑和视觉表达效率等问题。AIGC 的优势在于快速生成多种空间意向，但其局限也很明显：它容易产生风格化图像，却难以自动理解真实场地、功能流线、尺度关系和空间逻辑。因此，项目将 AIGC 放在人机协作流程中，而不是将其视为独立完成设计的工具。",
       hypothesis: "如果将地域风貌、公共空间需求和设计目标转化为清晰的提示词与图像约束，并通过人工筛选和二次修正，AIGC 可以有效支持城市更新中的空间意向推演、场景比较和视觉表达。",
       approach: "项目建立了从场地特征提取到 AI 辅助表达的工作流程：首先梳理江夏城市更新中的空间问题与风貌关键词；随后构建不同主题的提示词，生成街区界面、公共活动、空间氛围和更新场景图像；再通过人工评估筛选具有空间逻辑和表达价值的结果；最终将 AI 图像转化为竞赛图面中的概念表达、场景渲染和设计叙事。在图像生成阶段，项目尝试通过自定义 LoRA 或风格参考图控制地域建筑风貌，使生成结果更接近目标街区的空间气质。",
@@ -935,8 +970,30 @@ export const otherWorks: OtherWork[] = [
         "将 AI 生成图像与设计图纸、分析图和竞赛叙事结合",
         "避免直接复制生成结果，而是将其作为方案推演和表达素材"
       ],
-      findings: "项目表明，AIGC 可以提高城市更新方案早期的场景探索效率，帮助设计者快速比较不同空间氛围、风貌表达和公共活动想象。但 AI 对建筑尺度、结构逻辑、真实功能组织和场地限制的理解仍然有限，因此必须由设计者进行判断和修正。",
+      findings: "项目表明，AIGC 可以提高城市更新方案早期的场景探索效率，帮助设计者快速比较不同空间氛围、风���表达和公共活动想象。但 AI 对建筑尺度、结构逻辑、真实功能组织和场地限制的理解仍然有限，因此必须由设计者进行判断和修正。",
       reflection: "该项目强化了我对 AI 辅助设计边界的理解：AIGC 适合用于概念启发、场景推演和视觉表达，但不能替代设计师对空间逻辑、场地问题和使用行为的判断。后续如果继续深化，需要进一步结合真实场地数据、功能分析和更严格的图像评估标准，使 AI 生成从视觉辅助走向更可靠的设计决策支持。"
+    },
+    researchContentEn: {
+      problemStatement: "AIGC technology can rapidly generate large quantities of spatial images, but in architecture and urban design, image generation does not equal spatial design. The project asks: how can AIGC transform from a pure visual generation tool into a design method that assists urban renewal scenario derivation, style control, and scheme expression?",
+      context: "The project takes Jiangxia urban renewal as background, facing issues of traditional block style continuation, public space reshaping, and visual expression efficiency. AIGC's advantage lies in rapidly generating multiple spatial intentions, but its limitations are also obvious: it easily produces stylized images but struggles to automatically understand real sites, functional flows, scale relationships, and spatial logic.",
+      hypothesis: "If regional styles, public space needs, and design goals are transformed into clear prompts and image constraints, and through manual screening and secondary correction, AIGC can effectively support spatial intention derivation, scene comparison, and visual expression in urban renewal.",
+      approach: "The project establishes a workflow from site feature extraction to AI-assisted expression: first sorting out spatial problems and style keywords in Jiangxia urban renewal; then constructing prompts for different themes to generate block interfaces, public activities, spatial atmospheres, and renewal scene images.",
+      logic: [
+        "Urban renewal needs to handle style, function, and public experience simultaneously → AIGC can rapidly generate multiple scene intentions",
+        "AI excels at image style and atmosphere generation → Suitable as conceptual derivation and visual expression tools",
+        "AI has limited understanding of real spatial logic → Requires designers for screening, correction, and integration",
+        "Prompt quality directly affects generation direction → Need to transform site features and design goals into clear constraints",
+        "AIGC's value is not in replacing designers → But in improving scheme exploration and expression iteration efficiency"
+      ],
+      strategies: [
+        "Extracting regional style, block texture, and public space keywords from Jiangxia urban renewal",
+        "Establishing prompt combinations for different scene themes",
+        "Comparing different spatial atmospheres through multiple rounds of generation",
+        "Manually screening image results that conform to scale, function, and style logic",
+        "Combining AI-generated images with design drawings and competition narratives"
+      ],
+      findings: "The project shows that AIGC can improve scene exploration efficiency in early stages of urban renewal schemes, helping designers quickly compare different spatial atmospheres and style expressions. But AI's understanding of architectural scale and structural logic is still limited.",
+      reflection: "This project strengthened my understanding of AI-assisted design boundaries: AIGC is suitable for conceptual inspiration, scene derivation, and visual expression, but cannot replace designers' judgment on spatial logic and site issues."
     }
   },
   {
@@ -1007,12 +1064,27 @@ export const otherWorks: OtherWork[] = [
         { title: "材料选择", description: "根据表达需求选择合适的模型材料" },
         { title: "精确制作", description: "按比例制作局部构造实体模型" }
       ],
-      methodology: "从图纸分析到实体制作��构造研究方法",
+      methodology: "从图纸分析到实体制作的构造研究方法",
       iterations: "经历图纸分析、草模试做、精模制作三个阶段",
       decisions: [
         "选择墙身与屋顶交接处作为研究重点",
         "采用分层组装的制作方式",
         "使用不同材料区分构造层次"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        { title: "Case Study", description: "Analyzing Lumley Tower's construction system and design logic" },
+        { title: "Detail Drawing", description: "Drawing technical drawings of structural details and water systems" },
+        { title: "Material Selection", description: "Selecting appropriate model materials based on expression needs" },
+        { title: "Precise Making", description: "Creating partial construction physical model to scale" }
+      ],
+      methodology: "Construction research method from drawing analysis to physical making",
+      iterations: "Went through three stages: drawing analysis, rough model testing, and precision model making",
+      decisions: [
+        "Choosing wall-roof junction as research focus",
+        "Adopting layered assembly approach",
+        "Using different materials to distinguish construction layers"
       ]
     },
     researchContent: {
@@ -1032,6 +1104,24 @@ export const otherWorks: OtherWork[] = [
       ],
       findings: "项目首先对建筑案例的平面、剖面和节点详图进行分析，提取墙身与屋顶交接处的关键构造层次；随后将结构层、防水层、保温层、饰面层和连接构件进行分解；最后通过草模测试和精模制作，将构造逻辑转化为可视化、可组装的实体模型。",
       reflection: "该项目强化了我对建筑技术和构造细节的理解。相比单纯绘制图纸，实体模型制作迫使设计者面对材料厚度、构件连接、制作误差和施工顺序等具体问题。它也提醒我，建筑设计不能只停留在形式和空间层面，最终仍需要通过清晰的构造逻辑被建造出来。"
+    },
+    researchContentEn: {
+      problemStatement: "How to deeply understand architectural construction logic through physical models?",
+      context: "The project originates from architectural technology course training, focusing on understanding the relationship between building envelope systems, structural components, and detail connections through real building case node analysis and scale model making. Compared to conceptual design, this project emphasizes materials, scale, joints, and assembly logic involved when architecture moves from drawings to construction.",
+      hypothesis: "Physical model making can reveal construction relationships that drawings cannot adequately express.",
+      approach: "The project first analyzes plans, sections, and detail drawings of the building case, extracting key construction layers at the wall-roof junction; then decomposes structural layer, waterproof layer, insulation layer, finish layer, and connection components; finally transforms construction logic into visualized, assemblable physical models through rough model testing and precision model making.",
+      logic: [
+        "Construction is the material foundation of architecture → Need to deeply understand its logic",
+        "Drawings are abstract expression → Physical models provide intuitive understanding",
+        "Details determine quality → Focus on precise handling of joints"
+      ],
+      strategies: [
+        "Selecting typical joints for in-depth study",
+        "Clarifying construction layers through detail drawing",
+        "Validating construction feasibility through physical making"
+      ],
+      findings: "Physical model making reveals construction relationships that drawings cannot adequately express, including material thickness, component connections, and assembly sequence.",
+      reflection: "This project strengthened my understanding of architectural technology and construction details. Compared to simply drawing, physical model making forces designers to face specific issues such as material thickness, component connections, making tolerances, and construction sequence. It also reminds me that architectural design cannot stay at form and space level, but ultimately needs to be built through clear construction logic."
     }
   },
   {
@@ -1105,14 +1195,32 @@ export const otherWorks: OtherWork[] = [
         { title: "方案整合", description: "将优化结果转化为可实施方案" }
       ],
       methodology: "项目采用数据驱动的环境设计方法，将日照、遮阳、空间舒适度与公共活动需求转化为可被分析和比较的设计参数。通过环境模拟与参数化形态调整，探索社区公共空间如何在自然采光、遮阳保护和活动适应性之间取得平衡。",
-      iterations: "设计过程经历了场地光环境分析、关键参数提取、遮阳构件与空间形态调整、模拟反��和方案优化等多轮迭代。每一轮调整都围绕日照时长、阴影分布、公共空间可用性和视觉通透性进行比较，而不是仅凭形式直觉进行判断。",
+      iterations: "设计过程经历了场地光环境分析、关键参数提取、遮阳构件与空间形态调整、模拟反馈和方案优化等多轮迭代。每一轮调整都围绕日照时长、阴影分布、公共空间可用性和视觉通透性进行比较，而不是仅凭形式直觉进行判断。",
       decisions: [
         "以日照时长、遮阳范围和公共空间舒适度作为主要评价指标",
         "通过参数化方法控制屋顶、遮阳构件和开放空间的形态变化",
         "在采光需求与遮阳需求之间建立平衡，而不是单纯追求最大日照",
         "将不同时间段的光影变化作为空间活动安排的依据",
-        "优先优化居民停留、交流和活动区域的��境品质",
+        "优先优化居民停留、交流和活动区域的环境品质",
         "将模拟结果作为设计决策参考，同时保留对空间体验和公共性的定性判断"
+      ]
+    },
+    processContentEn: {
+      phases: [
+        { title: "Environmental Analysis", description: "Analyzing site's solar conditions and microclimate characteristics" },
+        { title: "Parametric Modeling", description: "Establishing parametric design model using Grasshopper" },
+        { title: "Optimization Iteration", description: "Optimizing spatial layout through simulation analysis" },
+        { title: "Scheme Integration", description: "Transforming optimization results into implementable schemes" }
+      ],
+      methodology: "The project adopts data-driven environmental design methods, transforming solar exposure, shading, spatial comfort, and public activity needs into design parameters that can be analyzed and compared. Through environmental simulation and parametric form adjustment, exploring how community public spaces can achieve balance between natural lighting, shading protection, and activity adaptability.",
+      iterations: "The design process went through multiple iterations including site light environment analysis, key parameter extraction, shading component and spatial form adjustment, simulation feedback, and scheme optimization. Each round of adjustment compared solar duration, shadow distribution, public space usability, and visual transparency rather than relying solely on formal intuition.",
+      decisions: [
+        "Using solar duration, shading range, and public space comfort as main evaluation indicators",
+        "Controlling form changes of roofs, shading components, and open spaces through parametric methods",
+        "Establishing balance between lighting needs and shading needs rather than simply pursuing maximum solar exposure",
+        "Using light and shadow changes at different times as basis for activity space arrangement",
+        "Prioritizing optimization of environmental quality in resident staying, communication, and activity areas",
+        "Using simulation results as design decision reference while retaining qualitative judgment on spatial experience and public nature"
       ]
     },
     researchContent: {
@@ -1135,6 +1243,27 @@ export const otherWorks: OtherWork[] = [
       ],
       findings: "模拟结果显示，经过多轮参数化调整后，主要公共活动区域的有效日照表现较初始方案有所提升，其中关键区域的日照���长提升约 30%。这一结果说明，参数化环境分析能够有效辅助方案筛选，但仍需结合热舒适、遮阳需求和实际使用行为进行���合判断。",
       reflection: "项目说明，量化分析可以为设计决策提供更客观的参考，但它不能替代空间体验和使用行为判断。光环境优化不应只追求单一指标最大化，而需要综合考虑采光、遮阳、活动需求、视觉开放性和社区公共性。后续如果继续深化，需要进一步引入更完整的气候数据、热舒适分析、使用者行为观察和长期环境表现评估。"
+    },
+    researchContentEn: {
+      problemStatement: "The environmental quality of community public spaces is often affected by building obstruction, insufficient sunlight, excessive exposure, and uneven distribution of activity spaces. In traditional design processes, light environment judgment tends to stay at experiential level, making it difficult to accurately compare the impact of different form schemes on solar exposure, shading, and use comfort. The project asks: how to transform light environment analysis into design basis that can guide spatial form and public activity organization through parametric tools and environmental simulation?",
+      context: "The project takes community public space as research object, focusing on the relationship between natural light, shading, open space, and daily activities. Environmental simulation technology enables design to no longer rely solely on subjective judgment, but to compare schemes through indicators such as solar duration, shadow range, and spatial accessibility. The project attempts to introduce quantitative analysis into early design process, enabling form adjustment, shading strategy, and public space layout to form clearer feedback relationships.",
+      hypothesis: "If solar duration, shading range, and public activity needs are transformed into adjustable parameters, and schemes are compared through multiple rounds of environmental simulation, the light environment quality of community spaces can be more effectively optimized while improving use comfort and activity adaptability of public spaces.",
+      approach: "The project establishes a parametric design process from environmental analysis to form optimization. First analyzing site's solar conditions, shadow distribution, and main activity areas; then extracting key form parameters affecting light environment such as building height, shading component angle, roof openings, public space scale, and interface orientation; then generating multiple rounds of schemes and simulation comparison through parametric model; finally screening and deepening design schemes based on lighting, shading, and space use needs.",
+      logic: [
+        "Natural light affects spatial comfort → Requires quantitative analysis",
+        "Spatial form determines light environment → Can be parametrically controlled",
+        "Optimization requires iterative calculation → Suitable for algorithm assistance"
+      ],
+      strategies: [
+        "Establishing evaluation indicators for solar duration, shadow range, and public activity adaptability",
+        "Using parametric models to control changes in form, height, openings, and shading components",
+        "Comparing light environment performance of different schemes through multiple rounds of simulation",
+        "Strengthening moderate lighting and shading protection in main staying areas",
+        "Organizing activity spaces according to light and shadow changes at different times",
+        "Combining quantitative simulation results with comprehensive judgment on spatial experience, public nature, and site atmosphere"
+      ],
+      findings: "Simulation results show that after multiple rounds of parametric adjustment, effective solar performance in main public activity areas improved compared to initial scheme, with solar duration in key areas increasing by about 30%. This result shows that parametric environmental analysis can effectively assist scheme screening, but still needs to be combined with thermal comfort, shading needs, and actual use behavior for comprehensive judgment.",
+      reflection: "The project shows that quantitative analysis can provide more objective reference for design decisions, but it cannot replace spatial experience and use behavior judgment. Light environment optimization should not only pursue maximizing single indicators, but needs to comprehensively consider lighting, shading, activity needs, visual openness, and community public nature. Future deepening needs to further introduce more complete climate data, thermal comfort analysis, user behavior observation, and long-term environmental performance evaluation."
     }
   },
 ]
