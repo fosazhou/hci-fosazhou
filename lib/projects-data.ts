@@ -54,35 +54,46 @@ export interface Project {
   id: string
   title: string
   titleEn?: string
+  titleHk?: string
   description: string
   descriptionEn?: string
+  descriptionHk?: string
   keywords: string[]
   keywordsEn?: string[]
+  keywordsHk?: string[]
   coverImage?: string
   coverImageEn?: string  // English version cover image
   previewVideo?: string
   fullDescription: string
   fullDescriptionEn?: string
+  fullDescriptionHk?: string
   year: string
   // 新增：精确到月份的时间范围，格式 "YYYY.M"
   startDate: string  // 如 "2025.6"
   endDate: string    // 如 "2025.8"
   location: string
   locationEn?: string
+  locationHk?: string
   role: string
   roleEn?: string
+  roleHk?: string
   details: string[]
   detailsEn?: string[]
+  detailsHk?: string[]
   video?: string
   galleryImages?: GalleryImage[]
   galleryImagesEn?: GalleryImage[]  // English version gallery images
+  galleryImagesHk?: GalleryImage[]  // Traditional Chinese version
   // 三种阅读模式的内容
   quickContent?: QuickContent
   quickContentEn?: QuickContent
+  quickContentHk?: QuickContent
   processContent?: ProcessContent
   processContentEn?: ProcessContent
+  processContentHk?: ProcessContent
   researchContent?: ResearchContent
   researchContentEn?: ResearchContent
+  researchContentHk?: ResearchContent
 }
 
 export const projects: Project[] = [
@@ -90,21 +101,27 @@ export const projects: Project[] = [
     id: "portfolio-website",
     title: "Adaptive Portfolio Interface",
     titleEn: "Adaptive Portfolio Interface",
+    titleHk: "自適應作品集介面",
     description: "基于阅读行为感知的自适应界面实验，探索信息密度动态调整如何降低认知负荷，提升复杂信息的理解效率与用户控制感。",
     descriptionEn: "An adaptive interface experiment based on reading behavior perception, exploring how dynamic information density adjustment can reduce cognitive load and improve understanding efficiency.",
+    descriptionHk: "基於閱讀行為感知的自適應介面實驗，探索資訊密度動態調整如何降低認知負荷，提升複雜資訊的理解效率與用戶控制感。",
     keywords: ["自适应界面", "认知负荷", "行为感知"],
     keywordsEn: ["Adaptive Interface", "Cognitive Load", "Behavior Sensing"],
+    keywordsHk: ["自適應介面", "認知負荷", "行為感知"],
     coverImage: "/images/works/portfolio/cover.png",
     coverImageEn: "/images/works/portfolio/cover_en.png",
     fullDescription: "项目从设计评审中的快速浏览、过程审查与研究理解三类阅读需求出发，提出 Quick / Process / Research 三种阅读模式。通过滚动速度、停留时间与点击深度等行为信号识别用户阅读状态，动态调整信息密度与内容层级，降低认知负荷，提升用户在复杂信息环境中的控制感与理解效率。",
     fullDescriptionEn: "Starting from three reading needs in design reviews—quick browsing, process review, and research understanding—the project proposes Quick / Process / Research modes. By recognizing user reading states through scroll speed, dwell time, and click depth, it dynamically adjusts information density and content hierarchy to reduce cognitive load.",
+    fullDescriptionHk: "項目從設計評審中的快速瀏覽、過程審查與研究理解三類閱讀需求出發，提出 Quick / Process / Research 三種閱讀模式。通過滾動速度、停留時間與點擊深度等行為信號識別用戶閱讀狀態，動態調整資訊密度與內容層級，降低認知負荷，提升用戶在複雜資訊環境中的控制感與理解效率。",
     year: "2026",
     startDate: "2026.3",
     endDate: "2026.5",
     location: "西安，中国",
     locationEn: "Xi'an, China",
+    locationHk: "西安，中國",
     role: "设计师",
     roleEn: "Designer",
+    roleHk: "設計師",
     details: [
       "Quick / Process / Research 三种阅读模式",
       "基于行为信号的阅读状态感知",
@@ -120,6 +137,14 @@ export const projects: Project[] = [
       "Adaptive strategies for reducing cognitive load",
       "Next.js + React + Tailwind CSS frontend implementation",
       "AI-assisted prototyping for frontend iteration"
+    ],
+    detailsHk: [
+      "Quick / Process / Research 三種閱讀模式",
+      "基於行為信號的閱讀狀態感知",
+      "資訊密度與內容層級動態調整",
+      "降低認知負荷的自適應策略",
+      "Next.js + React + Tailwind CSS 前端實現",
+      "AI-assisted prototyping 輔助前端迭代"
     ],
     galleryImages: [
       { src: "/images/works/portfolio/01.png", caption: "" },
@@ -160,6 +185,16 @@ export const projects: Project[] = [
         "Validated through small-sample A/B testing for information retrieval efficiency, clarity, and user control"
       ],
       outcome: "Transformed portfolio from linear display to adaptive interface that adjusts information hierarchy based on reading goals."
+    },
+    quickContentHk: {
+      headline: "根據評審閱讀行為調整內容密度的自適應作品集介面",
+      keyPoints: [
+        "Quick / Process / Research 三種模式對應快速判斷、過程審查與研究評估",
+        "通過滾動速度、停留時間、點擊深度與導航路徑判斷閱讀傾向",
+        "系統提供閱讀模式建議，同時保留用戶的手動切換與忽略權",
+        "通過小樣本 A/B 測試驗證資訊查找效率、清晰度與用戶控制感"
+      ],
+      outcome: "將作品集從線性展示轉化為可根據閱讀目標調整資訊層級的自適應介面。"
     },
     processContent: {
       phases: [
@@ -229,6 +264,40 @@ export const projects: Project[] = [
         "AI assists frontend component implementation, but interaction logic, reading tasks, and test metrics are defined by designer"
       ]
     },
+    processContentHk: {
+      phases: [
+        {
+          title: "評審任務拆解",
+          description: "定義快速判斷、過程追蹤與研究驗證三類閱讀任務。"
+        },
+        {
+          title: "閱讀行為識別",
+          description: "記錄滾動速度、停留時間、點擊深度與導航路徑，推斷用戶當前的閱讀傾向。"
+        },
+        {
+          title: "三模式介面設計",
+          description: "建立 Quick / Process / Research 三種內容密度與敘事層級。"
+        },
+        {
+          title: "前端原型實現",
+          description: "基於 Next.js 與 React 實現模式切換、時間軸篩選、項目預覽與響應式佈局。"
+        },
+        {
+          title: "小樣本 A/B 測試",
+          description: "對比線性作品集與自適應作品集在任務完成效率、資訊清晰度和控制感上的差異。"
+        }
+      ],
+      methodology: "以設計評審場景為研究對象，通過任務拆解、行為記錄、介面原型和小樣本對比測試，驗證自適應作品集介面的可行性。",
+      iterations: "項目經歷了從線性列表、時間軸篩選、三模式閱讀，到行為提示機制的多輪迭代。",
+      decisions: [
+        "用 Quick 支持 1 分鐘快速判斷",
+        "用 Process 呈現設計過程和關鍵決策",
+        "用 Research 承載問題、方法、測試與反思",
+        "用時間軸強化項目發展關係",
+        "採用建議機制，而非強制自動切換",
+        "AI 輔助前端組件實現，但交互邏輯、閱讀任務與測試指標由設計者定義"
+      ]
+    },
     researchContent: {
       problemStatement: "评审阅读作品集时，会在快速扫读、过程审查和研究评估之间切换。传统线性作品集把所有内容放在同一叙事层级中，导致快速阅读负担重，快速判断成本高，深入阅读路径不清。",
       context: "项目将作品集视为一种面向评审任务的信息界面，而不是静态展示页面。研究重点放在阅读行为、内容密度、叙事层级与用户控制权之间的关系。",
@@ -270,6 +339,27 @@ export const projects: Project[] = [
       ],
       findings: "Small-sample A/B testing showed adaptive version performed more efficiently in typical information retrieval tasks: time to understand project core content dropped from 10.9s to 5.20s, finding design process from 4.1s to 1.13s, finding research logic from 6.3s to 1.42s. Information clarity improved from 3/5 to 4.5/5, user control sense from 2/5 to 4/5. Due to small sample size, results are mainly for validating design direction, not statistical significance conclusions.",
       reflection: "The project shows that the value of adaptive interfaces is not to read for users, but to help users enter appropriate information levels faster. Future work needs to expand test samples and further address relationships between behavior recording, privacy boundaries, mode misjudgment, and user control."
+    },
+    researchContentHk: {
+      problemStatement: "評審閱讀作品集時，會在快速掃讀、過程審查和研究評估之間切換。傳統線性作品集把所有內容放在同一敘事層級中，導致快速閱讀負擔重，快速判斷成本高，深入閱讀路徑不清。",
+      context: "項目將作品集視為一種面向評審任務的資訊介面，而不是靜態展示頁面。研究重點放在閱讀行為、內容密度、敘事層級與用戶控制權之間的關係。",
+      hypothesis: "如果介面能夠根據用戶閱讀行為提示合適的內容層級，並允許用戶保留主動切換權，就可以降低資訊搜索成本，提高作品理解效率。",
+      approach: "項目基於 Next.js 與 React 構建交互原型，設置 Quick / Process / Research 三種閱讀模式，並記錄滾動速度、停留時間、點擊深度與導航路徑。隨後通過 6 名參與者的小樣本 A/B 測試，對比線性作品集與自適應作品集在典型閱讀任務中的表現。",
+      logic: [
+        "不同用戶有不同的閱讀深度需求 → 介面需要提供多種資訊層級",
+        "用戶行為：滾動、停留和點擊行為 → 可以通過行為數據推斷偏好",
+        "自適應系統應建議，而不是替用戶決定",
+        "作品集需要展示過程而非僅結果 → 需要分層內容結構，呈現過程、方法和研究邏輯"
+      ],
+      strategies: [
+        "設計 Quick / Process / Research 三種閱讀模式",
+        "通過滾動、停留、點擊和導航路徑判斷閱讀傾向",
+        "使用時間軸組織項目發展關係",
+        "通過項目預覽降低跳轉成本",
+        "保留手動切換、忽略建議和自主瀏覽路徑"
+      ],
+      findings: "小樣本 A/B 測試顯示，自適應版本在典型資訊查找任務中表現更高效：理解項目核心內容的時間由 10.9 秒降至 5.20 秒，找到設計過程由 4.1 秒降至 1.13 秒，找到研究邏輯由 6.3 秒降至 1.42 秒。資訊清晰度由 3/5 提升至 4.5/5，用戶控制感由 2/5 提升至 4/5。由於樣本量較小，結果主要用於驗證設計方向，而非作為統計顯著性結論。",
+      reflection: "項目說明，自適應介面的價值並不是替用戶閱讀，而是幫助用戶更快進入合適的資訊層級。後續需要擴大測試樣本，並進一步處理行為記錄、隱私邊界、模式誤判與用戶控制權之間的關係。"
     }
   },
 
@@ -277,22 +367,28 @@ export const projects: Project[] = [
     id: "veilspace",
     title: "Soft Thresholds · Veilspace",
     titleEn: "Soft Thresholds · Veilspace",
+    titleHk: "柔性邊界 · VeilSpace",
     description: "1:1 具身响应式空间装置，通过身体行为触发织物边界变化，为用户提供可调节的私密状态与情绪缓冲空间，探索响应式环境如何促进心理健康与福祉。",
     descriptionEn: "A 1:1 embodied responsive spatial installation that triggers fabric boundary changes through body behavior, providing adjustable privacy states and emotional buffer spaces, exploring how responsive environments promote mental health and wellbeing.",
+    descriptionHk: "1:1 具身響應式空間裝置，通過身體行為觸發織物邊界變化，為用戶提供可調節的私密狀態與情緒緩衝空間，探索響應式環境如何促進心理健康與福祉。",
     keywords: ["响应式空间", "具身感知", "健康福祉"],
     keywordsEn: ["Responsive Space", "Embodied Sensing", "Health & Wellbeing"],
+    keywordsHk: ["響應式空間", "具身感知", "健康福祉"],
     coverImage: "/images/projects/veilspace/cover.png",
     coverImageEn: "/images/projects/veilspace/cover_en.png",
     previewVideo: "/videos/projects/veilspace_preview.mp4",
     fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型，关注空间如何通过感知人的身体状态，提供私密调节与情绪缓冲。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开。项目探索的核心问题是：响应式空间边界能否通过具身感知与环境反馈，为使用者创造更具疗愈性的空间体验，从而促进心理健康与福祉。",
     fullDescriptionEn: "Soft Thresholds · VeilSpace is a 1:1 embodied responsive spatial prototype that focuses on how space can provide privacy adjustment and emotional buffering by sensing human body states. Using FSR pressure sensors to recognize sitting, leaning, staying, and leaving states, Arduino and stepper motors control the descent, gathering, and expansion of flexible fabric boundaries. The core question is: can responsive spatial boundaries create more healing spatial experiences through embodied sensing and environmental feedback, thereby promoting mental health and wellbeing.",
+    fullDescriptionHk: "Soft Thresholds · VeilSpace 是一個 1:1 具身響應式空間原型，關注空間如何通過感知人的身體狀態，提供私密調節與情緒緩衝。項目以人的身體行為作為空間輸入，通過 FSR 壓力傳感器識別坐下、倚靠、停留與離開等狀態，由 Arduino 與步進電機控制柔性織物邊界的下降、收攏與展開。項目探索的核心問題是：響應式空間邊界能否通過具身感知與環境反饋，為使用者創造更具療癒性的空間體驗，從而促進心理健康與福祉。",
     year: "2025",
     startDate: "2025.7",
     endDate: "2025.9",
     location: "奥克兰，新西兰",
     locationEn: "Auckland, New Zealand",
+    locationHk: "奧克蘭，紐西蘭",
     role: "设计师与制作者",
     roleEn: "Designer & Maker",
+    roleHk: "設計師與製作者",
     video: "/videos/projects/veilspace_demo.mp4",
     details: [
       "中国高等教育学会华灿奖国家级二等奖",
@@ -309,6 +405,14 @@ export const projects: Project[] = [
       "Arduino + stepper motor response system",
       "Adjustable privacy states and emotional buffering",
       "Exploring spatial promotion of health and wellbeing"
+    ],
+    detailsHk: [
+      "中國高等教育學會華燦獎國家級二等獎",
+      "1:1 柔性織物邊界裝置",
+      "FSR 壓力傳感器感知身體狀態",
+      "Arduino + 步進電機響應系統",
+      "可調節的私密狀態與情緒緩衝",
+      "探索空間對健康福祉的促進作用"
     ],
     // ====== VEILSPACE 项目图集 ======
     galleryImages: [
@@ -334,6 +438,16 @@ export const projects: Project[] = [
         "以五个交互状态构建从进入、退隐到重新介入的体验流程"
       ],
       outcome: "完成了一个将身体姿态转化为物理边界运动与数字视觉反馈的具身交互原型。"
+    },
+    quickContentHk: {
+      headline: "一個將身體姿態轉譯為空間邊界變化的 1:1 具身交互裝置",
+      keyPoints: [
+        "通過座面與靠背的 FSR 壓力傳感器識別坐下、後仰與離開",
+        "Arduino、CNC Shield 與 NEMA17 步進電機驅動織物邊界升降",
+        "Unity 同步生成清晰、模糊、工作場景與休憩場景的視覺反饋",
+        "以五個交互狀態構建從進入、退隱到重新介入的體驗流程"
+      ],
+      outcome: "完成了一個將身體姿態轉化為物理邊界運動與數字視覺反饋的具身交互原型。"
     },
     processContent: {
       phases: [
@@ -372,6 +486,43 @@ export const projects: Project[] = [
         "用 Unity 作为数字反馈层，强化用户对空间状态变化的感知"
       ]
     },
+    processContentHk: {
+      phases: [
+        {
+          title: "用戶情境提煉",
+          description: "觀察半開放場景中的臨時私密、情緒緩衝與低打擾休憩需求。"
+        },
+        {
+          title: "交互概念定義",
+          description: "將坐下、後仰、離開等自然身體行為轉化為無需學習的交互輸入。"
+        },
+        {
+          title: "身體輸入測試",
+          description: "通過座面與靠背 FSR 傳感器識別不同姿態狀態。"
+        },
+        {
+          title: "物理反饋搭建",
+          description: "使用 Arduino、CNC Shield 與 NEMA17 電機控制織物邊界升降。"
+        },
+        {
+          title: "織物介面調試",
+          description: "調整滑輪、鋼桿、織物張力與運動路徑，優化邊界變化的穩定性。"
+        },
+        {
+          title: "數字反饋聯動",
+          description: "通過 Unity 同步即時畫面、模糊層、場景切換與粒子反饋。"
+        }
+      ],
+      methodology: "以半開放空間中的私密調節需求為起點，通過 1:1 原型測試整合身體輸入、物理運動與數字反饋。",
+      iterations: "項目經歷了概念草圖、FSR 傳感器測試、電機控制調試、織物邊界實驗與完整 1:1 原型搭建等多輪迭代。",
+      decisions: [
+        "用搖椅放大直坐、後仰與離開的身體狀態差異",
+        "用 FSR 壓力傳感器實現被動觸發，降低交互學習成本",
+        "以織物形成柔性、可逆、非封閉的空間邊界",
+        "採用座面與靠背的多點傳感，而非攝像頭識別",
+        "用 Unity 作為數字反饋層，強化用戶對空間狀態變化的感知"
+      ]
+    },
     researchContent: {
       problemStatement: "在半开放空间中，用户的私密需求往往不是完全隔离，而是短暂、可逆、低打扰的边界调节。Veilspace 关注的问题是：空间边界能否根据身体姿态发生变化，并成为一种可被感知和操作的交互界面？",
       context: "项目以空间边界为切入点，结合具身交互与物理计算方法，研究身体姿态、织物运动和数字反馈之间的联动关系。重点不在于创造封闭空间，而是构建一种介于开放与遮蔽之间的动态边界状态，探索空间如何通过身体输入形成可感知的响应。",
@@ -391,8 +542,30 @@ export const projects: Project[] = [
         "用五阶段流程组织进入、退隐、重新介入与离开的体验",
         "避免使用摄像头识别，降低隐私压力与交互侵入感"
       ],
-      findings: "在小范围体验反馈中，70% 体验者能够理解身体姿态与织物变化之间的对应关系，并主动进行多次尝试。部分体验者将装置描述为具有“回应感��和“生命感”的空间界面。由于样本量有限，该结果主要用于验证交互方向，而非统计性结论。",
+      findings: "在小范围体验反馈中，70% 体验者能够理解身体姿态与织物变化之间的对应关系，并主动进行多次尝试。部分体验者将装置描述为具有"回应感"和"生命感"的空间界面。由于样本量有限，该结果主要用于验证交互方向，而非统计性结论。",
       reflection: "项目初步建立了身体输入、实体运动与数字反馈之间的联动机制。后续仍需进一步优化传感稳定性、机械可靠性、织物运动精度，以及实时视觉反馈中的隐私边界。"
+    },
+    researchContentHk: {
+      problemStatement: "在半開放空間中，用戶的私密需求往往不是完全隔離，而是短暫、可逆、低打擾的邊界調節。Veilspace 關注的問題是：空間邊界能否根據身體姿態發生變化，並成為一種可被感知和操作的交互介面？",
+      context: "項目以空間邊界為切入點，結合具身交互與物理計算方法，研究身體姿態、織物運動和數字反饋之間的聯動關係。重點不在於創造封閉空間，而是構建一種介於開放與遮蔽之間的動態邊界狀態，探索空間如何通過身體輸入形成可感知的響應。",
+      hypothesis: "如果坐下、後仰和離開等自然身體行為能夠被轉化為系統輸入，並同步觸發織物邊界變化與視覺反饋，用戶就可以在無需額外學習的情況下理解並使用這一空間交互系統。",
+      approach: "項目通過 1:1 實體原型進行驗證：座面與靠背的 FSR 壓力傳感器讀取身體壓力變化，Arduino 處理輸入信號，步進電機控制織物邊界升降，Unity 同步生成即時畫面、模糊層、場景切換與視覺反饋。",
+      logic: [
+        "空間邊界可以被設計為一種交互介面",
+        "身體姿態可以成為低門檻、非顯性的輸入方式",
+        "私密性不是簡單開關，而是可連續調節的空間狀態",
+        "物理反饋與數字反饋需要同步發生，才能形成明確的交互感知"
+      ],
+      strategies: [
+        "以搖椅放大直坐、後仰和離開的姿態差異",
+        "以座面與靠背 FSR 讀取身體壓力變化",
+        "用織物升降形成柔性、可逆的空間邊界",
+        "用 Unity 畫面變化強化空間狀態反饋",
+        "用五階段流程組織進入、退隱、重新介入與離開的體驗",
+        "避免使用攝像頭識別，降低隱私壓力與交互侵入感"
+      ],
+      findings: "在小範圍體驗反饋中，70% 體驗者能夠理解身體姿態與織物變化之間的對應關係，並主動進行多次嘗試。部分體驗者將裝置描述為具有「回應感」和「生命感」的空間介面。由於樣本量有限，該結果主要用於驗證交互方向，而非統計性結論。",
+      reflection: "項目初步建立了身體輸入、實體運動與數字反饋之間的聯動機制。後續仍需進一步優化傳感穩定性、機械可靠性、織物運動精度，以及即時視覺反饋中的隱私邊界。"
     }
   },
 
@@ -400,21 +573,27 @@ export const projects: Project[] = [
     id: "td-music-visualization",
     title: "Audio-Driven Interactive Visualization",
     titleEn: "Audio-Driven Interactive Visualization",
+    titleHk: "音頻驅動互動視覺化",
     description: "基于 TouchDesigner 的音频驱动视觉实验，将频谱、节奏与强度转译为图像尺度、运动轨迹和动态形态变化。为沉浸式空间、舞台界面与空间人机交互提供跨模态反馈原型。",
     descriptionEn: "Audio-driven visual experiment based on TouchDesigner, translating spectrum, rhythm, and intensity into image scale, motion trajectory, and dynamic morphology changes. Providing cross-modal feedback prototypes for immersive spaces, stage interfaces, and spatial HCI.",
+    descriptionHk: "基於 TouchDesigner 的音頻驅動視覺實驗，將頻譜、節奏與強度轉譯為圖像尺度、運動軌跡和動態形態變化。為沉浸式空間、舞台介面與空間人機交互提供跨模態反饋原型。",
     keywords: ["实时数据反馈", "Creative Coding", "实时可视化"],
     keywordsEn: ["Real-time Data Feedback", "Creative Coding", "Real-time Visualization"],
+    keywordsHk: ["即時數據反饋", "Creative Coding", "即時視覺化"],
     coverImage: "/images/works/td/cover.png",
     previewVideo: "/videos/works/td_preview.mp4",
     fullDescription: "基于 TouchDesigner将音频频谱、节奏与强度转译为实时视觉反馈，探索声音输入与空间化图像之间的跨模态映射关系。该实验可作为沉浸式展演、舞台视觉、巨幕界面和 AR/VR 环境反馈的基础原型。",
     fullDescriptionEn: "Translating audio spectrum, rhythm, and intensity into real-time visual feedback based on TouchDesigner, exploring cross-modal mapping between sound input and spatialized imagery. This experiment serves as a foundational prototype for immersive performances, stage visuals, large screen interfaces, and AR/VR environmental feedback.",
+    fullDescriptionHk: "基於 TouchDesigner 將音頻頻譜、節奏與強度轉譯為即時視覺反饋，探索聲音輸入與空間化圖像之間的跨模態映射關係。該實驗可作為沉浸式展演、舞台視覺、巨幕介面和 AR/VR 環境反饋的基礎原型。",
     year: "2024",
     startDate: "2024.8",
     endDate: "2024.8",
     location: "西安，中国",
     locationEn: "Xi'an, China",
+    locationHk: "西安，中國",
     role: "设计师",
     roleEn: "Designer",
+    roleHk: "設計師",
     video: "/videos/works/td_demo.mp4",
     details: [
       "TouchDesigner 实时视觉生成",
@@ -427,6 +606,12 @@ export const projects: Project[] = [
       "Audio spectrum and rhythm feature extraction",
       "Low/mid/high frequency layered mapping",
       "Particle, scale, and motion parameter linkage"
+    ],
+    detailsHk: [
+      "TouchDesigner 即時視覺生成",
+      "音頻頻譜與節奏特徵提取",
+      "低頻 / 中頻 / 高頻分層映射",
+      "粒子、尺度與運動參數聯動"
     ],
     galleryImages: [
       { src: "/images/works/td/01.png", caption: "" },
@@ -445,6 +630,16 @@ export const projects: Project[] = [
         "探索声音输入与视觉输出之间的多模态关系"
       ],
       outcome: "建立了一个音频驱动的实时视觉反馈原型"
+    },
+    quickContentHk: {
+      headline: "將聲音信號轉譯為即時視覺反饋的交互實驗",
+      keyPoints: [
+        "解析音頻頻譜、節奏與強度變化",
+        "將不同頻段映射為尺度、軌跡和粒子參數",
+        "通過 TouchDesigner 實現即時渲染與參數控制",
+        "探索聲音輸入與視覺輸出之間的多模態關係"
+      ],
+      outcome: "建立了一個音頻驅動的即時視覺反饋原型"
     },
     processContent: {
       phases: [
@@ -475,6 +670,35 @@ export const projects: Project[] = [
         "保留实时控制接口，便于现场调整视觉强度"
       ]
     },
+    processContentHk: {
+      phases: [
+        {
+          title: "音頻特徵提取",
+          description: "提取頻譜、節奏和強度變化，作為視覺生成的輸入參數。"
+        },
+        {
+          title: "視覺參數構建",
+          description: "建立尺度、運動軌跡、粒子數量和形態變化等視覺控制參數。"
+        },
+        {
+          title: "映射關係設計",
+          description: "將低頻、中頻、高頻分別對應到不同層級的視覺變化，建立不同規則。"
+        },
+        {
+          title: "即時反饋調試",
+          description: "優化渲染性能，確保視覺響應的即時性"
+        }
+      ],
+      methodology: "實驗驅動的設計方法，通過持續測試建立音視覺對應關係",
+      iterations: "經歷了多輪參數調整，優化視覺效果與音樂的同步性",
+      decisions: [
+        "用頻譜分析提取聲音結構",
+        "將低頻用於大尺度運動，增強節奏感",
+        "將高頻用於細節擾動，提升畫面活性",
+        "通過參數平滑避免畫面跳變",
+        "保留即時控制介面，便於現場調整視覺強度"
+      ]
+    },
     researchContent: {
       problemStatement: "声音是一种时间性输入，视觉反馈往往容易停留在装饰性效果上。本项目关注的是：如何将音频特征转译为可感知、可调节、具有层次关系的实时视觉反馈？",
       context: "项目服务于空间人机交互中的跨模态反馈研究。它不直接处理空间边界，而是补充探索声音输入、实时计算与视觉输出之间的耦合方式。",
@@ -495,6 +719,27 @@ export const projects: Project[] = [
       ],
       findings: "观众普遍认为视觉效果增强了对音乐的理解和情感体验，低频控制整体运动、高频控制细节扰动的方式，使视觉反馈更能体现音乐的节奏结构和动态强弱。",
       reflection: "该项目目前仍是屏幕端技术实验，尚未完成真实舞台、巨幕或 AR/VR 场景部署。它的价值在于建立一套可迁移的音频—视觉反馈方法，为后续空间人机交互、沉浸式展演和环境界面设计提供基础。"
+    },
+    researchContentHk: {
+      problemStatement: "聲音是一種時間性輸入，視覺反饋往往容易停留在裝飾性效果上。本項目關注的是：如何將音頻特徵轉譯為可感知、可調節、具有層次關係的即時視覺反饋？",
+      context: "項目服務於空間人機交互中的跨模態反饋研究。它不直接處理空間邊界，而是補充探索聲音輸入、即時計算與視覺輸出之間的耦合方式。",
+      hypothesis: "當音頻頻段、節奏和強度被拆分為不同輸入參數，並分別對應到尺度、運動和粒子變化時，視覺反饋可以更清晰地呈現聲音結構，而不是只隨音量機械閃爍。",
+      approach: "通過 TouchDesigner 搭建即時音頻分析與視覺生成網絡，將聲音信號輸入轉化為頻譜數據，並映射到圖像尺度、運動路徑、粒子密度和動態形態參數。",
+      logic: [
+        "音樂有結構層次（節拍、旋律、和聲）→ 視覺也應有對應層次",
+        "人對音樂和視覺的感知有共通性 → 可以建立跨感官映射",
+        "映射關係應保持即時性，同時避免機械跳變",
+        "參數控制需要保留可調性，以適應不同聲音類型"
+      ],
+      strategies: [
+        "將低頻映射為整體尺度和大幅運動",
+        "將中頻映射為主要形態變化",
+        "將高頻映射為粒子擾動和細節閃動",
+        "使用平滑參數降低視覺抖動",
+        "通過即時控制面板調整反饋強度"
+      ],
+      findings: "觀眾普遍認為視覺效果增強了對音樂的理解和情感體驗，低頻控制整體運動、高頻控制細節擾動的方式，使視覺反饋更能體現音樂的節奏結構和動態強弱。",
+      reflection: "該項目目前仍是螢幕端技術實驗，尚未完成真實舞台、巨幕或 AR/VR 場景部署。它的價值在於建立一套可遷移的音頻—視覺反饋方法，為後續空間人機交互、沉浸式展演和環境介面設計提供基礎。"
     }
   },
 ]

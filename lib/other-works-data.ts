@@ -47,27 +47,37 @@ export interface OtherWork {
   id: string
   title: string
   titleEn?: string
+  titleHk?: string
   titleCn: string
+  titleCnHk?: string
   description: string
   descriptionEn?: string
+  descriptionHk?: string
   keywords: string[]
   keywordsEn?: string[]
+  keywordsHk?: string[]
   fullDescription: string
   fullDescriptionEn?: string
+  fullDescriptionHk?: string
   year: string
   // 新增：精确到月份的时间范围，格式 "YYYY.M"
   startDate: string  // 如 "2024.9"
   endDate: string    // 如 "2024.11"
   category: string
   categoryEn?: string
+  categoryHk?: string
   location?: string
   locationEn?: string
+  locationHk?: string
   role?: string
   roleEn?: string
+  roleHk?: string
   awards?: string
   awardsEn?: string
+  awardsHk?: string
   details: string[]
   detailsEn?: string[]
+  detailsHk?: string[]
   // 封面图片路径（放入 public 文件夹，例如 "/images/works/arbor-cover.jpg"）
   coverImage?: string
   coverImageEn?: string
@@ -80,15 +90,19 @@ export interface OtherWork {
   // 详情页图片列表 - 每张图片都可以有标注
   galleryImages?: GalleryImage[]
   galleryImagesEn?: GalleryImage[]
+  galleryImagesHk?: GalleryImage[]
   // 自定义封面比例（可选，如 "4/3", "16/9", "1/1" 等，不填则使用默认布局）
   aspectRatio?: string
   // 三种阅读模式内容
   quickContent?: QuickContent
   quickContentEn?: QuickContent
+  quickContentHk?: QuickContent
   processContent?: ProcessContent
   processContentEn?: ProcessContent
+  processContentHk?: ProcessContent
   researchContent?: ResearchContent
   researchContentEn?: ResearchContent
+  researchContentHk?: ResearchContent
 }
 
 export const otherWorks: OtherWork[] = [
@@ -96,24 +110,32 @@ export const otherWorks: OtherWork[] = [
     id: "nestide",
     title: "Nestide/巢流",
     titleEn: "Nestide",
+    titleHk: "Nestide/巢流",
     titleCn: "巢流",
+    titleCnHk: "巢流",
     description: "城市医疗物流的智能基础设施节点原型，探索低空医疗配送如何缩短急救响应时间，提升城市健康服务的可达性与公平性。",
     descriptionEn: "A smart infrastructure node prototype for urban medical logistics, exploring how low-altitude medical delivery can shorten emergency response time and improve accessibility and equity of urban health services.",
+    descriptionHk: "城市醫療物流的智能基礎設施節點原型，探索低空醫療配送如何縮短急救響應時間，提升城市健康服務的可達性與公平性。",
     keywords: ["健康基础设施", "医疗可达性", "城市福祉"],
     keywordsEn: ["Health Infrastructure", "Medical Accessibility", "Urban Wellbeing"],
+    keywordsHk: ["健康基礎設施", "醫療可達性", "城市福祉"],
     coverImage: "/images/projects/nestide/cover.jpg",
     coverImageEn: "/images/projects/nestide/cover_en.jpg",
     fullDescription: "Nestide 是一个面向城市健康服务的智能基础设施原型，关注低空医疗物流如何通过缩短急救响应时间，提升老龄社区和高密度片区的医疗可达性，从而促进城市整体的健康福祉。",
     fullDescriptionEn: "Nestide is a smart infrastructure prototype for urban health services, focusing on how low-altitude medical logistics can improve medical accessibility in aging communities and high-density areas by shortening emergency response time, thereby promoting overall urban health and wellbeing.",
+    fullDescriptionHk: "Nestide 是一個面向城市健康服務的智能基礎設施原型，關注低空醫療物流如何通過縮短急救響應時間，提升老齡社區和高密度片區的醫療可達性，從而促進城市整體的健康福祉。",
     year: "2025",
     startDate: "2025.6",
     endDate: "2025.8",
     category: "健康基础设施设计",
     categoryEn: "Health Infrastructure Design",
+    categoryHk: "健康基礎設施設計",
     location: "幸福林带，西安，中国",
     locationEn: "Xingfu Forest Belt, Xi'an, China",
+    locationHk: "幸福林帶，西安，中國",
     role: "主设计师",
     roleEn: "Lead Designer",
+    roleHk: "主設計師",
     galleryImages: [
       { src: "/images/projects/nestide/01.jpg", caption: "节点赋予廊道新生" },
       { src: "/images/projects/nestide/02.png", caption: "前期分析" },
@@ -130,6 +152,14 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/projects/nestide/05_en.jpg", caption: "B1 floor functional zoning" },
       { src: "/images/projects/nestide/06_en.jpg", caption: "Exploded circulation diagram" },
     ],
+    galleryImagesHk: [
+      { src: "/images/projects/nestide/01.jpg", caption: "節點賦予廊道新生" },
+      { src: "/images/projects/nestide/02.png", caption: "前期分析" },
+      { src: "/images/projects/nestide/03.jpg", caption: "一層平面圖" },
+      { src: "/images/projects/nestide/04.jpg", caption: "二層平面圖" },
+      { src: "/images/projects/nestide/05.jpg", caption: "B1層功能分區" },
+      { src: "/images/projects/nestide/06.jpg", caption: "爆炸流線圖" },
+    ],
     details: [
       "集成垂直起降平台",
       "自动化中转系统",
@@ -142,6 +172,12 @@ export const otherWorks: OtherWork[] = [
       "Real-time air traffic control tower",
       "Modular design",
     ],
+    detailsHk: [
+      "集成垂直起降平台",
+      "自動化中轉系統",
+      "即時空中交通控制塔",
+      "模組化設計",
+    ],
     quickContent: {
       headline: "为城市智能医疗物流设计的模块化基础设施节点",
       keyPoints: [
@@ -152,6 +188,16 @@ export const otherWorks: OtherWork[] = [
       ],
       outcome: "获国家级一等奖。提出了一套可复制的智能物流基础设施设计范式。"
     },
+    quickContentHk: {
+      headline: "為城市智能醫療物流設計的模組化基礎設施節點",
+      keyPoints: [
+        "整合起降、中轉、控制塔三大功能",
+        "模組化設計適應不同城市環境",
+        "即時交通管理與監控系統",
+        "環境感知與自動化物流處理"
+      ],
+      outcome: "獲國家級一等獎。提出了一套可複製的智能物流基礎設施設計範式。"
+    },
     processContent: {
       phases: [
         { title: "场地调研与需求分析", description: "分析幸福林带的城市肌理、交通流线和医疗资源分布" },
@@ -159,7 +205,7 @@ export const otherWorks: OtherWork[] = [
         { title: "结构与形态生成", description: "使用参数化工具探索结构形式" },
         { title: "系统整合与优化", description: "整合传感器网络、自动化设备和交通管理系统" }
       ],
-      methodology: "项目采用“城市问题识别—服务场景推演—功能单元拆解—建筑原型生成—系统网络整合”的研究型设计方法，从低空医疗物流的运行流程倒推建筑空间需求。",
+      methodology: "项目采用"城市问题识别—服务场景推演—功能单元拆解—建筑原型生成—系统网络整合"的研究型设计方法，从低空医疗物流的运行流程倒推建筑空间需求。",
       iterations: "方案经历了从单一起降设施、垂直中转塔，到复合型低空医疗物流枢纽的多轮迭代。设计重点从形式生成逐步转向低空服务流程、地面公共流线、物资中转效率与城市基础设施嵌入方式的综合组织。",
       decisions: [
         "选择垂直叠合而非水平铺展，以降低既有城市片区中的用地压力",
@@ -170,10 +216,28 @@ export const otherWorks: OtherWork[] = [
         "将公共服务空间保留在地面和低层，使低空基础设施不只是物流设备，也能成为社区可进入的城市服务节点"
       ]
     },
+    processContentHk: {
+      phases: [
+        { title: "場地調研與需求分析", description: "分析幸福林帶的城市肌理、交通流線和醫療資源分佈" },
+        { title: "功能原型設計", description: "通過迭代測試確定起降平台尺度、中轉空間流線" },
+        { title: "結構與形態生成", description: "使用參數化工具探索結構形式" },
+        { title: "系統整合與優化", description: "整合傳感器網絡、自動化設備和交通管理系統" }
+      ],
+      methodology: "項目採用「城市問題識別—服務場景推演—功能單元拆解—建築原型生成—系統網絡整合」的研究型設計方法，從低空醫療物流的運行流程倒推建築空間需求。",
+      iterations: "方案經歷了從單一起降設施、垂直中轉塔，到複合型低空醫療物流樞紐的多輪迭代。設計重點從形式生成逐步轉向低空服務流程、地面公共流線、物資中轉效率與城市基礎設施嵌入方式的綜合組織。",
+      decisions: [
+        "選擇垂直疊合而非水平鋪展，以降低既有城市片區中的用地壓力",
+        "將起降平台置於上部，減少與地面人流、車流和公共活動的衝突",
+        "將醫療物資儲存與中轉空間設置於建築中部，縮短起降、卸載和分揀之間的流程距離",
+        "將控制與調度功能置於高點，強化對低空運行、周邊環境與城市廊道的觀察關係",
+        "採用模組化節點邏輯，使該原型能夠適配醫院、社區中心、交通節點和大型公共建築屋頂等不同場景",
+        "將公共服務空間保留在地面和低層，使低空基礎設施不只是物流設備，也能成為社區可進入的城市服務節點"
+      ]
+    },
     researchContent: {
       problemStatement: "在高密度既有城市片区中，医疗资源分布、老龄社区需求与地面交通可达性之间存在错位。传统地面医疗物流依赖道路系统，容易受到交通拥堵、片区割裂和末端配送效率的限制。NESTIDE 关注的问题是：低空医疗物流能否通过建筑节点嵌入既有城市结构，并转化为一种可组织、可运营、可扩展的城市基础设施？",
       context: "项目以西安幸福林带片区为背景。该区域具有线性绿带、周边社区密集、城市道路割裂和公共服务需求复合等特征，为低空医疗物流提供了潜在的空间廊道和服务场景。低空经济不应只被理解为飞行器技术或政策概念，而需要进一步转化为具体的起降界面、中转空间、调度节点和公共服务设施。",
-      hypothesis: "如果���无人机起降、医疗物资中转、应急调度和社区公共服务整合为复合型建筑节点，并通过“节点—廊道—平台”系统连接医院、社区与城市交通界面，就可以提升医疗物资的空间组织效率，并为低空经济提供可落地的建筑基础设施原型。",
+      hypothesis: "如果将无人机起降、医疗物资中转、应急调度和社区公共服务整合为复合型建筑节点，并通过"节点—廊道—平台"系统连接医院、社区与城市交通界面，就可以提升医疗物资的空间组织效率，并为低空经济提供可落地的建筑基础设施原型。",
       approach: "项目采用场景推演与建筑原型设计结合的方法。首先分析片区医疗服务需求、交通割裂和社区分布；其次梳理急救药品配送、医疗物资中转和应急响应等典型流程；随后将流程拆解为起降、卸载、分拣、储存、调度和公共服务等空间单元；最终通过垂直叠合、模块化平台和控制塔组织，形成面向城市低空医疗物流的复合建筑节点。",
       logic: [
         "医疗物流具有高时效需求 → 需要绕开部分地面交通限制的低空配送路径",
@@ -183,7 +247,7 @@ export const otherWorks: OtherWork[] = [
         "低空基础设施不能只服务设备 → 需要与社区公共服务和地面流线产生关系"
       ],
       strategies: [
-        "构建“节点—廊道—平台”低空医疗物流系统",
+        "构建"节点—廊道—平台"低空医疗物流系统",
         "将起降平台、中转层、储存层与控制塔进行垂直组织",
         "通过屋顶平台和高点界面回应无人机起降需求",
         "设置独立的物流流线，减少与公众流线的冲突",
@@ -193,29 +257,61 @@ export const otherWorks: OtherWork[] = [
       ],
       findings: "设计推演表明，低空医疗物流设施不宜被理解为孤立的无人机起降点，而应被组织为兼具起降、中转、调度和公共服务功能的建筑基础设施节点。通过垂直叠合和模块化组织，建筑可以在有限用地中整合多种低空服务功能，并与既有城市公共空间、医疗设施和交通系统形成协同关系。",
       reflection: "NESTIDE 将低空经济从抽象政策和技术想象转化为具体的建筑空间问题：低空服务如何落地、如何中转、如何与人流和车流分离、如何进入既有城市片区。项目仍需要进一步引入更精确的物流仿真、飞行安全边界、噪声影响评估和运营管理机制，以验证低空医疗物流节点在真实城市环境中的可行性。"
+    },
+    researchContentHk: {
+      problemStatement: "在高密度既有城市片區中，醫療資源分佈、老齡社區需求與地面交通可達性之間存在錯位。傳統地面醫療物流依賴道路系統，容易受到交通擁堵、片區割裂和末端配送效率的限制。NESTIDE 關注的問題是：低空醫療物流能否通過建築節點嵌入既有城市結構，並轉化為一種可組織、可運營、可擴展的城市基礎設施？",
+      context: "項目以西安幸福林帶片區為背景。該區域具有線性綠帶、周邊社區密集、城市道路割裂和公共服務需求複合等特徵，為低空醫療物流提供了潛在的空間廊道和服務場景。低空經濟不應只被理解為飛行器技術或政策概念，而需要進一步轉化為具體的起降介面、中轉空間、調度節點和公共服務設施。",
+      hypothesis: "如果將無人機起降、醫療物資中轉、應急調度和社區公共服務整合為複合型建築節點，並通過「節點—廊道—平台」系統連接醫院、社區與城市交通介面，就可以提升醫療物資的空間組織效率，並為低空經濟提供可落地的建築基礎設施原型。",
+      approach: "項目採用場景推演與建築原型設計結合的方法。首先分析片區醫療服務需求、交通割裂和社區分佈；其次梳理急救藥品配送、醫療物資中轉和應急響應等典型流程；隨後將流程拆解為起降、卸載、分揀、儲存、調度和公共服務等空間單元；最終通過垂直疊合、模組化平台和控制塔組織，形成面向城市低空醫療物流的複合建築節點。",
+      logic: [
+        "醫療物流具有高時效需求 → 需要繞開部分地面交通限制的低空配送路徑",
+        "低空飛行需要城市落點 → 需要建築提供起降、中轉、儲存和調度介面",
+        "既有城市空間用地緊張 → 需要通過垂直疊合提高功能組織效率",
+        "單一設施難以支撐城市服務 → 需要構建節點—廊道—平台的分佈式網絡",
+        "低空基礎設施不能只服務設備 → 需要與社區公共服務和地面流線產生關係"
+      ],
+      strategies: [
+        "構建「節點—廊道—平台」低空醫療物流系統",
+        "將起降平台、中轉層、儲存層與控制塔進行垂直組織",
+        "通過屋頂平台和高點介面回應無人機起降需求",
+        "設置獨立的物流流線，減少與公眾流線的衝突",
+        "將地面層轉化為社區可進入的公共服務介面",
+        "以模組化方式提高低空節點在不同城市片區中的適配能力",
+        "通過剖面組織表達地面交通、建築功能與低空運行之間的協同關係"
+      ],
+      findings: "設計推演表明，低空醫療物流設施不宜被理解為孤立的無人機起降點，而應被組織為兼具起降、中轉、調度和公共服務功能的建築基礎設施節點。通過垂直疊合和模組化組織，建築可以在有限用地中整合多種低空服務功能，並與既有城市公共空間、醫療設施和交通系統形成協同關係。",
+      reflection: "NESTIDE 將低空經濟從抽象政策和技術想象轉化為具體的建築空間問題：低空服務如何落地、如何中轉、如何與人流和車流分離、如何進入既有城市片區。項目仍需要進一步引入更精確的物流仿真、飛行安全邊界、噪聲影響評估和運營管理機制，以驗證低空醫療物流節點在真實城市環境中的可行性。"
     }
   },
   {
     id: "fu",
     title: "FU",
     titleEn: "FU",
+    titleHk: "FU",
     titleCn: "波形建筑",
+    titleCnHk: "波形建築",
     description: "基于声音频谱与环境数据的生成式屋顶设计，探索数据驱动的空间形态如何创造更具感知性与疗愈性的公共环境体验。",
     descriptionEn: "A generative roof design based on sound spectrum and environmental data, exploring how data-driven spatial forms create more perceptive and healing public environment experiences.",
+    descriptionHk: "基於聲音頻譜與環境數據的生成式屋頂設計，探索數據驅動的空間形態如何創造更具感知性與療癒性的公共環境體驗。",
     keywords: ["环境感知", "生成式设计", "疗愈空间"],
     keywordsEn: ["Environmental Sensing", "Generative Design", "Healing Space"],
+    keywordsHk: ["環境感知", "生成式設計", "療癒空間"],
     coverImage: "/images/projects/fu/cover.png",
     fullDescription: "FU 探索声音频谱、环境数据与空间形态之间的转译关系，研究数据驱动的屋顶系统如何通过起伏、节奏与遮蔽变化，创造更具感知性与疗愈性的公共空间体验，促进使用者的身心福祉。",
     fullDescriptionEn: "FU explores the translation relationship between sound spectrum, environmental data, and spatial form, studying how data-driven roof systems create more perceptive and healing public space experiences through undulation, rhythm, and shading variations, promoting users' physical and mental wellbeing.",
+    fullDescriptionHk: "FU 探索聲音頻譜、環境數據與空間形態之間的轉譯關係，研究數據驅動的屋頂系統如何通過起伏、節奏與遮蔽變化，創造更具感知性與療癒性的公共空間體驗，促進使用者的身心福祉。",
     year: "2025",
     startDate: "2025.8",
     endDate: "2025.11",
     category: "环境感知设计",
     categoryEn: "Environmental Sensing Design",
+    categoryHk: "環境感知設計",
     location: "奥克兰 Harbour，新西兰",
     locationEn: "Auckland Harbour, New Zealand",
+    locationHk: "奧克蘭 Harbour，紐西蘭",
     role: "设计师",
     roleEn: "Designer",
+    roleHk: "設計師",
     galleryImages: [
       { src: "/images/projects/fu/01.jpg", caption: "立面效果图" },
       { src: "/images/projects/fu/02.jpg", caption: "Inspiration" },
@@ -236,6 +332,16 @@ export const otherWorks: OtherWork[] = [
       { src: "/images/projects/fu/07.JPG", caption: "Sectional Model" },
       { src: "/images/projects/fu/08.png", caption: "Interior Space" },
     ],
+    galleryImagesHk: [
+      { src: "/images/projects/fu/01.jpg", caption: "立面效果圖" },
+      { src: "/images/projects/fu/02.jpg", caption: "Inspiration" },
+      { src: "/images/projects/fu/03.jpg", caption: "爆炸分析圖" },
+      { src: "/images/projects/fu/04.jpg", caption: "聲音頻譜轉譯" },
+      { src: "/images/projects/fu/05.jpg", caption: "剖面圖" },
+      { src: "/images/projects/fu/06.jpg", caption: "屋頂連接Detail" },
+      { src: "/images/projects/fu/07.JPG", caption: "Sectional Model" },
+      { src: "/images/projects/fu/08.png", caption: "室內空間" },
+    ],
     details: [
       "基于多重波函数叠加的算法",
       "参数化控制频率、振幅和相位关系",
@@ -248,6 +354,12 @@ export const otherWorks: OtherWork[] = [
       "Using Grasshopper and custom C# components",
       "Output compatible with CNC manufacturing and 3D printing",
     ],
+    detailsHk: [
+      "基於多重波函數疊加的算法",
+      "參數化控制頻率、振幅和相位關係",
+      "使用 Grasshopper 和自定義 C# 組件",
+      "輸出格式兼容 CNC 製造和 3D 列印",
+    ],
     quickContent: {
       headline: "基于波形数学的生成式建筑形态系统",
       keyPoints: [
@@ -258,14 +370,24 @@ export const otherWorks: OtherWork[] = [
       ],
       outcome: "获奥克兰大学2025本科优秀毕业设计。建立了从算法到建造的完整生成式设计流程。"
     },
+    quickContentHk: {
+      headline: "基於波形數學的生成式建築形態系統",
+      keyPoints: [
+        "多重波函數疊加生成複雜幾何",
+        "參數化控制實現無限形態變化",
+        "輸出兼容數字製造工藝",
+        "探索形態與聲學的內在關聯"
+      ],
+      outcome: "獲奧克蘭大學2025本科優秀畢業設計。建立了從算法到建造的完整生成式設計流程。"
+    },
     processContent: {
       phases: [
-        { title: "数学原理研究", description: "研究波形叠���、相位干涉等数学原理" },
+        { title: "数学原理研究", description: "研究波叠加、相位干涉等数学原理" },
         { title: "算法开发", description: "使用 Grasshopper 和 C# 开发波形生成算法" },
         { title: "形态探索", description: "通过调整参数生成大量形态变体" },
         { title: "制造验证", description: "将选定形态转化为 CNC 和 3D 打印可执行的文件" }
       ],
-      methodology: "项目采用生成式设计方法，将声音频谱、波形函数与文化图案转化为可调节��形态生成规则。设计并不直接追求单一造型结果，而是通过参数变化探索屋顶结构、覆盖界面与公共停留空间之间的多种可能性。",
+      methodology: "项目采用生成式设计方法，将声音频谱、波形函数与文化图案转化为可调节的形态生成规则。设计并不直接追求单一造型结果，而是通过参数变化探索屋顶结构、覆盖界面与公共停留空间之间的多种可能性。",
       iterations: "设计过程经历了从二维频谱提取、波形曲线生成、曲面转译、结构秩序调整到空间体验优化的多轮迭代。项目生成并筛选了大量形态变体，最终选择具有较好空间连续性、结构可读性与公共界面潜力的方案进行深化。",
       decisions: [
         "选择声音频谱和波形曲线作为形态生成的基础线索",
@@ -276,8 +398,26 @@ export const otherWorks: OtherWork[] = [
         "在生成结果中筛选兼具视觉识别度、结构逻辑和公共使用潜力的方案"
       ]
     },
+    processContentHk: {
+      phases: [
+        { title: "數學原理研究", description: "研究波疊加、相位干涉等數學原理" },
+        { title: "算法開發", description: "使用 Grasshopper 和 C# 開發波形生成算法" },
+        { title: "形態探索", description: "通過調整參數生成大量形態變體" },
+        { title: "製造驗證", description: "將選定形態轉化為 CNC 和 3D 列印可執行的文件" }
+      ],
+      methodology: "項目採用生成式設計方法，將聲音頻譜、波形函數與文化圖案轉化為可調節的形態生成規則。設計並不直接追求單一造型結果，而是通過參數變化探索屋頂結構、覆蓋介面與公共停留空間之間的多種可能性。",
+      iterations: "設計過程經歷了從二維頻譜提取、波形曲線生成、曲面轉譯、結構秩序調整到空間體驗優化的多輪迭代。項目生成並篩選了大量形態變體，最終選擇具有較好空間連續性、結構可讀性與公共介面潛力的方案進行深化。",
+      decisions: [
+        "選擇聲音頻譜和波形曲線作為形態生成的基礎線索",
+        "將頻率、振幅、相位和節奏變化轉化為可調節的幾何參數",
+        "通過曲面細分控制屋頂的連續性、起伏強度與結構密度",
+        "弱化單純的形式複雜度，優先保留可停留、可穿行和可觀看的空間介面",
+        "將文化圖案作為形態秩序的輔助控制，而不是直接貼附的裝飾",
+        "在生成結果中篩選兼具視覺識別度、結構邏輯和公共使用潛力的方案"
+      ]
+    },
     researchContent: {
-      problemStatement: "传统屋顶常被理解为建筑的顶部覆盖构件，其公共性、感知性和环境响应能力���往被弱化。FU 关注的问题是：屋顶能否不只是遮蔽结构，而成为一种由声音、环境数据和文化图案共同驱动的空间界面？",
+      problemStatement: "传统屋顶常被理解为建筑的顶部覆盖构件，其公共性、感知性和环境响应能力往往被弱化。FU 关注的问题是：屋顶能否不只是遮蔽结构，而成为一种由声音、环境数据和文化图案共同驱动的空间界面？",
       context: "项目位于奥克兰滨水区语境下，场地具有开放视野、公共活动和文化叙事的复合需求。设计尝试将声音频谱、环境感知和文化图案作为形态生成输入，探索抽象数据如何被转译为可体验的建筑结构、屋顶覆盖和公共停留界面。",
       hypothesis: "如果将声音频谱和环境数据转化为可调节的几何参数，并通过生成式设计方法控制屋顶的起伏、密度和结构节奏，那么屋顶可以从单一覆盖构件转化为具有公共活动、观景停留和环境感知能力的复合空间系统。",
       approach: "项目采用从数据提取到空间转译的设计路径。首先从声音频谱与波形曲线中提取频率、振幅和节奏变化，再将其转化为参数化形态控制逻辑。随后通过曲面生成、结构细分和空间筛选，将抽象波形转译为屋顶系统，并进一步测试其作为公共界面、停留场所和场地标识的可能性。",
@@ -289,14 +429,36 @@ export const otherWorks: OtherWork[] = [
         "生成式设计不应只追求复杂造型 → 需要回应结构逻辑、使用行为和场地体验"
       ],
       strategies: [
-        "声音频谱具有时间、节奏和强弱变化 → 可转化为屋顶形态的起伏与密度",
-        "环境数据具有方向性和动态性 → 可影响屋顶的开合、遮蔽和空间层次",
-        "文化图案具有秩序和��征意义 → 可作为形态生成中的组织线索",
-        "屋顶不只是覆盖���件 → 可以成为观景、停留、活动和环境响应的公共界面",
-        "生成式设计不应只追求复杂造型 → 需要回应结构逻辑、使用行为和场地体验"
+        "将声音频谱转化为屋顶形态的起伏与密度",
+        "将环境数据用于控制屋顶的开合与遮蔽",
+        "将文化图案作为形态生成中的组织线索",
+        "通过参数化控制实现形态、结构和空间的协调",
+        "生成式设计回应结构逻辑和使用体验"
       ],
-      findings: "设计推演表明，声音和环境数据可以作为形态生成的组织线索，而不是停留在概念叙事层面。通过参数化控制，屋顶形态可以在连���起伏、结构秩序和公共使用之间形成相对稳定的关系。项目也说明，生��式设计的价值不只是产生复杂几何，而是帮助设计者系统性地比较形态、结构和空间体验之间的差异。",
+      findings: "设计推演表明，声音和环境数据可以作为形态生成的组织线索，而不是停留在概念叙事层面。通过参数化控制，屋顶形态可以在连续起伏、结构秩序和公共使用之间形成相对稳定的关系。项目也说明，生成式设计的价值不只是产生复杂几何，而是帮助设计者系统性地比较形态、结构和空间体验之间的差异。",
       reflection: "FU 将声音频谱、环境数据与文化图案转化为生成式屋顶系统，探索数据如何进入建筑形态和公共空间设计。但项目仍以概念原型和形态推演为主，后续需要进一步引入结构分析、材料节点、环境性能模拟和真实使用行为评估，才能验证其作为可建造屋顶系统的完整可行性。"
+    },
+    researchContentHk: {
+      problemStatement: "傳統屋頂常被理解為建築的頂部覆蓋構件，其公共性、感知性和環境響應能力往往被弱化。FU 關注的問題是：屋頂能否不只是遮蔽結構，而成為一種由聲音、環境數據和文化圖案共同驅動的空間介面？",
+      context: "項目位於奧克蘭濱水區語境下，場地具有開放視野、公共活動和文化敘事的複合需求。設計嘗試將聲音頻譜、環境感知和文化圖案作為形態生成輸入，探索抽象數據如何被轉譯為可體驗的建築結構、屋頂覆蓋和公共停留介面。",
+      hypothesis: "如果將聲音頻譜和環境數據轉化為可調節的幾何參數，並通過生成式設計方法控制屋頂的起伏、密度和結構節奏，那麼屋頂可以從單一覆蓋構件轉化為具有公共活動、觀景停留和環境感知能力的複合空間系統。",
+      approach: "項目採用從數據提取到空間轉譯的設計路徑。首先從聲音頻譜與波形曲線中提取頻率、振幅和節奏變化，再將其轉化為參數化形態控制邏輯。隨後通過曲面生成、結構細分和空間篩選，將抽象波形轉譯為屋頂系統，並進一步測試其作為公共介面、停留場所和場地標識的可能性。",
+      logic: [
+        "聲音頻譜具有時間、節奏和強弱變化 → 可轉化為屋頂形態的起伏與密度",
+        "環境數據具有方向性和動態性 → 可影響屋頂的開合、遮蔽和空間層次",
+        "文化圖案具有秩序和象徵意義 → 可作為形態生成中的組織線索",
+        "屋頂不只是覆蓋構件 → 可以成為觀景、停留、活動和環境響應的公共介面",
+        "生成式設計不應只追求複雜造型 → 需要回應結構邏輯、使用行為和場地體驗"
+      ],
+      strategies: [
+        "將聲音頻譜轉化為屋頂形態的起伏與密度",
+        "將環境數據用於控制屋頂的開合與遮蔽",
+        "將文化圖案作為形態生成中的組織線索",
+        "通過參數化控制實現形態、結構和空間的協調",
+        "生成式設計回應結構邏輯和使用體驗"
+      ],
+      findings: "設計推演表明，聲音和環境數據可以作為形態生成的組織線索，而不是停留在概念敘事層面。通過參數化控制，屋頂形態可以在連續起伏、結構秩序和公共使用之間形成相對穩定的關係。項目也說明，生成式設計的價值不只是產生複雜幾何，而是幫助設計者系統性地比較形態、結構和空間體驗之間的差異。",
+      reflection: "FU 將聲音頻譜、環境數據與文化圖案轉化為生成式屋頂系統，探索數據如何進入建築形態和公共空間設計。但項目仍以概念原型和形態推演為主，後續需要進一步引入結構分析、材料節點、環境性能模擬和真實使用行為評估，才能驗證其作為可建造屋頂系統的完整可行性。"
     }
   },
   {
@@ -461,7 +623,7 @@ export const otherWorks: OtherWork[] = [
       ]
     },
     researchContent: {
-      problemStatement: "如多元文化社区中的公共空间不应只追求形式上的融合，也需要回应不同生活习惯、停留方式和边界感需求。项目关注的问题是：在汉回共生的街区语境中，如何通过一个可被真实搭建和使用的空间原型，创���既尊重差异又允许日常交汇的公共界面？",
+      problemStatement: "如多元文化社区中的公共空间不应只追求形式上的融合，也需要回应不同生活习惯、停留方式和边界感需求。项目关注的问题是：在汉回共生的街区语境中，如何通过一个可被真实搭建和使用的空���原型，创���既尊重差异又允许日常交汇的公共界面？",
       context: "项目以西安西仓片区的汉回混居语境为背景，关注市集、街巷、饮食、交往和临时停留等日常生活场景。设计并不试图用单一符号概括两种文化，而是从共同使用的公共空间入手，探索文化差异、日常行为与空间边界之间的关系。",
       hypothesis: "如果将周文化中的礼制秩序、青铜器形制和历史叙事转化为空间层级、参观路径与展陈节奏，博物馆就可以不只是容纳展品的建筑，而成为一种引导观众理解文化结构的空间媒介。",
       approach: "项目从汉回社区的日常公共活动出发，提取市集广场、临时停留、街巷交流和边界过渡等空间要素；随后通过概念模型和构造推敲形成空间原型，并进一步完成 1:1 实体搭建。设计过程重点验证空间比例、材料连接、身体尺度和现场使用感，而不是停留在概念表达层面。",

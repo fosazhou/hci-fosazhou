@@ -12,28 +12,37 @@ export interface Exchange {
   id: string
   title: string
   titleEn?: string
+  titleHk?: string
   subtitle: string
   subtitleEn?: string
+  subtitleHk?: string
   description: string
   descriptionEn?: string
+  descriptionHk?: string
   keywords: string[]
   keywordsEn?: string[]
+  keywordsHk?: string[]
   fullDescription: string
   fullDescriptionEn?: string
+  fullDescriptionHk?: string
   period: string
   // 新增：精确到月份的时间范围，格式 "YYYY.M"
   startDate: string  // 如 "2025.7"
   endDate: string    // 如 "2025.11"
   location: string
   locationEn?: string
+  locationHk?: string
   program: string
   programEn?: string
+  programHk?: string
   details: string[]
   detailsEn?: string[]
+  detailsHk?: string[]
   coverImage?: string
   // 详情页图片列表 - 每张图片都可以有标注
   galleryImages?: GalleryImage[]
   galleryImagesEn?: GalleryImage[]
+  galleryImagesHk?: GalleryImage[]
 }
 
 export const exchanges: Exchange[] = [
@@ -41,12 +50,16 @@ export const exchanges: Exchange[] = [
     id: "auckland-exchange",
     title: "University of Auckland exchange program · 新西兰 奥克兰",
     titleEn: "University of Auckland Exchange Program",
+    titleHk: "University of Auckland exchange program · 紐西蘭 奧克蘭",
     subtitle: "QS World Ranking #65",
     subtitleEn: "QS World Ranking #65",
+    subtitleHk: "QS 世界排名 #65",
     description: "为期半年的学术交流项目，成果获2025年建筑学院本科生优秀毕业设计。",
     descriptionEn: "A half-year academic exchange program, awarded Outstanding Undergraduate Graduation Design of the School of Architecture 2025.",
+    descriptionHk: "為期半年的學術交流項目，成果獲2025年建築學院本科生優秀畢業設計。",
     keywords: ["Exchange Program", "Architectural Technology", "Sustainable Architecture"],
     keywordsEn: ["Exchange Program", "Architectural Technology", "Sustainable Architecture"],
+    keywordsHk: ["交換項目", "建築技術", "可持續建築"],
     coverImage: "/images/exchange/auckland/cover.JPG",
     // 项目图集 - 修改 src 和 caption
     galleryImages: [
@@ -75,15 +88,31 @@ export const exchanges: Exchange[] = [
       { src: "/images/exchange/auckland/10.jpg", caption: "Go-karting in Hamilton" },
       { src: "/images/exchange/auckland/11.jpg", caption: "Boat capsized in the Pacific" },
     ],
+    galleryImagesHk: [
+      { src: "/images/exchange/auckland/01.jpg", caption: "車間加工鋼板過程" },
+      { src: "/images/exchange/auckland/02.jpg", caption: "鋼板折彎" },
+      { src: "/images/exchange/auckland/03.jpg", caption: "MEDIA課程成果" },
+      { src: "/images/exchange/auckland/04.jpg", caption: "TECH課程成果" },
+      { src: "/images/exchange/auckland/05.png", caption: "1:10 鋼柱構造模型成果" },
+      { src: "/images/exchange/auckland/06.JPG", caption: "與奧克蘭導師Bill合照" },
+      { src: "/images/exchange/auckland/07.JPG", caption: "Final Crit" },
+      { src: "/images/exchange/auckland/08.jpg", caption: "獲得優秀畢業設計" },
+      { src: "/images/exchange/auckland/09.JPG", caption: "皇后鎮體驗跳傘" },
+      { src: "/images/exchange/auckland/10.jpg", caption: "去漢密爾頓開卡丁車" },
+      { src: "/images/exchange/auckland/11.jpg", caption: "船翻太平洋裡了" },
+    ],
     fullDescription: "在奥克兰大学建筑与规划学院的交换学习期间，深入参与了城市设计工作室课程，探索太平洋地区独特的建筑语境与可持续设计方法，并取得优秀毕业设计。",
     fullDescriptionEn: "During the exchange at the University of Auckland School of Architecture and Planning, deeply participated in urban design studio courses, explored the unique architectural context and sustainable design methods of the Pacific region, and achieved Outstanding Graduation Design.",
+    fullDescriptionHk: "在奧克蘭大學建築與規劃學院的交換學習期間，深入參與了城市設計工作室課程，探索太平洋地區獨特的建築語境與可持續設計方法，並取得優秀畢業設計。",
     period: "2025.7 - 2025.11",
     startDate: "2025.7",
     endDate: "2025.11",
     location: "Auckland, New Zealand",
     locationEn: "Auckland, New Zealand",
+    locationHk: "奧克蘭，紐西蘭",
     program: "Exchange Program",
     programEn: "Exchange Program",
+    programHk: "交換項目",
     details: [
       "参与城市设计工作室，研究奥克兰滨水区域更新方案",
       "学习新西兰本土毛利文化与建筑的融合实践",
@@ -97,6 +126,13 @@ export const exchanges: Exchange[] = [
       "1:10 physical construction model making",
       "Academic visits and exchanges with local architecture firms",
       "Participated in Australia-New Zealand architectural study tours"
+    ],
+    detailsHk: [
+      "參與城市設計工作室，研究奧克蘭濱水區域更新方案",
+      "學習紐西蘭本土毛利文化與建築的融合實踐",
+      "1:10 實體構造模型製作",
+      "與當地建築事務所進行學術訪問與交流",
+      "參與學院組織的澳紐地區建築考察活動"
     ]
   },
   {
