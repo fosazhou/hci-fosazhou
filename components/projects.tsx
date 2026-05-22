@@ -7,9 +7,186 @@ import { usePageTransition } from "@/components/page-transition"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
+import { ArrowRight, Sparkles } from "lucide-react"
 
 interface ProjectsProps {
   filterIds?: string[]
+}
+
+// Featured Project Card - larger, more prominent display for Veilspace
+function FeaturedProjectCard({ 
+  project, 
+  onTrack 
+}: { 
+  project: typeof projects[0]
+  onTrack: (tags: string[]) => void
+}) {
+  const { navigateWithTransition, prefetch } = usePageTransition()
+  const [isHovered, setIsHovered] = useState(false)
+  const [hasPrefetched, setHasPrefetched] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const { language } = useLanguage()
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    onTrack(project.keywords)
+    navigateWithTransition(`/projects/${project.id}`)
+  }
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    if (!hasPrefetched) {
+      prefetch(`/projects/${project.id}`)
+      setHasPrefetched(true)
+    }
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.play().catch(() => {})
+    }
+  }
+  
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    if (videoRef.current) {
+      videoRef.current.pause()
+    }
+  }
+
+  return (
+    <div
+      className="group cursor-pointer mb-8"
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Featured badge */}
+      <div className="flex items-center gap-2 mb-3">
+        <Sparkles className={cn(
+          "w-3.5 h-3.5 transition-colors duration-300",
+          isHovered ? "text-brand" : "text-primary/40"
+        )} />
+        <span className="text-[10px] font-mono tracking-widest text-primary/60 uppercase">
+          Featured Project
+        </span>
+      </div>
+      
+      <div 
+        className={cn(
+          "relative overflow-hidden rounded-xl transition-all duration-500",
+          "border-2 border-[rgba(233,30,99,0.15)]",
+          "bg-gradient-to-br from-[rgba(10,10,15,0.8)] to-[rgba(20,20,30,0.6)]",
+          isHovered && "border-[rgba(233,30,99,0.4)] shadow-[0_0_60px_rgba(233,30,99,0.15)]"
+        )}
+      >
+        {/* Large cover image/video area */}
+        <div className="relative aspect-[21/9] overflow-hidden">
+          {project.coverImage && (
+            <img 
+              src={language === "en" && project.coverImageEn ? project.coverImageEn : project.coverImage} 
+              alt={project.title}
+              loading="eager"
+              className={cn(
+                "w-full h-full object-cover transition-all duration-700",
+                isHovered && !project.previewVideo && "scale-105",
+                isHovered && project.previewVideo && "opacity-0"
+              )}
+            />
+          )}
+          
+          {/* Video preview */}
+          {project.previewVideo && (
+            <video
+              ref={videoRef}
+              src={project.previewVideo}
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className={cn(
+                "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+                isHovered ? "opacity-100" : "opacity-0"
+              )}
+            />
+          )}
+          
+          {/* Gradient overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,15,0.95)] via-[rgba(10,10,15,0.3)] to-transparent" />
+          <div className={cn(
+            "absolute inset-0 bg-gradient-to-r from-brand/10 to-transparent transition-opacity duration-500",
+            isHovered ? "opacity-100" : "opacity-0"
+          )} />
+          
+          {/* Content overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+            <div className="flex items-end justify-between gap-6">
+              <div className="flex-1">
+                {/* Year and category */}
+                <div className="flex items-center gap-3 mb-3">
+                  <span className={cn(
+                    "px-3 py-1 rounded-full text-xs font-mono border transition-all duration-300",
+                    isHovered 
+                      ? "border-brand/50 text-brand bg-brand/10" 
+                      : "border-[rgba(255,255,255,0.15)] text-muted-foreground/70"
+                  )}>
+                    {project.year}
+                  </span>
+                  <span className="text-xs text-muted-foreground/50 font-mono uppercase tracking-wider">
+                    {language === "en" ? "Core Project" : "核心项目"}
+                  </span>
+                </div>
+                
+                {/* Title */}
+                <h3 className={cn(
+                  "text-2xl md:text-3xl font-medium mb-2 transition-colors duration-300",
+                  isHovered ? "text-foreground" : "text-foreground/90"
+                )}>
+                  {language === "en" && project.titleEn ? project.titleEn : project.title}
+                </h3>
+                
+                {/* Keywords */}
+                <p className="text-sm text-muted-foreground/60 mb-4">
+                  {(language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords).slice(0, 3).join(' · ')}
+                </p>
+                
+                {/* Description - visible on hover */}
+                <div className={cn(
+                  "overflow-hidden transition-all duration-500 ease-out",
+                  isHovered ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
+                )}>
+                  <p className="text-sm text-muted-foreground/70 leading-relaxed max-w-2xl">
+                    {language === "en" && project.descriptionEn ? project.descriptionEn : project.description}
+                  </p>
+                </div>
+              </div>
+              
+              {/* View button */}
+              <div className={cn(
+                "flex-shrink-0 transition-all duration-300",
+                isHovered ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
+              )}>
+                <div className={cn(
+                  "flex items-center gap-2 px-5 py-2.5 rounded-full",
+                  "bg-brand/20 border border-brand/40 text-brand",
+                  "text-sm font-medium"
+                )}>
+                  <span>{language === "en" ? "View Project" : "查看项目"}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom accent line */}
+        <div 
+          className={cn(
+            "absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-brand via-primary to-brand/50 transition-all duration-700 ease-out",
+            isHovered ? "w-full" : "w-0"
+          )}
+        />
+      </div>
+    </div>
+  )
 }
 
 // Project Card with hover reveal deeper layer
@@ -237,15 +414,23 @@ export function Projects({ filterIds }: ProjectsProps) {
     sortByPreference,
   } = useUserBehavior()
 
-  // Filter and sort projects
+  // Separate Veilspace as featured project
+  const featuredProject = useMemo(() => {
+    return projects.find(p => p.id === "veilspace")
+  }, [])
+
+  // Filter and sort remaining projects (excluding Veilspace)
   const filteredProjects = useMemo(() => {
     const filtered = filterIds 
-      ? projects.filter(p => filterIds.includes(p.id))
-      : projects
+      ? projects.filter(p => filterIds.includes(p.id) && p.id !== "veilspace")
+      : projects.filter(p => p.id !== "veilspace")
     
     if (!isLoaded) return filtered
     return sortByPreference(filtered)
   }, [isLoaded, sortByPreference, filterIds])
+
+  // Check if Veilspace should be shown (either no filter, or filter includes it)
+  const showFeatured = !filterIds || filterIds.includes("veilspace")
 
   return (
     <section className="py-12">
@@ -260,14 +445,22 @@ export function Projects({ filterIds }: ProjectsProps) {
         </div>
         
         {/* Behavior tracker display */}
-        <BehaviorTrackerDisplay section="projects" itemCount={filteredProjects.length} />
+        <BehaviorTrackerDisplay section="projects" itemCount={filteredProjects.length + (showFeatured ? 1 : 0)} />
         
         {/* Instruction hint */}
         <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
           HOVER_TO_VIEW | CLICK_TO_ENTER
         </p>
         
-        {/* Projects list */}
+        {/* Featured Project - Veilspace */}
+        {showFeatured && featuredProject && (
+          <FeaturedProjectCard
+            project={featuredProject}
+            onTrack={trackClick}
+          />
+        )}
+        
+        {/* Other Projects list */}
         <div className="space-y-3">
           {filteredProjects.map((project, index) => (
             <ProjectCard
@@ -279,7 +472,7 @@ export function Projects({ filterIds }: ProjectsProps) {
           ))}
         </div>
         
-        {filteredProjects.length === 0 && (
+        {filteredProjects.length === 0 && !showFeatured && (
           <div className="text-center py-16">
             <p className="text-muted-foreground/50 font-mono text-sm">
               NO_PROJECTS_IN_SELECTED_RANGE
