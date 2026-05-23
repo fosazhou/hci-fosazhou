@@ -477,8 +477,8 @@ export default function ExchangePage() {
         </div>
       </header>
       
-      {/* Hero Section - shorter on mobile */}
-      <div ref={heroRef} className="relative h-[60vh] md:h-screen overflow-hidden">
+      {/* Hero Section - 4:3 aspect ratio on mobile, full screen on desktop */}
+      <div ref={heroRef} className="relative aspect-[4/3] md:aspect-auto md:h-screen overflow-hidden">
         <div 
           className="absolute inset-0 will-change-transform"
           style={{
