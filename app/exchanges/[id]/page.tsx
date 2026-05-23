@@ -168,10 +168,10 @@ function GalleryImageBox({
           decoding="async"
         />
         
-        {/* 悬停时显示标注 */}
+        {/* 标注 - 移动端始终显示，桌面端悬停显示 */}
         {image.caption && (
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-end">
-            <span className="text-primary/90 text-xs p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-mono">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:bg-black/0 md:group-hover:bg-black/40 transition-colors duration-300 flex items-end">
+            <span className="text-primary/90 text-xs p-3 font-mono md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
               {image.caption}
             </span>
           </div>

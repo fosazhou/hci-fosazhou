@@ -35,7 +35,7 @@ function GalleryImageBox({
   const caption = language === "en" && image.captionEn ? image.captionEn : image.caption
   
   return (
-    <figure className={cn("group", className)}>
+    <figure className={cn("group relative", className)}>
       <div 
         className={cn(
           "overflow-hidden rounded-lg cursor-zoom-in",
@@ -57,9 +57,18 @@ function GalleryImageBox({
           loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
+        {/* 标注 - 移动端覆盖显示 */}
+        {caption && (
+          <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent md:hidden">
+            <span className="text-primary/90 text-xs font-mono">
+              {caption}
+            </span>
+          </div>
+        )}
       </div>
+      {/* 标注 - 桌面端在图片下方显示 */}
       {caption && (
-        <figcaption className="mt-3 text-xs text-muted-foreground font-mono">
+        <figcaption className="hidden md:block mt-3 text-xs text-muted-foreground font-mono">
           {caption}
         </figcaption>
       )}
