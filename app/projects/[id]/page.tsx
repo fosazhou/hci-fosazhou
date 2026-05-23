@@ -416,7 +416,7 @@ function ProjectHeroContentMobile({ project }: { project: Project }) {
   const role = language === "en" && project.roleEn ? project.roleEn : project.role
   
   return (
-  <div className="px-6 py-6 bg-background border-b border-primary/10">
+  <div className="px-6 py-6 bg-gradient-to-b from-[rgba(10,10,15,0.95)] to-background">
   {/* Keywords */}
   <div className="flex flex-wrap gap-2 mb-4">
   {keywords.map((keyword, i) => (

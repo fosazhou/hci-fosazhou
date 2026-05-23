@@ -196,7 +196,7 @@ function GalleryImageBox({
   )
 }
 
-// Auckland 布局 - 保持原有排版
+// Auckland 布�� - 保持原有排版
 function AucklandGallery({ images, onImageClick }: { images?: GalleryImage[], onImageClick: (index: number) => void }) {
   return (
     <div className="space-y-20">
@@ -577,8 +577,8 @@ export default function ExchangePage() {
         </div>
       </div>
       
-      {/* Mobile Hero Content - Below cover image */}
-      <div className="md:hidden px-6 py-6 bg-background border-b border-primary/10">
+      {/* Mobile Hero Content - Below cover image with dark gradient */}
+      <div className="md:hidden px-6 py-6 bg-gradient-to-b from-[rgba(10,10,15,0.95)] to-background">
         {/* Keywords */}
         <div className="flex flex-wrap gap-2 mb-4">
           {keywords.map((keyword, i) => (
