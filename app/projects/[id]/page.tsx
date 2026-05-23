@@ -511,8 +511,8 @@ function ProjectContent() {
         </div>
       </header>
       
-      {/* Hero Section */}
-      <div ref={heroRef} className="relative h-screen overflow-hidden">
+      {/* Hero Section - shorter on mobile */}
+      <div ref={heroRef} className="relative h-[60vh] md:h-screen overflow-hidden">
         <div 
           className="absolute inset-0 will-change-transform"
           style={{
@@ -537,26 +537,26 @@ function ProjectContent() {
         <Link
           href="/#projects"
           className={cn(
-            "absolute top-8 left-8 z-20 flex items-center gap-2",
+            "absolute top-6 left-6 md:top-8 md:left-8 z-20 flex items-center gap-2",
             "text-foreground/70 hover:text-primary transition-all duration-300",
             headerVisible && "opacity-0"
           )}
         >
           <ArrowLeft className="w-5 h-5" />
-          <span className="text-sm font-mono">BACK_TO_PROJECTS</span>
+          <span className="text-sm font-mono hidden md:inline">BACK_TO_PROJECTS</span>
         </Link>
         
         {/* Logo on hero */}
         <div className={cn(
-          "absolute top-8 right-8 z-20 transition-all duration-300",
+          "absolute top-6 right-6 md:top-8 md:right-8 z-20 transition-all duration-300",
           headerVisible && "opacity-0"
         )}>
           <Logo size="md" linkToHome={false} />
         </div>
         
-// Hero content
+	// Hero content
         <div 
-          className="absolute bottom-0 left-0 right-0 p-8 md:p-16 z-10"
+          className="absolute bottom-0 left-0 right-0 p-6 md:p-16 z-10"
           style={{ opacity: heroOpacity }}
         >
           <ProjectHeroContent project={project} />
