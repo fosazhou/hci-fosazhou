@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useState, useRef } from "react"
+import React, { useMemo, useState, useRef, useEffect } from "react"
 import { projects } from "@/lib/projects-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
@@ -23,8 +23,51 @@ function FeaturedProjectCard({
   const { navigateWithTransition, prefetch } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
   const [hasPrefetched, setHasPrefetched] = useState(false)
+  const [isMobilePlaying, setIsMobilePlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const mobileVideoRef = useRef<HTMLVideoElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const visibilityTimerRef = useRef<NodeJS.Timeout | null>(null)
   const { language } = useLanguage()
+
+  // Mobile: Auto-play video when card is visible for 0.5s
+  useEffect(() => {
+    const card = cardRef.current
+    const video = mobileVideoRef.current
+    if (!card || !video || !project.previewVideo) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            // Start timer when card is 50%+ visible
+            visibilityTimerRef.current = setTimeout(() => {
+              video.currentTime = 0
+              video.play().catch(() => {})
+              setIsMobilePlaying(true)
+            }, 500)
+          } else {
+            // Clear timer and pause when leaving viewport
+            if (visibilityTimerRef.current) {
+              clearTimeout(visibilityTimerRef.current)
+              visibilityTimerRef.current = null
+            }
+            video.pause()
+            setIsMobilePlaying(false)
+          }
+        })
+      },
+      { threshold: [0.5] }
+    )
+
+    observer.observe(card)
+    return () => {
+      observer.disconnect()
+      if (visibilityTimerRef.current) {
+        clearTimeout(visibilityTimerRef.current)
+      }
+    }
+  }, [project.previewVideo])
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -53,6 +96,7 @@ function FeaturedProjectCard({
 
   return (
     <div
+      ref={cardRef}
       className="group cursor-pointer"
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
@@ -75,20 +119,23 @@ function FeaturedProjectCard({
                 src={project.coverImage} 
                 alt={project.title}
                 loading="eager"
-                className="w-full h-full object-cover"
+                className={cn(
+                  "w-full h-full object-cover transition-opacity duration-300",
+                  isMobilePlaying && project.previewVideo ? "opacity-0" : "opacity-100"
+                )}
               />
             )}
             {project.previewVideo && (
               <video
-                ref={videoRef}
+                ref={mobileVideoRef}
                 src={project.previewVideo}
                 muted
                 loop
                 playsInline
                 preload="auto"
                 className={cn(
-                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
-                  isHovered ? "opacity-100" : "opacity-0"
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+                  isMobilePlaying ? "opacity-100" : "opacity-0"
                 )}
               />
             )}
@@ -273,8 +320,51 @@ function ProjectCard({
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const [hasPrefetched, setHasPrefetched] = useState(false)
+  const [isMobilePlaying, setIsMobilePlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const mobileVideoRef = useRef<HTMLVideoElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const visibilityTimerRef = useRef<NodeJS.Timeout | null>(null)
   const { language } = useLanguage()
+
+  // Mobile: Auto-play video when card is visible for 0.5s
+  useEffect(() => {
+    const card = cardRef.current
+    const video = mobileVideoRef.current
+    if (!card || !video || !project.previewVideo) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            // Start timer when card is 50%+ visible
+            visibilityTimerRef.current = setTimeout(() => {
+              video.currentTime = 0
+              video.play().catch(() => {})
+              setIsMobilePlaying(true)
+            }, 500)
+          } else {
+            // Clear timer and pause when leaving viewport
+            if (visibilityTimerRef.current) {
+              clearTimeout(visibilityTimerRef.current)
+              visibilityTimerRef.current = null
+            }
+            video.pause()
+            setIsMobilePlaying(false)
+          }
+        })
+      },
+      { threshold: [0.5] }
+    )
+
+    observer.observe(card)
+    return () => {
+      observer.disconnect()
+      if (visibilityTimerRef.current) {
+        clearTimeout(visibilityTimerRef.current)
+      }
+    }
+  }, [project.previewVideo])
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -284,7 +374,6 @@ function ProjectCard({
   
   const handleMouseEnter = () => {
     setIsHovered(true)
-    // 首次 hover 时预取详情页
     if (!hasPrefetched) {
       prefetch(`/projects/${project.id}`)
       setHasPrefetched(true)
@@ -307,6 +396,7 @@ function ProjectCard({
 
   return (
     <div
+      ref={cardRef}
       className="group cursor-pointer"
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
@@ -332,20 +422,23 @@ function ProjectCard({
                 alt={project.title}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover"
+                className={cn(
+                  "w-full h-full object-cover transition-opacity duration-300",
+                  isMobilePlaying && project.previewVideo ? "opacity-0" : "opacity-100"
+                )}
               />
             )}
             {project.previewVideo && (
               <video
-                ref={videoRef}
+                ref={mobileVideoRef}
                 src={project.previewVideo}
                 muted
                 loop
                 playsInline
                 preload="auto"
                 className={cn(
-                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
-                  isHovered ? "opacity-100" : "opacity-0"
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+                  isMobilePlaying ? "opacity-100" : "opacity-0"
                 )}
               />
             )}
