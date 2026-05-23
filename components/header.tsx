@@ -13,8 +13,8 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-[rgba(34,211,238,0.1)]">
-      <nav className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between">
+      <nav className="mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div className="flex h-16 items-center justify-between">
           {/* Left side - Logo and status */}
           <div className="flex items-center gap-4">
             <Logo size="sm" />

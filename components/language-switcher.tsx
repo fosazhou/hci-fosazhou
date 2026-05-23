@@ -16,7 +16,6 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const currentLang = languageOptions.find(l => l.value === language) || languageOptions[0]
-  const displayLabel = language === "en" ? "Language" : "语言"
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -35,17 +34,24 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-1.5 px-2.5 py-1.5 rounded",
-          "border border-primary/20 bg-primary/5",
-          "text-[10px] font-mono tracking-wider",
-          "text-muted-foreground hover:text-foreground",
+          "flex items-center gap-2 px-3 py-2 rounded-md",
+          "border border-primary/30 bg-primary/10",
+          "text-xs font-mono tracking-wider",
+          "text-foreground/80 hover:text-foreground",
           "transition-all duration-200",
-          isOpen && "border-primary/40 bg-primary/10"
+          "hover:border-primary/50 hover:bg-primary/15",
+          isOpen && "border-primary/50 bg-primary/20"
         )}
       >
-        <span>{displayLabel}</span>
+        <span className="text-primary">
+          {language === "zh" ? "中" : "EN"}
+        </span>
+        <span className="text-muted-foreground/60">/</span>
+        <span className="text-muted-foreground/60">
+          {language === "zh" ? "EN" : "中"}
+        </span>
         <ChevronDown className={cn(
-          "h-3 w-3 transition-transform duration-200",
+          "h-3.5 w-3.5 text-primary/60 transition-transform duration-200",
           isOpen && "rotate-180"
         )} />
       </button>

@@ -175,13 +175,22 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
     sortByPreference
   } = useUserBehavior()
 
+  // FU project is always first, excluded from adaptive sorting
+  const fuProject = useMemo(() => {
+    return otherWorks.find(w => w.id === "fu")
+  }, [])
+
+  // Other works participate in adaptive sorting
   const sortedWorks = useMemo(() => {
     const filtered = filterIds 
-      ? otherWorks.filter(w => filterIds.includes(w.id))
-      : otherWorks
+      ? otherWorks.filter(w => filterIds.includes(w.id) && w.id !== "fu")
+      : otherWorks.filter(w => w.id !== "fu")
     if (!isLoaded) return filtered
     return sortByPreference(filtered)
   }, [isLoaded, sortByPreference, filterIds])
+
+  // Check if FU should be shown
+  const showFU = !filterIds || filterIds.includes("fu")
 
   return (
     <section id="other-works" className="py-16 border-t border-[rgba(34,211,238,0.1)]">
@@ -196,15 +205,25 @@ export function OtherWorks({ filterIds }: OtherWorksProps) {
         </div>
         
         {/* Behavior tracker display */}
-        <BehaviorTrackerDisplay section="works" itemCount={sortedWorks.length} />
+        <BehaviorTrackerDisplay section="works" itemCount={sortedWorks.length + (showFU ? 1 : 0)} />
         
         {/* Works list */}
         <div className="space-y-6">
-          {sortedWorks.slice(0, 6).map((work, index) => (
+          {/* FU - Featured, always first */}
+          {showFU && fuProject && (
+            <WorkCard
+              work={fuProject}
+              index={0}
+              onTrack={trackClick}
+            />
+          )}
+          
+          {/* Other works - adaptive sorted */}
+          {sortedWorks.slice(0, showFU ? 5 : 6).map((work, index) => (
             <WorkCard
               key={work.id}
               work={work}
-              index={index}
+              index={showFU ? index + 1 : index}
               onTrack={trackClick}
             />
           ))}
