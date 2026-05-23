@@ -495,8 +495,8 @@ export default function ExchangePage() {
           ) : (
             <div className="w-full h-full bg-muted" />
           )}
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+          {/* Gradient overlay - lighter on mobile since content is below */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent md:from-background md:via-background/60" />
         </div>
         
         {/* Back button on hero */}
@@ -520,9 +520,9 @@ export default function ExchangePage() {
           <Logo size="md" linkToHome={false} />
         </div>
         
-        {/* Hero content */}
+        {/* Hero content - Desktop only */}
         <div 
-          className="absolute bottom-0 left-0 right-0 p-6 md:p-16 z-10"
+          className="absolute bottom-0 left-0 right-0 p-16 z-10 hidden md:block"
           style={{ opacity: heroOpacity }}
         >
           <div className="mx-auto max-w-4xl">
@@ -539,7 +539,7 @@ export default function ExchangePage() {
             </div>
             
             {/* Title */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 tracking-tight">
+            <h1 className="text-6xl lg:text-7xl font-bold text-foreground mb-4 tracking-tight">
               {title}
             </h1>
             
@@ -566,14 +566,55 @@ export default function ExchangePage() {
           </div>
         </div>
         
-        {/* Scroll indicator */}
+        {/* Scroll indicator - Desktop only */}
         <div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-primary/60 animate-bounce"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-primary/60 animate-bounce hidden md:block"
           style={{ opacity: heroOpacity }}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
+        </div>
+      </div>
+      
+      {/* Mobile Hero Content - Below cover image */}
+      <div className="md:hidden px-6 py-6 bg-background border-b border-primary/10">
+        {/* Keywords */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {keywords.map((keyword, i) => (
+            <span 
+              key={i}
+              className="px-2.5 py-1 text-[9px] font-mono text-primary/80 border border-primary/30 rounded-full bg-primary/5 uppercase tracking-wider"
+            >
+              {keyword}
+            </span>
+          ))}
+        </div>
+        
+        {/* Title */}
+        <h1 className="text-2xl font-bold text-foreground mb-2 tracking-tight">
+          {title}
+        </h1>
+        
+        {/* Subtitle */}
+        <p className="text-sm text-foreground/70 mb-4 font-light">
+          {subtitle}
+        </p>
+        
+        {/* Meta info - stacked on mobile */}
+        <div className="space-y-2 text-xs font-mono">
+          <div>
+            <span className="text-muted-foreground/60 mr-2">PERIOD/</span>
+            <span className="text-foreground">{exchange.period}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground/60 mr-2">LOCATION/</span>
+            <span className="text-foreground">{location}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground/60 mr-2">PROGRAM/</span>
+            <span className="text-foreground">{program}</span>
+          </div>
         </div>
       </div>
       
