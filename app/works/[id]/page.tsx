@@ -820,8 +820,8 @@ function WorkContent() {
   
   // Get localized content for hero
   const keywords = language === "en" && work.keywordsEn ? work.keywordsEn : work.keywords
-  const title = language === "en" ? work.title : work.titleCn
-  const subtitle = language === "en" && work.subtitleEn ? work.subtitleEn : work.titleCn
+  const title = work.title // Main title is always the project name (e.g., "FU")
+  const subtitle = language === "en" && work.subtitleEn ? work.subtitleEn : work.titleCn // Chinese name as subtitle
   const location = language === "en" && work.locationEn ? work.locationEn : work.location
   const role = language === "en" && work.roleEn ? work.roleEn : work.role
   const category = language === "en" && work.categoryEn ? work.categoryEn : work.category
