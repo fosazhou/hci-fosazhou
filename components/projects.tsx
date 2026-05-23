@@ -66,11 +66,66 @@ function FeaturedProjectCard({
           isHovered && "border-[rgba(233,30,99,0.4)] shadow-[0_0_40px_rgba(233,30,99,0.1)]"
         )}
       >
-        <div className="flex items-stretch">
+        {/* Mobile: Vertical layout with image on top */}
+        <div className="md:hidden">
+          {/* Top: Cover image */}
+          <div className="relative h-48 overflow-hidden">
+            {project.coverImage && (
+              <img 
+                src={project.coverImage} 
+                alt={project.title}
+                loading="eager"
+                className="w-full h-full object-cover"
+              />
+            )}
+            {project.previewVideo && (
+              <video
+                ref={videoRef}
+                src={project.previewVideo}
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className={cn(
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
+                  isHovered ? "opacity-100" : "opacity-0"
+                )}
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,15,0.9)] via-[rgba(10,10,15,0.3)] to-transparent" />
+            
+            {/* Featured badge overlay */}
+            <div className="absolute top-3 left-3 flex items-center gap-2">
+              <span className="text-[9px] font-mono text-brand/80 tracking-widest bg-black/50 px-2 py-1 rounded">FEATURED</span>
+              <span className="text-xl font-light text-brand/80 bg-black/50 px-2 py-1 rounded">01</span>
+            </div>
+            
+            {/* Year badge */}
+            <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-mono border border-brand/30 text-brand bg-black/50">
+              {project.year}
+            </div>
+          </div>
+          
+          {/* Bottom: Content */}
+          <div className="p-4">
+            <h3 className="text-lg font-medium text-foreground/90">
+              {language === "en" && project.titleEn ? project.titleEn : project.title}
+            </h3>
+            <p className="text-xs text-muted-foreground/60 mt-1">
+              {(language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords).slice(0, 2).join(' · ')}
+            </p>
+            <p className="text-sm text-muted-foreground/50 leading-relaxed mt-3 line-clamp-3">
+              {language === "en" && project.descriptionEn ? project.descriptionEn : project.description}
+            </p>
+          </div>
+        </div>
+        
+        {/* Desktop: Horizontal layout */}
+        <div className="hidden md:flex items-stretch">
           {/* Left: Index with featured indicator */}
           <div 
             className={cn(
-              "w-20 md:w-24 flex-shrink-0 flex flex-col items-center justify-center gap-1",
+              "w-24 flex-shrink-0 flex flex-col items-center justify-center gap-1",
               "border-r border-[rgba(233,30,99,0.15)]",
               "bg-[rgba(233,30,99,0.03)]",
               "transition-colors duration-300",
@@ -80,7 +135,7 @@ function FeaturedProjectCard({
             <span className="text-[9px] font-mono text-brand/50 tracking-widest">FEATURED</span>
             <span 
               className={cn(
-                "text-3xl md:text-4xl font-light transition-colors duration-300",
+                "text-4xl font-light transition-colors duration-300",
                 isHovered ? "text-brand" : "text-brand/60"
               )}
             >
@@ -88,13 +143,13 @@ function FeaturedProjectCard({
             </span>
           </div>
           
-          {/* Center: Title and info - larger */}
-          <div className="flex-1 p-6 md:p-8">
+          {/* Center: Title and info */}
+          <div className="flex-1 p-8">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <h3 
                   className={cn(
-                    "text-xl md:text-2xl font-medium transition-colors duration-300",
+                    "text-2xl font-medium transition-colors duration-300",
                     isHovered ? "text-foreground" : "text-foreground/90"
                   )}
                 >
@@ -119,12 +174,10 @@ function FeaturedProjectCard({
               </div>
             </div>
             
-            {/* Always visible description for featured */}
             <p className="text-sm text-muted-foreground/60 leading-relaxed mt-4 max-w-xl">
               {language === "en" && project.descriptionEn ? project.descriptionEn : project.description}
             </p>
             
-            {/* Hover reveal: Keywords */}
             <div 
               className={cn(
                 "overflow-hidden transition-all duration-500 ease-out",
@@ -151,9 +204,9 @@ function FeaturedProjectCard({
           {/* Right: Larger thumbnail */}
           <div 
             className={cn(
-              "w-44 md:w-64 flex-shrink-0 relative overflow-hidden",
+              "w-64 flex-shrink-0 relative overflow-hidden",
               "transition-all duration-500",
-              isHovered && "w-52 md:w-72"
+              isHovered && "w-72"
             )}
           >
             {project.coverImage && (
@@ -194,7 +247,7 @@ function FeaturedProjectCard({
           </div>
         </div>
         
-        {/* Bottom accent line - thicker for featured */}
+        {/* Bottom accent line */}
         <div 
           className={cn(
             "absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-brand via-brand/80 to-primary/50 transition-all duration-500 ease-out",
@@ -269,12 +322,63 @@ function ProjectCard({
           isHovered && "border-[rgba(255,255,255,0.12)] bg-[rgba(10,10,15,0.6)]"
         )}
       >
-        {/* Main content row */}
-        <div className="flex items-stretch">
+        {/* Mobile: Vertical layout */}
+        <div className="md:hidden">
+          {/* Top: Cover image */}
+          <div className="relative h-36 overflow-hidden">
+            {project.coverImage && (
+              <img 
+                src={project.coverImage} 
+                alt={project.title}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
+            )}
+            {project.previewVideo && (
+              <video
+                ref={videoRef}
+                src={project.previewVideo}
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className={cn(
+                  "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
+                  isHovered ? "opacity-100" : "opacity-0"
+                )}
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,15,0.9)] via-transparent to-transparent" />
+            
+            {/* Index badge */}
+            <div className="absolute top-3 left-3 w-10 h-10 rounded-lg flex items-center justify-center bg-black/50 border border-white/10">
+              <span className="text-lg font-light text-muted-foreground/60">{String(index + 1).padStart(2, '0')}</span>
+            </div>
+            
+            {/* Year badge */}
+            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono border border-white/10 text-muted-foreground/50 bg-black/50">
+              {project.year}
+            </div>
+          </div>
+          
+          {/* Bottom: Content */}
+          <div className="p-4">
+            <h3 className="text-base font-medium text-foreground/80">
+              {language === "en" && project.titleEn ? project.titleEn : project.title}
+            </h3>
+            <p className="text-xs text-muted-foreground/50 mt-1">
+              {language === "en" ? project.keywordsEn?.[0] : project.keywords[0]}
+            </p>
+          </div>
+        </div>
+        
+        {/* Desktop: Horizontal layout */}
+        <div className="hidden md:flex items-stretch">
           {/* Left: Index number */}
           <div 
             className={cn(
-              "w-16 md:w-20 flex-shrink-0 flex items-center justify-center",
+              "w-20 flex-shrink-0 flex items-center justify-center",
               "border-r border-[rgba(255,255,255,0.06)]",
               "bg-[rgba(255,255,255,0.02)]",
               "transition-colors duration-300",
@@ -283,7 +387,7 @@ function ProjectCard({
           >
             <span 
               className={cn(
-                "text-2xl md:text-3xl font-light transition-colors duration-300",
+                "text-3xl font-light transition-colors duration-300",
                 isHovered ? "text-brand" : "text-muted-foreground/30"
               )}
             >
@@ -292,20 +396,18 @@ function ProjectCard({
           </div>
           
           {/* Center: Title and info */}
-          <div className="flex-1 p-5 md:p-6">
+          <div className="flex-1 p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
-                {/* Title */}
                 <h3 
                   className={cn(
-                    "text-lg md:text-xl font-medium transition-colors duration-300",
+                    "text-xl font-medium transition-colors duration-300",
                     isHovered ? "text-foreground" : "text-foreground/80"
                   )}
                 >
                   {language === "en" && project.titleEn ? project.titleEn : project.title}
                 </h3>
                 
-                {/* Subtitle - first keyword */}
                 {(language === "en" ? project.keywordsEn?.[0] : project.keywords[0]) && (
                   <p className="text-sm text-muted-foreground/50 mt-0.5">
                     {language === "en" ? project.keywordsEn?.[0] : project.keywords[0]}
@@ -313,7 +415,6 @@ function ProjectCard({
                 )}
               </div>
               
-              {/* Year badge */}
               <div 
                 className={cn(
                   "px-3 py-1 rounded-full text-xs font-mono",
@@ -327,19 +428,16 @@ function ProjectCard({
               </div>
             </div>
             
-            {/* Hover reveal: Description and tags */}
             <div 
               className={cn(
                 "overflow-hidden transition-all duration-500 ease-out",
                 isHovered ? "max-h-48 opacity-100 mt-4" : "max-h-0 opacity-0 mt-0"
               )}
             >
-              {/* Description */}
               <p className="text-sm text-muted-foreground/70 leading-relaxed mb-4">
                 {language === "en" && project.descriptionEn ? project.descriptionEn : project.description}
               </p>
               
-              {/* Keywords tags */}
               <div className="flex flex-wrap gap-2">
                 {(language === "en" && project.keywordsEn ? project.keywordsEn : project.keywords).map((keyword, i) => (
                   <span 
@@ -347,26 +445,22 @@ function ProjectCard({
                     className={cn(
                       "px-2.5 py-1 text-[10px] font-mono tracking-wider uppercase",
                       "border border-[rgba(255,255,255,0.1)] rounded-full",
-                      "text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]",
-                      "transition-colors duration-300",
-                      "hover:border-primary/30 hover:text-primary/70"
+                      "text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]"
                     )}
                   >
                     {keyword}
                   </span>
                 ))}
               </div>
-              
-
             </div>
           </div>
           
           {/* Right: Thumbnail image */}
           <div 
             className={cn(
-              "w-32 md:w-48 flex-shrink-0 relative overflow-hidden",
+              "w-48 flex-shrink-0 relative overflow-hidden",
               "transition-all duration-500",
-              isHovered && "w-40 md:w-56"
+              isHovered && "w-56"
             )}
           >
             {project.coverImage && (
@@ -383,7 +477,6 @@ function ProjectCard({
               />
             )}
             
-            {/* Video preview - always mounted, preloaded, shown on hover */}
             {project.previewVideo && (
               <video
                 ref={videoRef}
@@ -399,7 +492,6 @@ function ProjectCard({
               />
             )}
             
-            {/* Gradient overlay */}
             <div 
               className={cn(
                 "absolute inset-0 bg-gradient-to-r from-[rgba(10,10,15,0.8)] via-transparent to-transparent",
@@ -462,9 +554,10 @@ export function Projects({ filterIds }: ProjectsProps) {
         {/* Behavior tracker display */}
         <BehaviorTrackerDisplay section="projects" itemCount={otherProjects.length + (showVeilspace ? 1 : 0)} />
         
-        {/* Instruction hint */}
+        {/* Instruction hint - different for mobile/desktop */}
         <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
-          HOVER_TO_VIEW | CLICK_TO_ENTER
+          <span className="hidden md:inline">HOVER_TO_VIEW | CLICK_TO_ENTER</span>
+          <span className="md:hidden">TAP_TO_ENTER</span>
         </p>
         
         {/* Projects list */}
