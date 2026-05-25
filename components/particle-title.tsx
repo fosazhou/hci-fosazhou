@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useEffect, useCallback } from "react"
+import React, { useRef, useEffect, useCallback, useState } from "react"
 
 interface Particle {
   x: number
@@ -22,6 +22,7 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: -9999, y: -9999, active: false })
   const animationRef = useRef<number>()
+  const [isAnimating, setIsAnimating] = useState(false)
 
   // Initialize particles from text
   const initParticles = useCallback(() => {
@@ -69,10 +70,13 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
 
     particlesRef.current = particles
     ctx.clearRect(0, 0, rect.width, rect.height)
+    
+    // Draw static particles initially
+    renderStatic()
   }, [text])
 
-  // Animation loop
-  const animate = useCallback(() => {
+  // Static render (no animation)
+  const renderStatic = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -81,8 +85,43 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+    for (const p of particlesRef.current) {
+      ctx.fillStyle = `rgba(255, 255, 255, 0.85)`
+      ctx.beginPath()
+      ctx.arc(p.originX, p.originY, 2, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }, [])
+
+  // Animation loop - only runs when mouse is active
+  const animate = useCallback(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
     const mouse = mouseRef.current
     const particles = particlesRef.current
+    
+    // Stop animation if mouse not active and particles are settled
+    if (!mouse.active) {
+      let isSettled = true
+      for (const p of particles) {
+        if (Math.abs(p.x - p.originX) > 0.5 || Math.abs(p.y - p.originY) > 0.5) {
+          isSettled = false
+          break
+        }
+      }
+      if (isSettled) {
+        renderStatic()
+        setIsAnimating(false)
+        return
+      }
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
     const mouseRadius = 60
 
     for (const p of particles) {
@@ -120,7 +159,7 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
     }
 
     animationRef.current = requestAnimationFrame(animate)
-  }, [])
+  }, [renderStatic])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const container = containerRef.current
@@ -132,7 +171,11 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
 
   const handleMouseEnter = useCallback(() => {
     mouseRef.current.active = true
-  }, [])
+    if (!isAnimating) {
+      setIsAnimating(true)
+      animationRef.current = requestAnimationFrame(animate)
+    }
+  }, [animate, isAnimating])
 
   const handleMouseLeave = useCallback(() => {
     mouseRef.current.active = false
@@ -142,7 +185,6 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
 
   useEffect(() => {
     initParticles()
-    animationRef.current = requestAnimationFrame(animate)
 
     const handleResize = () => initParticles()
     window.addEventListener("resize", handleResize)
@@ -151,7 +193,7 @@ export function ParticleTitle({ text, className = "" }: ParticleTitleProps) {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
       window.removeEventListener("resize", handleResize)
     }
-  }, [initParticles, animate])
+  }, [initParticles])
 
   return (
     <div

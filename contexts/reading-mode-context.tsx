@@ -445,17 +445,17 @@ export function ReadingModeProvider({ children }: { children: ReactNode }) {
     setShowSuggestionBadge(false)
   }, [setMode, suggestion.mode])
 
-  // Track dwell time
+  // Track dwell time - update every 5 seconds instead of every second for performance
   useEffect(() => {
     const interval = setInterval(() => {
       setBehavior(prev => ({
         ...prev,
         reading: {
           ...prev.reading,
-          dwellTime: prev.reading.dwellTime + 1,
+          dwellTime: prev.reading.dwellTime + 5,
         },
       }))
-    }, 1000)
+    }, 5000)
     
     return () => clearInterval(interval)
   }, [])

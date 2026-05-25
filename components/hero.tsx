@@ -46,20 +46,19 @@ const marqueeData = {
 }
 
 // ============================================
-// FLOATING DECORATIVE ELEMENTS
+// FLOATING DECORATIVE ELEMENTS - Simplified for performance
 // ============================================
 
 function FloatingElements() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Floating orbs */}
+      {/* Floating orbs - reduced and static */}
       <div
         className="absolute w-64 h-64 rounded-full opacity-[0.03]"
         style={{
           background: 'radial-gradient(circle, rgba(233,30,99,0.8) 0%, transparent 70%)',
           top: '10%',
           right: '15%',
-          animation: 'float-slow 20s ease-in-out infinite',
         }}
       />
       <div
@@ -68,31 +67,20 @@ function FloatingElements() {
           background: 'radial-gradient(circle, rgba(34,211,238,0.8) 0%, transparent 70%)',
           bottom: '20%',
           left: '10%',
-          animation: 'float-slow 25s ease-in-out infinite reverse',
         }}
       />
 
-      {/* Floating lines */}
+      {/* Static lines instead of animated */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]">
         <line
           x1="20%" y1="30%" x2="35%" y2="45%"
           stroke="url(#line-gradient)"
           strokeWidth="0.5"
-          className="animate-pulse"
         />
         <line
           x1="70%" y1="20%" x2="85%" y2="35%"
           stroke="url(#line-gradient)"
           strokeWidth="0.5"
-          style={{ animationDelay: '1s' }}
-          className="animate-pulse"
-        />
-        <line
-          x1="80%" y1="60%" x2="90%" y2="70%"
-          stroke="url(#line-gradient)"
-          strokeWidth="0.5"
-          style={{ animationDelay: '2s' }}
-          className="animate-pulse"
         />
         <defs>
           <linearGradient id="line-gradient">
@@ -103,59 +91,33 @@ function FloatingElements() {
         </defs>
       </svg>
 
-      {/* Floating dots */}
-      {[...Array(6)].map((_, i) => (
+      {/* Reduced static dots - no animation */}
+      {[...Array(3)].map((_, i) => (
         <div
           key={i}
-          className="absolute w-1 h-1 rounded-full bg-brand/30"
+          className="absolute w-1 h-1 rounded-full bg-brand/20"
           style={{
-            left: `${15 + i * 15}%`,
-            top: `${20 + (i % 3) * 25}%`,
-            animation: `float-dot ${8 + i * 2}s ease-in-out infinite`,
-            animationDelay: `${i * 0.5}s`,
+            left: `${20 + i * 25}%`,
+            top: `${25 + (i % 2) * 30}%`,
           }}
         />
       ))}
-
-      <style jsx>{`
-        @keyframes float-slow {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(20px, -30px) scale(1.05); }
-          66% { transform: translate(-15px, 15px) scale(0.95); }
-        }
-        @keyframes float-dot {
-          0%, 100% { transform: translateY(0); opacity: 0.3; }
-          50% { transform: translateY(-20px); opacity: 0.6; }
-        }
-      `}</style>
     </div>
   )
 }
 
 // ============================================
-// FLOATING STATUS LABELS
+// FLOATING STATUS LABELS - Simplified, no time update
 // ============================================
 
 function FloatingLabels() {
-  const [time, setTime] = useState("")
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date()
-      setTime(now.toLocaleTimeString('en-US', { hour12: false }))
-    }
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
   return (
     <>
       {/* Top left */}
       <div className="absolute top-24 left-6 lg:left-8 text-[9px] font-mono text-muted-foreground/50 tracking-widest space-y-1">
         <div className="flex items-center gap-2">
-          <span className="w-1 h-1 rounded-full bg-primary/40 animate-pulse" />
-          <span>SYS.TIME: {time}</span>
+          <span className="w-1 h-1 rounded-full bg-primary/40" />
+          <span>SYS.STATUS: ONLINE</span>
         </div>
         <div className="pl-3 text-primary/30">LOCALE: CN/NZ</div>
       </div>
@@ -189,7 +151,6 @@ function FloatingLabels() {
 // ============================================
 
 export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [mounted, setMounted] = useState(false)
   const [typedText, setTypedText] = useState("")
   const fullText = "RESPONSIVE_SPATIAL_HCI"
@@ -218,15 +179,6 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
     }, 60)
     return () => clearInterval(interval)
   }, [mounted])
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
 
   return (
     <section className="min-h-screen flex flex-col relative overflow-hidden">

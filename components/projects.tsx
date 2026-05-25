@@ -132,7 +132,7 @@ function FeaturedProjectCard({
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="none"
                 className={cn(
                   "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
                   isMobilePlaying ? "opacity-100" : "opacity-0"
@@ -276,7 +276,7 @@ function FeaturedProjectCard({
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="none"
                 className={cn(
                   "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
                   isHovered ? "opacity-100" : "opacity-0"
@@ -435,7 +435,7 @@ function ProjectCard({
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="none"
                 className={cn(
                   "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
                   isMobilePlaying ? "opacity-100" : "opacity-0"
@@ -577,7 +577,7 @@ function ProjectCard({
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="none"
                 className={cn(
                   "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
                   isHovered ? "opacity-100" : "opacity-0"
