@@ -28,6 +28,7 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
   const trailRef = useRef<TrailPoint[]>([])
   const mouseRef = useRef({ x: -1000, y: -1000, isInside: false })
   const animationRef = useRef<number>(0)
+  const resizeFrameRef = useRef<number | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   
   // Create particles from image - NO mouse interaction
@@ -206,10 +207,20 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     }
     
     updateSize()
-    window.addEventListener("resize", updateSize)
+    const handleResize = () => {
+      if (resizeFrameRef.current !== null) return
+      resizeFrameRef.current = requestAnimationFrame(() => {
+        updateSize()
+        resizeFrameRef.current = null
+      })
+    }
+    window.addEventListener("resize", handleResize)
     
     return () => {
-      window.removeEventListener("resize", updateSize)
+      window.removeEventListener("resize", handleResize)
+      if (resizeFrameRef.current !== null) {
+        cancelAnimationFrame(resizeFrameRef.current)
+      }
     }
   }, [imageSrc, createParticles])
   
@@ -241,6 +252,10 @@ export function ParticleAvatar({ imageSrc, className = "" }: ParticleAvatarProps
     return () => {
       container.removeEventListener('mousemove', handleMouseMove)
       container.removeEventListener('mouseleave', handleMouseLeave)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+        animationRef.current = 0
+      }
     }
   }, [renderTrail])
   
