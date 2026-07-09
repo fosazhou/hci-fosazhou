@@ -89,8 +89,8 @@ export function BehaviorTrackerDisplay({ section, itemCount }: BehaviorTrackerDi
       }, 400)
       
       const scanInterval = setInterval(() => {
-        setScanValue(prev => (prev + 1) % 100)
-      }, 50)
+        setScanValue(prev => (prev + 2) % 100)
+      }, 100)
       
       return () => {
         clearInterval(phraseInterval)

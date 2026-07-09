@@ -787,6 +787,7 @@ function WorkContent() {
   const [scrollY, setScrollY] = useState(0)
   const [headerVisible, setHeaderVisible] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
+  const scrollFrameRef = useRef<number | null>(null)
   
   // Lightbox state
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -799,15 +800,29 @@ function WorkContent() {
   
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY)
-      if (heroRef.current) {
-        const heroHeight = heroRef.current.offsetHeight
-        setHeaderVisible(window.scrollY > heroHeight * 0.8)
-      }
+      if (scrollFrameRef.current !== null) return
+      scrollFrameRef.current = requestAnimationFrame(() => {
+        const nextScrollY = window.scrollY
+        setScrollY(nextScrollY)
+        if (heroRef.current) {
+          const heroHeight = heroRef.current.offsetHeight
+          const nextHeaderVisible = nextScrollY > heroHeight * 0.8
+          setHeaderVisible((current) =>
+            current === nextHeaderVisible ? current : nextHeaderVisible
+          )
+        }
+        scrollFrameRef.current = null
+      })
     }
     
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    handleScroll()
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      if (scrollFrameRef.current !== null) {
+        cancelAnimationFrame(scrollFrameRef.current)
+      }
+    }
   }, [])
   
   if (!work) {
