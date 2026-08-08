@@ -777,7 +777,7 @@ export function Projects({ filterIds }: ProjectsProps) {
               cluster.resolvedItems.length > 0 ? (
                 <div key={cluster.number} className="relative">
                   {/* Cluster header */}
-                  <div className="mb-7 pl-4 border-l-2 border-brand/50">
+                  <div className="mb-5 rounded-lg border border-brand/20 bg-gradient-to-r from-brand/10 via-brand/5 to-transparent px-5 py-4 border-l-2 border-l-brand/60">
                     {/* Number tag + localized title on one line */}
                     <div className="flex items-baseline gap-3 flex-wrap">
                       <span className="font-mono text-lg md:text-xl font-semibold tracking-[0.1em] text-brand tabular-nums leading-none">
