@@ -351,7 +351,6 @@ export default function ExchangePage() {
   const [headerVisible, setHeaderVisible] = useState(false)
   const [showEntryOverlay, setShowEntryOverlay] = useState(true)
   const heroRef = useRef<HTMLDivElement>(null)
-  const scrollFrameRef = useRef<number | null>(null)
   
   // Lightbox 状态
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -377,29 +376,15 @@ export default function ExchangePage() {
   
   useEffect(() => {
     const handleScroll = () => {
-      if (scrollFrameRef.current !== null) return
-      scrollFrameRef.current = requestAnimationFrame(() => {
-        const nextScrollY = window.scrollY
-        setScrollY(nextScrollY)
-        if (heroRef.current) {
-          const heroHeight = heroRef.current.offsetHeight
-          const nextHeaderVisible = nextScrollY > heroHeight * 0.8
-          setHeaderVisible((current) =>
-            current === nextHeaderVisible ? current : nextHeaderVisible
-          )
-        }
-        scrollFrameRef.current = null
-      })
+      setScrollY(window.scrollY)
+      if (heroRef.current) {
+        const heroHeight = heroRef.current.offsetHeight
+        setHeaderVisible(window.scrollY > heroHeight * 0.8)
+      }
     }
     
     window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      if (scrollFrameRef.current !== null) {
-        cancelAnimationFrame(scrollFrameRef.current)
-      }
-    }
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
   
   if (!exchange) {

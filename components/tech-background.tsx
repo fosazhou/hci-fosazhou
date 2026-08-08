@@ -18,7 +18,6 @@ export function TechBackground() {
   const particlesRef = useRef<Particle[]>([])
   const animationRef = useRef<number>()
   const mouseRef = useRef({ x: 0, y: 0 })
-  const resizeFrameRef = useRef<number | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -33,18 +32,10 @@ export function TechBackground() {
     }
 
     resizeCanvas()
-    const handleResize = () => {
-      if (resizeFrameRef.current !== null) return
-      resizeFrameRef.current = requestAnimationFrame(() => {
-        resizeCanvas()
-        resizeFrameRef.current = null
-      })
-    }
-    window.addEventListener("resize", handleResize)
+    window.addEventListener("resize", resizeCanvas)
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.clientX
-      mouseRef.current.y = e.clientY
+      mouseRef.current = { x: e.clientX, y: e.clientY }
     }
     window.addEventListener("mousemove", handleMouseMove)
 
@@ -98,7 +89,7 @@ export function TechBackground() {
         const dx = mouseRef.current.x - particle.x
         const dy = mouseRef.current.y - particle.y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist > 0 && dist < 200) {
+        if (dist < 200) {
           particle.vx += (dx / dist) * 0.01
           particle.vy += (dy / dist) * 0.01
         }
@@ -157,11 +148,8 @@ export function TechBackground() {
     animate()
 
     return () => {
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("resize", resizeCanvas)
       window.removeEventListener("mousemove", handleMouseMove)
-      if (resizeFrameRef.current !== null) {
-        cancelAnimationFrame(resizeFrameRef.current)
-      }
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
