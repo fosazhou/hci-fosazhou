@@ -222,16 +222,19 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
               {/* Particle Title - Left aligned, above Chinese name */}
               <div className="relative">
                 <ParticleTitle
-                  key={language === "zh" || language === "zh-hk" ? "cn" : "en"}
-                  text={language === "zh" || language === "zh-hk" ? heroData.nameCn : heroData.nameEn}
+                  key={mounted && (language === "zh" || language === "zh-hk") ? "cn" : "en"}
+                  text={mounted && (language === "zh" || language === "zh-hk") ? heroData.nameCn : heroData.nameEn}
                   className="w-full max-w-xl h-24 md:h-32 lg:h-40"
                 />
 
                 {/* Secondary name - directly below particle title, left aligned */}
-                <p className="text-lg md:text-xl text-muted-foreground tracking-[0.3em] font-light mt-2 pl-1">
+                <p
+                  suppressHydrationWarning
+                  className="text-lg md:text-xl text-muted-foreground tracking-[0.3em] font-light mt-2 pl-1"
+                >
                   <span className="text-brand/40">[</span>
                   <span className="text-foreground/80">
-                    {language === "zh" || language === "zh-hk" ? heroData.nameEn : heroData.nameCn}
+                    {mounted && (language === "zh" || language === "zh-hk") ? heroData.nameEn : heroData.nameCn}
                   </span>
                   <span className="text-brand/40">]</span>
                 </p>
