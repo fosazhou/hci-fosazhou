@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Projects } from "@/components/projects"
+import { Projects, clusteredWorkIds } from "@/components/projects"
 import { Exchanges } from "@/components/exchanges"
 import { OtherWorks } from "@/components/other-works"
 import { TimelineSlider, type TimelineWork } from "@/components/timeline-slider"
@@ -247,14 +247,14 @@ export function HomeClientContent() {
         />
       </section>
 
-      {/* Projects - filtered by timeline */}
-      <Projects filterIds={filteredProjectIds} />
+      {/* Research clusters - projects + clustered works, filtered by timeline */}
+      <Projects filterIds={[...filteredProjectIds, ...filteredWorkIds]} />
       
       {/* Exchanges - filtered by timeline */}
       <Exchanges filterIds={filteredExchangeIds} />
       
-      {/* Other Works - filtered by timeline */}
-      <OtherWorks filterIds={filteredWorkIds} />
+      {/* Other Works - filtered by timeline, excluding works already shown in clusters */}
+      <OtherWorks filterIds={filteredWorkIds.filter((id) => !clusteredWorkIds.includes(id))} />
     </PageTransitionProvider>
   )
 }

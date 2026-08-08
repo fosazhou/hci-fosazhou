@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useRef, useEffect } from "react"
 import { projects } from "@/lib/projects-data"
+import { otherWorks } from "@/lib/other-works-data"
 import { useUserBehavior } from "@/hooks/use-user-behavior"
 import { usePageTransition } from "@/components/page-transition"
 import { BehaviorTrackerDisplay } from "@/components/behavior-tracker-display"
@@ -11,6 +12,90 @@ import { cn } from "@/lib/utils"
 interface ProjectsProps {
   filterIds?: string[]
 }
+
+// 卡片可接受的最小数据结构（同时兼容 projects 与 otherWorks）
+type CardProject = {
+  id: string
+  title: string
+  titleEn?: string
+  description: string
+  descriptionEn?: string
+  keywords: string[]
+  keywordsEn?: string[]
+  coverImage?: string
+  previewVideo?: string
+  year: string
+  comingSoon?: boolean
+}
+
+type ClusterItem = { id: string; source: "project" | "work" }
+
+// 三个研究簇：Design Computing × Human-AI Interaction × Embodied Systems
+const researchClusters: {
+  number: string
+  title: string
+  subtitle: { zh: string; "zh-hk": string; en: string }
+  oneLiner: { zh: string; "zh-hk": string; en: string }
+  items: ClusterItem[]
+}[] = [
+  {
+    number: "01",
+    title: "AI & DECISION SYSTEMS",
+    subtitle: {
+      zh: "从城市复杂问题到人机协同决策",
+      "zh-hk": "從城市複雜問題到人機協同決策",
+      en: "From Urban Complexity to Human–AI Decision-Making",
+    },
+    oneLiner: {
+      zh: "将城市数据、规则约束与 AI Agent 转化为可交互的设计与决策支持系统。",
+      "zh-hk": "將城市數據、規則約束與 AI Agent 轉化為可互動的設計與決策支援系統。",
+      en: "Turning urban data, rule-based constraints, and AI agents into interactive design and decision-support systems.",
+    },
+    items: [{ id: "airsite", source: "project" }],
+  },
+  {
+    number: "02",
+    title: "EMBODIED & PHYSICAL INTERACTION",
+    subtitle: {
+      zh: "从身体感知到物理环境反馈",
+      "zh-hk": "從身體感知到物理環境反饋",
+      en: "From Bodily Sensing to Physical Environmental Feedback",
+    },
+    oneLiner: {
+      zh: "通过身体行为、传感器、计算控制与实体执行建立感知—判断—反馈闭环。",
+      "zh-hk": "通過身體行為、傳感器、計算控制與實體執行建立感知—判斷—反饋閉環。",
+      en: "Building sense–decide–actuate loops through bodily behavior, sensors, computational control, and physical execution.",
+    },
+    items: [
+      { id: "veilspace", source: "project" },
+      { id: "td-music-visualization", source: "project" },
+    ],
+  },
+  {
+    number: "03",
+    title: "COMPUTATIONAL & ADAPTIVE DESIGN",
+    subtitle: {
+      zh: "从数据输入到动态设计系统",
+      "zh-hk": "從數據輸入到動態設計系統",
+      en: "From Data Input to Dynamic Design Systems",
+    },
+    oneLiner: {
+      zh: "探索声音、行为等动态数据如何通过计算规则影响空间形态与数字界面。",
+      "zh-hk": "探索聲音、行為等動態數據如何通過計算規則影響空間形態與數字介面。",
+      en: "Exploring how dynamic data such as sound and behavior reshape spatial form and digital interfaces through computational rules.",
+    },
+    items: [
+      { id: "fu", source: "work" },
+      { id: "portfolio-website", source: "project" },
+    ],
+  },
+]
+
+// 被研究簇收录的「其他作品」id（用于在 Other Works 区块中去重）
+export const clusteredWorkIds = researchClusters
+  .flatMap((c) => c.items)
+  .filter((it) => it.source === "work")
+  .map((it) => it.id)
 
 // Featured Project Card - larger, more prominent (for Veilspace)
 function FeaturedProjectCard({ 
@@ -310,11 +395,15 @@ function FeaturedProjectCard({
 function ProjectCard({ 
   project, 
   onTrack,
-  index 
+  index = 0,
+  routeBase = "/projects/",
+  hideIndex = false,
 }: { 
-  project: typeof projects[0]
+  project: CardProject
   onTrack: (tags: string[]) => void
-  index: number
+  index?: number
+  routeBase?: string
+  hideIndex?: boolean
 }) {
   const { navigateWithTransition, prefetch } = usePageTransition()
   const [isHovered, setIsHovered] = useState(false)
@@ -368,14 +457,15 @@ function ProjectCard({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
+    if (project.comingSoon) return
     onTrack(project.keywords)
-    navigateWithTransition(`/projects/${project.id}`)
+    navigateWithTransition(`${routeBase}${project.id}`)
   }
   
   const handleMouseEnter = () => {
     setIsHovered(true)
-    if (!hasPrefetched) {
-      prefetch(`/projects/${project.id}`)
+    if (!hasPrefetched && !project.comingSoon) {
+      prefetch(`${routeBase}${project.id}`)
       setHasPrefetched(true)
     }
     // 播放视频
@@ -397,7 +487,7 @@ function ProjectCard({
   return (
     <div
       ref={cardRef}
-      className="group cursor-pointer"
+      className={cn("group", project.comingSoon ? "cursor-default" : "cursor-pointer")}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -444,10 +534,12 @@ function ProjectCard({
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,15,0.9)] via-transparent to-transparent" />
             
-            {/* Index badge */}
-            <div className="absolute top-3 left-3 w-10 h-10 rounded-lg flex items-center justify-center bg-black/50 border border-white/10">
-              <span className="text-lg font-light text-muted-foreground/60">{String(index + 1).padStart(2, '0')}</span>
-            </div>
+            {/* Coming soon badge */}
+            {project.comingSoon && (
+              <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-mono tracking-widest border border-brand/40 text-brand bg-black/60">
+                COMING SOON
+              </div>
+            )}
             
             {/* Year badge */}
             <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono border border-white/10 text-muted-foreground/50 bg-black/50">
@@ -468,38 +560,47 @@ function ProjectCard({
         
         {/* Desktop: Horizontal layout */}
         <div className="hidden md:flex items-stretch">
-          {/* Left: Index number */}
-          <div 
-            className={cn(
-              "w-20 flex-shrink-0 flex items-center justify-center",
-              "border-r border-[rgba(255,255,255,0.06)]",
-              "bg-[rgba(255,255,255,0.02)]",
-              "transition-colors duration-300",
-              isHovered && "bg-[rgba(233,30,99,0.05)]"
-            )}
-          >
-            <span 
+          {/* Left: Index number (hidden inside research clusters) */}
+          {!hideIndex && (
+            <div 
               className={cn(
-                "text-3xl font-light transition-colors duration-300",
-                isHovered ? "text-brand" : "text-muted-foreground/30"
+                "w-20 flex-shrink-0 flex items-center justify-center",
+                "border-r border-[rgba(255,255,255,0.06)]",
+                "bg-[rgba(255,255,255,0.02)]",
+                "transition-colors duration-300",
+                isHovered && "bg-[rgba(233,30,99,0.05)]"
               )}
             >
-              {String(index + 1).padStart(2, '0')}
-            </span>
-          </div>
+              <span 
+                className={cn(
+                  "text-3xl font-light transition-colors duration-300",
+                  isHovered ? "text-brand" : "text-muted-foreground/30"
+                )}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+          )}
           
           {/* Center: Title and info */}
           <div className="flex-1 p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <h3 
-                  className={cn(
-                    "text-xl font-medium transition-colors duration-300",
-                    isHovered ? "text-foreground" : "text-foreground/80"
+                <div className="flex items-center gap-3">
+                  <h3 
+                    className={cn(
+                      "text-xl font-medium transition-colors duration-300",
+                      isHovered ? "text-foreground" : "text-foreground/80"
+                    )}
+                  >
+                    {language === "en" && project.titleEn ? project.titleEn : project.title}
+                  </h3>
+                  {project.comingSoon && (
+                    <span className="px-2 py-0.5 rounded-full text-[9px] font-mono tracking-widest border border-brand/40 text-brand bg-brand/5 whitespace-nowrap">
+                      COMING SOON
+                    </span>
                   )}
-                >
-                  {language === "en" && project.titleEn ? project.titleEn : project.title}
-                </h3>
+                </div>
                 
                 {(language === "en" ? project.keywordsEn?.[0] : project.keywords[0]) && (
                   <p className="text-sm text-muted-foreground/50 mt-0.5">
@@ -608,29 +709,37 @@ function ProjectCard({
 }
 
 export function Projects({ filterIds }: ProjectsProps) {
-  const { 
-    isLoaded, 
-    trackClick, 
-    sortByPreference,
-  } = useUserBehavior()
+  const { trackClick } = useUserBehavior()
+  const { language } = useLanguage()
 
-  // Veilspace is always first, excluded from adaptive sorting
-  const veilspaceProject = useMemo(() => {
-    return projects.find(p => p.id === "veilspace")
-  }, [])
+  // 语言键（与簇文案的 key 对齐）
+  const langKey = language === "en" ? "en" : "zh"
 
-  // Other projects participate in adaptive sorting
-  const otherProjects = useMemo(() => {
-    const filtered = filterIds 
-      ? projects.filter(p => filterIds.includes(p.id) && p.id !== "veilspace")
-      : projects.filter(p => p.id !== "veilspace")
-    
-    if (!isLoaded) return filtered
-    return sortByPreference(filtered)
-  }, [isLoaded, sortByPreference, filterIds])
+  // 根据时间轴过滤：filterIds 为空表示全部可见
+  const isVisible = (id: string) => !filterIds || filterIds.includes(id)
 
-  // Check if Veilspace should be shown
-  const showVeilspace = !filterIds || filterIds.includes("veilspace")
+  // 从 projects / otherWorks 解析卡片数据
+  const resolveItem = (id: string, source: "project" | "work"): CardProject | undefined => {
+    if (source === "work") return otherWorks.find((w) => w.id === id) as CardProject | undefined
+    return projects.find((p) => p.id === id) as CardProject | undefined
+  }
+
+  // 构建带有可见项的研究簇
+  const clustersWithItems = useMemo(() => {
+    return researchClusters.map((cluster) => {
+      const resolvedItems = cluster.items
+        .map((it) => {
+          const data = resolveItem(it.id, it.source)
+          return data ? { data, source: it.source } : null
+        })
+        .filter((entry): entry is { data: CardProject; source: "project" | "work" } => entry !== null)
+        .filter((entry) => isVisible(entry.data.id))
+      return { ...cluster, resolvedItems }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterIds])
+
+  const totalVisible = clustersWithItems.reduce((sum, c) => sum + c.resolvedItems.length, 0)
 
   return (
     <section className="py-12">
@@ -639,42 +748,63 @@ export function Projects({ filterIds }: ProjectsProps) {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-[10px] font-mono text-primary/60 tracking-widest">P.02/</span>
           <h2 className="text-[11px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
-            SELECTED_PROJECTS
+            RESEARCH_CLUSTERS
           </h2>
           <div className="flex-1 h-[1px] bg-gradient-to-r from-primary/20 to-transparent ml-4" />
         </div>
-        
+
         {/* Behavior tracker display */}
-        <BehaviorTrackerDisplay section="projects" itemCount={otherProjects.length + (showVeilspace ? 1 : 0)} />
-        
-        {/* Instruction hint - different for mobile/desktop */}
-        <p className="text-[10px] font-mono text-muted-foreground/30 mb-6 tracking-wider">
-          <span className="hidden md:inline">HOVER_TO_VIEW | CLICK_TO_ENTER</span>
-          <span className="md:hidden">TAP_TO_ENTER</span>
+        <BehaviorTrackerDisplay section="projects" itemCount={totalVisible} />
+
+        {/* Positioning line */}
+        <p className="text-[10px] font-mono text-primary/40 mb-10 tracking-wider">
+          Design Computing <span className="text-muted-foreground/30">×</span> Human–AI Interaction{" "}
+          <span className="text-muted-foreground/30">×</span> Embodied Systems
         </p>
-        
-        {/* Projects list */}
-        <div className="space-y-3">
-          {/* Veilspace - Featured, always first */}
-          {showVeilspace && veilspaceProject && (
-            <FeaturedProjectCard
-              project={veilspaceProject}
-              onTrack={trackClick}
-            />
-          )}
-          
-          {/* Other projects - adaptive sorted */}
-          {otherProjects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onTrack={trackClick}
-              index={index + 1} // Start from 02 since Veilspace is 01
-            />
-          ))}
-        </div>
-        
-        {otherProjects.length === 0 && !showVeilspace && (
+
+        {totalVisible > 0 ? (
+          <div className="space-y-16">
+            {clustersWithItems.map((cluster) =>
+              cluster.resolvedItems.length > 0 ? (
+                <div key={cluster.number}>
+                  {/* Cluster header */}
+                  <div className="mb-6">
+                    <div className="flex items-baseline gap-4">
+                      <span className="text-4xl md:text-5xl font-light leading-none text-brand/70">
+                        {cluster.number}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm md:text-base font-mono uppercase tracking-[0.2em] text-foreground text-balance">
+                          {cluster.title}
+                        </h3>
+                        <p className="text-xs md:text-sm text-primary/60 mt-1">
+                          {cluster.subtitle[langKey]}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground/70 leading-relaxed mt-3 max-w-2xl text-pretty">
+                      {cluster.oneLiner[langKey]}
+                    </p>
+                    <div className="h-[1px] bg-gradient-to-r from-brand/30 to-transparent mt-4" />
+                  </div>
+
+                  {/* Cluster items */}
+                  <div className="space-y-3">
+                    {cluster.resolvedItems.map((entry) => (
+                      <ProjectCard
+                        key={entry.data.id}
+                        project={entry.data}
+                        onTrack={trackClick}
+                        routeBase={entry.source === "work" ? "/works/" : "/projects/"}
+                        hideIndex
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : null
+            )}
+          </div>
+        ) : (
           <div className="text-center py-16">
             <p className="text-muted-foreground/50 font-mono text-sm">
               NO_PROJECTS_IN_SELECTED_RANGE

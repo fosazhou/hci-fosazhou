@@ -52,6 +52,7 @@ export interface ResearchContent {
 
 export interface Project {
   id: string
+  comingSoon?: boolean  // 标记为进行中/即将上线的占位作品
   title: string
   titleEn?: string
   titleHk?: string
@@ -97,6 +98,35 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    id: "airsite",
+    comingSoon: true,
+    title: "Airsite",
+    titleEn: "Airsite",
+    titleHk: "Airsite",
+    description: "将城市数据、规则约束与 AI Agent 转化为可交互的设计与决策支持系统。",
+    descriptionEn: "Turning urban data, rule-based constraints, and AI agents into an interactive design and decision-support system.",
+    descriptionHk: "將城市數據、規則約束與 AI Agent 轉化為可互動的設計與決策支援系統。",
+    keywords: ["AI Agent", "决策支持", "城市数据"],
+    keywordsEn: ["AI Agent", "Decision Support", "Urban Data"],
+    keywordsHk: ["AI Agent", "決策支援", "城市數據"],
+    coverImage: "/images/works/airsite/cover.png",
+    fullDescription: "Airsite 探索如何将城市尺度的复杂数据、规划规则与约束条件，与 AI Agent 的推理能力结合，转化为可交互的设计与决策支持系统，辅助人在复杂城市问题中进行人机协同决策。项目正在进行中。",
+    fullDescriptionEn: "Airsite explores how city-scale complex data, planning rules, and constraints can be combined with the reasoning capabilities of AI agents to become an interactive design and decision-support system, assisting human-AI collaborative decision-making in complex urban problems. This project is in progress.",
+    fullDescriptionHk: "Airsite 探索如何將城市尺度的複雜數據、規劃規則與約束條件，與 AI Agent 的推理能力結合，轉化為可互動的設計與決策支援系統，輔助人在複雜城市問題中進行人機協同決策。項目正在進行中。",
+    year: "2026",
+    startDate: "2026.1",
+    endDate: "2026.6",
+    location: "西安，中国",
+    locationEn: "Xi'an, China",
+    locationHk: "西安，中國",
+    role: "设计师 / 研究者",
+    roleEn: "Designer / Researcher",
+    roleHk: "設計師 / 研究者",
+    details: [],
+    detailsEn: [],
+    detailsHk: [],
+  },
   {
     id: "portfolio-website",
     title: "Adaptive Portfolio Interface",
@@ -304,9 +334,9 @@ export const projects: Project[] = [
       hypothesis: "如果界面能够根据用户阅读行为提示合适的内容层级，并允许用户保留主动切换权，就可以降低信息搜索成本，提高作品理解效率。",
       approach: "项目基于 Next.js 与 React 构建交互原型，设置 Quick / Process / Research 三种阅读模式，并记录滚动速度、停留时间、点击深度与导航路径。随后通过 6 名参与者的小样本 A/B 测试，对比线性作品集与自适应作品集在典型阅读任务中的表现。",
       logic: [
-        "不同用户有不同的阅读深度需求 → 界面需要提供多种信息层级",
+        "不同用户有不���的阅读深度需求 → 界面需要提供多种信息层级",
         "用户行为：滚动、停留和点击行为 → 可以通过行为数据推断偏好",
-        "自适应系统应建议，而不是替用户决定",
+        "自适应系统应建议，而不是替用���决定",
         "作品集需要展示过程而非仅结果 → 需要分层内容结构，呈现过程、方法和研究逻辑"
       ],
       strategies: [
@@ -377,7 +407,7 @@ export const projects: Project[] = [
     coverImage: "/images/projects/veilspace/cover.png",
     coverImageEn: "/images/projects/veilspace/cover_en.png",
     previewVideo: "/videos/projects/veilspace_preview.mp4",
-    fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型，关注空间如何通过感知人的身体状态，提供私密调节与情绪缓冲。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开。项目探索的核心问题是：响应式空间边界能否通过具身感知与环境反馈，为使用者创造更具疗愈性的空间体验，从而促进心理健康与福祉。",
+    fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型，关注空间如何通过感知人的身体状态，提供私密调节与���绪缓冲。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开。项目探索的核心问题是：响应式空间边界能否通过具身感知与环境反馈，为使用者创造更具疗愈性的空间体验，从而促进心理健康与福祉。",
     fullDescriptionEn: "Soft Thresholds · VeilSpace is a 1:1 embodied responsive spatial prototype that focuses on how space can provide privacy adjustment and emotional buffering by sensing human body states. Using FSR pressure sensors to recognize sitting, leaning, staying, and leaving states, Arduino and stepper motors control the descent, gathering, and expansion of flexible fabric boundaries. The core question is: can responsive spatial boundaries create more healing spatial experiences through embodied sensing and environmental feedback, thereby promoting mental health and wellbeing.",
     fullDescriptionHk: "Soft Thresholds · VeilSpace 是一個 1:1 具身響應式空間原型，關注空間如何通過感知人的身體狀態，提供私密調節與情緒緩衝。項目以人的身體行為作為空間輸入，通過 FSR 壓力傳感器識別坐下、倚靠、停留與離開等狀態，由 Arduino 與步進電機控制柔性織物邊界的下降、收攏與展開。項目探索的核心問題是：響應式空間邊界能否通過具身感知與環境反饋，為使用者創造更具療癒性的空間體驗，從而促進心理健康與福祉。",
     year: "2025",

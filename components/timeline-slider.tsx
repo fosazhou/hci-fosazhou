@@ -606,7 +606,7 @@ export function TimelineSlider({
                 {getWorksForMonth(selectedMonth).map((work) => (
                   <a
                     key={`${work.type}-${work.id}`}
-                    href={work.id === 'portfolio-website' ? '#' : getLinkPath(work)}
+                    href={work.id === 'portfolio-website' || work.id === 'airsite' ? '#' : getLinkPath(work)}
                     className={cn(
                       "flex items-center gap-2 p-1.5 rounded",
                       "hover:bg-primary/10",
@@ -615,6 +615,11 @@ export function TimelineSlider({
                     )}
                     onClick={(e) => {
                       e.stopPropagation()
+                      // Airsite - coming soon, no detail page yet
+                      if (work.id === 'airsite') {
+                        e.preventDefault()
+                        return
+                      }
                       // Portfolio website - scroll to top of current page
                       if (work.id === 'portfolio-website') {
                         e.preventDefault()
