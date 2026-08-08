@@ -778,20 +778,20 @@ export function Projects({ filterIds }: ProjectsProps) {
                 <div key={cluster.number} className="relative">
                   {/* Cluster header */}
                   <div className="mb-7 pl-4 border-l-2 border-brand/50">
-                    {/* Number tag + title on one line */}
+                    {/* Number tag + localized title on one line */}
                     <div className="flex items-baseline gap-3 flex-wrap">
                       <span className="font-mono text-lg md:text-xl font-semibold tracking-[0.1em] text-brand tabular-nums leading-none">
                         {cluster.number}
                       </span>
                       <span className="w-6 h-px bg-brand/30 hidden md:inline-block" />
-                      <h3 className="text-sm md:text-base font-mono uppercase tracking-[0.15em] text-foreground text-balance leading-snug">
-                        {cluster.title}
+                      <h3 className="text-base md:text-lg font-semibold tracking-tight text-foreground text-balance leading-snug">
+                        {cluster.subtitle[langKey]}
                       </h3>
                     </div>
 
-                    {/* Subtitle */}
-                    <p className="text-xs md:text-sm text-primary/70 mt-2 font-light">
-                      {cluster.subtitle[langKey]}
+                    {/* English category label */}
+                    <p className="text-xs md:text-sm font-mono uppercase tracking-[0.15em] text-muted-foreground/70 mt-2">
+                      {cluster.title}
                     </p>
 
                     {/* One-liner description */}
