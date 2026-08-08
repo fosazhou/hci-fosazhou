@@ -104,16 +104,16 @@ export const projects: Project[] = [
     title: "Airsite",
     titleEn: "Airsite",
     titleHk: "Airsite",
-    description: "将城市数据、规则约束与 AI Agent 转化为可交互的设计与决策支持系统。",
-    descriptionEn: "Turning urban data, rule-based constraints, and AI agents into an interactive design and decision-support system.",
-    descriptionHk: "將城市數據、規則約束與 AI Agent 轉化為可互動的設計與決策支援系統。",
+    description: "把城市设计里那些说不清的规则和数据，交给一个能一起商量的 AI。",
+    descriptionEn: "Handing the messy rules and data of urban design to an AI you can actually reason with.",
+    descriptionHk: "把城市設計裡那些說不清的規則和數據，交給一個能一起商量的 AI。",
     keywords: ["AI Agent", "决策支持", "城市数据"],
     keywordsEn: ["AI Agent", "Decision Support", "Urban Data"],
     keywordsHk: ["AI Agent", "決策支援", "城市數據"],
     coverImage: "/images/works/airsite/cover.png",
-    fullDescription: "Airsite 探索如何将城市尺度的复杂数据、规划规则与约束条件，与 AI Agent 的推理能力结合，转化为可交互的设计与决策支持系统，辅助人在复杂城市问题中进行人机协同决策。项目正在进行中。",
-    fullDescriptionEn: "Airsite explores how city-scale complex data, planning rules, and constraints can be combined with the reasoning capabilities of AI agents to become an interactive design and decision-support system, assisting human-AI collaborative decision-making in complex urban problems. This project is in progress.",
-    fullDescriptionHk: "Airsite 探索如何將城市尺度的複雜數據、規劃規則與約束條件，與 AI Agent 的推理能力結合，轉化為可互動的設計與決策支援系統，輔助人在複雜城市問題中進行人機協同決策。項目正在進行中。",
+    fullDescription: "城市设计里有太多说不清的东西——一堆规范、彼此打架的诉求、还有查不完的数据。Airsite 想做的，是把这些东西交给一个能陪你一起想问题的 AI Agent：它帮你把约束和数据理清楚、推演不同方案的后果，但最后怎么选，还是人说了算。整个研究分三步走——先啃论文把方法搞明白，再拿一个真实的城市设计问题验证它靠不靠谱，最后把跑通的流程沉淀成一个能反复使用的 AI Agent。项目正在进行中。",
+    fullDescriptionEn: "Urban design is full of things that are hard to pin down—stacks of regulations, competing demands, and more data than anyone can read through. Airsite tries to hand all of that to an AI agent you can think alongside: it helps you untangle the constraints and data and play out what different options might lead to, while the final call still rests with a person. The research moves in three steps—first digging into the literature to get the method right, then testing it against a real urban-design problem to see if it holds up, and finally distilling what works into a reusable AI agent. This project is in progress.",
+    fullDescriptionHk: "城市設計裡有太多說不清的東西——一堆規範、彼此打架的訴求、還有查不完的數據。Airsite 想做的，是把這些東西交給一個能陪你一起想問題的 AI Agent：它幫你把約束和數據理清楚、推演不同方案的後果，但最後怎麼選，還是人說了算。整個研究分三步走——先啃論文把方法搞明白，再拿一個真實的城市設計問題驗證它靠不靠譜，最後把跑通的流程沉澱成一個能反覆使用的 AI Agent。項目正在進行中。",
     year: "2026",
     startDate: "2026.1",
     endDate: "2026.6",
@@ -126,6 +126,171 @@ export const projects: Project[] = [
     details: [],
     detailsEn: [],
     detailsHk: [],
+    quickContent: {
+      headline: "一个能陪设计师一起权衡城市数据、规则和方案的 AI 决策助手（进行中）。",
+      keyPoints: [
+        "先从论文和真实案例里，弄清楚城市决策到底是怎么一步步做出来的",
+        "拿一个具体的城市设计问题当试金石，验证这套方法走不走得通",
+        "最后把跑通的流程做成一个能重复调用的 AI Agent，而不是一次性 demo",
+        "AI 负责算数据、推演后果，真正拍板的还是人",
+      ],
+      outcome: "把城市设计中零散的规则、数据与判断，收拢进一个可以对话、可以复用的决策流程里。",
+    },
+    quickContentEn: {
+      headline: "An AI decision companion that helps designers weigh urban data, rules, and options (in progress).",
+      keyPoints: [
+        "Start by digging into papers and real cases to see how urban decisions actually get made",
+        "Use one concrete urban-design problem as a test to see whether the method holds up",
+        "Turn the working process into a reusable AI agent, not a one-off demo",
+        "The AI crunches data and plays out consequences; a person still makes the call",
+      ],
+      outcome: "Pulling the scattered rules, data, and judgment of urban design into one conversational, reusable decision process.",
+    },
+    quickContentHk: {
+      headline: "一個能陪設計師一起權衡城市數據、規則和方案的 AI 決策助手（進行中）。",
+      keyPoints: [
+        "先從論文和真實案例裡，弄清楚城市決策到底是怎麼一步步做出來的",
+        "拿一個具體的城市設計問題當試金石，驗證這套方法走不走得通",
+        "最後把跑通的流程做成一個能重複調用的 AI Agent，而不是一次性 demo",
+        "AI 負責算數據、推演後果，真正拍板的還是人",
+      ],
+      outcome: "把城市設計中零散的規則、數據與判斷，收攏進一個可以對話、可以複用的決策流程裡。",
+    },
+    processContent: {
+      phases: [
+        {
+          title: "论文方法研究",
+          description: "先扎进文献里，把城市设计和决策背后的方法、约束和评价标准弄明白，也顺带看看现在的 AI Agent 到底能帮上多少忙。这一步是给整个项目打地基。",
+        },
+        {
+          title: "城市设计验证",
+          description: "挑一个真实的城市设计问题当靶子，把前面整理出来的方法套上去实打实跑一遍，看它在真实的规范和数据约束下到底靠不靠谱。",
+        },
+        {
+          title: "开发可复用 AI Agent",
+          description: "把验证过的流程沉淀成一个能反复调用的 AI Agent，让它下次遇到新场景也能接着用，而不是每次都从零开始搭。",
+        },
+      ],
+      methodology: "研究沿着'先想清楚、再验证、最后固化成工具'的思路推进：从方法研究到真实问题验证，再到可复用 Agent 的开发，每一步都为下一步铺路。",
+      iterations: "项目会随着验证结果不断回头修正方法——真实问题里跑出来的坑，会反过来改写前期的方法假设。",
+      decisions: [
+        "把'论文方法研究'放在最前面，避免一上来就写代码、方向跑偏",
+        "坚持用真实城市设计问题验证，而不是拿理想化的假数据自证",
+        "目标是可复用的 Agent，而不是只能演示一次的原型",
+        "始终把最终决策权留给人，AI 只做支持",
+      ],
+    },
+    processContentEn: {
+      phases: [
+        {
+          title: "Literature & Method Research",
+          description: "Dig into the literature first to understand the methods, constraints, and evaluation criteria behind urban design and decision-making—and take stock of how far today's AI agents can actually go. This step lays the foundation.",
+        },
+        {
+          title: "Urban Design Validation",
+          description: "Take a real urban-design problem as a target and run the assembled method against it for real, to see whether it holds up under actual regulations and data constraints.",
+        },
+        {
+          title: "Building a Reusable AI Agent",
+          description: "Distill the validated process into an AI agent that can be called again and again, so it still works the next time a new scenario comes up—instead of being rebuilt from scratch each time.",
+        },
+      ],
+      methodology: "The research follows a 'think it through, then validate, then harden into a tool' path: from method research to real-problem validation to building a reusable agent, each step paving the way for the next.",
+      iterations: "The method keeps getting revised as validation results come in—the pitfalls surfaced by real problems feed back and rewrite the early method assumptions.",
+      decisions: [
+        "Put 'literature & method research' first, to avoid coding too early and drifting off course",
+        "Insist on validating with a real urban-design problem rather than self-confirming idealized data",
+        "Aim for a reusable agent, not a prototype that only demos once",
+        "Always leave the final decision to a person; the AI only supports",
+      ],
+    },
+    processContentHk: {
+      phases: [
+        {
+          title: "論文方法研究",
+          description: "先扎進文獻裡，把城市設計和決策背後的方法、約束和評價標準弄明白，也順帶看看現在的 AI Agent 到底能幫上多少忙。這一步是給整個項目打地基。",
+        },
+        {
+          title: "城市設計驗證",
+          description: "挑一個真實的城市設計問題當靶子，把前面整理出來的方法套上去實打實跑一遍，看它在真實的規範和數據約束下到底靠不靠譜。",
+        },
+        {
+          title: "開發可複用 AI Agent",
+          description: "把驗證過的流程沉澱成一個能反覆調用的 AI Agent，讓它下次遇到新場景也能接著用，而不是每次都從零開始搭。",
+        },
+      ],
+      methodology: "研究沿著'先想清楚、再驗證、最後固化成工具'的思路推進：從方法研究到真實問題驗證，再到可複用 Agent 的開發，每一步都為下一步鋪路。",
+      iterations: "項目會隨著驗證結果不斷回頭修正方法——真實問題裡跑出來的坑，會反過來改寫前期的方法假設。",
+      decisions: [
+        "把'論文方法研究'放在最前面，避免一上來就寫代碼、方向跑偏",
+        "堅持用真實城市設計問題驗證，而不是拿理想化的假數據自證",
+        "目標是可複用的 Agent，而不是只能演示一次的原型",
+        "始終把最終決策權留給人，AI 只做支持",
+      ],
+    },
+    researchContent: {
+      problemStatement: "城市设计要同时应付一大堆规范、彼此冲突的诉求和查不完的数据，判断过程往往藏在设计师脑子里，说不清也难复现。当问题一复杂，人很容易顾此失彼。",
+      context: "项目把城市设计看成一个'在约束里做决策'的过程，而不是画一张最终图。研究关心的是：数据、规则、方案推演和人的判断之间，能不能被一个 AI Agent 串起来。",
+      hypothesis: "如果先把城市决策的方法研究透，再用真实问题验证，最后固化成一个可复用的 AI Agent，那么它就有机会真正帮设计师减负，而不是又多一个花哨但用不上的工具。",
+      approach: "研究分三步推进：论文方法研究（弄清城市决策与 AI Agent 的方法边界）→ 城市设计验证（用真实问题检验方法）→ 开发可复用 AI Agent（把流程沉淀成工具）。每一步的结果都会反过来修正上一步的假设。",
+      logic: [
+        "城市决策复杂且依赖经验 → 需要先把方法讲清楚，才能交给机器",
+        "理想数据证明不了什么 → 必须用真实城市设计问题来验证",
+        "一次性 demo 没有价值 → 要做成能反复调用的 Agent",
+        "AI 会算但不该替人负责 → 决策权始终留在人手里",
+      ],
+      strategies: [
+        "先做文献与方法研究，再动手开发",
+        "锁定一个真实城市设计问题作为验证场景",
+        "把数据、规则约束和方案推演接入 Agent 的推理流程",
+        "设计人机协同的交互方式，让人随时能介入和否决",
+        "把跑通的流程模块化，方便迁移到新场景",
+      ],
+      findings: "项目正在进行中，暂无最终结论。当前阶段的工作集中在方法研究与验证场景的搭建上。",
+      reflection: "这个项目对我最大的挑战，是克制住'直接开做'的冲动——先把方法想清楚，比急着让 AI 跑出结果更重要。也在不断提醒自己：Agent 再聪明，城市里的取舍最终还是得由人来承担。",
+    },
+    researchContentEn: {
+      problemStatement: "Urban design has to juggle a pile of regulations, conflicting demands, and more data than anyone can read. The reasoning often lives in a designer's head—hard to articulate and hard to reproduce. As problems grow complex, it's easy to lose track of one thing while chasing another.",
+      context: "The project treats urban design as a process of 'making decisions within constraints,' not as drawing a final plan. The question is whether data, rules, option-testing, and human judgment can be strung together by an AI agent.",
+      hypothesis: "If we first study the methods of urban decision-making thoroughly, then validate them on a real problem, and finally harden them into a reusable AI agent, it stands a real chance of easing designers' load—rather than becoming yet another flashy tool no one uses.",
+      approach: "The research advances in three steps: literature & method research (mapping the methods and limits of urban decision-making and AI agents) → urban design validation (testing the method on a real problem) → building a reusable AI agent (distilling the process into a tool). Each step's results feed back to revise the previous assumptions.",
+      logic: [
+        "Urban decisions are complex and experience-driven → the method must be made explicit before handing it to a machine",
+        "Idealized data proves nothing → validation must use a real urban-design problem",
+        "A one-off demo has no value → it should become an agent you can call repeatedly",
+        "AI can compute but shouldn't be accountable → the decision stays with people",
+      ],
+      strategies: [
+        "Do the literature and method research before writing code",
+        "Lock in one real urban-design problem as the validation scenario",
+        "Wire data, rule constraints, and option-testing into the agent's reasoning",
+        "Design human-AI collaboration so a person can step in and override at any time",
+        "Modularize the working process so it can move to new scenarios",
+      ],
+      findings: "The project is in progress; there are no final conclusions yet. Current work focuses on method research and setting up the validation scenario.",
+      reflection: "The hardest part for me has been resisting the urge to just start building—getting the method clear matters more than rushing to make the AI produce a result. And I keep reminding myself: however clever the agent gets, the trade-offs in a city ultimately have to be carried by people.",
+    },
+    researchContentHk: {
+      problemStatement: "城市設計要同時應付一大堆規範、彼此衝突的訴求和查不完的數據，判斷過程往往藏在設計師腦子裡，說不清也難複現。當問題一複雜，人很容易顧此失彼。",
+      context: "項目把城市設計看成一個'在約束裡做決策'的過程，而不是畫一張最終圖。研究關心的是：數據、規則、方案推演和人的判斷之間，能不能被一個 AI Agent 串起來。",
+      hypothesis: "如果先把城市決策的方法研究透，再用真實問題驗證，最後固化成一個可複用的 AI Agent，那麼它就有機會真正幫設計師減負，而不是又多一個花哨但用不上的工具。",
+      approach: "研究分三步推進：論文方法研究（弄清城市決策與 AI Agent 的方法邊界）→ 城市設計驗證（用真實問題檢驗方法）→ 開發可複用 AI Agent（把流程沉澱成工具）。每一步的結果都會反過來修正上一步的假設。",
+      logic: [
+        "城市決策複雜且依賴經驗 → 需要先把方法講清楚，才能交給機器",
+        "理想數據證明不了什麼 → 必須用真實城市設計問題來驗證",
+        "一次性 demo 沒有價值 → 要做成能反覆調用的 Agent",
+        "AI 會算但不該替人負責 → 決策權始終留在人手裡",
+      ],
+      strategies: [
+        "先做文獻與方法研究，再動手開發",
+        "鎖定一個真實城市設計問題作為驗證場景",
+        "把數據、規則約束和方案推演接入 Agent 的推理流程",
+        "設計人機協同的交互方式，讓人隨時能介入和否決",
+        "把跑通的流程模組化，方便遷移到新場景",
+      ],
+      findings: "項目正在進行中，暫無最終結論。當前階段的工作集中在方法研究與驗證場景的搭建上。",
+      reflection: "這個項目對我最大的挑戰，是克制住'直接開做'的衝動——先把方法想清楚，比急著讓 AI 跑出結果更重要。也在不斷提醒自己：Agent 再聰明，城市裡的取捨最終還是得由人來承擔。",
+    },
   },
   {
     id: "portfolio-website",
@@ -169,7 +334,7 @@ export const projects: Project[] = [
       "AI-assisted prototyping for frontend iteration"
     ],
     detailsHk: [
-      "Quick / Process / Research 三種閱讀模式",
+      "Quick / Process / Research 三���閱讀模式",
       "基於行為信號的閱讀狀態感知",
       "資訊密度與內容層級動態調整",
       "降低認知負荷的自適應策略",
@@ -310,7 +475,7 @@ export const projects: Project[] = [
         },
         {
           title: "前端原型實現",
-          description: "基於 Next.js 與 React 實現模式切換、時間軸篩選、項目預覽與響應式佈局。"
+          description: "基於 Next.js 與 React 實現模式切換、��間軸篩選、項目預覽與響應式佈局。"
         },
         {
           title: "小樣本 A/B 測試",
@@ -388,7 +553,7 @@ export const projects: Project[] = [
         "通過項目預覽降低跳轉成本",
         "保留手動切換、忽略建議和自主瀏覽路徑"
       ],
-      findings: "小樣本 A/B 測試顯示，自適應版本在典型資訊查找任務中表現更高效：理解項目核心內容的時間由 10.9 秒降至 5.20 秒，找到設計過程由 4.1 秒降至 1.13 秒，找到研究邏輯由 6.3 秒降至 1.42 秒。資訊清晰度由 3/5 提升至 4.5/5，用戶控制感由 2/5 提升至 4/5。由於樣本量較小，結果主要用於驗證設計方向，而非作為統計顯著性結論。",
+      findings: "小樣本 A/B 測試顯示，自適應版本在典型資訊查找任務中表現更高��：理解項目核心內容的時間由 10.9 秒降至 5.20 秒，找到設計過程由 4.1 秒降至 1.13 秒，找到研究邏輯由 6.3 秒降至 1.42 秒。資訊清晰度由 3/5 提升至 4.5/5，用戶控制感由 2/5 提升至 4/5。由於樣本量較小，結果主要用於驗證設計方向，而非作為統計顯著性結論。",
       reflection: "項目說明，自適應介面的價值並不是替用戶閱讀，而是幫助用戶更快進入合適的資訊層級。後續需要擴大測試樣本，並進一步處理行為記錄、隱私邊界、模式誤判與用戶控制權之間的關係。"
     }
   },
@@ -487,7 +652,7 @@ export const projects: Project[] = [
         "Unity 同步生成清晰、模糊、工作場景與休憩場景的視覺反饋",
         "以五個交互狀態構建從進入、退隱到重新介入的體驗流程"
       ],
-      outcome: "完成了一個將身體姿態轉化為物理邊界運動與數字視覺反饋的具身交互原型。"
+      outcome: "���成了一個將身體姿態轉化為物理邊界運動與數字視覺反饋的具身交互原型。"
     },
     processContent: {
       phases: [
@@ -853,7 +1018,7 @@ export const projects: Project[] = [
         "将中频映射为主要形态变��",
         "将高频映射为粒子扰动和细节闪动",
         "使用平滑参数降低视觉抖动",
-        "通过实时控制面板调整反馈强度"
+        "通��实时控制面板调整反馈强度"
       ],
       findings: "观众普遍认为视觉效果增强了对音乐的理解和情感体验，低频控制整体运动、高频控制细节扰动的方式，使视觉反馈更能体现音乐的节奏结构和动态强弱。",
       reflection: "该项目目前仍是屏幕端技术实验，尚未完成真实舞台、巨幕或 AR/VR 场景部署。它的价值在于建立一套可迁移的音频—视觉反馈方法，为后续空间人机交互、沉浸式展演和环境界面设计提供基础。"

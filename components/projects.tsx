@@ -457,14 +457,13 @@ function ProjectCard({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    if (project.comingSoon) return
     onTrack(project.keywords)
     navigateWithTransition(`${routeBase}${project.id}`)
   }
   
   const handleMouseEnter = () => {
     setIsHovered(true)
-    if (!hasPrefetched && !project.comingSoon) {
+    if (!hasPrefetched) {
       prefetch(`${routeBase}${project.id}`)
       setHasPrefetched(true)
     }
@@ -487,7 +486,7 @@ function ProjectCard({
   return (
     <div
       ref={cardRef}
-      className={cn("group", project.comingSoon ? "cursor-default" : "cursor-pointer")}
+      className="group cursor-pointer"
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
