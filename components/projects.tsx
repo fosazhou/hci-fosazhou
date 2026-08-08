@@ -780,7 +780,7 @@ export function Projects({ filterIds }: ProjectsProps) {
                   <div className="mb-7 pl-4 border-l-2 border-brand/50">
                     {/* Number tag + title on one line */}
                     <div className="flex items-baseline gap-3 flex-wrap">
-                      <span className="font-mono text-xs tracking-[0.25em] text-brand tabular-nums">
+                      <span className="font-mono text-2xl md:text-3xl font-semibold tracking-[0.1em] text-brand tabular-nums leading-none">
                         {cluster.number}
                       </span>
                       <span className="w-8 h-px bg-brand/30 hidden md:inline-block" />
