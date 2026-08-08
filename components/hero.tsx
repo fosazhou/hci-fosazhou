@@ -23,8 +23,8 @@ const heroData = {
   nameCn: "周亦楠",
   headline: "Cross-Scale Intelligent Interaction & Design Computing",
   headlineCn: "跨尺度智能交互与设计计算",
-  subheadline: "我学建筑出身，却总在琢磨同一件事：当空间开始'察觉'我们、并且愿意回应，会发生什么？我的工作在很小和很大的尺度之间来回——小到一块随你动作变化的屏幕，大到一座能读懂自己数据的城市。我用代码、数据和一些算法，把人的动作、声音和周围的环境，变成系统能读懂、也能回话的东西。从实时交互界面到像在呼吸的装置，我其实想弄明白一件事：技术能不能让人和空间相处得更自然一点。",
-  subheadlineEn: "I trained as an architect, but I keep circling back to one question: what happens when a space starts to notice us and actually responds? My work moves between very small and very large scales—from a screen that shifts with your movement to a city that can read its own data. Using code, data, and a bit of algorithm, I turn our gestures, sounds, and surroundings into something a system can understand and answer back. From real-time interfaces to installations that seem to breathe, what I'm really trying to figure out is whether technology can make people and space get along a little more naturally.",
+  subheadline: "我以建筑学为切入点，研究从身体、界面到空间、城市的跨尺度智能交互，并借助设计计算——生成式设计、数据驱动与参数化方法——将人的行为、动态数据与环境转译为可感知、可响应的系统。我的项目跨越实时交互界面、生成式空间原型与 1:1 响应式装置，探索智能如何在不同尺度上塑造人与空间的关系。",
+  subheadlineEn: "With a background in architecture, I research cross-scale intelligent interaction—spanning the body and interface to space and the city—and leverage design computing (generative design, data-driven and parametric methods) to translate human behavior, dynamic data, and environment into perceivable, responsive systems. My projects range from real-time interactive interfaces and generative spatial prototypes to 1:1 responsive installations, exploring how intelligence reshapes the relationship between people and space across scales.",
 }
 
 const marqueeData = {
