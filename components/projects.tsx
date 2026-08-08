@@ -559,7 +559,7 @@ function ProjectCard({
         </div>
         
         {/* Desktop: Horizontal layout */}
-        <div className="hidden md:flex items-stretch">
+        <div className="hidden md:flex items-stretch min-h-[8.5rem]">
           {/* Left: Index number (hidden inside research clusters) */}
           {!hideIndex && (
             <div 
@@ -664,7 +664,7 @@ function ProjectCard({
                 loading="lazy"
                 decoding="async"
                 className={cn(
-                  "w-full h-full object-cover transition-all duration-700",
+                  "absolute inset-0 w-full h-full object-cover transition-all duration-700",
                   isHovered && !project.previewVideo && "scale-110",
                   isHovered && project.previewVideo && "opacity-0"
                 )}
@@ -756,36 +756,56 @@ export function Projects({ filterIds }: ProjectsProps) {
         {/* Behavior tracker display */}
         <BehaviorTrackerDisplay section="projects" itemCount={totalVisible} />
 
-        {/* Positioning line */}
-        <p className="text-[10px] font-mono text-primary/40 mb-10 tracking-wider">
-          Design Computing <span className="text-muted-foreground/30">×</span> Human–AI Interaction{" "}
-          <span className="text-muted-foreground/30">×</span> Embodied Systems
-        </p>
+        {/* Positioning statement */}
+        <div className="mb-12">
+          <p className="text-base md:text-lg font-light text-foreground/80 tracking-tight text-balance">
+            <span className="text-brand">Design Computing</span>
+            <span className="mx-2 text-muted-foreground/30">×</span>
+            <span className="text-primary">Human–AI Interaction</span>
+            <span className="mx-2 text-muted-foreground/30">×</span>
+            <span className="text-foreground/70">Embodied Systems</span>
+          </p>
+          <p className="text-[11px] font-mono text-muted-foreground/40 mt-2 tracking-wider">
+            {langKey === "en"
+              ? "Three research clusters across scales — from body to city."
+              : "三个跨尺度研究簇 — 从身体到城市。"}
+          </p>
+        </div>
 
         {totalVisible > 0 ? (
           <div className="space-y-16">
             {clustersWithItems.map((cluster) =>
               cluster.resolvedItems.length > 0 ? (
-                <div key={cluster.number}>
+                <div key={cluster.number} className="relative">
                   {/* Cluster header */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-4">
-                      <span className="text-4xl md:text-5xl font-light leading-none text-brand/70">
-                        {cluster.number}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm md:text-base font-mono uppercase tracking-[0.2em] text-foreground text-balance">
-                          {cluster.title}
-                        </h3>
-                        <p className="text-xs md:text-sm text-primary/60 mt-1">
-                          {cluster.subtitle[langKey]}
-                        </p>
+                  <div className="mb-7 grid grid-cols-[3.5rem_1fr] md:grid-cols-[7rem_1fr] gap-x-5 md:gap-x-8">
+                    {/* Giant gradient number - signature element */}
+                    <span
+                      aria-hidden="true"
+                      className="select-none font-extralight leading-[0.72] tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-brand via-brand/60 to-brand/10 text-5xl md:text-[7rem] -mt-1 md:-mt-2"
+                    >
+                      {cluster.number}
+                    </span>
+
+                    {/* Text column */}
+                    <div className="min-w-0 pt-1 md:pt-3">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand" />
+                        <span className="text-[10px] font-mono tracking-[0.3em] text-brand/60 uppercase">
+                          {`Cluster ${cluster.number}`}
+                        </span>
                       </div>
+                      <h3 className="text-lg md:text-2xl font-semibold tracking-tight text-foreground text-balance leading-tight">
+                        {cluster.title}
+                      </h3>
+                      <p className="text-sm md:text-base text-primary/70 mt-1.5 font-light">
+                        {cluster.subtitle[langKey]}
+                      </p>
+                      <p className="text-sm text-muted-foreground/60 leading-relaxed mt-4 max-w-2xl text-pretty">
+                        {cluster.oneLiner[langKey]}
+                      </p>
+                      <div className="h-px bg-gradient-to-r from-brand/40 via-primary/10 to-transparent mt-6" />
                     </div>
-                    <p className="text-sm text-muted-foreground/70 leading-relaxed mt-3 max-w-2xl text-pretty">
-                      {cluster.oneLiner[langKey]}
-                    </p>
-                    <div className="h-[1px] bg-gradient-to-r from-brand/30 to-transparent mt-4" />
                   </div>
 
                   {/* Cluster items */}
