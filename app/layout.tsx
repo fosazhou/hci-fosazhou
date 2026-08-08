@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'FOSA | Adaptive Architecture Portfolio',
-  description: 'Architecture Student Exploring Low-Altitude Urban Infrastructure, Generative Spatial Systems and Interactive Environments.',
+  title: 'FOSA | Cross-Scale Intelligent Interaction & Design Computing',
+  description: 'Designer with an architecture background exploring cross-scale intelligent interaction and design computing—from the body and interface to space and the city—through generative design, data-driven and parametric methods.',
   generator: 'v0.app',
   icons: {
     icon: '/favicon.png',

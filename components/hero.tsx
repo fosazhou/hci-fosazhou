@@ -21,22 +21,22 @@ interface HeroProps {
 const heroData = {
   nameEn: "FOSA",
   nameCn: "周亦楠",
-  headline: "Mediated Responsive Spatial Interaction for Health and Wellbeing",
-  headlineCn: "面向健康与福祉的 AI 驱动响应式空间交互",
-  subheadline: "我以建筑学背景切入 Spatial HCI，研究 AI 驱动的响应式空间如何通过具身感知与环境反馈，促进人的健康与福祉。我的项目从音频驱动的实时视觉反馈、自适应交互界面，到 1:1 响应式空间原型，探索身体、数据与空间之间更具疗愈性的人机交互方式。",
-  subheadlineEn: "With a background in architecture, I explore Spatial HCI, researching how AI-driven responsive spaces promote health and wellbeing through embodied sensing and environmental feedback. My projects span audio-driven real-time visual feedback, adaptive interfaces, to 1:1 responsive spatial prototypes, exploring more healing human-computer interaction between body, data, and space.",
+  headline: "Cross-Scale Intelligent Interaction & Design Computing",
+  headlineCn: "跨尺度智能交互与设计计算",
+  subheadline: "我以建筑学为切入点，研究从身体、界面到空间、城市的跨尺度智能交互，并借助设计计算——生成式设计、数据驱动与参数化方法——将人的行为、动态数据与环境转译为可感知、可响应的系统。我的项目跨越实时交互界面、生成式空间原型与 1:1 响应式装置，探索智能如何在不同尺度上塑造人与空间的关系。",
+  subheadlineEn: "With a background in architecture, I research cross-scale intelligent interaction—spanning the body and interface to space and the city—and leverage design computing (generative design, data-driven and parametric methods) to translate human behavior, dynamic data, and environment into perceivable, responsive systems. My projects range from real-time interactive interfaces and generative spatial prototypes to 1:1 responsive installations, exploring how intelligence reshapes the relationship between people and space across scales.",
 }
 
 const marqueeData = {
   topMarquee: [
-    "From Space to Interface.",
-    "From Behavior to Feedback.",
-    "From Architecture to Interaction.",
+    "From Body to City.",
+    "From Data to Design.",
+    "From Computation to Interaction.",
   ],
   middleMarquee: {
-    zh: ["空间人机交互 · 具身感知 · 响应式环境"],
-    "zh-hk": ["空間人機交互 · 具身感知 · 響應式環境"],
-    en: ["Spatial HCI · Embodied Sensing · Responsive Environment"],
+    zh: ["跨尺度智能交互 · 设计计算 · 响应式系统"],
+    "zh-hk": ["跨尺度智能交互 · 設計計算 · 響應式系統"],
+    en: ["Cross-Scale Intelligent Interaction · Design Computing · Responsive Systems"],
   },
   bottomMarquee: {
     zh: ["长安大学建筑学院", "奥克兰大学"],
@@ -128,7 +128,7 @@ function FloatingLabels() {
           <span>VER.2.0_RESPONSIVE</span>
           <span className="w-1 h-1 rounded-full bg-brand/50" />
         </div>
-        <div className="text-brand/30">MODE: WELLBEING</div>
+        <div className="text-brand/30">MODE: DESIGN_COMPUTING</div>
       </div>
 
       {/* Bottom left */}
@@ -139,8 +139,8 @@ function FloatingLabels() {
 
       {/* Bottom right */}
       <div className="absolute bottom-20 right-6 lg:right-8 text-[9px] font-mono text-right text-muted-foreground/30 tracking-widest">
-        <div>FIELD: SPATIAL HCI</div>
-        <div>FOCUS: HEALTH & WELLBEING</div>
+        <div>FIELD: INTELLIGENT INTERACTION</div>
+        <div>FOCUS: CROSS-SCALE COMPUTING</div>
       </div>
     </>
   )
@@ -153,7 +153,7 @@ function FloatingLabels() {
 export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
   const [mounted, setMounted] = useState(false)
   const [typedText, setTypedText] = useState("")
-  const fullText = "RESPONSIVE_SPATIAL_HCI"
+  const fullText = "CROSS_SCALE_INTERACTION"
   const { language, t } = useLanguage()
 
   const handleViewChange = (view: ViewType) => {
@@ -236,7 +236,7 @@ export function Hero({ currentView = "projects", onViewChange }: HeroProps) {
 
               <p className="mt-8 text-base md:text-lg text-foreground/90 max-w-xl leading-relaxed">
                 <span className="block text-xl md:text-2xl font-bold tracking-wide text-foreground mb-2">
-                  {language === "zh" ? heroData.headlineCn : language === "zh-hk" ? "面向健康與福祉的 AI 驅動響應式空間交互" : heroData.headline}
+                  {language === "zh" ? heroData.headlineCn : language === "zh-hk" ? "跨尺度智能交互與設計計算" : heroData.headline}
                 </span>
               </p>
 

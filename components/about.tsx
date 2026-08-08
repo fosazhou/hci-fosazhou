@@ -5,22 +5,22 @@ import { useLanguage } from "@/contexts/language-context"
 
 const researchInterestsData = {
   zh: [
-    "空间中的人机交互",
-    "具身交互体验",
-    "自适应界面",
-    "实时反馈系统",
+    "跨尺度智能交互",
+    "设计计算与生成式设计",
+    "数据驱动的响应式系统",
+    "参数化与算法设计",
   ],
   en: [
-    "Human-Computer Interaction in Space",
-    "Embodied Interaction Experience",
-    "Adaptive Interface",
-    "Real-time Feedback System",
+    "Cross-Scale Intelligent Interaction",
+    "Design Computing & Generative Design",
+    "Data-Driven Responsive Systems",
+    "Parametric & Algorithmic Design",
   ],
 }
 
 const bioData = {
-  zh: "周亦楠 是一名建筑学背景的设计者，关注 Spatial HCI、具身交互与自适应界面。她的项目从音频驱动的实时视觉反馈、自适应作品集界面，到 1:1 响应式空间原型，探索身体行为、动态数据与空间感知如何被转译为可反馈、可调节的界面与环境系统。",
-  en: "FOSA (Zhou Yinan) is a designer with an architecture background, focusing on Spatial HCI, embodied interaction, and adaptive interfaces. Her projects span from audio-driven real-time visual feedback, adaptive portfolio interfaces, to 1:1 responsive spatial prototypes, exploring how body behavior, dynamic data, and spatial perception can be translated into responsive and adjustable interface and environmental systems.",
+  zh: "周亦楠 是一名建筑学背景的设计者，聚焦跨尺度智能交互与设计计算。她的研究跨越身体、界面到空间、城市的不同尺度，借助生成式设计、数据驱动与参数化方法，将人的行为、动态数据与环境转译为可感知、可响应的系统，探索智能如何在多重尺度上重塑人与空间的关系。",
+  en: "FOSA (Zhou Yinan) is a designer with an architecture background, focusing on cross-scale intelligent interaction and design computing. Her research spans scales from the body and interface to space and the city, using generative design, data-driven and parametric methods to translate human behavior, dynamic data, and environment into perceivable, responsive systems, exploring how intelligence reshapes the relationship between people and space across scales.",
 }
 
 export function About() {
