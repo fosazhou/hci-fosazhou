@@ -121,7 +121,7 @@ const INFERENCE_RULES = {
 }
 
 // Confidence threshold for showing suggestions
-const CONFIDENCE_THRESHOLD = 0.7
+const CONFIDENCE_THRESHOLD = 0.5
 
 // Cooldown after manual mode switch (5 minutes)
 const MANUAL_SWITCH_COOLDOWN = 5 * 60 * 1000
@@ -171,6 +171,8 @@ const ReadingModeContext = createContext<ReadingModeContextType | undefined>(und
 // Session storage keys
 const SESSION_SUGGESTIONS_KEY = "reading_mode_suggestions"
 const SESSION_DISMISSED_KEY = "reading_mode_dismissed"
+// Global once-per-session flag: only ever recommend a single time
+const SESSION_GLOBAL_SHOWN_KEY = "reading_mode_global_shown"
 
 export function ReadingModeProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
@@ -241,6 +243,25 @@ export function ReadingModeProvider({ children }: { children: ReactNode }) {
       return stored ? new Set(JSON.parse(stored)) : new Set<string>()
     } catch {
       return new Set<string>()
+    }
+  }, [])
+
+  // Global once-per-session helpers
+  const getGlobalShown = useCallback(() => {
+    if (typeof window === "undefined") return false
+    try {
+      return sessionStorage.getItem(SESSION_GLOBAL_SHOWN_KEY) === "1"
+    } catch {
+      return false
+    }
+  }, [])
+
+  const markGlobalShown = useCallback(() => {
+    if (typeof window === "undefined") return
+    try {
+      sessionStorage.setItem(SESSION_GLOBAL_SHOWN_KEY, "1")
+    } catch {
+      // ignore
     }
   }, [])
 
@@ -386,37 +407,42 @@ export function ReadingModeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Don't run inference if:
     // 1. Within manual switch cooldown
-    // 2. Page already dismissed
-    // 3. Already shown suggestion on this page
+    // 2. A suggestion has already been shown once this session (global)
+    // 3. Page already dismissed
     
     const timeSinceManualSwitch = Date.now() - lastManualSwitchRef.current
     if (timeSinceManualSwitch < MANUAL_SWITCH_COOLDOWN) return
     
+    // Only ever recommend a single time per session
+    if (getGlobalShown()) return
+    
     const dismissed = getSessionDismissed()
     if (dismissed.has(pageId)) return
     
-    const shown = getSessionSuggestions()
-    if (shown.has(pageId) && suggestion.shownCount >= 1) return
+    // Already surfaced on this page
+    if (suggestion.shown || suggestion.dismissed) return
     
     // Only run after minimum engagement
-    if (behavior.reading.dwellTime < 15) return
+    if (behavior.reading.dwellTime < 10) return
     
     const result = computeInference()
     setInference(result)
     
-    // Show badge only if confidence is high enough
+    // Auto-open the suggestion popup directly (once) when confident enough
     if (result && result.confidence >= CONFIDENCE_THRESHOLD) {
-      setSuggestion(prev => ({
+      setSuggestion({
         mode: result.suggestedMode,
         confidence: result.confidence,
         reason: result.reason,
-        shown: false,
+        shown: true,
         dismissed: false,
-        shownCount: prev.shownCount,
-      }))
-      setShowSuggestionBadge(true)
+        shownCount: 1,
+      })
+      setShowSuggestionBadge(false)
+      markSuggestionShown(pageId)
+      markGlobalShown()
     }
-  }, [behavior.reading.dwellTime, computeInference, getSessionDismissed, getSessionSuggestions, pageId, suggestion.shownCount])
+  }, [behavior.reading.dwellTime, computeInference, getGlobalShown, getSessionDismissed, markGlobalShown, markSuggestionShown, pageId, suggestion.shown, suggestion.dismissed])
 
   // Expand badge to full suggestion
   const expandSuggestion = useCallback(() => {

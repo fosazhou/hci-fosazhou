@@ -238,7 +238,11 @@ function SuggestionPopup() {
         
         {/* Note */}
         <p className="mt-3 text-[8px] font-mono text-muted-foreground/50 text-center">
-          Won&apos;t ask again on this page
+          {language === "en"
+            ? "Recommended only once per session"
+            : language === "zh-hk"
+              ? "每次瀏覽僅推薦一次"
+              : "每次浏览仅推荐一次"}
         </p>
       </div>
     </div>
