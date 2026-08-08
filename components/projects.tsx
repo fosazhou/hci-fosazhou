@@ -778,34 +778,27 @@ export function Projects({ filterIds }: ProjectsProps) {
               cluster.resolvedItems.length > 0 ? (
                 <div key={cluster.number} className="relative">
                   {/* Cluster header */}
-                  <div className="mb-7 grid grid-cols-[3.5rem_1fr] md:grid-cols-[7rem_1fr] gap-x-5 md:gap-x-8">
-                    {/* Giant gradient number - signature element */}
-                    <span
-                      aria-hidden="true"
-                      className="select-none font-extralight leading-[0.72] tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-brand via-brand/60 to-brand/10 text-5xl md:text-[7rem] -mt-1 md:-mt-2"
-                    >
-                      {cluster.number}
-                    </span>
-
-                    {/* Text column */}
-                    <div className="min-w-0 pt-1 md:pt-3">
-                      <div className="flex items-center gap-2 mb-2.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand" />
-                        <span className="text-[10px] font-mono tracking-[0.3em] text-brand/60 uppercase">
-                          {`Cluster ${cluster.number}`}
-                        </span>
-                      </div>
-                      <h3 className="text-lg md:text-2xl font-semibold tracking-tight text-foreground text-balance leading-tight">
+                  <div className="mb-7 pl-4 border-l-2 border-brand/50">
+                    {/* Number tag + title on one line */}
+                    <div className="flex items-baseline gap-3 flex-wrap">
+                      <span className="font-mono text-xs tracking-[0.25em] text-brand tabular-nums">
+                        {cluster.number}
+                      </span>
+                      <span className="w-8 h-px bg-brand/30 hidden md:inline-block" />
+                      <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground text-balance leading-tight">
                         {cluster.title}
                       </h3>
-                      <p className="text-sm md:text-base text-primary/70 mt-1.5 font-light">
-                        {cluster.subtitle[langKey]}
-                      </p>
-                      <p className="text-sm text-muted-foreground/60 leading-relaxed mt-4 max-w-2xl text-pretty">
-                        {cluster.oneLiner[langKey]}
-                      </p>
-                      <div className="h-px bg-gradient-to-r from-brand/40 via-primary/10 to-transparent mt-6" />
                     </div>
+
+                    {/* Subtitle */}
+                    <p className="text-sm md:text-base text-primary/70 mt-2 font-light">
+                      {cluster.subtitle[langKey]}
+                    </p>
+
+                    {/* One-liner description */}
+                    <p className="text-sm text-muted-foreground/60 leading-relaxed mt-3 max-w-2xl text-pretty">
+                      {cluster.oneLiner[langKey]}
+                    </p>
                   </div>
 
                   {/* Cluster items */}
