@@ -110,7 +110,7 @@ export const projects: Project[] = [
     keywords: ["AI Agent", "决策支持", "城市数据"],
     keywordsEn: ["AI Agent", "Decision Support", "Urban Data"],
     keywordsHk: ["AI Agent", "決策支援", "城市數據"],
-    coverImage: "/images/works/airsite/cover.png",
+    coverImage: "/images/works/airsite/cover.jpg",
     fullDescription: "城市设计涉及大量异构数据、相互冲突的规范约束与难以显式表达的专家判断，其决策过程通常缺乏结构化与可复现性。Airsite 旨在构建一套面向城市设计的人机协同决策支持系统，将多源数据、规则约束与 AI Agent 的推理能力相耦合，实现约束求解、方案生成与后果推演，同时将最终决策权保留于设计者。研究遵循三阶段推进路径：其一，通过文献综述厘清城市设计决策的方法论框架与现有 AI Agent 的能力边界；其二，选取真实城市设计问题作为验证场景，检验方法在实际规范与数据约束下的有效性；其三，将验证后的工作流程封装为可复用的 AI Agent。项目目前处于进行阶段。",
     fullDescriptionEn: "Urban design involves large volumes of heterogeneous data, conflicting regulatory constraints, and expert judgment that is difficult to make explicit, resulting in decision processes that are typically unstructured and non-reproducible. Airsite aims to develop a human–AI collaborative decision-support system for urban design that couples multi-source data and rule-based constraints with the reasoning capacity of AI agents, enabling constraint solving, option generation, and consequence simulation while reserving final decision authority for the designer. The research follows a three-stage trajectory: first, a literature review to delineate the methodological framework of urban-design decision-making and the capability boundaries of existing AI agents; second, validation against a real urban-design problem to test the method's effectiveness under actual regulatory and data constraints; and third, encapsulation of the validated workflow into a reusable AI agent. The project is currently in progress.",
     fullDescriptionHk: "城市設計涉及大量異構數據、相互衝突的規範約束與難以顯式表達的專家判斷，其決策過程通常缺乏結構化與可複現性。Airsite 旨在構建一套面向城市設計的人機協同決策支援系統，將多源數據、規則約束與 AI Agent 的推理能力相耦合，實現約束求解、方案生成與後果推演，同時將最終決策權保留於設計者。研究遵循三階段推進路徑：其一，通過文獻綜述釐清城市設計決策的方法論框架與現有 AI Agent 的能力邊界；其二，選取真實城市設計問題作為驗證場景，檢驗方法在實際規範與數據約束下的有效性；其三，將驗證後的工作流程封裝為可複用的 AI Agent。項目目前處於進行階段。",
@@ -236,7 +236,7 @@ export const projects: Project[] = [
         },
         {
           title: "城市設計驗證",
-          description: "選取具有代表性的真實城市設計問題作為驗證場景，將前一階段構建的方法應用於實際情境，檢驗其在真實規範與數據約束下的有效性與可行性。",
+          description: "選取具有代表性的真實城市設計問題作為驗證場景，將前一階段構建的方法應用於實際情境，���驗其在真實規範與數據約束下的有效性與可行性。",
         },
         {
           title: "開發可複用 AI Agent",
@@ -301,7 +301,7 @@ export const projects: Project[] = [
       approach: "研究依循三階段路徑：論文方法研究（界定城市決策與 AI Agent 的方法論邊界）→ 城市設計驗證（以真實問題檢驗方法有效性）→ 開發可複用 AI Agent（將工作流程封裝為工具）。各階段的產出將反向修正上一階段的假設。",
       logic: [
         "城市決策複雜且依賴經驗 → 須先使方法論顯式化，方可交由機器執行",
-        "理想化數據缺乏說服力 → 必須以真實城市設計問題進行驗證",
+        "理想化數據缺乏說服力 → 必須以真實城市��計問題進行驗證",
         "單次演示原型價值有限 → 應構建可反覆調用的 Agent",
         "AI 具備計算能力但不應承擔責任 → 決策權須始終保留於設計者",
       ],
@@ -598,7 +598,7 @@ export const projects: Project[] = [
     previewVideo: "/videos/projects/veilspace_preview.mp4",
     fullDescription: "Soft Thresholds · VeilSpace 是一个 1:1 具身响应式空间原型，关注空间如何通过感知人的身体状态，提供私密调节与���绪缓冲。项目以人的身体行为作为空间输入，通过 FSR 压力传感器识别坐下、倚靠、停留与离开等状态，由 Arduino 与步进电机控制柔性织物边界的下降、收拢与展开。项目探索的核心问题是：响应式空间边界能否通过具身感知与环境反馈，为使用者创造更具疗愈性的空间体验，从而促进心理健康与福祉。",
     fullDescriptionEn: "Soft Thresholds · VeilSpace is a 1:1 embodied responsive spatial prototype that focuses on how space can provide privacy adjustment and emotional buffering by sensing human body states. Using FSR pressure sensors to recognize sitting, leaning, staying, and leaving states, Arduino and stepper motors control the descent, gathering, and expansion of flexible fabric boundaries. The core question is: can responsive spatial boundaries create more healing spatial experiences through embodied sensing and environmental feedback, thereby promoting mental health and wellbeing.",
-    fullDescriptionHk: "Soft Thresholds · VeilSpace 是一個 1:1 具身響應式空間原型，關注空間如何通過感知人的身體狀態，提供私密調節與情緒緩衝。項目以人的身體行為作為空間輸入，通過 FSR 壓力傳感器識別坐下、倚靠、停留與離開等狀態，由 Arduino 與步進電機控制柔性織物邊界的下降、收攏與展開。項目探索的核心問題是：響應式空間邊界能否通過具身感知與環境反饋，為使用者創造更具療癒性的空間體驗，從而促進心理健康與福祉。",
+    fullDescriptionHk: "Soft Thresholds · VeilSpace 是一個 1:1 具身響應式空間原型，關注空間如何通過感知人的身體狀態，提供私密調節與情緒緩衝。項目以人的身體行為作為空間輸入，通過 FSR 壓力傳感器識別坐下、倚靠、停留與離開等狀態，由 Arduino 與步進電機控制柔性織物邊界的下���、收攏與展開。項目探索的核心問題是：響應式空間邊界能否通過具身感知與環境反饋，為使用者創造更具療癒性的空間體驗，從而促進心理健康與福祉。",
     year: "2025",
     startDate: "2025.7",
     endDate: "2025.9",
@@ -682,7 +682,7 @@ export const projects: Project[] = [
       phases: [
         {
           title: "用户情境提炼",
-          description: "观察半开放场景中的临时私密、情绪缓冲与低打扰休憩需求。"
+          description: "观察半开放场景中的临时私密、情绪缓冲与低打扰休���需求。"
         },
         {
           title: "交互概念定义",
@@ -835,7 +835,7 @@ export const projects: Project[] = [
     },
     researchContentHk: {
       problemStatement: "在半開放空間中，用戶的私密需求往往不是完全隔離，而是短暫、可逆、低打擾的邊界調節。Veilspace 關注的問題是：空間邊界能否根據身體姿態發生變化，並成為一種可被感知和操作的交互介面？",
-      context: "項目以空間邊界為切入點，結合具身交互與物理計算方法，研究身體姿態、織物運動和數字反饋之間的聯動關係。重點不在於創造封閉空間，而是構建一種介於開放與遮蔽之間的動態邊界狀態，探索空間如何通過身體輸入形成可感知的響應。",
+      context: "項目以空間邊界為切入點，結合具身交互與物理計算方法，研究身體姿態、織物運動和數字反饋之間的聯動關係。重點不在於創造封閉空間，而是構建一種介於開放與遮蔽之間的動態邊界狀態，探索空間如何通過身體輸入��成可感知的響應。",
       hypothesis: "如果坐下、後仰和離開等自然身體行為能夠被轉化為系統輸入，並同步觸發織物邊界變化與視覺反饋，用戶就可以在無需額外學習的情況下理解並使用這一空間交互系統。",
       approach: "項目通過 1:1 實體原型進行驗證：座面與靠背的 FSR 壓力傳感器讀取身體壓力變化，Arduino 處理輸入信號，步進電機控制織物邊界升降，Unity 同步生成即時畫面、模糊層、場景切換與視覺反饋。",
       logic: [
@@ -1071,7 +1071,7 @@ export const projects: Project[] = [
     researchContentHk: {
       problemStatement: "聲音是一種時間性輸入，視覺反饋往往容易停留在裝飾性效果上。本項目關注的是：如何將音頻特徵轉譯為可感知、可調節、具有層次關係的即時視覺反饋？",
       context: "項目服務於空間人機交互中的跨模態反饋研究。它不直接處理空間邊界，而是補充探索聲音輸入、即時計算與視覺輸出之間的耦合方式。",
-      hypothesis: "當音頻頻段、節奏和強度被拆分為不同輸入參數，並分別對應到尺度、運動和粒子變化時，視覺反饋可以更清晰地呈現聲音結構，而不是只隨音量機械閃爍。",
+      hypothesis: "當音頻頻段、節奏和��度被拆分為不同輸入參數，並分別對應到尺度、運動和粒子變化時，視覺反饋可以更清晰地呈現聲音結構，而不是只隨音量機械閃爍。",
       approach: "通過 TouchDesigner 搭建即時音頻分析與視覺生成網絡，將聲音信號輸入轉化為頻譜數據，並映射到圖像尺度、運動路徑���粒子密度���動態形態參數。",
       logic: [
         "音樂有結構層次（節拍、旋律、和聲）→ 視覺也應有對應層次",
