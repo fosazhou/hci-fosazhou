@@ -126,6 +126,30 @@ export const projects: Project[] = [
     details: [],
     detailsEn: [],
     detailsHk: [],
+    galleryImages: [
+      { src: "/images/works/airsite/pages/page-01.webp", caption: "项目背景：高密度城市低空货运分级系统设计", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-02.webp", caption: "研究流程与多维约束体系", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-03.webp", caption: "用户研究、需求优先级与设计原则", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-04.webp", caption: "用户画像、行为模型与体验地图", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-05.webp", caption: "多智能体系统架构与处理链路", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-06.webp", caption: "应用场景：西安友谊路片区医疗物流低空节点选址", aspectRatio: "2000/707" },
+    ],
+    galleryImagesEn: [
+      { src: "/images/works/airsite/pages/page-01.webp", caption: "Background: Hierarchical low-altitude freight system for high-density cities", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-02.webp", caption: "Research workflow and multi-dimensional constraint system", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-03.webp", caption: "User research, demand priority, and design principles", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-04.webp", caption: "User profile, behavior model, and experience map", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-05.webp", caption: "Multi-agent system architecture and processing chain", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-06.webp", caption: "Application scenario: medical-logistics low-altitude node siting in Xi'an", aspectRatio: "2000/707" },
+    ],
+    galleryImagesHk: [
+      { src: "/images/works/airsite/pages/page-01.webp", caption: "項目背景：高密度城市低空貨運分級系統設計", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-02.webp", caption: "研究流程與多維約束體系", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-03.webp", caption: "用戶研究、需求優先級與設計原則", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-04.webp", caption: "用戶畫像、行為模型與體驗地圖", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-05.webp", caption: "多智能體系統架構與處理鏈路", aspectRatio: "2000/707" },
+      { src: "/images/works/airsite/pages/page-06.webp", caption: "應用場景：西安友誼路片區醫療物流低空節點選址", aspectRatio: "2000/707" },
+    ],
     quickContent: {
       headline: "面向城市设计的人机协同决策支持系统，整合多源数据、规则约束与 AI Agent 推理（进行中）。",
       keyPoints: [
@@ -237,11 +261,11 @@ export const projects: Project[] = [
         "城市决策复杂且依赖经验 → 须先使方法论显式化，方可交由机器执行",
         "理想化数据缺乏说服力 → 必须以真实城市设计问题进行验证",
         "单次演示原型价值有限 → 应构建可反复调用的 Agent",
-        "AI 具备计算能力但不应承担责任 → 决策权须始终保留于设计者",
+        "AI 具备计算能力���不应承担责任 → 决策权须始终保留于设计者",
       ],
       strategies: [
         "先行开展文献与方法研究，再进入系统开发",
-        "锁定一个真实城市设计问题作为验证场景",
+        "锁定一个真实城市设计问题作为验证场���",
         "将多源数据、规则约束与方案推演接入 Agent 的推理流程",
         "设计人机协同的交互机制，确保设计者可随时介入与否决",
         "将验证后的工作流程模块化，以支持向新场景的迁移",
@@ -840,7 +864,7 @@ export const projects: Project[] = [
     titleHk: "音頻驅動互動視覺化",
     description: "基于 TouchDesigner 的音频驱动视觉实验，将频谱、节奏与强度转译为图像尺度、运动轨迹和动态形态变化。为沉浸式空间、舞台界面与空间人机交互提供跨模态反馈原型。",
     descriptionEn: "Audio-driven visual experiment based on TouchDesigner, translating spectrum, rhythm, and intensity into image scale, motion trajectory, and dynamic morphology changes. Providing cross-modal feedback prototypes for immersive spaces, stage interfaces, and spatial HCI.",
-    descriptionHk: "基於 TouchDesigner 的音頻驅動視覺實驗，將頻譜、節奏與強度轉譯為圖像尺度、運動軌跡和動態形態變化。為沉浸式空間、舞台介面與空間人機交互提供跨模態反饋原型。",
+    descriptionHk: "基於 TouchDesigner 的音頻驅動視覺實驗，將頻譜、節奏與強度轉譯為圖像尺度、運動軌跡和動態形態變化。為沉浸式空間、舞台介面與空間人機交��提供跨模態反饋原型。",
     keywords: ["实时数据反馈", "Creative Coding", "实时可视化"],
     keywordsEn: ["Real-time Data Feedback", "Creative Coding", "Real-time Visualization"],
     keywordsHk: ["即時數據反饋", "Creative Coding", "即時視覺化"],
@@ -998,7 +1022,7 @@ export const projects: Project[] = [
         "用頻譜分析提取聲音結構",
         "將低頻用於大尺度運動，增強節奏感",
         "將高頻用於細節擾動，提升畫面活性",
-        "通過參數平滑避免畫面跳變",
+        "通過參數平滑避免畫面跳���",
         "保留即時控制介面，便於現場調整視覺強度"
       ]
     },
